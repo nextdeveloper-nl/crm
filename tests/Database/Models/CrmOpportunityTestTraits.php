@@ -54,7 +54,6 @@ trait CrmOpportunityTestTraits
         $response = $this->http->request('POST', '/crm/crmopportunity', [
             'form_params'   =>  [
                 'name'  =>  'a',
-                'phone_number'  =>  'a',
                 'description'  =>  'a',
                 'source'  =>  'a',
                 'probability'  =>  '1',
@@ -357,23 +356,6 @@ trait CrmOpportunityTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmopportunity_event_phone_number_filter()
-    {
-        try {
-            $request = new Request([
-                'phone_number'  =>  'a'
-            ]);
-
-            $filter = new CrmOpportunityQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmOpportunity::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
     public function test_crmopportunity_event_description_filter()
     {
         try {
@@ -649,5 +631,5 @@ trait CrmOpportunityTestTraits
 
         $this->assertTrue(true);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n
 }

@@ -52,9 +52,8 @@ protected $casts = [
 'id'             => 'integer',
 		'uuid'           => 'string',
 		'name'           => 'string',
-		'phone_number'   => 'string',
 		'description'    => 'string',
-		'probability'    => 'boolean',
+		'probability'    => 'integer',
 		'source'         => 'string',
 		'income'         => 'integer',
 		'deadline'       => 'datetime',
@@ -120,5 +119,5 @@ static::addGlobalScope(app($scope));
 }
 }
 
-// EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n
+// EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n
 }

@@ -17,5 +17,13 @@ Route::prefix('opportunities')->group(function () {
         Route::delete('/{crm_opportunities}', 'CrmOpportunity\CrmOpportunityController@destroy');
     });
 
-// EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n
+Route::prefix('users')->group(function () {
+        Route::get('/', 'CrmUser\CrmUserController@index');
+        Route::get('/{crm_users}', 'CrmUser\CrmUserController@show');
+        Route::post('/', 'CrmUser\CrmUserController@store');
+        Route::patch('/{crm_users}', 'CrmUser\CrmUserController@update');
+        Route::delete('/{crm_users}', 'CrmUser\CrmUserController@destroy');
+    });
+
+// EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n
 });

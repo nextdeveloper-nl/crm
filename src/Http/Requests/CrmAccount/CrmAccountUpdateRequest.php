@@ -12,12 +12,12 @@ class CrmAccountUpdateRequest extends AbstractFormRequest
      */
     public function rules() {
         return [
-            'is_paying_customer' => 'boolean',
+            'iam_account_id'     => 'nullable|exists:iam_accounts,uuid|uuid',
+			'is_paying_customer' => 'boolean',
 			'risk_level'         => 'nullable|boolean',
 			'city'               => 'nullable|string|max:50',
 			'position'           => 'integer',
-			'iam_account_id'     => 'nullable|exists:iam_accounts,uuid|uuid',
         ];
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n
 }

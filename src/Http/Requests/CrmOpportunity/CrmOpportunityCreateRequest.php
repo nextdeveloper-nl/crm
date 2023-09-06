@@ -13,9 +13,8 @@ class CrmOpportunityCreateRequest extends AbstractFormRequest
     public function rules() {
         return [
             'name'           => 'nullable|string|max:500',
-			'phone_number'   => 'nullable|string|max:20',
 			'description'    => 'nullable|string|max:500',
-			'probability'    => 'required|boolean',
+			'probability'    => 'integer',
 			'stage'          => '',
 			'source'         => 'nullable|string|max:500',
 			'income'         => 'integer',
@@ -23,5 +22,5 @@ class CrmOpportunityCreateRequest extends AbstractFormRequest
 			'iam_account_id' => 'nullable|exists:iam_accounts,uuid|uuid',
         ];
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n
 }

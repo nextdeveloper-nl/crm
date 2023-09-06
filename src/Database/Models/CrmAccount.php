@@ -51,11 +51,11 @@ protected $appends = [
 protected $casts = [
 'id'                 => 'integer',
 		'uuid'               => 'string',
+		'iam_account_id'     => 'integer',
 		'is_paying_customer' => 'boolean',
 		'risk_level'         => 'boolean',
 		'city'               => 'string',
 		'position'           => 'integer',
-		'iam_account_id'     => 'integer',
 		'created_at'         => 'datetime',
 		'updated_at'         => 'datetime',
 		'deleted_at'         => 'datetime',
@@ -116,5 +116,5 @@ static::addGlobalScope(app($scope));
 }
 }
 
-// EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n
+// EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n
 }

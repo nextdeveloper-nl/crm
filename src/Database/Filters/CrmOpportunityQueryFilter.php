@@ -22,11 +22,6 @@ class CrmOpportunityQueryFilter extends AbstractQueryFilter
         return $this->builder->where('name', 'like', '%' . $value . '%');
     }
     
-    public function phoneNumber($value)
-    {
-        return $this->builder->where('phone_number', 'like', '%' . $value . '%');
-    }
-    
     public function description($value)
     {
         return $this->builder->where('description', 'like', '%' . $value . '%');
@@ -112,5 +107,5 @@ class CrmOpportunityQueryFilter extends AbstractQueryFilter
         }
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n
 }

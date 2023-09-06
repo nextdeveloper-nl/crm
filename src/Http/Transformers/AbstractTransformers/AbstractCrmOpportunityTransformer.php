@@ -23,7 +23,6 @@ class AbstractCrmOpportunityTransformer extends AbstractTransformer {
         return $this->buildPayload([
 'id'  =>  $model->uuid,
 'name'  =>  $model->name,
-'phone_number'  =>  $model->phone_number,
 'description'  =>  $model->description,
 'probability'  =>  $model->probability,
 'stage'  =>  $model->stage,
@@ -37,6 +36,7 @@ class AbstractCrmOpportunityTransformer extends AbstractTransformer {
     ]);
     }
     
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n
+
 
 }
