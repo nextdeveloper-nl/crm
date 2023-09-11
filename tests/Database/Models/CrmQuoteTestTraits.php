@@ -6,12 +6,12 @@ use Tests\TestCase;
 use GuzzleHttp\Client;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
-use NextDeveloper\CRM\Database\Filters\CrmUserQueryFilter;
-use NextDeveloper\CRM\Services\AbstractServices\AbstractCrmUserService;
+use NextDeveloper\CRM\Database\Filters\CrmQuoteQueryFilter;
+use NextDeveloper\CRM\Services\AbstractServices\AbstractCrmQuoteService;
 use Illuminate\Pagination\LengthAwarePaginator;
 use League\Fractal\Resource\Collection;
 
-trait CrmUserTestTraits
+trait CrmQuoteTestTraits
 {
     public $http;
 
@@ -35,12 +35,12 @@ trait CrmUserTestTraits
         $this->http = null;
     }
 
-    public function test_http_crmuser_get()
+    public function test_http_crmquote_get()
     {
         $this->setupGuzzle();
         $response = $this->http->request(
             'GET',
-            '/crm/crmuser',
+            '/crm/crmquote',
             ['http_errors' => false]
         );
 
@@ -52,17 +52,18 @@ trait CrmUserTestTraits
         );
     }
 
-    public function test_http_crmuser_post()
+    public function test_http_crmquote_post()
     {
         $this->setupGuzzle();
         $response = $this->http->request(
-            'POST', '/crm/crmuser', [
+            'POST', '/crm/crmquote', [
             'form_params'   =>  [
-                'position'  =>  'a',
-                'job_description'  =>  'a',
-                'hobbies'  =>  'a',
-                'city'  =>  'a',
-                'child_count'  =>  '1',
+                'name'  =>  'a',
+                'description'  =>  'a',
+                'detailed_amount'  =>  'a',
+                'suggested_currency_code'  =>  'a',
+                'amount'  =>  '1',
+                'suggested_price'  =>  '1',
                             ],
                 ['http_errors' => false]
             ]
@@ -76,23 +77,23 @@ trait CrmUserTestTraits
      *
      * @return bool
      */
-    public function test_crmuser_model_get()
+    public function test_crmquote_model_get()
     {
-        $result = AbstractCrmUserService::get();
+        $result = AbstractCrmQuoteService::get();
 
         $this->assertIsObject($result, Collection::class);
     }
 
-    public function test_crmuser_get_all()
+    public function test_crmquote_get_all()
     {
-        $result = AbstractCrmUserService::getAll();
+        $result = AbstractCrmQuoteService::getAll();
 
         $this->assertIsObject($result, Collection::class);
     }
 
-    public function test_crmuser_get_paginated()
+    public function test_crmquote_get_paginated()
     {
-        $result = AbstractCrmUserService::get(
+        $result = AbstractCrmQuoteService::get(
             null, [
             'paginated' =>  'true'
             ]
@@ -101,243 +102,110 @@ trait CrmUserTestTraits
         $this->assertIsObject($result, LengthAwarePaginator::class);
     }
 
-    public function test_crmuser_event_retrieved_without_object()
+    public function test_crmquote_event_retrieved_without_object()
     {
         try {
-            event(new \NextDeveloper\CRM\Events\CrmUser\CrmUserRetrievedEvent());
+            event(new \NextDeveloper\CRM\Events\CrmQuote\CrmQuoteRetrievedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
 
         $this->assertTrue(true);
     }
-    public function test_crmuser_event_created_without_object()
+    public function test_crmquote_event_created_without_object()
     {
         try {
-            event(new \NextDeveloper\CRM\Events\CrmUser\CrmUserCreatedEvent());
+            event(new \NextDeveloper\CRM\Events\CrmQuote\CrmQuoteCreatedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
 
         $this->assertTrue(true);
     }
-    public function test_crmuser_event_creating_without_object()
+    public function test_crmquote_event_creating_without_object()
     {
         try {
-            event(new \NextDeveloper\CRM\Events\CrmUser\CrmUserCreatingEvent());
+            event(new \NextDeveloper\CRM\Events\CrmQuote\CrmQuoteCreatingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
 
         $this->assertTrue(true);
     }
-    public function test_crmuser_event_saving_without_object()
+    public function test_crmquote_event_saving_without_object()
     {
         try {
-            event(new \NextDeveloper\CRM\Events\CrmUser\CrmUserSavingEvent());
+            event(new \NextDeveloper\CRM\Events\CrmQuote\CrmQuoteSavingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
 
         $this->assertTrue(true);
     }
-    public function test_crmuser_event_saved_without_object()
+    public function test_crmquote_event_saved_without_object()
     {
         try {
-            event(new \NextDeveloper\CRM\Events\CrmUser\CrmUserSavedEvent());
+            event(new \NextDeveloper\CRM\Events\CrmQuote\CrmQuoteSavedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
 
         $this->assertTrue(true);
     }
-    public function test_crmuser_event_updating_without_object()
+    public function test_crmquote_event_updating_without_object()
     {
         try {
-            event(new \NextDeveloper\CRM\Events\CrmUser\CrmUserUpdatingEvent());
+            event(new \NextDeveloper\CRM\Events\CrmQuote\CrmQuoteUpdatingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
 
         $this->assertTrue(true);
     }
-    public function test_crmuser_event_updated_without_object()
+    public function test_crmquote_event_updated_without_object()
     {
         try {
-            event(new \NextDeveloper\CRM\Events\CrmUser\CrmUserUpdatedEvent());
+            event(new \NextDeveloper\CRM\Events\CrmQuote\CrmQuoteUpdatedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
 
         $this->assertTrue(true);
     }
-    public function test_crmuser_event_deleting_without_object()
+    public function test_crmquote_event_deleting_without_object()
     {
         try {
-            event(new \NextDeveloper\CRM\Events\CrmUser\CrmUserDeletingEvent());
+            event(new \NextDeveloper\CRM\Events\CrmQuote\CrmQuoteDeletingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
 
         $this->assertTrue(true);
     }
-    public function test_crmuser_event_deleted_without_object()
+    public function test_crmquote_event_deleted_without_object()
     {
         try {
-            event(new \NextDeveloper\CRM\Events\CrmUser\CrmUserDeletedEvent());
+            event(new \NextDeveloper\CRM\Events\CrmQuote\CrmQuoteDeletedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
 
         $this->assertTrue(true);
     }
-    public function test_crmuser_event_restoring_without_object()
+    public function test_crmquote_event_restoring_without_object()
     {
         try {
-            event(new \NextDeveloper\CRM\Events\CrmUser\CrmUserRestoringEvent());
+            event(new \NextDeveloper\CRM\Events\CrmQuote\CrmQuoteRestoringEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
 
         $this->assertTrue(true);
     }
-    public function test_crmuser_event_restored_without_object()
+    public function test_crmquote_event_restored_without_object()
     {
         try {
-            event(new \NextDeveloper\CRM\Events\CrmUser\CrmUserRestoredEvent());
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmuser_event_retrieved_with_object()
-    {
-        try {
-            $model = \NextDeveloper\CRM\Database\Models\CrmUser::first();
-
-            event(new \NextDeveloper\CRM\Events\CrmUser\CrmUserRetrievedEvent($model));
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-    public function test_crmuser_event_created_with_object()
-    {
-        try {
-            $model = \NextDeveloper\CRM\Database\Models\CrmUser::first();
-
-            event(new \NextDeveloper\CRM\Events\CrmUser\CrmUserCreatedEvent($model));
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-    public function test_crmuser_event_creating_with_object()
-    {
-        try {
-            $model = \NextDeveloper\CRM\Database\Models\CrmUser::first();
-
-            event(new \NextDeveloper\CRM\Events\CrmUser\CrmUserCreatingEvent($model));
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-    public function test_crmuser_event_saving_with_object()
-    {
-        try {
-            $model = \NextDeveloper\CRM\Database\Models\CrmUser::first();
-
-            event(new \NextDeveloper\CRM\Events\CrmUser\CrmUserSavingEvent($model));
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-    public function test_crmuser_event_saved_with_object()
-    {
-        try {
-            $model = \NextDeveloper\CRM\Database\Models\CrmUser::first();
-
-            event(new \NextDeveloper\CRM\Events\CrmUser\CrmUserSavedEvent($model));
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-    public function test_crmuser_event_updating_with_object()
-    {
-        try {
-            $model = \NextDeveloper\CRM\Database\Models\CrmUser::first();
-
-            event(new \NextDeveloper\CRM\Events\CrmUser\CrmUserUpdatingEvent($model));
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-    public function test_crmuser_event_updated_with_object()
-    {
-        try {
-            $model = \NextDeveloper\CRM\Database\Models\CrmUser::first();
-
-            event(new \NextDeveloper\CRM\Events\CrmUser\CrmUserUpdatedEvent($model));
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-    public function test_crmuser_event_deleting_with_object()
-    {
-        try {
-            $model = \NextDeveloper\CRM\Database\Models\CrmUser::first();
-
-            event(new \NextDeveloper\CRM\Events\CrmUser\CrmUserDeletingEvent($model));
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-    public function test_crmuser_event_deleted_with_object()
-    {
-        try {
-            $model = \NextDeveloper\CRM\Database\Models\CrmUser::first();
-
-            event(new \NextDeveloper\CRM\Events\CrmUser\CrmUserDeletedEvent($model));
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-    public function test_crmuser_event_restoring_with_object()
-    {
-        try {
-            $model = \NextDeveloper\CRM\Database\Models\CrmUser::first();
-
-            event(new \NextDeveloper\CRM\Events\CrmUser\CrmUserRestoringEvent($model));
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-    public function test_crmuser_event_restored_with_object()
-    {
-        try {
-            $model = \NextDeveloper\CRM\Database\Models\CrmUser::first();
-
-            event(new \NextDeveloper\CRM\Events\CrmUser\CrmUserRestoredEvent($model));
+            event(new \NextDeveloper\CRM\Events\CrmQuote\CrmQuoteRestoredEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -345,18 +213,132 @@ trait CrmUserTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmuser_event_position_filter()
+    public function test_crmquote_event_retrieved_with_object()
     {
         try {
-            $request = new Request(
-                [
-                'position'  =>  'a'
-                ]
-            );
+            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::first();
 
-            $filter = new CrmUserQueryFilter($request);
+            event(new \NextDeveloper\CRM\Events\CrmQuote\CrmQuoteRetrievedEvent($model));
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
 
-            $model = \NextDeveloper\CRM\Database\Models\CrmUser::filter($filter)->first();
+        $this->assertTrue(true);
+    }
+    public function test_crmquote_event_created_with_object()
+    {
+        try {
+            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::first();
+
+            event(new \NextDeveloper\CRM\Events\CrmQuote\CrmQuoteCreatedEvent($model));
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+    public function test_crmquote_event_creating_with_object()
+    {
+        try {
+            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::first();
+
+            event(new \NextDeveloper\CRM\Events\CrmQuote\CrmQuoteCreatingEvent($model));
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+    public function test_crmquote_event_saving_with_object()
+    {
+        try {
+            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::first();
+
+            event(new \NextDeveloper\CRM\Events\CrmQuote\CrmQuoteSavingEvent($model));
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+    public function test_crmquote_event_saved_with_object()
+    {
+        try {
+            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::first();
+
+            event(new \NextDeveloper\CRM\Events\CrmQuote\CrmQuoteSavedEvent($model));
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+    public function test_crmquote_event_updating_with_object()
+    {
+        try {
+            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::first();
+
+            event(new \NextDeveloper\CRM\Events\CrmQuote\CrmQuoteUpdatingEvent($model));
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+    public function test_crmquote_event_updated_with_object()
+    {
+        try {
+            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::first();
+
+            event(new \NextDeveloper\CRM\Events\CrmQuote\CrmQuoteUpdatedEvent($model));
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+    public function test_crmquote_event_deleting_with_object()
+    {
+        try {
+            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::first();
+
+            event(new \NextDeveloper\CRM\Events\CrmQuote\CrmQuoteDeletingEvent($model));
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+    public function test_crmquote_event_deleted_with_object()
+    {
+        try {
+            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::first();
+
+            event(new \NextDeveloper\CRM\Events\CrmQuote\CrmQuoteDeletedEvent($model));
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+    public function test_crmquote_event_restoring_with_object()
+    {
+        try {
+            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::first();
+
+            event(new \NextDeveloper\CRM\Events\CrmQuote\CrmQuoteRestoringEvent($model));
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+    public function test_crmquote_event_restored_with_object()
+    {
+        try {
+            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::first();
+
+            event(new \NextDeveloper\CRM\Events\CrmQuote\CrmQuoteRestoredEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -364,18 +346,18 @@ trait CrmUserTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmuser_event_job_description_filter()
+    public function test_crmquote_event_name_filter()
     {
         try {
             $request = new Request(
                 [
-                'job_description'  =>  'a'
+                'name'  =>  'a'
                 ]
             );
 
-            $filter = new CrmUserQueryFilter($request);
+            $filter = new CrmQuoteQueryFilter($request);
 
-            $model = \NextDeveloper\CRM\Database\Models\CrmUser::filter($filter)->first();
+            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::filter($filter)->first();
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -383,18 +365,18 @@ trait CrmUserTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmuser_event_hobbies_filter()
+    public function test_crmquote_event_description_filter()
     {
         try {
             $request = new Request(
                 [
-                'hobbies'  =>  'a'
+                'description'  =>  'a'
                 ]
             );
 
-            $filter = new CrmUserQueryFilter($request);
+            $filter = new CrmQuoteQueryFilter($request);
 
-            $model = \NextDeveloper\CRM\Database\Models\CrmUser::filter($filter)->first();
+            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::filter($filter)->first();
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -402,18 +384,18 @@ trait CrmUserTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmuser_event_city_filter()
+    public function test_crmquote_event_detailed_amount_filter()
     {
         try {
             $request = new Request(
                 [
-                'city'  =>  'a'
+                'detailed_amount'  =>  'a'
                 ]
             );
 
-            $filter = new CrmUserQueryFilter($request);
+            $filter = new CrmQuoteQueryFilter($request);
 
-            $model = \NextDeveloper\CRM\Database\Models\CrmUser::filter($filter)->first();
+            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::filter($filter)->first();
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -421,18 +403,18 @@ trait CrmUserTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmuser_event_child_count_filter()
+    public function test_crmquote_event_suggested_currency_code_filter()
     {
         try {
             $request = new Request(
                 [
-                'child_count'  =>  '1'
+                'suggested_currency_code'  =>  'a'
                 ]
             );
 
-            $filter = new CrmUserQueryFilter($request);
+            $filter = new CrmQuoteQueryFilter($request);
 
-            $model = \NextDeveloper\CRM\Database\Models\CrmUser::filter($filter)->first();
+            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::filter($filter)->first();
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -440,7 +422,45 @@ trait CrmUserTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmuser_event_created_at_filter_start()
+    public function test_crmquote_event_amount_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'amount'  =>  '1'
+                ]
+            );
+
+            $filter = new CrmQuoteQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_crmquote_event_suggested_price_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'suggested_price'  =>  '1'
+                ]
+            );
+
+            $filter = new CrmQuoteQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_crmquote_event_created_at_filter_start()
     {
         try {
             $request = new Request(
@@ -449,9 +469,9 @@ trait CrmUserTestTraits
                 ]
             );
 
-            $filter = new CrmUserQueryFilter($request);
+            $filter = new CrmQuoteQueryFilter($request);
 
-            $model = \NextDeveloper\CRM\Database\Models\CrmUser::filter($filter)->first();
+            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::filter($filter)->first();
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -459,7 +479,7 @@ trait CrmUserTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmuser_event_updated_at_filter_start()
+    public function test_crmquote_event_updated_at_filter_start()
     {
         try {
             $request = new Request(
@@ -468,9 +488,9 @@ trait CrmUserTestTraits
                 ]
             );
 
-            $filter = new CrmUserQueryFilter($request);
+            $filter = new CrmQuoteQueryFilter($request);
 
-            $model = \NextDeveloper\CRM\Database\Models\CrmUser::filter($filter)->first();
+            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::filter($filter)->first();
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -478,7 +498,7 @@ trait CrmUserTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmuser_event_deleted_at_filter_start()
+    public function test_crmquote_event_deleted_at_filter_start()
     {
         try {
             $request = new Request(
@@ -487,9 +507,9 @@ trait CrmUserTestTraits
                 ]
             );
 
-            $filter = new CrmUserQueryFilter($request);
+            $filter = new CrmQuoteQueryFilter($request);
 
-            $model = \NextDeveloper\CRM\Database\Models\CrmUser::filter($filter)->first();
+            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::filter($filter)->first();
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -497,7 +517,7 @@ trait CrmUserTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmuser_event_created_at_filter_end()
+    public function test_crmquote_event_created_at_filter_end()
     {
         try {
             $request = new Request(
@@ -506,9 +526,9 @@ trait CrmUserTestTraits
                 ]
             );
 
-            $filter = new CrmUserQueryFilter($request);
+            $filter = new CrmQuoteQueryFilter($request);
 
-            $model = \NextDeveloper\CRM\Database\Models\CrmUser::filter($filter)->first();
+            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::filter($filter)->first();
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -516,7 +536,7 @@ trait CrmUserTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmuser_event_updated_at_filter_end()
+    public function test_crmquote_event_updated_at_filter_end()
     {
         try {
             $request = new Request(
@@ -525,9 +545,9 @@ trait CrmUserTestTraits
                 ]
             );
 
-            $filter = new CrmUserQueryFilter($request);
+            $filter = new CrmQuoteQueryFilter($request);
 
-            $model = \NextDeveloper\CRM\Database\Models\CrmUser::filter($filter)->first();
+            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::filter($filter)->first();
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -535,7 +555,7 @@ trait CrmUserTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmuser_event_deleted_at_filter_end()
+    public function test_crmquote_event_deleted_at_filter_end()
     {
         try {
             $request = new Request(
@@ -544,9 +564,9 @@ trait CrmUserTestTraits
                 ]
             );
 
-            $filter = new CrmUserQueryFilter($request);
+            $filter = new CrmQuoteQueryFilter($request);
 
-            $model = \NextDeveloper\CRM\Database\Models\CrmUser::filter($filter)->first();
+            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::filter($filter)->first();
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -554,7 +574,7 @@ trait CrmUserTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmuser_event_created_at_filter_start_and_end()
+    public function test_crmquote_event_created_at_filter_start_and_end()
     {
         try {
             $request = new Request(
@@ -564,9 +584,9 @@ trait CrmUserTestTraits
                 ]
             );
 
-            $filter = new CrmUserQueryFilter($request);
+            $filter = new CrmQuoteQueryFilter($request);
 
-            $model = \NextDeveloper\CRM\Database\Models\CrmUser::filter($filter)->first();
+            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::filter($filter)->first();
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -574,7 +594,7 @@ trait CrmUserTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmuser_event_updated_at_filter_start_and_end()
+    public function test_crmquote_event_updated_at_filter_start_and_end()
     {
         try {
             $request = new Request(
@@ -584,9 +604,9 @@ trait CrmUserTestTraits
                 ]
             );
 
-            $filter = new CrmUserQueryFilter($request);
+            $filter = new CrmQuoteQueryFilter($request);
 
-            $model = \NextDeveloper\CRM\Database\Models\CrmUser::filter($filter)->first();
+            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::filter($filter)->first();
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -594,7 +614,7 @@ trait CrmUserTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmuser_event_deleted_at_filter_start_and_end()
+    public function test_crmquote_event_deleted_at_filter_start_and_end()
     {
         try {
             $request = new Request(
@@ -604,14 +624,14 @@ trait CrmUserTestTraits
                 ]
             );
 
-            $filter = new CrmUserQueryFilter($request);
+            $filter = new CrmQuoteQueryFilter($request);
 
-            $model = \NextDeveloper\CRM\Database\Models\CrmUser::filter($filter)->first();
+            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::filter($filter)->first();
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
 
         $this->assertTrue(true);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

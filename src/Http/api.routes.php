@@ -22,6 +22,16 @@ Route::prefix('crm')->group(
             }
         );
 
+        Route::prefix('quotes')->group(
+            function () {
+                Route::get('/', 'Quotes\QuotesController@index');
+                Route::get('/{crm_quotes}', 'Quotes\QuotesController@show');
+                Route::post('/', 'Quotes\QuotesController@store');
+                Route::patch('/{crm_quotes}', 'Quotes\QuotesController@update');
+                Route::delete('/{crm_quotes}', 'Quotes\QuotesController@destroy');
+            }
+        );
+
         Route::prefix('users')->group(
             function () {
                 Route::get('/', 'Users\UsersController@index');
@@ -32,6 +42,7 @@ Route::prefix('crm')->group(
             }
         );
 
-        // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+        // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
     }
 );
+});

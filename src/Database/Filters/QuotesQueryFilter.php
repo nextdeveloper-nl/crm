@@ -4,13 +4,13 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-    
+            
 
 /**
  * This class automatically puts where clause on database so that use can filter
  * data returned from the query.
  */
-class OpportunitiesQueryFilter extends AbstractQueryFilter
+class QuotesQueryFilter extends AbstractQueryFilter
 {
     /**
      * @var Builder
@@ -27,12 +27,17 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('description', 'like', '%' . $value . '%');
     }
     
-    public function source($value)
+    public function detailedAmount($value)
     {
-        return $this->builder->where('source', 'like', '%' . $value . '%');
+        return $this->builder->where('detailed_amount', 'like', '%' . $value . '%');
+    }
+    
+    public function suggestedCurrencyCode($value)
+    {
+        return $this->builder->where('suggested_currency_code', 'like', '%' . $value . '%');
     }
 
-    public function probability($value)
+    public function amount($value)
     {
         $operator = substr($value, 0, 1);
 
@@ -42,10 +47,10 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
             $value = substr($value, 1);
         }
 
-        return $this->builder->where('probability', $operator, $value);
+        return $this->builder->where('amount', $operator, $value);
     }
     
-    public function income($value)
+    public function suggestedPrice($value)
     {
         $operator = substr($value, 0, 1);
 
@@ -55,19 +60,9 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
             $value = substr($value, 1);
         }
 
-        return $this->builder->where('income', $operator, $value);
+        return $this->builder->where('suggested_price', $operator, $value);
     }
     
-    public function deadlineStart($date) 
-    {
-        return $this->builder->where('deadline', '>=', $date);
-    }
-
-    public function deadlineEnd($date) 
-    {
-        return $this->builder->where('deadline', '<=', $date);
-    }
-
     public function createdAtStart($date) 
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -98,14 +93,32 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('deleted_at', '<=', $date);
     }
 
-    public function iamAccountId($value)
+    public function iamAccountsId($value)
     {
-        $iamAccount = IamAccount::where('uuid', $value)->first();
+        $iamAccounts = IamAccounts::where('uuid', $value)->first();
 
-        if($iamAccount) {
-            return $this->builder->where('iam_account_id', '=', $iamAccount->id);
+        if($iamAccounts) {
+            return $this->builder->where('iam_accounts_id', '=', $iamAccounts->id);
         }
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n
+    public function crmProjectsId($value)
+    {
+        $crmProjects = CrmProjects::where('uuid', $value)->first();
+
+        if($crmProjects) {
+            return $this->builder->where('crm_projects_id', '=', $crmProjects->id);
+        }
+    }
+
+    public function crmOpportunitiesId($value)
+    {
+        $crmOpportunities = CrmOpportunities::where('uuid', $value)->first();
+
+        if($crmOpportunities) {
+            return $this->builder->where('crm_opportunities_id', '=', $crmOpportunities->id);
+        }
+    }
+
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

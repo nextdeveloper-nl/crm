@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
-use NextDeveloper\CRM\Database\Observers\UsersObserver;
+use NextDeveloper\CRM\Database\Observers\QuotesObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 
 /**
- * Class Users.
+ * Class Quotes.
  *
  * @package NextDeveloper\CRM\Database\Models
  */
-class Users extends Model
+class Quotes extends Model
 {
     use Filterable, UuidId;
     use SoftDeletes;
@@ -22,7 +22,7 @@ class Users extends Model
 
     public $timestamps = true;
 
-    protected $table = 'crm_users';
+    protected $table = 'crm_quotes';
 
 
     /**
@@ -50,18 +50,20 @@ class Users extends Model
      @var array
      */
     protected $casts = [
-    'id'              => 'integer',
-    'uuid'            => 'string',
-    'iam_user_id'     => 'integer',
-    'position'        => 'string',
-    'job_description' => 'string',
-    'hobbies'         => 'string',
-    'city'            => 'string',
-    'is_evangelist'   => 'boolean',
-    'child_count'     => 'integer',
-    'created_at'      => 'datetime',
-    'updated_at'      => 'datetime',
-    'deleted_at'      => 'datetime',
+    'id'                      => 'integer',
+    'uuid'                    => 'string',
+    'iam_accounts_id'         => 'integer',
+    'crm_projects_id'         => 'integer',
+    'crm_opportunities_id'    => 'integer',
+    'name'                    => 'string',
+    'description'             => 'string',
+    'amount'                  => 'double',
+    'detailed_amount'         => 'string',
+    'suggested_price'         => 'double',
+    'suggested_currency_code' => 'string',
+    'created_at'              => 'datetime',
+    'updated_at'              => 'datetime',
+    'deleted_at'              => 'datetime',
     ];
 
     /**
@@ -95,7 +97,7 @@ class Users extends Model
         parent::boot();
 
         //  We create and add Observer even if we wont use it.
-        parent::observe(UsersObserver::class);
+        parent::observe(QuotesObserver::class);
 
         self::registerScopes();
     }
@@ -103,7 +105,7 @@ class Users extends Model
     public static function registerScopes()
     {
         $globalScopes = config('crm.scopes.global');
-        $modelScopes = config('crm.scopes.crm_users');
+        $modelScopes = config('crm.scopes.crm_quotes');
 
         if(!$modelScopes) { $modelScopes = [];
         }
@@ -122,5 +124,5 @@ class Users extends Model
         }
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }
