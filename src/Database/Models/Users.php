@@ -10,118 +10,122 @@ use NextDeveloper\CRM\Database\Observers\UsersObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 
 /**
-* Class Users.
-*
-* @package NextDeveloper\CRM\Database\Models
-*/
+ * Class Users.
+ *
+ * @package NextDeveloper\CRM\Database\Models
+ */
 class Users extends Model
 {
-use Filterable, UuidId;
-	use SoftDeletes;
+    use Filterable, UuidId;
+    use SoftDeletes;
 
 
-	public $timestamps = true;
+    public $timestamps = true;
 
-protected $table = 'crm_users';
+    protected $table = 'crm_users';
 
 
-/**
-* @var array
-*/
-protected $guarded = [];
+    /**
+     @var array
+     */
+    protected $guarded = [];
 
-/**
-*  Here we have the fulltext fields. We can use these for fulltext search if enabled.
-*/
-protected $fullTextFields = [
+    /**
+      Here we have the fulltext fields. We can use these for fulltext search if enabled.
+     */
+    protected $fullTextFields = [
 
-];
+    ];
 
-/**
-* @var array
-*/
-protected $appends = [
+    /**
+     @var array
+     */
+    protected $appends = [
 
-];
+    ];
 
-/**
-* We are casting fields to objects so that we can work on them better
-* @var array
-*/
-protected $casts = [
-'id'              => 'integer',
-		'uuid'            => 'string',
-		'iam_user_id'     => 'integer',
-		'position'        => 'string',
-		'job_description' => 'string',
-		'hobbies'         => 'string',
-		'city'            => 'string',
-		'is_evangelist'   => 'boolean',
-		'child_count'     => 'integer',
-		'created_at'      => 'datetime',
-		'updated_at'      => 'datetime',
-		'deleted_at'      => 'datetime',
-];
+    /**
+     We are casting fields to objects so that we can work on them better
+     *
+     @var array
+     */
+    protected $casts = [
+    'id'              => 'integer',
+    'uuid'            => 'string',
+    'iam_user_id'     => 'integer',
+    'position'        => 'string',
+    'job_description' => 'string',
+    'hobbies'         => 'string',
+    'city'            => 'string',
+    'is_evangelist'   => 'boolean',
+    'child_count'     => 'integer',
+    'created_at'      => 'datetime',
+    'updated_at'      => 'datetime',
+    'deleted_at'      => 'datetime',
+    ];
 
-/**
-* We are casting data fields.
-* @var array
-*/
-protected $dates = [
-'created_at',
-		'updated_at',
-		'deleted_at',
-];
+    /**
+     We are casting data fields.
+     *
+     @var array
+     */
+    protected $dates = [
+    'created_at',
+    'updated_at',
+    'deleted_at',
+    ];
 
-/**
-* @var array
-*/
-protected $with = [
+    /**
+     @var array
+     */
+    protected $with = [
 
-];
+    ];
 
-/**
-* @var int
-*/
-protected $perPage = 20;
+    /**
+     @var int
+     */
+    protected $perPage = 20;
 
-/**
-* @return void
-*/
-public static function boot()
-{
-parent::boot();
+    /**
+     @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
 
-//  We create and add Observer even if we wont use it.
-parent::observe(UsersObserver::class);
+        //  We create and add Observer even if we wont use it.
+        parent::observe(UsersObserver::class);
 
-self::registerScopes();
-}
+        self::registerScopes();
+    }
 
-public static function registerScopes()
-{
-$globalScopes = config('crm.scopes.global');
-$modelScopes = config('crm.scopes.crm_users');
+    public static function registerScopes()
+    {
+        $globalScopes = config('crm.scopes.global');
+        $modelScopes = config('crm.scopes.crm_users');
 
-if(!$modelScopes) $modelScopes = [];
-if (!$globalScopes) $globalScopes = [];
+        if(!$modelScopes) { $modelScopes = [];
+        }
+        if (!$globalScopes) { $globalScopes = [];
+        }
 
-$scopes = array_merge(
-$globalScopes,
-$modelScopes
-);
+        $scopes = array_merge(
+            $globalScopes,
+            $modelScopes
+        );
 
-if($scopes) {
-foreach ($scopes as $scope) {
-static::addGlobalScope(app($scope));
-}
-}
-}
+        if($scopes) {
+            foreach ($scopes as $scope) {
+                static::addGlobalScope(app($scope));
+            }
+        }
+    }
 
-public function Users()
+    public function users()
     {
         return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
     }
     
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n
 }
