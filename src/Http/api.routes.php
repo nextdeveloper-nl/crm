@@ -2,6 +2,16 @@
 
 Route::prefix('crm')->group(
     function () {
+        Route::prefix('account-managers')->group(
+            function () {
+                Route::get('/', 'AccountManagers\AccountManagersController@index');
+                Route::get('/{crm_account_managers}', 'AccountManagers\AccountManagersController@show');
+                Route::post('/', 'AccountManagers\AccountManagersController@store');
+                Route::patch('/{crm_account_managers}', 'AccountManagers\AccountManagersController@update');
+                Route::delete('/{crm_account_managers}', 'AccountManagers\AccountManagersController@destroy');
+            }
+        );
+
         Route::prefix('accounts')->group(
             function () {
                 Route::get('/', 'Accounts\AccountsController@index');
@@ -32,6 +42,16 @@ Route::prefix('crm')->group(
             }
         );
 
+        Route::prefix('user-managers')->group(
+            function () {
+                Route::get('/', 'UserManagers\UserManagersController@index');
+                Route::get('/{crm_user_managers}', 'UserManagers\UserManagersController@show');
+                Route::post('/', 'UserManagers\UserManagersController@store');
+                Route::patch('/{crm_user_managers}', 'UserManagers\UserManagersController@update');
+                Route::delete('/{crm_user_managers}', 'UserManagers\UserManagersController@destroy');
+            }
+        );
+
         Route::prefix('users')->group(
             function () {
                 Route::get('/', 'Users\UsersController@index');
@@ -42,6 +62,6 @@ Route::prefix('crm')->group(
             }
         );
 
-        // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+        // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
     }
 );
