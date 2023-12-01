@@ -121,7 +121,7 @@ class AbstractAccountManagersService
                 $data['iam_user_id']
             );
         }
-            
+    
         try {
             $model = AccountManagers::create($data);
         } catch(\Exception $e) {
@@ -199,7 +199,7 @@ class AbstractAccountManagersService
      * @return mixed
      * @throw  Exception
      */
-    public static function delete($id, array $data)
+    public static function delete($id)
     {
         $model = AccountManagers::where('uuid', $id)->first();
 
@@ -210,8 +210,6 @@ class AbstractAccountManagersService
         } catch(\Exception $e) {
             throw $e;
         }
-
-        event(new AccountManagersDeletedEvent($model));
 
         return $model;
     }

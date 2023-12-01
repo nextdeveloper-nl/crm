@@ -95,7 +95,7 @@ class QuotesQueryFilter extends AbstractQueryFilter
 
     public function iamAccountsId($value)
     {
-        $iamAccounts = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
+            $iamAccounts = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
 
         if($iamAccounts) {
             return $this->builder->where('iam_accounts_id', '=', $iamAccounts->id);
@@ -104,7 +104,7 @@ class QuotesQueryFilter extends AbstractQueryFilter
 
     public function crmProjectsId($value)
     {
-        $crmProjects = \NextDeveloper\CRM\Database\Models\Projects::where('uuid', $value)->first();
+            $crmProjects = \NextDeveloper\CRM\Database\Models\Projects::where('uuid', $value)->first();
 
         if($crmProjects) {
             return $this->builder->where('crm_projects_id', '=', $crmProjects->id);
@@ -113,12 +113,12 @@ class QuotesQueryFilter extends AbstractQueryFilter
 
     public function crmOpportunitiesId($value)
     {
-        $crmOpportunities = \NextDeveloper\CRM\Database\Models\Opportunities::where('uuid', $value)->first();
+            $crmOpportunities = \NextDeveloper\CRM\Database\Models\Opportunities::where('uuid', $value)->first();
 
         if($crmOpportunities) {
             return $this->builder->where('crm_opportunities_id', '=', $crmOpportunities->id);
         }
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

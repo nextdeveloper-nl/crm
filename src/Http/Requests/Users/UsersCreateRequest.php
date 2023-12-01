@@ -13,8 +13,7 @@ class UsersCreateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'iam_user_id'         => 'required|exists:iam_users,uuid|uuid',
-        'position'            => 'nullable|string|max:150',
+            'position'            => 'nullable|string|max:150',
         'job'                 => 'nullable',
         'job_description'     => 'nullable|string|max:1000',
         'hobbies'             => 'nullable|string|max:500',
@@ -27,5 +26,5 @@ class UsersCreateRequest extends AbstractFormRequest
         'child_count'         => 'nullable|integer',
         ];
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

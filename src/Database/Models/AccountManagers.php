@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
 use NextDeveloper\CRM\Database\Observers\AccountManagersObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
+use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 
 /**
  * Class AccountManagers.
@@ -16,7 +17,7 @@ use NextDeveloper\Commons\Database\Traits\UuidId;
  */
 class AccountManagers extends Model
 {
-    use Filterable, UuidId;
+    use Filterable, UuidId, CleanCache;
     use SoftDeletes;
 
 
@@ -53,7 +54,6 @@ class AccountManagers extends Model
     'id'             => 'integer',
     'uuid'           => 'string',
     'crm_account_id' => 'integer',
-    'iam_user_id'    => 'integer',
     'created_at'     => 'datetime',
     'deleted_at'     => 'datetime',
     ];
@@ -120,5 +120,6 @@ class AccountManagers extends Model
         return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Accounts::class);
     }
     
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n
+
 }

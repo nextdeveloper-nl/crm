@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
 use NextDeveloper\CRM\Database\Observers\OpportunitiesObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
+use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 
 /**
  * Class Opportunities.
@@ -16,7 +17,7 @@ use NextDeveloper\Commons\Database\Traits\UuidId;
  */
 class Opportunities extends Model
 {
-    use Filterable, UuidId;
+    use Filterable, UuidId, CleanCache;
     use SoftDeletes;
 
 
@@ -56,9 +57,8 @@ class Opportunities extends Model
     'description'    => 'string',
     'probability'    => 'integer',
     'source'         => 'string',
-    'income'         => 'integer',
+    'income'         => 'double',
     'deadline'       => 'datetime',
-    'iam_account_id' => 'integer',
     'created_at'     => 'datetime',
     'updated_at'     => 'datetime',
     'deleted_at'     => 'datetime',
@@ -128,5 +128,6 @@ class Opportunities extends Model
         return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Accounts::class);
     }
     
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 }

@@ -13,20 +13,23 @@ use NextDeveloper\CRM\Http\Transformers\AbstractTransformers\AbstractOpportuniti
  *
  * @package NextDeveloper\CRM\Http\Transformers
  */
-class OpportunitiesTransformer extends AbstractOpportunitiesTransformer {
+class OpportunitiesTransformer extends AbstractOpportunitiesTransformer
+{
 
     /**
      * @param Opportunities $model
      *
      * @return array
      */
-    public function transform(Opportunities $model) {
+    public function transform(Opportunities $model)
+    {
         $transformed = Cache::get(
             CacheHelper::getKey('Opportunities', $model->uuid, 'Transformed')
         );
 
-        if($transformed)
+        if($transformed) {
             return $transformed;
+        }
 
         $transformed = parent::transform($model);
 

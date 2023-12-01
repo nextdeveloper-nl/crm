@@ -13,20 +13,23 @@ use NextDeveloper\CRM\Http\Transformers\AbstractTransformers\AbstractUsersTransf
  *
  * @package NextDeveloper\CRM\Http\Transformers
  */
-class UsersTransformer extends AbstractUsersTransformer {
+class UsersTransformer extends AbstractUsersTransformer
+{
 
     /**
      * @param Users $model
      *
      * @return array
      */
-    public function transform(Users $model) {
+    public function transform(Users $model)
+    {
         $transformed = Cache::get(
             CacheHelper::getKey('Users', $model->uuid, 'Transformed')
         );
 
-        if($transformed)
+        if($transformed) {
             return $transformed;
+        }
 
         $transformed = parent::transform($model);
 

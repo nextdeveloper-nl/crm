@@ -127,7 +127,7 @@ class AbstractQuotesService
                 $data['crm_opportunities_id']
             );
         }
-            
+    
         try {
             $model = Quotes::create($data);
         } catch(\Exception $e) {
@@ -211,7 +211,7 @@ class AbstractQuotesService
      * @return mixed
      * @throw  Exception
      */
-    public static function delete($id, array $data)
+    public static function delete($id)
     {
         $model = Quotes::where('uuid', $id)->first();
 
@@ -222,8 +222,6 @@ class AbstractQuotesService
         } catch(\Exception $e) {
             throw $e;
         }
-
-        event(new QuotesDeletedEvent($model));
 
         return $model;
     }

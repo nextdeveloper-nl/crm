@@ -14,8 +14,7 @@ class AccountManagersCreateRequest extends AbstractFormRequest
     {
         return [
             'crm_account_id' => 'required|exists:crm_accounts,uuid|uuid',
-        'iam_user_id'    => 'required|exists:iam_users,uuid|uuid',
         ];
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

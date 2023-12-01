@@ -121,7 +121,7 @@ class AbstractUserManagersService
                 $data['iam_user_id']
             );
         }
-            
+    
         try {
             $model = UserManagers::create($data);
         } catch(\Exception $e) {
@@ -199,7 +199,7 @@ class AbstractUserManagersService
      * @return mixed
      * @throw  Exception
      */
-    public static function delete($id, array $data)
+    public static function delete($id)
     {
         $model = UserManagers::where('uuid', $id)->first();
 
@@ -210,8 +210,6 @@ class AbstractUserManagersService
         } catch(\Exception $e) {
             throw $e;
         }
-
-        event(new UserManagersDeletedEvent($model));
 
         return $model;
     }
