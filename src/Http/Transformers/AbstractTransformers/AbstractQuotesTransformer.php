@@ -23,7 +23,7 @@ class AbstractQuotesTransformer extends AbstractTransformer
                         $iamAccountsId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_accounts_id)->first();
                     $crmProjectsId = \NextDeveloper\CRM\Database\Models\Projects::where('id', $model->crm_projects_id)->first();
                     $crmOpportunitiesId = \NextDeveloper\CRM\Database\Models\Opportunities::where('id', $model->crm_opportunities_id)->first();
-            
+        
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
@@ -37,12 +37,13 @@ class AbstractQuotesTransformer extends AbstractTransformer
             'suggested_price'  =>  $model->suggested_price,
             'suggested_currency_code'  =>  $model->suggested_currency_code,
             'status'  =>  $model->status,
-            'created_at'  =>  $model->created_at,
-            'updated_at'  =>  $model->updated_at,
-            'deleted_at'  =>  $model->deleted_at,
+            'created_at'  =>  $model->created_at ? $model->created_at->toIso8601String() : null,
+            'updated_at'  =>  $model->updated_at ? $model->updated_at->toIso8601String() : null,
+            'deleted_at'  =>  $model->deleted_at ? $model->deleted_at->toIso8601String() : null,
             ]
         );
     }
-    
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n
+
 }
