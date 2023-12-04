@@ -7,11 +7,15 @@ use NextDeveloper\CRM\Http\Controllers\AbstractController;
 use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
 use NextDeveloper\CRM\Http\Requests\Opportunities\OpportunitiesUpdateRequest;
 use NextDeveloper\CRM\Database\Filters\OpportunitiesQueryFilter;
+use NextDeveloper\CRM\Database\Models\Opportunities;
 use NextDeveloper\CRM\Services\OpportunitiesService;
 use NextDeveloper\CRM\Http\Requests\Opportunities\OpportunitiesCreateRequest;
-
+use NextDeveloper\Commons\Http\Traits\Tags;
 class OpportunitiesController extends AbstractController
 {
+    private $model = Opportunities::class;
+
+    use Tags;
     /**
      * This method returns the list of opportunities.
      *
@@ -46,15 +50,18 @@ class OpportunitiesController extends AbstractController
     }
 
     /**
-     * This method returns the list of sub objects the related object.
+     * This method returns the list of sub objects the related object. Sub object means an object which is preowned by
+     * this object.
+     *
+     * It can be tags, addresses, states etc.
      *
      * @param  $ref
      * @param  $subObject
      * @return void
      */
-    public function subObjects($ref, $subObject)
+    public function relatedObjects($ref, $subObject)
     {
-        $objects = OpportunitiesService::getSubObjects($ref, $subObject);
+        $objects = OpportunitiesService::relatedObjects($ref, $subObject);
 
         return ResponsableFactory::makeResponse($this, $objects);
     }

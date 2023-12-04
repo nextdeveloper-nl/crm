@@ -7,11 +7,15 @@ use NextDeveloper\CRM\Http\Controllers\AbstractController;
 use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
 use NextDeveloper\CRM\Http\Requests\AccountManagers\AccountManagersUpdateRequest;
 use NextDeveloper\CRM\Database\Filters\AccountManagersQueryFilter;
+use NextDeveloper\CRM\Database\Models\AccountManagers;
 use NextDeveloper\CRM\Services\AccountManagersService;
 use NextDeveloper\CRM\Http\Requests\AccountManagers\AccountManagersCreateRequest;
-
+use NextDeveloper\Commons\Http\Traits\Tags;
 class AccountManagersController extends AbstractController
 {
+    private $model = AccountManagers::class;
+
+    use Tags;
     /**
      * This method returns the list of accountmanagers.
      *
@@ -46,15 +50,18 @@ class AccountManagersController extends AbstractController
     }
 
     /**
-     * This method returns the list of sub objects the related object.
+     * This method returns the list of sub objects the related object. Sub object means an object which is preowned by
+     * this object.
+     *
+     * It can be tags, addresses, states etc.
      *
      * @param  $ref
      * @param  $subObject
      * @return void
      */
-    public function subObjects($ref, $subObject)
+    public function relatedObjects($ref, $subObject)
     {
-        $objects = AccountManagersService::getSubObjects($ref, $subObject);
+        $objects = AccountManagersService::relatedObjects($ref, $subObject);
 
         return ResponsableFactory::makeResponse($this, $objects);
     }

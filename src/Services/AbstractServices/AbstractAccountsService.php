@@ -11,13 +11,13 @@ use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\CRM\Database\Models\Accounts;
 use NextDeveloper\CRM\Database\Filters\AccountsQueryFilter;
+use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 use NextDeveloper\CRM\Events\Accounts\AccountsCreatedEvent;
 use NextDeveloper\CRM\Events\Accounts\AccountsCreatingEvent;
 use NextDeveloper\CRM\Events\Accounts\AccountsUpdatedEvent;
 use NextDeveloper\CRM\Events\Accounts\AccountsUpdatingEvent;
 use NextDeveloper\CRM\Events\Accounts\AccountsDeletedEvent;
 use NextDeveloper\CRM\Events\Accounts\AccountsDeletingEvent;
-
 
 /**
  * This class is responsible from managing the data for Accounts
@@ -94,6 +94,31 @@ class AbstractAccountsService
     public static function getById($id) : ?Accounts
     {
         return Accounts::where('id', $id)->first();
+    }
+
+    /**
+     * This method returns the sub objects of the related models
+     *
+     * @param  $uuid
+     * @param  $object
+     * @return void
+     * @throws \Laravel\Octane\Exceptions\DdException
+     */
+    public static function relatedObjects($uuid, $object)
+    {
+        try {
+            $obj = Accounts::where('uuid', $uuid)->first();
+
+            if(!$obj) {
+                throw new ModelNotFoundException('Cannot find the related model');
+            }
+
+            if($obj) {
+                return $obj->$object;
+            }
+        } catch (\Exception $e) {
+            dd($e);
+        }
     }
 
     /**

@@ -11,13 +11,13 @@ use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\CRM\Database\Models\Users;
 use NextDeveloper\CRM\Database\Filters\UsersQueryFilter;
+use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 use NextDeveloper\CRM\Events\Users\UsersCreatedEvent;
 use NextDeveloper\CRM\Events\Users\UsersCreatingEvent;
 use NextDeveloper\CRM\Events\Users\UsersUpdatedEvent;
 use NextDeveloper\CRM\Events\Users\UsersUpdatingEvent;
 use NextDeveloper\CRM\Events\Users\UsersDeletedEvent;
 use NextDeveloper\CRM\Events\Users\UsersDeletingEvent;
-
 
 /**
  * This class is responsible from managing the data for Users
@@ -94,6 +94,31 @@ class AbstractUsersService
     public static function getById($id) : ?Users
     {
         return Users::where('id', $id)->first();
+    }
+
+    /**
+     * This method returns the sub objects of the related models
+     *
+     * @param  $uuid
+     * @param  $object
+     * @return void
+     * @throws \Laravel\Octane\Exceptions\DdException
+     */
+    public static function relatedObjects($uuid, $object)
+    {
+        try {
+            $obj = Users::where('uuid', $uuid)->first();
+
+            if(!$obj) {
+                throw new ModelNotFoundException('Cannot find the related model');
+            }
+
+            if($obj) {
+                return $obj->$object;
+            }
+        } catch (\Exception $e) {
+            dd($e);
+        }
     }
 
     /**

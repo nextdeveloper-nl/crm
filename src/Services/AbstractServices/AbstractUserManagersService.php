@@ -11,13 +11,13 @@ use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\CRM\Database\Models\UserManagers;
 use NextDeveloper\CRM\Database\Filters\UserManagersQueryFilter;
+use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 use NextDeveloper\CRM\Events\UserManagers\UserManagersCreatedEvent;
 use NextDeveloper\CRM\Events\UserManagers\UserManagersCreatingEvent;
 use NextDeveloper\CRM\Events\UserManagers\UserManagersUpdatedEvent;
 use NextDeveloper\CRM\Events\UserManagers\UserManagersUpdatingEvent;
 use NextDeveloper\CRM\Events\UserManagers\UserManagersDeletedEvent;
 use NextDeveloper\CRM\Events\UserManagers\UserManagersDeletingEvent;
-
 
 /**
  * This class is responsible from managing the data for UserManagers
@@ -94,6 +94,31 @@ class AbstractUserManagersService
     public static function getById($id) : ?UserManagers
     {
         return UserManagers::where('id', $id)->first();
+    }
+
+    /**
+     * This method returns the sub objects of the related models
+     *
+     * @param  $uuid
+     * @param  $object
+     * @return void
+     * @throws \Laravel\Octane\Exceptions\DdException
+     */
+    public static function relatedObjects($uuid, $object)
+    {
+        try {
+            $obj = UserManagers::where('uuid', $uuid)->first();
+
+            if(!$obj) {
+                throw new ModelNotFoundException('Cannot find the related model');
+            }
+
+            if($obj) {
+                return $obj->$object;
+            }
+        } catch (\Exception $e) {
+            dd($e);
+        }
     }
 
     /**

@@ -11,13 +11,13 @@ use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\CRM\Database\Models\Quotes;
 use NextDeveloper\CRM\Database\Filters\QuotesQueryFilter;
+use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 use NextDeveloper\CRM\Events\Quotes\QuotesCreatedEvent;
 use NextDeveloper\CRM\Events\Quotes\QuotesCreatingEvent;
 use NextDeveloper\CRM\Events\Quotes\QuotesUpdatedEvent;
 use NextDeveloper\CRM\Events\Quotes\QuotesUpdatingEvent;
 use NextDeveloper\CRM\Events\Quotes\QuotesDeletedEvent;
 use NextDeveloper\CRM\Events\Quotes\QuotesDeletingEvent;
-
 
 /**
  * This class is responsible from managing the data for Quotes
@@ -94,6 +94,31 @@ class AbstractQuotesService
     public static function getById($id) : ?Quotes
     {
         return Quotes::where('id', $id)->first();
+    }
+
+    /**
+     * This method returns the sub objects of the related models
+     *
+     * @param  $uuid
+     * @param  $object
+     * @return void
+     * @throws \Laravel\Octane\Exceptions\DdException
+     */
+    public static function relatedObjects($uuid, $object)
+    {
+        try {
+            $obj = Quotes::where('uuid', $uuid)->first();
+
+            if(!$obj) {
+                throw new ModelNotFoundException('Cannot find the related model');
+            }
+
+            if($obj) {
+                return $obj->$object;
+            }
+        } catch (\Exception $e) {
+            dd($e);
+        }
     }
 
     /**
