@@ -13,9 +13,7 @@ class QuotesCreateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'iam_accounts_id'         => 'required|exists:iam_accounts,uuid|uuid',
-        'crm_projects_id'         => 'nullable|exists:crm_projects,uuid|uuid',
-        'crm_opportunities_id'    => 'nullable|exists:crm_opportunities,uuid|uuid',
+            'crm_opportunities_id'    => 'nullable|exists:crm_opportunities,uuid|uuid',
         'name'                    => 'required|string|max:150',
         'description'             => 'nullable|string|max:2000',
         'amount'                  => 'numeric',

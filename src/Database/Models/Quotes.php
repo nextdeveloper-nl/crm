@@ -54,8 +54,6 @@ class Quotes extends Model
     protected $casts = [
     'id'                      => 'integer',
     'uuid'                    => 'string',
-    'iam_accounts_id'         => 'integer',
-    'crm_projects_id'         => 'integer',
     'crm_opportunities_id'    => 'integer',
     'name'                    => 'string',
     'description'             => 'string',
@@ -126,12 +124,23 @@ class Quotes extends Model
         }
     }
 
+    public function opportunities() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Opportunities::class);
+    }
+    
     public function accounts() : \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Accounts::class);
     }
     
+    public function users() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 

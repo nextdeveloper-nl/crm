@@ -59,8 +59,8 @@ trait CrmAccountTestTraits
             'POST', '/crm/crmaccount', [
             'form_params'   =>  [
                 'city'  =>  'a',
+                'position'  =>  'a',
                 'risk_level'  =>  '1',
-                'position'  =>  '1',
                             ],
                 ['http_errors' => false]
             ]
@@ -362,12 +362,12 @@ trait CrmAccountTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmaccount_event_risk_level_filter()
+    public function test_crmaccount_event_position_filter()
     {
         try {
             $request = new Request(
                 [
-                'risk_level'  =>  '1'
+                'position'  =>  'a'
                 ]
             );
 
@@ -381,12 +381,12 @@ trait CrmAccountTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmaccount_event_position_filter()
+    public function test_crmaccount_event_risk_level_filter()
     {
         try {
             $request = new Request(
                 [
-                'position'  =>  '1'
+                'risk_level'  =>  '1'
                 ]
             );
 

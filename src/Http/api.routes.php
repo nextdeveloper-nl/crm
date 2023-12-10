@@ -8,6 +8,8 @@ Route::prefix('crm')->group(
 
                 Route::get('{crm_account_managers}/tags ', 'AccountManagers\AccountManagersController@tags');
                 Route::post('{crm_account_managers}/tags ', 'AccountManagers\AccountManagersController@saveTags');
+                Route::get('{crm_account_managers}/addresses ', 'AccountManagers\AccountManagersController@addresses');
+                Route::post('{crm_account_managers}/addresses ', 'AccountManagers\AccountManagersController@saveAddresses');
 
                 Route::get('/{crm_account_managers}/{subObjects}', 'AccountManagers\AccountManagersController@relatedObjects');
                 Route::get('/{crm_account_managers}', 'AccountManagers\AccountManagersController@show');
@@ -24,6 +26,8 @@ Route::prefix('crm')->group(
 
                 Route::get('{crm_accounts}/tags ', 'Accounts\AccountsController@tags');
                 Route::post('{crm_accounts}/tags ', 'Accounts\AccountsController@saveTags');
+                Route::get('{crm_accounts}/addresses ', 'Accounts\AccountsController@addresses');
+                Route::post('{crm_accounts}/addresses ', 'Accounts\AccountsController@saveAddresses');
 
                 Route::get('/{crm_accounts}/{subObjects}', 'Accounts\AccountsController@relatedObjects');
                 Route::get('/{crm_accounts}', 'Accounts\AccountsController@show');
@@ -40,6 +44,8 @@ Route::prefix('crm')->group(
 
                 Route::get('{crm_opportunities}/tags ', 'Opportunities\OpportunitiesController@tags');
                 Route::post('{crm_opportunities}/tags ', 'Opportunities\OpportunitiesController@saveTags');
+                Route::get('{crm_opportunities}/addresses ', 'Opportunities\OpportunitiesController@addresses');
+                Route::post('{crm_opportunities}/addresses ', 'Opportunities\OpportunitiesController@saveAddresses');
 
                 Route::get('/{crm_opportunities}/{subObjects}', 'Opportunities\OpportunitiesController@relatedObjects');
                 Route::get('/{crm_opportunities}', 'Opportunities\OpportunitiesController@show');
@@ -56,6 +62,8 @@ Route::prefix('crm')->group(
 
                 Route::get('{crm_quotes}/tags ', 'Quotes\QuotesController@tags');
                 Route::post('{crm_quotes}/tags ', 'Quotes\QuotesController@saveTags');
+                Route::get('{crm_quotes}/addresses ', 'Quotes\QuotesController@addresses');
+                Route::post('{crm_quotes}/addresses ', 'Quotes\QuotesController@saveAddresses');
 
                 Route::get('/{crm_quotes}/{subObjects}', 'Quotes\QuotesController@relatedObjects');
                 Route::get('/{crm_quotes}', 'Quotes\QuotesController@show');
@@ -72,6 +80,8 @@ Route::prefix('crm')->group(
 
                 Route::get('{crm_user_managers}/tags ', 'UserManagers\UserManagersController@tags');
                 Route::post('{crm_user_managers}/tags ', 'UserManagers\UserManagersController@saveTags');
+                Route::get('{crm_user_managers}/addresses ', 'UserManagers\UserManagersController@addresses');
+                Route::post('{crm_user_managers}/addresses ', 'UserManagers\UserManagersController@saveAddresses');
 
                 Route::get('/{crm_user_managers}/{subObjects}', 'UserManagers\UserManagersController@relatedObjects');
                 Route::get('/{crm_user_managers}', 'UserManagers\UserManagersController@show');
@@ -88,6 +98,8 @@ Route::prefix('crm')->group(
 
                 Route::get('{crm_users}/tags ', 'Users\UsersController@tags');
                 Route::post('{crm_users}/tags ', 'Users\UsersController@saveTags');
+                Route::get('{crm_users}/addresses ', 'Users\UsersController@addresses');
+                Route::post('{crm_users}/addresses ', 'Users\UsersController@saveAddresses');
 
                 Route::get('/{crm_users}/{subObjects}', 'Users\UsersController@relatedObjects');
                 Route::get('/{crm_users}', 'Users\UsersController@show');
@@ -98,7 +110,32 @@ Route::prefix('crm')->group(
             }
         );
 
+        Route::prefix('accounts-perspective')->group(
+            function () {
+                Route::get('/', 'AccountsPerspective\AccountsPerspectiveController@index');
+
+                Route::get('{crm_accounts_perspective}/tags ', 'AccountsPerspective\AccountsPerspectiveController@tags');
+                Route::post('{crm_accounts_perspective}/tags ', 'AccountsPerspective\AccountsPerspectiveController@saveTags');
+                Route::get('{crm_accounts_perspective}/addresses ', 'AccountsPerspective\AccountsPerspectiveController@addresses');
+                Route::post('{crm_accounts_perspective}/addresses ', 'AccountsPerspective\AccountsPerspectiveController@saveAddresses');
+
+                Route::get('/{crm_accounts_perspective}/{subObjects}', 'AccountsPerspective\AccountsPerspectiveController@relatedObjects');
+                Route::get('/{crm_accounts_perspective}', 'AccountsPerspective\AccountsPerspectiveController@show');
+
+                Route::post('/', 'AccountsPerspective\AccountsPerspectiveController@store');
+                Route::patch('/{crm_accounts_perspective}', 'AccountsPerspective\AccountsPerspectiveController@update');
+                Route::delete('/{crm_accounts_perspective}', 'AccountsPerspective\AccountsPerspectiveController@destroy');
+            }
+        );
+
         // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
+
+
+
+
 
 
 
@@ -107,6 +144,7 @@ Route::prefix('crm')->group(
 
     }
 );
+
 
 
 

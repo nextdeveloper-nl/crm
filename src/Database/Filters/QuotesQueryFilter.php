@@ -93,21 +93,21 @@ class QuotesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('deleted_at', '<=', $date);
     }
 
-    public function iamAccountsId($value)
+    public function iamAccountId($value)
     {
-            $iamAccounts = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
+            $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
 
-        if($iamAccounts) {
-            return $this->builder->where('iam_accounts_id', '=', $iamAccounts->id);
+        if($iamAccount) {
+            return $this->builder->where('iam_account_id', '=', $iamAccount->id);
         }
     }
 
-    public function crmProjectsId($value)
+    public function iamUserId($value)
     {
-            $crmProjects = \NextDeveloper\CRM\Database\Models\Projects::where('uuid', $value)->first();
+            $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
 
-        if($crmProjects) {
-            return $this->builder->where('crm_projects_id', '=', $crmProjects->id);
+        if($iamUser) {
+            return $this->builder->where('iam_user_id', '=', $iamUser->id);
         }
     }
 

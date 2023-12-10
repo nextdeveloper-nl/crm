@@ -2,29 +2,27 @@
 
 namespace NextDeveloper\CRM\Database\Models;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
-use NextDeveloper\CRM\Database\Observers\AccountManagersObserver;
+use NextDeveloper\CRM\Database\Observers\AccountsPerspectivesObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 
 /**
- * Class AccountManagers.
+ * Class AccountsPerspectives.
  *
  * @package NextDeveloper\CRM\Database\Models
  */
-class AccountManagers extends Model
+class AccountsPerspectives extends Model
 {
     use Filterable, UuidId, CleanCache, Taggable;
-    use SoftDeletes;
 
 
     public $timestamps = true;
 
-    protected $table = 'crm_account_managers';
+    protected $table = 'crm_accounts_perspective';
 
 
     /**
@@ -52,12 +50,20 @@ class AccountManagers extends Model
      @var array
      */
     protected $casts = [
-    'id'             => 'integer',
-    'uuid'           => 'string',
-    'crm_account_id' => 'integer',
-    'created_at'     => 'datetime',
-    'updated_at'     => 'datetime',
-    'deleted_at'     => 'datetime',
+    'id'                  => 'integer',
+    'uuid'                => 'string',
+    'name'                => 'string',
+    'common_domain_id'    => 'integer',
+    'common_country_id'   => 'integer',
+    'phone_number'        => 'string',
+    'description'         => 'string',
+    'iam_account_type_id' => 'integer',
+    'is_paying_customer'  => 'boolean',
+    'city'                => 'string',
+    'position'            => 'string',
+    'risk_level'          => 'boolean',
+    'created_at'          => 'datetime',
+    'updated_at'          => 'datetime',
     ];
 
     /**
@@ -68,7 +74,6 @@ class AccountManagers extends Model
     protected $dates = [
     'created_at',
     'updated_at',
-    'deleted_at',
     ];
 
     /**
@@ -91,7 +96,7 @@ class AccountManagers extends Model
         parent::boot();
 
         //  We create and add Observer even if we wont use it.
-        parent::observe(AccountManagersObserver::class);
+        parent::observe(AccountsPerspectivesObserver::class);
 
         self::registerScopes();
     }
@@ -99,7 +104,7 @@ class AccountManagers extends Model
     public static function registerScopes()
     {
         $globalScopes = config('crm.scopes.global');
-        $modelScopes = config('crm.scopes.crm_account_managers');
+        $modelScopes = config('crm.scopes.crm_accounts_perspective');
 
         if(!$modelScopes) { $modelScopes = [];
         }
@@ -118,16 +123,5 @@ class AccountManagers extends Model
         }
     }
 
-    public function accounts() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Accounts::class);
-    }
-    
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n
-
-
-
-
-
-
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }
