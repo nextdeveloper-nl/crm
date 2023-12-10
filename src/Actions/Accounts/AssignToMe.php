@@ -8,26 +8,16 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use NextDeveloper\CRM\Database\Models\Accounts;
-use NextDeveloper\CRM\Database\Models\Users;
 use NextDeveloper\CRM\EventHandlers\Accounts\CrmAccountsUpdatedEvent;
-use NextDeveloper\CRM\Services\RiskManagement\RiskManagementService;
 
-/**
- * This action, calculates the risk points for the account by looking at the user behaviour with the objects,
- * and not limited to;
- *
- * - User information
- * - Payment cycle information
- * - Service usage behaviour
- */
-class CalculateAccountRisk implements ShouldQueue
+class AssignToMe implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $account = null;
 
     /**
-     * This action takes a user object and assigns an Account Manager
+     * This function adds the current user as Account Manager for this account.
      *
      * @param Accounts $accounts
      */
@@ -38,9 +28,9 @@ class CalculateAccountRisk implements ShouldQueue
 
     public function handle()
     {
-        $this->account->update([
-            'risk_level'    =>  (new RiskManagementService($this->account))->calculateRiskLevel()
-        ]);
+        /**
+         * Here we will add the user to this
+         */
 
         event(new CrmAccountsUpdatedEvent($this->account));
     }

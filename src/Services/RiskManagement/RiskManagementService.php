@@ -3,7 +3,11 @@
 namespace NextDeveloper\CRM\Services\RiskManagement;
 
 use NextDeveloper\CRM\Database\Models\Accounts;
+use NextDeveloper\IAM\Helpers\UserHelper;
 
+/**
+ * This service calculates the risk point for account
+ */
 class RiskManagementService
 {
     private $_account;
@@ -14,10 +18,18 @@ class RiskManagementService
 
     public function __construct( Accounts $account )
     {
+        /**
+         * Here you need to get the owner of the account from UserHelper. But this helper does not have the related
+         * function, so you need to make the development there
+         */
         $this->_account = $account;
-        $this->_user = $account->owner;
+        $this->_user = UserHelper::getAccountOwner($account);
     }
 
+    /**
+     * This function will return the Risk level only.
+     * @return int|void|null
+     */
     public function calculateRiskLevel() {
         $riskLevel = 70;
 
