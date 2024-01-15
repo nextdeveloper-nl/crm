@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Http\Controllers\AccountManagers;
 
 use Illuminate\Http\Request;
 use NextDeveloper\CRM\Http\Controllers\AbstractController;
-use NextDeveloper\Commons\Http\Traits\ResponsableFactory;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use NextDeveloper\CRM\Http\Requests\AccountManagers\AccountManagersUpdateRequest;
 use NextDeveloper\CRM\Database\Filters\AccountManagersQueryFilter;
 use NextDeveloper\CRM\Database\Models\AccountManagers;
