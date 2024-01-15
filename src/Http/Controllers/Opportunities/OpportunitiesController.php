@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Http\Controllers\Opportunities;
 
 use Illuminate\Http\Request;
 use NextDeveloper\CRM\Http\Controllers\AbstractController;
-use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
+use NextDeveloper\Commons\Http\Traits\ResponsableFactory;
 use NextDeveloper\CRM\Http\Requests\Opportunities\OpportunitiesUpdateRequest;
 use NextDeveloper\CRM\Database\Filters\OpportunitiesQueryFilter;
 use NextDeveloper\CRM\Database\Models\Opportunities;

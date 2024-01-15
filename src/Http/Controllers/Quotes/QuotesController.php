@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Http\Controllers\Quotes;
 
 use Illuminate\Http\Request;
 use NextDeveloper\CRM\Http\Controllers\AbstractController;
-use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
+use NextDeveloper\Commons\Http\Traits\ResponsableFactory;
 use NextDeveloper\CRM\Http\Requests\Quotes\QuotesUpdateRequest;
 use NextDeveloper\CRM\Database\Filters\QuotesQueryFilter;
 use NextDeveloper\CRM\Database\Models\Quotes;

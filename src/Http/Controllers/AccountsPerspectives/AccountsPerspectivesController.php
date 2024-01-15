@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Http\Controllers\AccountsPerspectives;
 
 use Illuminate\Http\Request;
 use NextDeveloper\CRM\Http\Controllers\AbstractController;
-use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
+use NextDeveloper\Commons\Http\Traits\ResponsableFactory;
 use NextDeveloper\CRM\Http\Requests\AccountsPerspectives\AccountsPerspectivesUpdateRequest;
 use NextDeveloper\CRM\Database\Filters\AccountsPerspectivesQueryFilter;
 use NextDeveloper\CRM\Database\Models\AccountsPerspectives;
