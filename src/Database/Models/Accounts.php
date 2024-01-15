@@ -10,6 +10,7 @@ use NextDeveloper\CRM\Database\Observers\AccountsObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
+use NextDeveloper\Commons\Database\GlobalScopes\LimitScope;
 
 /**
  * Class Accounts.
@@ -20,7 +21,6 @@ class Accounts extends Model
 {
     use Filterable, UuidId, CleanCache, Taggable;
     use SoftDeletes;
-
 
     public $timestamps = true;
 
@@ -130,7 +130,7 @@ class Accounts extends Model
     {
         return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Accounts::class);
     }
-    
+
     public function opportunities() : \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\NextDeveloper\CRM\Database\Models\Opportunities::class);

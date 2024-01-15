@@ -4,6 +4,7 @@ namespace NextDeveloper\CRM\Http\Controllers\Accounts;
 
 use Illuminate\Http\Request;
 use NextDeveloper\CRM\Http\Controllers\AbstractController;
+use NextDeveloper\Generator\Http\Traits\Responsable;
 use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
 use NextDeveloper\CRM\Http\Requests\Accounts\AccountsUpdateRequest;
 use NextDeveloper\CRM\Database\Filters\AccountsQueryFilter;
@@ -13,6 +14,8 @@ use NextDeveloper\CRM\Http\Requests\Accounts\AccountsCreateRequest;
 use NextDeveloper\Commons\Http\Traits\Tags;
 class AccountsController extends AbstractController
 {
+    use Responsable;
+
     private $model = Accounts::class;
 
     use Tags;
