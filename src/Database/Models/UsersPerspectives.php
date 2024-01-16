@@ -5,24 +5,24 @@ namespace NextDeveloper\CRM\Database\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
-use NextDeveloper\CRM\Database\Observers\AccountsPerspectivesObserver;
+use NextDeveloper\CRM\Database\Observers\UsersPerspectivesObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 
 /**
- * Class AccountsPerspectives.
+ * Class UsersPerspectives.
  *
  * @package NextDeveloper\CRM\Database\Models
  */
-class AccountsPerspectives extends Model
+class UsersPerspectives extends Model
 {
     use Filterable, UuidId, CleanCache, Taggable;
 
 
     public $timestamps = true;
 
-    protected $table = 'crm_accounts_perspective';
+    protected $table = 'crm_users_perspective';
 
 
     /**
@@ -50,20 +50,28 @@ class AccountsPerspectives extends Model
      @var array
      */
     protected $casts = [
-    'id'                  => 'integer',
-    'uuid'                => 'string',
-    'name'                => 'string',
-    'common_domain_id'    => 'integer',
-    'common_country_id'   => 'integer',
-    'phone_number'        => 'string',
-    'description'         => 'string',
-    'iam_account_type_id' => 'integer',
-    'is_paying_customer'  => 'boolean',
-    'city'                => 'string',
-    'position'            => 'string',
-    'risk_level'          => 'boolean',
-    'created_at'          => 'datetime',
-    'updated_at'          => 'datetime',
+    'id'                 => 'integer',
+    'uuid'               => 'string',
+    'name'               => 'string',
+    'surname'            => 'string',
+    'fullname'           => 'string',
+    'email'              => 'string',
+    'about'              => 'string',
+    'pronoun'            => 'string',
+    'birthday'           => 'datetime',
+    'nin'                => 'string',
+    'cell_phone'         => 'string',
+    'common_country_id'  => 'integer',
+    'common_language_id' => 'integer',
+    'iam_updated_at'     => 'datetime',
+    'position'           => 'string',
+    'job_description'    => 'string',
+    'hobbies'            => 'string',
+    'city'               => 'string',
+    'is_evangelist'      => 'boolean',
+    'child_count'        => 'integer',
+    'created_at'         => 'datetime',
+    'updated_at'         => 'datetime',
     ];
 
     /**
@@ -72,6 +80,8 @@ class AccountsPerspectives extends Model
      @var array
      */
     protected $dates = [
+    'birthday',
+    'iam_updated_at',
     'created_at',
     'updated_at',
     ];
@@ -96,7 +106,7 @@ class AccountsPerspectives extends Model
         parent::boot();
 
         //  We create and add Observer even if we wont use it.
-        parent::observe(AccountsPerspectivesObserver::class);
+        parent::observe(UsersPerspectivesObserver::class);
 
         self::registerScopes();
     }
@@ -104,7 +114,7 @@ class AccountsPerspectives extends Model
     public static function registerScopes()
     {
         $globalScopes = config('crm.scopes.global');
-        $modelScopes = config('crm.scopes.crm_accounts_perspective');
+        $modelScopes = config('crm.scopes.crm_users_perspective');
 
         if(!$modelScopes) { $modelScopes = [];
         }
@@ -124,7 +134,6 @@ class AccountsPerspectives extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
 
 
 

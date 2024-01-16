@@ -2,23 +2,23 @@
 
 namespace NextDeveloper\CRM\Http\Transformers\AbstractTransformers;
 
-use NextDeveloper\CRM\Database\Models\AccountsPerspectives;
+use NextDeveloper\CRM\Database\Models\AccountsPerspective;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
 
 /**
- * Class AccountsPerspectivesTransformer. This class is being used to manipulate the data we are serving to the customer
+ * Class AccountsPerspectiveTransformer. This class is being used to manipulate the data we are serving to the customer
  *
  * @package NextDeveloper\CRM\Http\Transformers
  */
-class AbstractAccountsPerspectivesTransformer extends AbstractTransformer
+class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
 {
 
     /**
-     * @param AccountsPerspectives $model
+     * @param AccountsPerspective $model
      *
      * @return array
      */
-    public function transform(AccountsPerspectives $model)
+    public function transform(AccountsPerspective $model)
     {
                         $commonDomainId = \NextDeveloper\Commons\Database\Models\Domains::where('id', $model->common_domain_id)->first();
                     $commonCountryId = \NextDeveloper\Commons\Database\Models\Countries::where('id', $model->common_country_id)->first();
@@ -48,9 +48,4 @@ class AbstractAccountsPerspectivesTransformer extends AbstractTransformer
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
 }

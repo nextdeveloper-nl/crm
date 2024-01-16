@@ -5,17 +5,17 @@ namespace NextDeveloper\CRM\Database\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
-use NextDeveloper\CRM\Database\Observers\AccountsPerspectivesObserver;
+use NextDeveloper\CRM\Database\Observers\AccountsPerspectiveObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 
 /**
- * Class AccountsPerspectives.
+ * Class AccountsPerspective.
  *
  * @package NextDeveloper\CRM\Database\Models
  */
-class AccountsPerspectives extends Model
+class AccountsPerspective extends Model
 {
     use Filterable, UuidId, CleanCache, Taggable;
 
@@ -96,7 +96,7 @@ class AccountsPerspectives extends Model
         parent::boot();
 
         //  We create and add Observer even if we wont use it.
-        parent::observe(AccountsPerspectivesObserver::class);
+        parent::observe(AccountsPerspectiveObserver::class);
 
         self::registerScopes();
     }
@@ -124,9 +124,4 @@ class AccountsPerspectives extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
 }

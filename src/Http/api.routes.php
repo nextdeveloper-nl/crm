@@ -128,7 +128,193 @@ Route::prefix('crm')->group(
             }
         );
 
+        Route::prefix('users-perspective')->group(
+            function () {
+                Route::get('/', 'UsersPerspective\UsersPerspectiveController@index');
+
+                Route::get('{crm_users_perspective}/tags ', 'UsersPerspective\UsersPerspectiveController@tags');
+                Route::post('{crm_users_perspective}/tags ', 'UsersPerspective\UsersPerspectiveController@saveTags');
+                Route::get('{crm_users_perspective}/addresses ', 'UsersPerspective\UsersPerspectiveController@addresses');
+                Route::post('{crm_users_perspective}/addresses ', 'UsersPerspective\UsersPerspectiveController@saveAddresses');
+
+                Route::get('/{crm_users_perspective}/{subObjects}', 'UsersPerspective\UsersPerspectiveController@relatedObjects');
+                Route::get('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@show');
+
+                Route::post('/', 'UsersPerspective\UsersPerspectiveController@store');
+                Route::patch('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@update');
+                Route::delete('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@destroy');
+            }
+        );
+
+        Route::prefix('accounts-perspective')->group(
+            function () {
+                Route::get('/', 'AccountsPerspective\AccountsPerspectiveController@index');
+
+                Route::get('{crm_accounts_perspective}/tags ', 'AccountsPerspective\AccountsPerspectiveController@tags');
+                Route::post('{crm_accounts_perspective}/tags ', 'AccountsPerspective\AccountsPerspectiveController@saveTags');
+                Route::get('{crm_accounts_perspective}/addresses ', 'AccountsPerspective\AccountsPerspectiveController@addresses');
+                Route::post('{crm_accounts_perspective}/addresses ', 'AccountsPerspective\AccountsPerspectiveController@saveAddresses');
+
+                Route::get('/{crm_accounts_perspective}/{subObjects}', 'AccountsPerspective\AccountsPerspectiveController@relatedObjects');
+                Route::get('/{crm_accounts_perspective}', 'AccountsPerspective\AccountsPerspectiveController@show');
+
+                Route::post('/', 'AccountsPerspective\AccountsPerspectiveController@store');
+                Route::patch('/{crm_accounts_perspective}', 'AccountsPerspective\AccountsPerspectiveController@update');
+                Route::delete('/{crm_accounts_perspective}', 'AccountsPerspective\AccountsPerspectiveController@destroy');
+            }
+        );
+
+        Route::prefix('users-perspective')->group(
+            function () {
+                Route::get('/', 'UsersPerspective\UsersPerspectiveController@index');
+
+                Route::get('{crm_users_perspective}/tags ', 'UsersPerspective\UsersPerspectiveController@tags');
+                Route::post('{crm_users_perspective}/tags ', 'UsersPerspective\UsersPerspectiveController@saveTags');
+                Route::get('{crm_users_perspective}/addresses ', 'UsersPerspective\UsersPerspectiveController@addresses');
+                Route::post('{crm_users_perspective}/addresses ', 'UsersPerspective\UsersPerspectiveController@saveAddresses');
+
+                Route::get('/{crm_users_perspective}/{subObjects}', 'UsersPerspective\UsersPerspectiveController@relatedObjects');
+                Route::get('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@show');
+
+                Route::post('/', 'UsersPerspective\UsersPerspectiveController@store');
+                Route::patch('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@update');
+                Route::delete('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@destroy');
+            }
+        );
+
+        Route::prefix('accounts-perspective')->group(
+            function () {
+                Route::get('/', 'AccountsPerspective\AccountsPerspectiveController@index');
+
+                Route::get('{crm_accounts_perspective}/tags ', 'AccountsPerspective\AccountsPerspectiveController@tags');
+                Route::post('{crm_accounts_perspective}/tags ', 'AccountsPerspective\AccountsPerspectiveController@saveTags');
+                Route::get('{crm_accounts_perspective}/addresses ', 'AccountsPerspective\AccountsPerspectiveController@addresses');
+                Route::post('{crm_accounts_perspective}/addresses ', 'AccountsPerspective\AccountsPerspectiveController@saveAddresses');
+
+                Route::get('/{crm_accounts_perspective}/{subObjects}', 'AccountsPerspective\AccountsPerspectiveController@relatedObjects');
+                Route::get('/{crm_accounts_perspective}', 'AccountsPerspective\AccountsPerspectiveController@show');
+
+                Route::post('/', 'AccountsPerspective\AccountsPerspectiveController@store');
+                Route::patch('/{crm_accounts_perspective}', 'AccountsPerspective\AccountsPerspectiveController@update');
+                Route::delete('/{crm_accounts_perspective}', 'AccountsPerspective\AccountsPerspectiveController@destroy');
+            }
+        );
+
+        Route::prefix('users-perspective')->group(
+            function () {
+                Route::get('/', 'UsersPerspective\UsersPerspectiveController@index');
+
+                Route::get('{crm_users_perspective}/tags ', 'UsersPerspective\UsersPerspectiveController@tags');
+                Route::post('{crm_users_perspective}/tags ', 'UsersPerspective\UsersPerspectiveController@saveTags');
+                Route::get('{crm_users_perspective}/addresses ', 'UsersPerspective\UsersPerspectiveController@addresses');
+                Route::post('{crm_users_perspective}/addresses ', 'UsersPerspective\UsersPerspectiveController@saveAddresses');
+
+                Route::get('/{crm_users_perspective}/{subObjects}', 'UsersPerspective\UsersPerspectiveController@relatedObjects');
+                Route::get('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@show');
+
+                Route::post('/', 'UsersPerspective\UsersPerspectiveController@store');
+                Route::patch('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@update');
+                Route::delete('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@destroy');
+            }
+        );
+
+        Route::prefix('accounts-perspective')->group(
+            function () {
+                Route::get('/', 'AccountsPerspective\AccountsPerspectiveController@index');
+
+                Route::get('{crm_accounts_perspective}/tags ', 'AccountsPerspective\AccountsPerspectiveController@tags');
+                Route::post('{crm_accounts_perspective}/tags ', 'AccountsPerspective\AccountsPerspectiveController@saveTags');
+                Route::get('{crm_accounts_perspective}/addresses ', 'AccountsPerspective\AccountsPerspectiveController@addresses');
+                Route::post('{crm_accounts_perspective}/addresses ', 'AccountsPerspective\AccountsPerspectiveController@saveAddresses');
+
+                Route::get('/{crm_accounts_perspective}/{subObjects}', 'AccountsPerspective\AccountsPerspectiveController@relatedObjects');
+                Route::get('/{crm_accounts_perspective}', 'AccountsPerspective\AccountsPerspectiveController@show');
+
+                Route::post('/', 'AccountsPerspective\AccountsPerspectiveController@store');
+                Route::patch('/{crm_accounts_perspective}', 'AccountsPerspective\AccountsPerspectiveController@update');
+                Route::delete('/{crm_accounts_perspective}', 'AccountsPerspective\AccountsPerspectiveController@destroy');
+            }
+        );
+
+        Route::prefix('users-perspective')->group(
+            function () {
+                Route::get('/', 'UsersPerspective\UsersPerspectiveController@index');
+
+                Route::get('{crm_users_perspective}/tags ', 'UsersPerspective\UsersPerspectiveController@tags');
+                Route::post('{crm_users_perspective}/tags ', 'UsersPerspective\UsersPerspectiveController@saveTags');
+                Route::get('{crm_users_perspective}/addresses ', 'UsersPerspective\UsersPerspectiveController@addresses');
+                Route::post('{crm_users_perspective}/addresses ', 'UsersPerspective\UsersPerspectiveController@saveAddresses');
+
+                Route::get('/{crm_users_perspective}/{subObjects}', 'UsersPerspective\UsersPerspectiveController@relatedObjects');
+                Route::get('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@show');
+
+                Route::post('/', 'UsersPerspective\UsersPerspectiveController@store');
+                Route::patch('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@update');
+                Route::delete('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@destroy');
+            }
+        );
+
+        Route::prefix('accounts-perspective')->group(
+            function () {
+                Route::get('/', 'AccountsPerspective\AccountsPerspectiveController@index');
+
+                Route::get('{crm_accounts_perspective}/tags ', 'AccountsPerspective\AccountsPerspectiveController@tags');
+                Route::post('{crm_accounts_perspective}/tags ', 'AccountsPerspective\AccountsPerspectiveController@saveTags');
+                Route::get('{crm_accounts_perspective}/addresses ', 'AccountsPerspective\AccountsPerspectiveController@addresses');
+                Route::post('{crm_accounts_perspective}/addresses ', 'AccountsPerspective\AccountsPerspectiveController@saveAddresses');
+
+                Route::get('/{crm_accounts_perspective}/{subObjects}', 'AccountsPerspective\AccountsPerspectiveController@relatedObjects');
+                Route::get('/{crm_accounts_perspective}', 'AccountsPerspective\AccountsPerspectiveController@show');
+
+                Route::post('/', 'AccountsPerspective\AccountsPerspectiveController@store');
+                Route::patch('/{crm_accounts_perspective}', 'AccountsPerspective\AccountsPerspectiveController@update');
+                Route::delete('/{crm_accounts_perspective}', 'AccountsPerspective\AccountsPerspectiveController@destroy');
+            }
+        );
+
+        Route::prefix('users-perspective')->group(
+            function () {
+                Route::get('/', 'UsersPerspective\UsersPerspectiveController@index');
+
+                Route::get('{crm_users_perspective}/tags ', 'UsersPerspective\UsersPerspectiveController@tags');
+                Route::post('{crm_users_perspective}/tags ', 'UsersPerspective\UsersPerspectiveController@saveTags');
+                Route::get('{crm_users_perspective}/addresses ', 'UsersPerspective\UsersPerspectiveController@addresses');
+                Route::post('{crm_users_perspective}/addresses ', 'UsersPerspective\UsersPerspectiveController@saveAddresses');
+
+                Route::get('/{crm_users_perspective}/{subObjects}', 'UsersPerspective\UsersPerspectiveController@relatedObjects');
+                Route::get('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@show');
+
+                Route::post('/', 'UsersPerspective\UsersPerspectiveController@store');
+                Route::patch('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@update');
+                Route::delete('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@destroy');
+            }
+        );
+
         // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -144,6 +330,8 @@ Route::prefix('crm')->group(
 
     }
 );
+
+
 
 
 

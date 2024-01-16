@@ -22,6 +22,7 @@ class Accounts extends Model
     use Filterable, UuidId, CleanCache, Taggable;
     use SoftDeletes;
 
+
     public $timestamps = true;
 
     protected $table = 'crm_accounts';
@@ -130,13 +131,15 @@ class Accounts extends Model
     {
         return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Accounts::class);
     }
-
+    
     public function opportunities() : \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\NextDeveloper\CRM\Database\Models\Opportunities::class);
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 

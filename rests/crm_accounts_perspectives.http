@@ -1,0 +1,2 @@
+GET http://127.0.0.1:8000/crm/accounts-perspective
+Authorization: Bearer 28tMA5b3DwyqM8rkkKPUPmlKGPG8P1OM76vxfkot
