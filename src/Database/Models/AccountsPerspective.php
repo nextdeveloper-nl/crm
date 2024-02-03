@@ -50,20 +50,18 @@ class AccountsPerspective extends Model
      @var array
      */
     protected $casts = [
-    'id'                  => 'integer',
-    'uuid'                => 'string',
-    'name'                => 'string',
-    'common_domain_id'    => 'integer',
-    'common_country_id'   => 'integer',
-    'phone_number'        => 'string',
-    'description'         => 'string',
+    'id' => 'integer',
+    'name' => 'string',
+    'common_domain_id' => 'integer',
+    'common_country_id' => 'integer',
+    'description' => 'string',
     'iam_account_type_id' => 'integer',
-    'is_paying_customer'  => 'boolean',
-    'city'                => 'string',
-    'position'            => 'string',
-    'risk_level'          => 'boolean',
-    'created_at'          => 'datetime',
-    'updated_at'          => 'datetime',
+    'is_paying_customer' => 'boolean',
+    'common_city_id' => 'integer',
+    'position' => 'string',
+    'risk_level' => 'integer',
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
     ];
 
     /**
@@ -124,4 +122,5 @@ class AccountsPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

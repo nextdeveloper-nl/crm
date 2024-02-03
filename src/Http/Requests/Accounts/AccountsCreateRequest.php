@@ -14,9 +14,9 @@ class AccountsCreateRequest extends AbstractFormRequest
     {
         return [
             'is_paying_customer' => 'boolean',
-        'risk_level'         => 'nullable|boolean',
-        'city'               => 'nullable|string|max:50',
-        'position'           => 'string|max:100',
+        'risk_level' => 'nullable|integer',
+        'common_city_id' => 'nullable|exists:common_cities,uuid|uuid',
+        'position' => 'nullable|string',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n

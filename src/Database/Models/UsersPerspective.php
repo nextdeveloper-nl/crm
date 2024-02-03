@@ -50,28 +50,29 @@ class UsersPerspective extends Model
      @var array
      */
     protected $casts = [
-    'id'                 => 'integer',
-    'uuid'               => 'string',
-    'name'               => 'string',
-    'surname'            => 'string',
-    'fullname'           => 'string',
-    'email'              => 'string',
-    'about'              => 'string',
-    'pronoun'            => 'string',
-    'birthday'           => 'datetime',
-    'nin'                => 'string',
-    'cell_phone'         => 'string',
-    'common_country_id'  => 'integer',
+    'id' => 'integer',
+    'name' => 'string',
+    'surname' => 'string',
+    'fullname' => 'string',
+    'email' => 'string',
+    'about' => 'string',
+    'pronoun' => 'string',
+    'birthday' => 'datetime',
+    'nin' => 'string',
+    'common_country_id' => 'integer',
     'common_language_id' => 'integer',
-    'iam_updated_at'     => 'datetime',
-    'position'           => 'string',
-    'job_description'    => 'string',
-    'hobbies'            => 'string',
-    'city'               => 'string',
-    'is_evangelist'      => 'boolean',
-    'child_count'        => 'integer',
-    'created_at'         => 'datetime',
-    'updated_at'         => 'datetime',
+    'iam_updated_at' => 'datetime',
+    'position' => 'string',
+    'job' => 'string',
+    'job_description' => 'string',
+    'hobbies' => 'string',
+    'city' => 'string',
+    'relationship_status' => 'string',
+    'is_evangelist' => 'boolean',
+    'is_single' => 'boolean',
+    'child_count' => 'integer',
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
     ];
 
     /**
@@ -134,4 +135,5 @@ class UsersPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

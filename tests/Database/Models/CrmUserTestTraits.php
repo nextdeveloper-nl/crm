@@ -59,9 +59,11 @@ trait CrmUserTestTraits
             'POST', '/crm/crmuser', [
             'form_params'   =>  [
                 'position'  =>  'a',
+                'job'  =>  'a',
                 'job_description'  =>  'a',
                 'hobbies'  =>  'a',
                 'city'  =>  'a',
+                'relationship_status'  =>  'a',
                 'child_count'  =>  '1',
                             ],
                 ['http_errors' => false]
@@ -364,6 +366,25 @@ trait CrmUserTestTraits
         $this->assertTrue(true);
     }
 
+    public function test_crmuser_event_job_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'job'  =>  'a'
+                ]
+            );
+
+            $filter = new CrmUserQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmUser::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
     public function test_crmuser_event_job_description_filter()
     {
         try {
@@ -408,6 +429,25 @@ trait CrmUserTestTraits
             $request = new Request(
                 [
                 'city'  =>  'a'
+                ]
+            );
+
+            $filter = new CrmUserQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmUser::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_crmuser_event_relationship_status_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'relationship_status'  =>  'a'
                 ]
             );
 

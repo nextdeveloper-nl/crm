@@ -52,14 +52,14 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('nin', 'like', '%' . $value . '%');
     }
     
-    public function cellPhone($value)
-    {
-        return $this->builder->where('cell_phone', 'like', '%' . $value . '%');
-    }
-    
     public function position($value)
     {
         return $this->builder->where('position', 'like', '%' . $value . '%');
+    }
+    
+    public function job($value)
+    {
+        return $this->builder->where('job', 'like', '%' . $value . '%');
     }
     
     public function jobDescription($value)
@@ -75,6 +75,11 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
     public function city($value)
     {
         return $this->builder->where('city', 'like', '%' . $value . '%');
+    }
+    
+    public function relationshipStatus($value)
+    {
+        return $this->builder->where('relationship_status', 'like', '%' . $value . '%');
     }
 
     public function childCount($value)
@@ -93,6 +98,11 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
     public function isEvangelist()
     {
         return $this->builder->where('is_evangelist', true);
+    }
+    
+    public function isSingle()
+    {
+        return $this->builder->where('is_single', true);
     }
     
     public function birthdayStart($date) 

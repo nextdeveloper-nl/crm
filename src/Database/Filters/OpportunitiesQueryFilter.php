@@ -45,19 +45,6 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('probability', $operator, $value);
     }
     
-    public function income($value)
-    {
-        $operator = substr($value, 0, 1);
-
-        if ($operator != '<' || $operator != '>') {
-            $operator = '=';
-        } else {
-            $value = substr($value, 1);
-        }
-
-        return $this->builder->where('income', $operator, $value);
-    }
-    
     public function deadlineStart($date) 
     {
         return $this->builder->where('deadline', '>=', $date);

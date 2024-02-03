@@ -1,0 +1,3 @@
+GET {{host}}/crm/accounts-perspective
+Accept: application/json
+Authorization: Bearer {{oauth2_token}}

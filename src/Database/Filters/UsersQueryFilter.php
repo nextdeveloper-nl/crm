@@ -23,6 +23,11 @@ class UsersQueryFilter extends AbstractQueryFilter
         return $this->builder->where('position', 'like', '%' . $value . '%');
     }
     
+    public function job($value)
+    {
+        return $this->builder->where('job', 'like', '%' . $value . '%');
+    }
+    
     public function jobDescription($value)
     {
         return $this->builder->where('job_description', 'like', '%' . $value . '%');
@@ -36,6 +41,11 @@ class UsersQueryFilter extends AbstractQueryFilter
     public function city($value)
     {
         return $this->builder->where('city', 'like', '%' . $value . '%');
+    }
+    
+    public function relationshipStatus($value)
+    {
+        return $this->builder->where('relationship_status', 'like', '%' . $value . '%');
     }
 
     public function childCount($value)
@@ -54,6 +64,11 @@ class UsersQueryFilter extends AbstractQueryFilter
     public function isEvangelist()
     {
         return $this->builder->where('is_evangelist', true);
+    }
+    
+    public function isSingle()
+    {
+        return $this->builder->where('is_single', true);
     }
     
     public function createdAtStart($date) 

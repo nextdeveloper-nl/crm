@@ -58,7 +58,7 @@ trait CrmUserManagerTestTraits
         $response = $this->http->request(
             'POST', '/crm/crmusermanager', [
             'form_params'   =>  [
-                        ],
+                            ],
                 ['http_errors' => false]
             ]
         );
@@ -359,6 +359,25 @@ trait CrmUserManagerTestTraits
         $this->assertTrue(true);
     }
 
+    public function test_crmusermanager_event_updated_at_filter_start()
+    {
+        try {
+            $request = new Request(
+                [
+                'updated_atStart'  =>  now()
+                ]
+            );
+
+            $filter = new CrmUserManagerQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmUserManager::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
     public function test_crmusermanager_event_deleted_at_filter_start()
     {
         try {
@@ -384,6 +403,25 @@ trait CrmUserManagerTestTraits
             $request = new Request(
                 [
                 'created_atEnd'  =>  now()
+                ]
+            );
+
+            $filter = new CrmUserManagerQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmUserManager::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_crmusermanager_event_updated_at_filter_end()
+    {
+        try {
+            $request = new Request(
+                [
+                'updated_atEnd'  =>  now()
                 ]
             );
 
@@ -423,6 +461,26 @@ trait CrmUserManagerTestTraits
                 [
                 'created_atStart'  =>  now(),
                 'created_atEnd'  =>  now()
+                ]
+            );
+
+            $filter = new CrmUserManagerQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmUserManager::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_crmusermanager_event_updated_at_filter_start_and_end()
+    {
+        try {
+            $request = new Request(
+                [
+                'updated_atStart'  =>  now(),
+                'updated_atEnd'  =>  now()
                 ]
             );
 

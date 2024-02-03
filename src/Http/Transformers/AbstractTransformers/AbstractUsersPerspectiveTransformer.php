@@ -34,10 +34,9 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
             'pronoun'  =>  $model->pronoun,
             'birthday'  =>  $model->birthday,
             'nin'  =>  $model->nin,
-            'cell_phone'  =>  $model->cell_phone,
             'common_country_id'  =>  $commonCountryId ? $commonCountryId->uuid : null,
             'common_language_id'  =>  $commonLanguageId ? $commonLanguageId->uuid : null,
-            'iam_updated_at'  =>  $model->iam_updated_at ? $model->iam_updated_at->toIso8601String() : null,
+            'iam_updated_at'  =>  $model->iam_updated_at,
             'position'  =>  $model->position,
             'job'  =>  $model->job,
             'job_description'  =>  $model->job_description,
@@ -45,15 +44,16 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
             'city'  =>  $model->city,
             'email_risk'  =>  $model->email_risk,
             'relationship_status'  =>  $model->relationship_status,
-            'is_evangelist'  =>  $model->is_evangelist == 1 ? true : false,
-            'martial_status'  =>  $model->martial_status,
+            'is_evangelist'  =>  $model->is_evangelist,
+            'is_single'  =>  $model->is_single,
             'education'  =>  $model->education,
             'child_count'  =>  $model->child_count,
-            'created_at'  =>  $model->created_at ? $model->created_at->toIso8601String() : null,
-            'updated_at'  =>  $model->updated_at ? $model->updated_at->toIso8601String() : null,
+            'created_at'  =>  $model->created_at,
+            'updated_at'  =>  $model->updated_at,
             ]
         );
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

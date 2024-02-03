@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                    
+                        
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -22,19 +22,9 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('name', 'like', '%' . $value . '%');
     }
     
-    public function phoneNumber($value)
-    {
-        return $this->builder->where('phone_number', 'like', '%' . $value . '%');
-    }
-    
     public function description($value)
     {
         return $this->builder->where('description', 'like', '%' . $value . '%');
-    }
-    
-    public function city($value)
-    {
-        return $this->builder->where('city', 'like', '%' . $value . '%');
     }
     
     public function position($value)
@@ -122,6 +112,15 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
 
         if($iamAccountType) {
             return $this->builder->where('iam_account_type_id', '=', $iamAccountType->id);
+        }
+    }
+
+    public function commonCityId($value)
+    {
+            $commonCity = \NextDeveloper\Commons\Database\Models\Cities::where('uuid', $value)->first();
+
+        if($commonCity) {
+            return $this->builder->where('common_city_id', '=', $commonCity->id);
         }
     }
 

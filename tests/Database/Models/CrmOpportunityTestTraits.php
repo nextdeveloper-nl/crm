@@ -62,7 +62,6 @@ trait CrmOpportunityTestTraits
                 'description'  =>  'a',
                 'source'  =>  'a',
                 'probability'  =>  '1',
-                'income'  =>  '1',
                     'deadline'  =>  now(),
                             ],
                 ['http_errors' => false]
@@ -409,25 +408,6 @@ trait CrmOpportunityTestTraits
             $request = new Request(
                 [
                 'probability'  =>  '1'
-                ]
-            );
-
-            $filter = new CrmOpportunityQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmOpportunity::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmopportunity_event_income_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'income'  =>  '1'
                 ]
             );
 

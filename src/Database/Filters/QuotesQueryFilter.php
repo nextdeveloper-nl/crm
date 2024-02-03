@@ -31,25 +31,7 @@ class QuotesQueryFilter extends AbstractQueryFilter
     {
         return $this->builder->where('detailed_amount', 'like', '%' . $value . '%');
     }
-    
-    public function suggestedCurrencyCode($value)
-    {
-        return $this->builder->where('suggested_currency_code', 'like', '%' . $value . '%');
-    }
 
-    public function amount($value)
-    {
-        $operator = substr($value, 0, 1);
-
-        if ($operator != '<' || $operator != '>') {
-            $operator = '=';
-        } else {
-            $value = substr($value, 1);
-        }
-
-        return $this->builder->where('amount', $operator, $value);
-    }
-    
     public function suggestedPrice($value)
     {
         $operator = substr($value, 0, 1);

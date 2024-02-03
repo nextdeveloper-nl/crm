@@ -52,11 +52,11 @@ class UserManagers extends Model
      @var array
      */
     protected $casts = [
-    'id'          => 'integer',
-    'uuid'        => 'string',
+    'id' => 'integer',
     'crm_user_id' => 'integer',
-    'created_at'  => 'datetime',
-    'deleted_at'  => 'datetime',
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
+    'deleted_at' => 'datetime',
     ];
 
     /**
@@ -66,6 +66,7 @@ class UserManagers extends Model
      */
     protected $dates = [
     'created_at',
+    'updated_at',
     'deleted_at',
     ];
 
@@ -116,12 +117,8 @@ class UserManagers extends Model
         }
     }
 
-    public function users() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Users::class);
-    }
-    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 

@@ -58,7 +58,6 @@ trait CrmAccountTestTraits
         $response = $this->http->request(
             'POST', '/crm/crmaccount', [
             'form_params'   =>  [
-                'city'  =>  'a',
                 'position'  =>  'a',
                 'risk_level'  =>  '1',
                             ],
@@ -336,25 +335,6 @@ trait CrmAccountTestTraits
             $model = \NextDeveloper\CRM\Database\Models\CrmAccount::first();
 
             event(new \NextDeveloper\CRM\Events\CrmAccount\CrmAccountRestoredEvent($model));
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmaccount_event_city_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'city'  =>  'a'
-                ]
-            );
-
-            $filter = new CrmAccountQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmAccount::filter($filter)->first();
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }

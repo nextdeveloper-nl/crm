@@ -52,18 +52,15 @@ class Quotes extends Model
      @var array
      */
     protected $casts = [
-    'id'                      => 'integer',
-    'uuid'                    => 'string',
-    'crm_opportunities_id'    => 'integer',
-    'name'                    => 'string',
-    'description'             => 'string',
-    'amount'                  => 'double',
-    'detailed_amount'         => 'string',
-    'suggested_price'         => 'double',
-    'suggested_currency_code' => 'string',
-    'created_at'              => 'datetime',
-    'updated_at'              => 'datetime',
-    'deleted_at'              => 'datetime',
+    'id' => 'integer',
+    'crm_opportunities_id' => 'integer',
+    'name' => 'string',
+    'description' => 'string',
+    'detailed_amount' => 'string',
+    'suggested_price' => 'double',
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
+    'deleted_at' => 'datetime',
     ];
 
     /**
@@ -124,22 +121,8 @@ class Quotes extends Model
         }
     }
 
-    public function opportunities() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Opportunities::class);
-    }
-    
-    public function accounts() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Accounts::class);
-    }
-    
-    public function users() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
-    }
-    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 

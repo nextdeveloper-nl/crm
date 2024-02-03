@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-    
+        
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -16,11 +16,6 @@ class AccountsQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
-    public function city($value)
-    {
-        return $this->builder->where('city', 'like', '%' . $value . '%');
-    }
     
     public function position($value)
     {
@@ -81,6 +76,15 @@ class AccountsQueryFilter extends AbstractQueryFilter
 
         if($iamAccount) {
             return $this->builder->where('iam_account_id', '=', $iamAccount->id);
+        }
+    }
+
+    public function commonCityId($value)
+    {
+            $commonCity = \NextDeveloper\Commons\Database\Models\Cities::where('uuid', $value)->first();
+
+        if($commonCity) {
+            return $this->builder->where('common_city_id', '=', $commonCity->id);
         }
     }
 
