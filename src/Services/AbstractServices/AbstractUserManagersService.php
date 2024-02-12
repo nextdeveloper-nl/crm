@@ -12,12 +12,7 @@ use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\CRM\Database\Models\UserManagers;
 use NextDeveloper\CRM\Database\Filters\UserManagersQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
-use NextDeveloper\CRM\Events\UserManagers\UserManagersCreatedEvent;
-use NextDeveloper\CRM\Events\UserManagers\UserManagersCreatingEvent;
-use NextDeveloper\CRM\Events\UserManagers\UserManagersUpdatedEvent;
-use NextDeveloper\CRM\Events\UserManagers\UserManagersUpdatingEvent;
-use NextDeveloper\CRM\Events\UserManagers\UserManagersDeletedEvent;
-use NextDeveloper\CRM\Events\UserManagers\UserManagersDeletingEvent;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for UserManagers
@@ -132,8 +127,6 @@ class AbstractUserManagersService
      */
     public static function create(array $data)
     {
-        event(new UserManagersCreatingEvent());
-
         if (array_key_exists('crm_user_id', $data)) {
             $data['crm_user_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\CRM\Database\Models\Users',
@@ -153,16 +146,16 @@ class AbstractUserManagersService
             throw $e;
         }
 
-        event(new UserManagersCreatedEvent($model));
+        Events::fire('created:NextDeveloper\CRM\UserManagers', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-    
-     @param  array $data
-     @return UserManagers
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return UserManagers
      */
     public static function updateRaw(array $data) : ?UserManagers
     {
@@ -200,7 +193,7 @@ class AbstractUserManagersService
             );
         }
     
-        event(new UserManagersUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\CRM\UserManagers', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -209,7 +202,7 @@ class AbstractUserManagersService
             throw $e;
         }
 
-        event(new UserManagersUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\CRM\UserManagers', $model);
 
         return $model->fresh();
     }
@@ -228,7 +221,7 @@ class AbstractUserManagersService
     {
         $model = UserManagers::where('uuid', $id)->first();
 
-        event(new UserManagersDeletingEvent());
+        Events::fire('deleted:NextDeveloper\CRM\UserManagers', $model);
 
         try {
             $model = $model->delete();

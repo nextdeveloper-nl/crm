@@ -12,12 +12,7 @@ use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\CRM\Database\Models\Users;
 use NextDeveloper\CRM\Database\Filters\UsersQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
-use NextDeveloper\CRM\Events\Users\UsersCreatedEvent;
-use NextDeveloper\CRM\Events\Users\UsersCreatingEvent;
-use NextDeveloper\CRM\Events\Users\UsersUpdatedEvent;
-use NextDeveloper\CRM\Events\Users\UsersUpdatingEvent;
-use NextDeveloper\CRM\Events\Users\UsersDeletedEvent;
-use NextDeveloper\CRM\Events\Users\UsersDeletingEvent;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for Users
@@ -132,8 +127,6 @@ class AbstractUsersService
      */
     public static function create(array $data)
     {
-        event(new UsersCreatingEvent());
-
         if (array_key_exists('iam_user_id', $data)) {
             $data['iam_user_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\IAM\Database\Models\Users',
@@ -147,16 +140,16 @@ class AbstractUsersService
             throw $e;
         }
 
-        event(new UsersCreatedEvent($model));
+        Events::fire('created:NextDeveloper\CRM\Users', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-    
-     @param  array $data
-     @return Users
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return Users
      */
     public static function updateRaw(array $data) : ?Users
     {
@@ -188,7 +181,7 @@ class AbstractUsersService
             );
         }
     
-        event(new UsersUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\CRM\Users', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -197,7 +190,7 @@ class AbstractUsersService
             throw $e;
         }
 
-        event(new UsersUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\CRM\Users', $model);
 
         return $model->fresh();
     }
@@ -216,7 +209,7 @@ class AbstractUsersService
     {
         $model = Users::where('uuid', $id)->first();
 
-        event(new UsersDeletingEvent());
+        Events::fire('deleted:NextDeveloper\CRM\Users', $model);
 
         try {
             $model = $model->delete();

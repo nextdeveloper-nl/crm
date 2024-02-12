@@ -12,12 +12,7 @@ use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\CRM\Database\Models\AccountsPerspective;
 use NextDeveloper\CRM\Database\Filters\AccountsPerspectiveQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
-use NextDeveloper\CRM\Events\AccountsPerspective\AccountsPerspectiveCreatedEvent;
-use NextDeveloper\CRM\Events\AccountsPerspective\AccountsPerspectiveCreatingEvent;
-use NextDeveloper\CRM\Events\AccountsPerspective\AccountsPerspectiveUpdatedEvent;
-use NextDeveloper\CRM\Events\AccountsPerspective\AccountsPerspectiveUpdatingEvent;
-use NextDeveloper\CRM\Events\AccountsPerspective\AccountsPerspectiveDeletedEvent;
-use NextDeveloper\CRM\Events\AccountsPerspective\AccountsPerspectiveDeletingEvent;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for AccountsPerspective
@@ -132,8 +127,6 @@ class AbstractAccountsPerspectiveService
      */
     public static function create(array $data)
     {
-        event(new AccountsPerspectivesCreatingEvent());
-
         if (array_key_exists('common_domain_id', $data)) {
             $data['common_domain_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\Commons\Database\Models\Domains',
@@ -164,6 +157,12 @@ class AbstractAccountsPerspectiveService
                 $data['iam_account_type_id']
             );
         }
+        if (array_key_exists('common_city_id', $data)) {
+            $data['common_city_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\Commons\Database\Models\Cities',
+                $data['common_city_id']
+            );
+        }
     
         try {
             $model = AccountsPerspective::create($data);
@@ -171,16 +170,16 @@ class AbstractAccountsPerspectiveService
             throw $e;
         }
 
-        event(new AccountsPerspectivesCreatedEvent($model));
+        Events::fire('created:NextDeveloper\CRM\AccountsPerspective', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-    
-     @param  array $data
-     @return AccountsPerspective
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return AccountsPerspective
      */
     public static function updateRaw(array $data) : ?AccountsPerspective
     {
@@ -235,8 +234,14 @@ class AbstractAccountsPerspectiveService
                 $data['iam_account_type_id']
             );
         }
+        if (array_key_exists('common_city_id', $data)) {
+            $data['common_city_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\Commons\Database\Models\Cities',
+                $data['common_city_id']
+            );
+        }
     
-        event(new AccountsPerspectiveUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\CRM\AccountsPerspective', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -245,7 +250,7 @@ class AbstractAccountsPerspectiveService
             throw $e;
         }
 
-        event(new AccountsPerspectiveUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\CRM\AccountsPerspective', $model);
 
         return $model->fresh();
     }
@@ -264,7 +269,7 @@ class AbstractAccountsPerspectiveService
     {
         $model = AccountsPerspective::where('uuid', $id)->first();
 
-        event(new AccountsPerspectiveDeletingEvent());
+        Events::fire('deleted:NextDeveloper\CRM\AccountsPerspective', $model);
 
         try {
             $model = $model->delete();

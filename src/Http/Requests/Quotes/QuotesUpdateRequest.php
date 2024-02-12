@@ -21,6 +21,7 @@ class QuotesUpdateRequest extends AbstractFormRequest
         'suggested_price' => 'nullable|numeric',
         'suggested_currency_code' => '',
         'status' => '',
+        'tags' => '',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n

@@ -31,6 +31,7 @@ class AbstractAccountsTransformer extends AbstractTransformer
             'risk_level'  =>  $model->risk_level,
             'common_city_id'  =>  $commonCityId ? $commonCityId->uuid : null,
             'position'  =>  $model->position,
+            'tags'  =>  $model->tags,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
@@ -39,6 +40,9 @@ class AbstractAccountsTransformer extends AbstractTransformer
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n
+
+
+
 
 
 

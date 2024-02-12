@@ -37,6 +37,7 @@ class AbstractQuotesTransformer extends AbstractTransformer
             'suggested_price'  =>  $model->suggested_price,
             'suggested_currency_code'  =>  $model->suggested_currency_code,
             'status'  =>  $model->status,
+            'tags'  =>  $model->tags,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
@@ -45,6 +46,9 @@ class AbstractQuotesTransformer extends AbstractTransformer
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n
+
+
+
 
 
 

@@ -12,12 +12,7 @@ use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\CRM\Database\Models\AccountManagers;
 use NextDeveloper\CRM\Database\Filters\AccountManagersQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
-use NextDeveloper\CRM\Events\AccountManagers\AccountManagersCreatedEvent;
-use NextDeveloper\CRM\Events\AccountManagers\AccountManagersCreatingEvent;
-use NextDeveloper\CRM\Events\AccountManagers\AccountManagersUpdatedEvent;
-use NextDeveloper\CRM\Events\AccountManagers\AccountManagersUpdatingEvent;
-use NextDeveloper\CRM\Events\AccountManagers\AccountManagersDeletedEvent;
-use NextDeveloper\CRM\Events\AccountManagers\AccountManagersDeletingEvent;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for AccountManagers
@@ -132,8 +127,6 @@ class AbstractAccountManagersService
      */
     public static function create(array $data)
     {
-        event(new AccountManagersCreatingEvent());
-
         if (array_key_exists('crm_account_id', $data)) {
             $data['crm_account_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\CRM\Database\Models\Accounts',
@@ -146,6 +139,12 @@ class AbstractAccountManagersService
                 $data['iam_user_id']
             );
         }
+        if (array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Accounts',
+                $data['iam_account_id']
+            );
+        }
     
         try {
             $model = AccountManagers::create($data);
@@ -153,16 +152,16 @@ class AbstractAccountManagersService
             throw $e;
         }
 
-        event(new AccountManagersCreatedEvent($model));
+        Events::fire('created:NextDeveloper\CRM\AccountManagers', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-    
-     @param  array $data
-     @return AccountManagers
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return AccountManagers
      */
     public static function updateRaw(array $data) : ?AccountManagers
     {
@@ -199,8 +198,14 @@ class AbstractAccountManagersService
                 $data['iam_user_id']
             );
         }
+        if (array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Accounts',
+                $data['iam_account_id']
+            );
+        }
     
-        event(new AccountManagersUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\CRM\AccountManagers', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -209,7 +214,7 @@ class AbstractAccountManagersService
             throw $e;
         }
 
-        event(new AccountManagersUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\CRM\AccountManagers', $model);
 
         return $model->fresh();
     }
@@ -228,7 +233,7 @@ class AbstractAccountManagersService
     {
         $model = AccountManagers::where('uuid', $id)->first();
 
-        event(new AccountManagersDeletingEvent());
+        Events::fire('deleted:NextDeveloper\CRM\AccountManagers', $model);
 
         try {
             $model = $model->delete();

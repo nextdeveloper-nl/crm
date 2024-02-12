@@ -12,12 +12,7 @@ use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\CRM\Database\Models\Quotes;
 use NextDeveloper\CRM\Database\Filters\QuotesQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
-use NextDeveloper\CRM\Events\Quotes\QuotesCreatedEvent;
-use NextDeveloper\CRM\Events\Quotes\QuotesCreatingEvent;
-use NextDeveloper\CRM\Events\Quotes\QuotesUpdatedEvent;
-use NextDeveloper\CRM\Events\Quotes\QuotesUpdatingEvent;
-use NextDeveloper\CRM\Events\Quotes\QuotesDeletedEvent;
-use NextDeveloper\CRM\Events\Quotes\QuotesDeletingEvent;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for Quotes
@@ -132,18 +127,16 @@ class AbstractQuotesService
      */
     public static function create(array $data)
     {
-        event(new QuotesCreatingEvent());
-
-        if (array_key_exists('iam_accounts_id', $data)) {
-            $data['iam_accounts_id'] = DatabaseHelper::uuidToId(
+        if (array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\IAM\Database\Models\Accounts',
-                $data['iam_accounts_id']
+                $data['iam_account_id']
             );
         }
-        if (array_key_exists('crm_projects_id', $data)) {
-            $data['crm_projects_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\CRM\Database\Models\Projects',
-                $data['crm_projects_id']
+        if (array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Users',
+                $data['iam_user_id']
             );
         }
         if (array_key_exists('crm_opportunities_id', $data)) {
@@ -159,16 +152,16 @@ class AbstractQuotesService
             throw $e;
         }
 
-        event(new QuotesCreatedEvent($model));
+        Events::fire('created:NextDeveloper\CRM\Quotes', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-    
-     @param  array $data
-     @return Quotes
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return Quotes
      */
     public static function updateRaw(array $data) : ?Quotes
     {
@@ -193,16 +186,16 @@ class AbstractQuotesService
     {
         $model = Quotes::where('uuid', $id)->first();
 
-        if (array_key_exists('iam_accounts_id', $data)) {
-            $data['iam_accounts_id'] = DatabaseHelper::uuidToId(
+        if (array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\IAM\Database\Models\Accounts',
-                $data['iam_accounts_id']
+                $data['iam_account_id']
             );
         }
-        if (array_key_exists('crm_projects_id', $data)) {
-            $data['crm_projects_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\CRM\Database\Models\Projects',
-                $data['crm_projects_id']
+        if (array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Users',
+                $data['iam_user_id']
             );
         }
         if (array_key_exists('crm_opportunities_id', $data)) {
@@ -212,7 +205,7 @@ class AbstractQuotesService
             );
         }
     
-        event(new QuotesUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\CRM\Quotes', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -221,7 +214,7 @@ class AbstractQuotesService
             throw $e;
         }
 
-        event(new QuotesUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\CRM\Quotes', $model);
 
         return $model->fresh();
     }
@@ -240,7 +233,7 @@ class AbstractQuotesService
     {
         $model = Quotes::where('uuid', $id)->first();
 
-        event(new QuotesDeletingEvent());
+        Events::fire('deleted:NextDeveloper\CRM\Quotes', $model);
 
         try {
             $model = $model->delete();

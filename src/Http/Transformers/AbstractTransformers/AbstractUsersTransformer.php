@@ -37,6 +37,7 @@ class AbstractUsersTransformer extends AbstractTransformer
             'is_single'  =>  $model->is_single,
             'education'  =>  $model->education,
             'child_count'  =>  $model->child_count,
+            'tags'  =>  $model->tags,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
@@ -45,6 +46,9 @@ class AbstractUsersTransformer extends AbstractTransformer
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n
+
+
+
 
 
 

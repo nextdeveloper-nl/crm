@@ -12,12 +12,7 @@ use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\CRM\Database\Models\UsersPerspective;
 use NextDeveloper\CRM\Database\Filters\UsersPerspectiveQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
-use NextDeveloper\CRM\Events\UsersPerspective\UsersPerspectiveCreatedEvent;
-use NextDeveloper\CRM\Events\UsersPerspective\UsersPerspectiveCreatingEvent;
-use NextDeveloper\CRM\Events\UsersPerspective\UsersPerspectiveUpdatedEvent;
-use NextDeveloper\CRM\Events\UsersPerspective\UsersPerspectiveUpdatingEvent;
-use NextDeveloper\CRM\Events\UsersPerspective\UsersPerspectiveDeletedEvent;
-use NextDeveloper\CRM\Events\UsersPerspective\UsersPerspectiveDeletingEvent;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for UsersPerspective
@@ -132,8 +127,6 @@ class AbstractUsersPerspectiveService
      */
     public static function create(array $data)
     {
-        event(new UsersPerspectivesCreatingEvent());
-
         if (array_key_exists('common_country_id', $data)) {
             $data['common_country_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\Commons\Database\Models\Countries',
@@ -153,16 +146,16 @@ class AbstractUsersPerspectiveService
             throw $e;
         }
 
-        event(new UsersPerspectivesCreatedEvent($model));
+        Events::fire('created:NextDeveloper\CRM\UsersPerspective', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-    
-     @param  array $data
-     @return UsersPerspective
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return UsersPerspective
      */
     public static function updateRaw(array $data) : ?UsersPerspective
     {
@@ -200,7 +193,7 @@ class AbstractUsersPerspectiveService
             );
         }
     
-        event(new UsersPerspectiveUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\CRM\UsersPerspective', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -209,7 +202,7 @@ class AbstractUsersPerspectiveService
             throw $e;
         }
 
-        event(new UsersPerspectiveUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\CRM\UsersPerspective', $model);
 
         return $model->fresh();
     }
@@ -228,7 +221,7 @@ class AbstractUsersPerspectiveService
     {
         $model = UsersPerspective::where('uuid', $id)->first();
 
-        event(new UsersPerspectiveDeletingEvent());
+        Events::fire('deleted:NextDeveloper\CRM\UsersPerspective', $model);
 
         try {
             $model = $model->delete();
