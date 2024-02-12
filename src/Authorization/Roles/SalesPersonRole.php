@@ -10,13 +10,13 @@ use NextDeveloper\IAM\Authorization\Roles\AbstractRole;
 use NextDeveloper\IAM\Authorization\Roles\IAuthorizationRole;
 use NextDeveloper\IAM\Helpers\UserHelper;
 
-class SalesManagerRole extends AbstractRole implements IAuthorizationRole
+class SalesPersonRole extends AbstractRole implements IAuthorizationRole
 {
-    public const NAME = 'sales-manager';
+    public const NAME = 'sales-person';
 
-    public const LEVEL = 190;
+    public const LEVEL = 200;
 
-    public const DESCRIPTION = 'Sales Manager';
+    public const DESCRIPTION = 'Account Manager';
 
     public const DB_PREFIX = 'crm';
 
@@ -30,10 +30,13 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
     public function apply(Builder $builder, Model $model)
     {
         /**
-         * Here user will be able to list all models, because by default, sales manager can see everybody.
+         * Here the user will only be able to run this query only if the table name starts with 'crm_*' and
+         * the owner of the model is the user itself.
          */
+
         $ids = AccountManagers::withoutGlobalScopes()
             ->where('iam_account_id', UserHelper::currentAccount()->id)
+            ->where('iam_user_id', UserHelper::currentUser()->id)
             ->pluck('crm_account_id');
 
         $builder->whereIn('iam_account_id', $ids);
