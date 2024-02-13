@@ -21,7 +21,7 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
     public const DB_PREFIX = 'crm';
 
     /**
-     * Applies basic member role sql
+     * Applies basic member role sql for Eloquent
      *
      * @param Builder $builder
      * @param Model $model
@@ -37,6 +37,11 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
             ->pluck('crm_account_id');
 
         $builder->whereIn('iam_account_id', $ids);
+    }
+
+    public function checkPrivileges(Users $users = null)
+    {
+        //return UserHelper::hasRole(self::NAME, $users);
     }
 
     public function getLevel(): int
