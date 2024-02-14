@@ -140,6 +140,14 @@ class AbstractUsersPerspectiveService
             );
         }
     
+        if(!array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = UserHelper::currentAccount()->id;
+        }
+
+        if(!array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id']    = UserHelper::me()->id;
+        }
+
         try {
             $model = UsersPerspective::create($data);
         } catch(\Exception $e) {
