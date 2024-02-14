@@ -11,9 +11,25 @@ use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 
 /**
- * Class AccountsPerspective.
+ * AccountsPerspective model.
  *
- * @package NextDeveloper\CRM\Database\Models
+ * @package  NextDeveloper\CRM\Database\Models
+ * @property integer $id
+ * @property string $uuid
+ * @property string $name
+ * @property integer $common_domain_id
+ * @property integer $common_country_id
+ * @property $phone_number
+ * @property string $description
+ * @property integer $iam_user_id
+ * @property integer $iam_account_id
+ * @property integer $iam_account_type_id
+ * @property boolean $is_paying_customer
+ * @property integer $common_city_id
+ * @property string $position
+ * @property integer $risk_level
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
  */
 class AccountsPerspective extends Model
 {
@@ -29,6 +45,21 @@ class AccountsPerspective extends Model
      @var array
      */
     protected $guarded = [];
+
+    protected $fillable = [
+            'name',
+            'common_domain_id',
+            'common_country_id',
+            'phone_number',
+            'description',
+            'iam_user_id',
+            'iam_account_id',
+            'iam_account_type_id',
+            'is_paying_customer',
+            'common_city_id',
+            'position',
+            'risk_level',
+    ];
 
     /**
       Here we have the fulltext fields. We can use these for fulltext search if enabled.
@@ -122,6 +153,7 @@ class AccountsPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

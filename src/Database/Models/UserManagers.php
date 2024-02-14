@@ -12,9 +12,16 @@ use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 
 /**
- * Class UserManagers.
+ * UserManagers model.
  *
- * @package NextDeveloper\CRM\Database\Models
+ * @package  NextDeveloper\CRM\Database\Models
+ * @property integer $id
+ * @property string $uuid
+ * @property integer $crm_user_id
+ * @property integer $iam_user_id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $deleted_at
  */
 class UserManagers extends Model
 {
@@ -31,6 +38,11 @@ class UserManagers extends Model
      @var array
      */
     protected $guarded = [];
+
+    protected $fillable = [
+            'crm_user_id',
+            'iam_user_id',
+    ];
 
     /**
       Here we have the fulltext fields. We can use these for fulltext search if enabled.
@@ -118,6 +130,7 @@ class UserManagers extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 

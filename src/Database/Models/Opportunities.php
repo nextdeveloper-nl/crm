@@ -12,9 +12,25 @@ use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 
 /**
- * Class Opportunities.
+ * Opportunities model.
  *
- * @package NextDeveloper\CRM\Database\Models
+ * @package  NextDeveloper\CRM\Database\Models
+ * @property integer $id
+ * @property string $uuid
+ * @property string $name
+ * @property string $description
+ * @property integer $probability
+ * @property $stage
+ * @property string $source
+ * @property $income
+ * @property \Carbon\Carbon $deadline
+ * @property integer $iam_account_id
+ * @property integer $iam_user_id
+ * @property integer $crm_account_id
+ * @property array $tags
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $deleted_at
  */
 class Opportunities extends Model
 {
@@ -31,6 +47,20 @@ class Opportunities extends Model
      @var array
      */
     protected $guarded = [];
+
+    protected $fillable = [
+            'name',
+            'description',
+            'probability',
+            'stage',
+            'source',
+            'income',
+            'deadline',
+            'iam_account_id',
+            'iam_user_id',
+            'crm_account_id',
+            'tags',
+    ];
 
     /**
       Here we have the fulltext fields. We can use these for fulltext search if enabled.
@@ -125,6 +155,7 @@ class Opportunities extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 

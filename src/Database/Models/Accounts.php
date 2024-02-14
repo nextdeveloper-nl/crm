@@ -13,9 +13,20 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
 use NextDeveloper\Commons\Database\GlobalScopes\LimitScope;
 
 /**
- * Class Accounts.
+ * Accounts model.
  *
- * @package NextDeveloper\CRM\Database\Models
+ * @package  NextDeveloper\CRM\Database\Models
+ * @property integer $id
+ * @property string $uuid
+ * @property integer $iam_account_id
+ * @property boolean $is_paying_customer
+ * @property integer $risk_level
+ * @property integer $common_city_id
+ * @property string $position
+ * @property array $tags
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $deleted_at
  */
 class Accounts extends Model
 {
@@ -32,6 +43,15 @@ class Accounts extends Model
      @var array
      */
     protected $guarded = [];
+
+    protected $fillable = [
+            'iam_account_id',
+            'is_paying_customer',
+            'risk_level',
+            'common_city_id',
+            'position',
+            'tags',
+    ];
 
     /**
       Here we have the fulltext fields. We can use these for fulltext search if enabled.
@@ -123,6 +143,7 @@ class Accounts extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 

@@ -12,9 +12,27 @@ use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 
 /**
- * Class Users.
+ * Users model.
  *
- * @package NextDeveloper\CRM\Database\Models
+ * @package  NextDeveloper\CRM\Database\Models
+ * @property integer $id
+ * @property string $uuid
+ * @property integer $iam_user_id
+ * @property string $position
+ * @property string $job
+ * @property string $job_description
+ * @property string $hobbies
+ * @property string $city
+ * @property $email_risk
+ * @property string $relationship_status
+ * @property boolean $is_evangelist
+ * @property boolean $is_single
+ * @property $education
+ * @property integer $child_count
+ * @property array $tags
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $deleted_at
  */
 class Users extends Model
 {
@@ -31,6 +49,22 @@ class Users extends Model
      @var array
      */
     protected $guarded = [];
+
+    protected $fillable = [
+            'iam_user_id',
+            'position',
+            'job',
+            'job_description',
+            'hobbies',
+            'city',
+            'email_risk',
+            'relationship_status',
+            'is_evangelist',
+            'is_single',
+            'education',
+            'child_count',
+            'tags',
+    ];
 
     /**
       Here we have the fulltext fields. We can use these for fulltext search if enabled.
@@ -127,6 +161,7 @@ class Users extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 

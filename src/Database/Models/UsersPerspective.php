@@ -11,9 +11,35 @@ use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 
 /**
- * Class UsersPerspective.
+ * UsersPerspective model.
  *
- * @package NextDeveloper\CRM\Database\Models
+ * @package  NextDeveloper\CRM\Database\Models
+ * @property integer $id
+ * @property string $uuid
+ * @property string $name
+ * @property string $surname
+ * @property string $fullname
+ * @property string $email
+ * @property string $about
+ * @property string $pronoun
+ * @property \Carbon\Carbon $birthday
+ * @property string $nin
+ * @property integer $common_country_id
+ * @property integer $common_language_id
+ * @property \Carbon\Carbon $iam_updated_at
+ * @property string $position
+ * @property string $job
+ * @property string $job_description
+ * @property string $hobbies
+ * @property string $city
+ * @property $email_risk
+ * @property string $relationship_status
+ * @property boolean $is_evangelist
+ * @property boolean $is_single
+ * @property $education
+ * @property integer $child_count
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
  */
 class UsersPerspective extends Model
 {
@@ -29,6 +55,31 @@ class UsersPerspective extends Model
      @var array
      */
     protected $guarded = [];
+
+    protected $fillable = [
+            'name',
+            'surname',
+            'fullname',
+            'email',
+            'about',
+            'pronoun',
+            'birthday',
+            'nin',
+            'common_country_id',
+            'common_language_id',
+            'iam_updated_at',
+            'position',
+            'job',
+            'job_description',
+            'hobbies',
+            'city',
+            'email_risk',
+            'relationship_status',
+            'is_evangelist',
+            'is_single',
+            'education',
+            'child_count',
+    ];
 
     /**
       Here we have the fulltext fields. We can use these for fulltext search if enabled.
@@ -135,6 +186,7 @@ class UsersPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
