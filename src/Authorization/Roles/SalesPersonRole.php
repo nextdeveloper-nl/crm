@@ -57,6 +57,32 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
         return self::NAME;
     }
 
+    public function getModule()
+    {
+        return 'crm';
+    }
+
+    public function allowedOperations() :array
+    {
+        return [
+            'crm_accounts:read',
+            'crm_users:read',
+            'crm_account_managers:read',
+            'crm_account_perspectives:read',
+            'crm_opportunities:read',
+            'crm_opportunities:create',
+            'crm_opportunities:update',
+            'crm_user_managers:read',
+            'crm_user_perspectives:read',
+            'crm_quotes:read',
+            'crm_quotes:create',
+            'crm_quotes:update',
+            'crm_opportunites:read',
+            'crm_opportunites:create',
+            'crm_opportunites:update',
+        ];
+    }
+
     public function canBeApplied($column)
     {
         if(self::DB_PREFIX === '*') {
