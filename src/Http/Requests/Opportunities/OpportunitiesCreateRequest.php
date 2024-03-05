@@ -13,14 +13,14 @@ class OpportunitiesCreateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'name' => 'nullable|string',
+            'name' => 'required|string',
         'description' => 'nullable|string',
         'probability' => 'integer',
         'stage' => '',
         'source' => 'nullable|string',
-        'income' => 'required',
+        'income' => '',
         'deadline' => 'nullable|date',
-        'crm_account_id' => 'nullable|exists:crm_accounts,uuid|uuid',
+        'crm_account_id' => 'required|exists:crm_accounts,uuid|uuid',
         'tags' => '',
         ];
     }

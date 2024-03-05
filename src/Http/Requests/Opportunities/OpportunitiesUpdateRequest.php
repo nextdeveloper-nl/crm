@@ -18,7 +18,7 @@ class OpportunitiesUpdateRequest extends AbstractFormRequest
         'probability' => 'integer',
         'stage' => '',
         'source' => 'nullable|string',
-        'income' => 'nullable',
+        'income' => '',
         'deadline' => 'nullable|date',
         'crm_account_id' => 'nullable|exists:crm_accounts,uuid|uuid',
         'tags' => '',

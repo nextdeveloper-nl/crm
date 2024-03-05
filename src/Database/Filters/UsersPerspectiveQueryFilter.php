@@ -12,6 +12,7 @@ use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
  */
 class UsersPerspectiveQueryFilter extends AbstractQueryFilter
 {
+
     /**
      * @var Builder
      */
@@ -94,53 +95,53 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
 
         return $this->builder->where('child_count', $operator, $value);
     }
-    
+
     public function isEvangelist()
     {
         return $this->builder->where('is_evangelist', true);
     }
-    
+
     public function isSingle()
     {
         return $this->builder->where('is_single', true);
     }
-    
-    public function birthdayStart($date) 
+
+    public function birthdayStart($date)
     {
         return $this->builder->where('birthday', '>=', $date);
     }
 
-    public function birthdayEnd($date) 
+    public function birthdayEnd($date)
     {
         return $this->builder->where('birthday', '<=', $date);
     }
 
-    public function iamUpdatedAtStart($date) 
+    public function iamUpdatedAtStart($date)
     {
         return $this->builder->where('iam_updated_at', '>=', $date);
     }
 
-    public function iamUpdatedAtEnd($date) 
+    public function iamUpdatedAtEnd($date)
     {
         return $this->builder->where('iam_updated_at', '<=', $date);
     }
 
-    public function createdAtStart($date) 
+    public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
     }
 
-    public function createdAtEnd($date) 
+    public function createdAtEnd($date)
     {
         return $this->builder->where('created_at', '<=', $date);
     }
 
-    public function updatedAtStart($date) 
+    public function updatedAtStart($date)
     {
         return $this->builder->where('updated_at', '>=', $date);
     }
 
-    public function updatedAtEnd($date) 
+    public function updatedAtEnd($date)
     {
         return $this->builder->where('updated_at', '<=', $date);
     }
