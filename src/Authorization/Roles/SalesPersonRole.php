@@ -14,7 +14,7 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
 {
     public const NAME = 'sales-person';
 
-    public const LEVEL = 200;
+    public const LEVEL = 150;
 
     public const DESCRIPTION = 'Account Manager';
 

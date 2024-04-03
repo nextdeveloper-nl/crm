@@ -14,6 +14,8 @@ class AssignToMe implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+
+
     private $account = null;
 
     /**
@@ -32,6 +34,6 @@ class AssignToMe implements ShouldQueue
          * Here we will add the user to this
          */
 
-        event(new CrmAccountsUpdatedEvent($this->account));
+
     }
 }
