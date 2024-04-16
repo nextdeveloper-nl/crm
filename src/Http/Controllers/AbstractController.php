@@ -5,7 +5,7 @@ namespace NextDeveloper\CRM\Http\Controllers;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
-use NextDeveloper\Generator\Http\Traits\Responsable;
+use NextDeveloper\Commons\Http\Traits\Responsable;
 
 class AbstractController extends Controller
 {
@@ -14,6 +14,15 @@ class AbstractController extends Controller
 
     //  Laravel Traits
     use DispatchesJobs, ValidatesRequests;
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n
+
+
+
+
+
+
+
+
+
 
 }

@@ -61,8 +61,6 @@ trait CrmQuoteTestTraits
                 'name'  =>  'a',
                 'description'  =>  'a',
                 'detailed_amount'  =>  'a',
-                'suggested_currency_code'  =>  'a',
-                'amount'  =>  '1',
                 'suggested_price'  =>  '1',
                             ],
                 ['http_errors' => false]
@@ -403,44 +401,6 @@ trait CrmQuoteTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmquote_event_suggested_currency_code_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'suggested_currency_code'  =>  'a'
-                ]
-            );
-
-            $filter = new CrmQuoteQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmquote_event_amount_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'amount'  =>  '1'
-                ]
-            );
-
-            $filter = new CrmQuoteQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
     public function test_crmquote_event_suggested_price_filter()
     {
         try {
@@ -633,5 +593,5 @@ trait CrmQuoteTestTraits
 
         $this->assertTrue(true);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

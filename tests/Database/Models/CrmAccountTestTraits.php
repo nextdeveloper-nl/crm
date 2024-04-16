@@ -58,9 +58,8 @@ trait CrmAccountTestTraits
         $response = $this->http->request(
             'POST', '/crm/crmaccount', [
             'form_params'   =>  [
-                'city'  =>  'a',
+                'position'  =>  'a',
                 'risk_level'  =>  '1',
-                'position'  =>  '1',
                             ],
                 ['http_errors' => false]
             ]
@@ -343,12 +342,12 @@ trait CrmAccountTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmaccount_event_city_filter()
+    public function test_crmaccount_event_position_filter()
     {
         try {
             $request = new Request(
                 [
-                'city'  =>  'a'
+                'position'  =>  'a'
                 ]
             );
 
@@ -368,25 +367,6 @@ trait CrmAccountTestTraits
             $request = new Request(
                 [
                 'risk_level'  =>  '1'
-                ]
-            );
-
-            $filter = new CrmAccountQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmAccount::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmaccount_event_position_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'position'  =>  '1'
                 ]
             );
 
@@ -573,5 +553,5 @@ trait CrmAccountTestTraits
 
         $this->assertTrue(true);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

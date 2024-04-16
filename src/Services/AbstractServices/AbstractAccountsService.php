@@ -11,13 +11,8 @@ use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\CRM\Database\Models\Accounts;
 use NextDeveloper\CRM\Database\Filters\AccountsQueryFilter;
-use NextDeveloper\CRM\Events\Accounts\AccountsCreatedEvent;
-use NextDeveloper\CRM\Events\Accounts\AccountsCreatingEvent;
-use NextDeveloper\CRM\Events\Accounts\AccountsUpdatedEvent;
-use NextDeveloper\CRM\Events\Accounts\AccountsUpdatingEvent;
-use NextDeveloper\CRM\Events\Accounts\AccountsDeletedEvent;
-use NextDeveloper\CRM\Events\Accounts\AccountsDeletingEvent;
-
+use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for Accounts
@@ -97,6 +92,31 @@ class AbstractAccountsService
     }
 
     /**
+     * This method returns the sub objects of the related models
+     *
+     * @param  $uuid
+     * @param  $object
+     * @return void
+     * @throws \Laravel\Octane\Exceptions\DdException
+     */
+    public static function relatedObjects($uuid, $object)
+    {
+        try {
+            $obj = Accounts::where('uuid', $uuid)->first();
+
+            if(!$obj) {
+                throw new ModelNotFoundException('Cannot find the related model');
+            }
+
+            if($obj) {
+                return $obj->$object;
+            }
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
+    /**
      * This method created the model from an array.
      *
      * Throws an exception if stuck with any problem.
@@ -107,31 +127,43 @@ class AbstractAccountsService
      */
     public static function create(array $data)
     {
-        event(new AccountsCreatingEvent());
-
         if (array_key_exists('iam_account_id', $data)) {
             $data['iam_account_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\IAM\Database\Models\Accounts',
                 $data['iam_account_id']
             );
         }
-    
+        if (array_key_exists('common_city_id', $data)) {
+            $data['common_city_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\Commons\Database\Models\Cities',
+                $data['common_city_id']
+            );
+        }
+
+//        if(!array_key_exists('iam_account_id', $data)) {
+//            $data['iam_account_id'] = UserHelper::currentAccount()->id;
+//        }
+//
+//        if(!array_key_exists('iam_user_id', $data)) {
+//            $data['iam_user_id']    = UserHelper::me()->id;
+//        }
+
         try {
             $model = Accounts::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
 
-        event(new AccountsCreatedEvent($model));
+        Events::fire('created:NextDeveloper\CRM\Accounts', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-    
-     @param  array $data
-     @return Accounts
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return Accounts
      */
     public static function updateRaw(array $data) : ?Accounts
     {
@@ -162,8 +194,14 @@ class AbstractAccountsService
                 $data['iam_account_id']
             );
         }
-    
-        event(new AccountsUpdatingEvent($model));
+        if (array_key_exists('common_city_id', $data)) {
+            $data['common_city_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\Commons\Database\Models\Cities',
+                $data['common_city_id']
+            );
+        }
+
+        Events::fire('updating:NextDeveloper\CRM\Accounts', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -172,7 +210,7 @@ class AbstractAccountsService
             throw $e;
         }
 
-        event(new AccountsUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\CRM\Accounts', $model);
 
         return $model->fresh();
     }
@@ -191,7 +229,7 @@ class AbstractAccountsService
     {
         $model = Accounts::where('uuid', $id)->first();
 
-        event(new AccountsDeletingEvent());
+        Events::fire('deleted:NextDeveloper\CRM\Accounts', $model);
 
         try {
             $model = $model->delete();

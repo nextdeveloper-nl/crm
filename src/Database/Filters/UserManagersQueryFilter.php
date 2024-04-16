@@ -12,27 +12,38 @@ use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
  */
 class UserManagersQueryFilter extends AbstractQueryFilter
 {
+
     /**
      * @var Builder
      */
     protected $builder;
 
-    public function createdAtStart($date) 
+    public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
     }
 
-    public function createdAtEnd($date) 
+    public function createdAtEnd($date)
     {
         return $this->builder->where('created_at', '<=', $date);
     }
 
-    public function deletedAtStart($date) 
+    public function updatedAtStart($date)
+    {
+        return $this->builder->where('updated_at', '>=', $date);
+    }
+
+    public function updatedAtEnd($date)
+    {
+        return $this->builder->where('updated_at', '<=', $date);
+    }
+
+    public function deletedAtStart($date)
     {
         return $this->builder->where('deleted_at', '>=', $date);
     }
 
-    public function deletedAtEnd($date) 
+    public function deletedAtEnd($date)
     {
         return $this->builder->where('deleted_at', '<=', $date);
     }
@@ -55,5 +66,7 @@ class UserManagersQueryFilter extends AbstractQueryFilter
         }
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
 }

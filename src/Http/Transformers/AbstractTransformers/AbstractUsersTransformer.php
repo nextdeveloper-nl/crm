@@ -21,7 +21,7 @@ class AbstractUsersTransformer extends AbstractTransformer
     public function transform(Users $model)
     {
                         $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
-            
+        
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
@@ -33,16 +33,41 @@ class AbstractUsersTransformer extends AbstractTransformer
             'city'  =>  $model->city,
             'email_risk'  =>  $model->email_risk,
             'relationship_status'  =>  $model->relationship_status,
-            'is_evangelist'  =>  $model->is_evangelist == 1 ? true : false,
-            'martial_status'  =>  $model->martial_status,
+            'is_evangelist'  =>  $model->is_evangelist,
+            'is_single'  =>  $model->is_single,
             'education'  =>  $model->education,
             'child_count'  =>  $model->child_count,
+            'tags'  =>  $model->tags,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
             ]
         );
     }
-    
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

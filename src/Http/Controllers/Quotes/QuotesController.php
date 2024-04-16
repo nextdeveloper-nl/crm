@@ -4,14 +4,18 @@ namespace NextDeveloper\CRM\Http\Controllers\Quotes;
 
 use Illuminate\Http\Request;
 use NextDeveloper\CRM\Http\Controllers\AbstractController;
-use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use NextDeveloper\CRM\Http\Requests\Quotes\QuotesUpdateRequest;
 use NextDeveloper\CRM\Database\Filters\QuotesQueryFilter;
+use NextDeveloper\CRM\Database\Models\Quotes;
 use NextDeveloper\CRM\Services\QuotesService;
 use NextDeveloper\CRM\Http\Requests\Quotes\QuotesCreateRequest;
-
+use NextDeveloper\Commons\Http\Traits\Tags;
 class QuotesController extends AbstractController
 {
+    private $model = Quotes::class;
+
+    use Tags;
     /**
      * This method returns the list of quotes.
      *
@@ -43,6 +47,23 @@ class QuotesController extends AbstractController
         $model = QuotesService::getByRef($ref);
 
         return ResponsableFactory::makeResponse($this, $model);
+    }
+
+    /**
+     * This method returns the list of sub objects the related object. Sub object means an object which is preowned by
+     * this object.
+     *
+     * It can be tags, addresses, states etc.
+     *
+     * @param  $ref
+     * @param  $subObject
+     * @return void
+     */
+    public function relatedObjects($ref, $subObject)
+    {
+        $objects = QuotesService::relatedObjects($ref, $subObject);
+
+        return ResponsableFactory::makeResponse($this, $objects);
     }
 
     /**

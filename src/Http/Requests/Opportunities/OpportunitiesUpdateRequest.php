@@ -13,14 +13,16 @@ class OpportunitiesUpdateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'name'           => 'nullable|string|max:500',
-        'description'    => 'nullable|string|max:500',
-        'probability'    => 'integer',
-        'stage'          => '',
-        'source'         => 'nullable|string|max:500',
-        'income'         => 'numeric',
-        'deadline'       => 'nullable|date',
+            'name' => 'nullable|string',
+        'description' => 'nullable|string',
+        'probability' => 'integer',
+        'stage' => '',
+        'source' => 'nullable|string',
+        'income' => '',
+        'deadline' => 'nullable|date',
+        'crm_account_id' => 'nullable|exists:crm_accounts,uuid|uuid',
+        'tags' => '',
         ];
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n
 }

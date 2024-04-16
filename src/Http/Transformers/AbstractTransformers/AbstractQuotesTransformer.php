@@ -20,15 +20,15 @@ class AbstractQuotesTransformer extends AbstractTransformer
      */
     public function transform(Quotes $model)
     {
-                        $iamAccountsId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_accounts_id)->first();
-                    $crmProjectsId = \NextDeveloper\CRM\Database\Models\Projects::where('id', $model->crm_projects_id)->first();
+                        $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
+                    $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
                     $crmOpportunitiesId = \NextDeveloper\CRM\Database\Models\Opportunities::where('id', $model->crm_opportunities_id)->first();
-            
+        
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
-            'iam_accounts_id'  =>  $iamAccountsId ? $iamAccountsId->uuid : null,
-            'crm_projects_id'  =>  $crmProjectsId ? $crmProjectsId->uuid : null,
+            'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
+            'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
             'crm_opportunities_id'  =>  $crmOpportunitiesId ? $crmOpportunitiesId->uuid : null,
             'name'  =>  $model->name,
             'description'  =>  $model->description,
@@ -37,12 +37,37 @@ class AbstractQuotesTransformer extends AbstractTransformer
             'suggested_price'  =>  $model->suggested_price,
             'suggested_currency_code'  =>  $model->suggested_currency_code,
             'status'  =>  $model->status,
+            'tags'  =>  $model->tags,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
             ]
         );
     }
-    
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

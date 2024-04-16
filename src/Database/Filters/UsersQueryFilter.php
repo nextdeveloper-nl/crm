@@ -14,6 +14,27 @@ use NextDeveloper\Accounts\Database\Models\User;
 class UsersQueryFilter extends AbstractQueryFilter
 {
     /**
+     * Filter by tags
+     *
+     * @param  $values
+     * @return Builder
+     */
+    public function tags($values)
+    {
+        $tags = explode(',', $values);
+
+        $search = '';
+
+        for($i = 0; $i < count($tags); $i++) {
+            $search .= "'" . trim($tags[$i]) . "',";
+        }
+
+        $search = substr($search, 0, -1);
+
+        return $this->builder->whereRaw('tags @> ARRAY[' . $search . ']');
+    }
+
+    /**
      * @var Builder
      */
     protected $builder;
@@ -21,6 +42,11 @@ class UsersQueryFilter extends AbstractQueryFilter
     public function position($value)
     {
         return $this->builder->where('position', 'like', '%' . $value . '%');
+    }
+    
+    public function job($value)
+    {
+        return $this->builder->where('job', 'like', '%' . $value . '%');
     }
     
     public function jobDescription($value)
@@ -37,6 +63,11 @@ class UsersQueryFilter extends AbstractQueryFilter
     {
         return $this->builder->where('city', 'like', '%' . $value . '%');
     }
+    
+    public function relationshipStatus($value)
+    {
+        return $this->builder->where('relationship_status', 'like', '%' . $value . '%');
+    }
 
     public function childCount($value)
     {
@@ -50,38 +81,43 @@ class UsersQueryFilter extends AbstractQueryFilter
 
         return $this->builder->where('child_count', $operator, $value);
     }
-    
+
     public function isEvangelist()
     {
         return $this->builder->where('is_evangelist', true);
     }
-    
-    public function createdAtStart($date) 
+
+    public function isSingle()
+    {
+        return $this->builder->where('is_single', true);
+    }
+
+    public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
     }
 
-    public function createdAtEnd($date) 
+    public function createdAtEnd($date)
     {
         return $this->builder->where('created_at', '<=', $date);
     }
 
-    public function updatedAtStart($date) 
+    public function updatedAtStart($date)
     {
         return $this->builder->where('updated_at', '>=', $date);
     }
 
-    public function updatedAtEnd($date) 
+    public function updatedAtEnd($date)
     {
         return $this->builder->where('updated_at', '<=', $date);
     }
 
-    public function deletedAtStart($date) 
+    public function deletedAtStart($date)
     {
         return $this->builder->where('deleted_at', '>=', $date);
     }
 
-    public function deletedAtEnd($date) 
+    public function deletedAtEnd($date)
     {
         return $this->builder->where('deleted_at', '<=', $date);
     }
@@ -95,5 +131,7 @@ class UsersQueryFilter extends AbstractQueryFilter
         }
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
 }

@@ -13,18 +13,19 @@ class UsersUpdateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'position'            => 'nullable|string|max:150',
-        'job'                 => 'nullable',
-        'job_description'     => 'nullable|string|max:1000',
-        'hobbies'             => 'nullable|string|max:500',
-        'city'                => 'nullable|string|max:50',
-        'email_risk'          => 'nullable',
-        'relationship_status' => 'nullable',
-        'is_evangelist'       => 'boolean',
-        'martial_status'      => 'nullable',
-        'education'           => 'nullable',
-        'child_count'         => 'nullable|integer',
+            'position' => 'nullable|string',
+        'job' => 'nullable|string',
+        'job_description' => 'nullable|string',
+        'hobbies' => 'nullable|string',
+        'city' => 'nullable|string',
+        'email_risk' => 'nullable',
+        'relationship_status' => 'nullable|string',
+        'is_evangelist' => 'boolean',
+        'is_single' => 'nullable|boolean',
+        'education' => 'nullable',
+        'child_count' => 'nullable|integer',
+        'tags' => '',
         ];
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n
 }

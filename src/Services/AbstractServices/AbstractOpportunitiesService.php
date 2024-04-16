@@ -11,13 +11,8 @@ use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\CRM\Database\Models\Opportunities;
 use NextDeveloper\CRM\Database\Filters\OpportunitiesQueryFilter;
-use NextDeveloper\CRM\Events\Opportunities\OpportunitiesCreatedEvent;
-use NextDeveloper\CRM\Events\Opportunities\OpportunitiesCreatingEvent;
-use NextDeveloper\CRM\Events\Opportunities\OpportunitiesUpdatedEvent;
-use NextDeveloper\CRM\Events\Opportunities\OpportunitiesUpdatingEvent;
-use NextDeveloper\CRM\Events\Opportunities\OpportunitiesDeletedEvent;
-use NextDeveloper\CRM\Events\Opportunities\OpportunitiesDeletingEvent;
-
+use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for Opportunities
@@ -97,6 +92,31 @@ class AbstractOpportunitiesService
     }
 
     /**
+     * This method returns the sub objects of the related models
+     *
+     * @param  $uuid
+     * @param  $object
+     * @return void
+     * @throws \Laravel\Octane\Exceptions\DdException
+     */
+    public static function relatedObjects($uuid, $object)
+    {
+        try {
+            $obj = Opportunities::where('uuid', $uuid)->first();
+
+            if(!$obj) {
+                throw new ModelNotFoundException('Cannot find the related model');
+            }
+
+            if($obj) {
+                return $obj->$object;
+            }
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
+    /**
      * This method created the model from an array.
      *
      * Throws an exception if stuck with any problem.
@@ -107,31 +127,49 @@ class AbstractOpportunitiesService
      */
     public static function create(array $data)
     {
-        event(new OpportunitiesCreatingEvent());
-
         if (array_key_exists('iam_account_id', $data)) {
             $data['iam_account_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\IAM\Database\Models\Accounts',
                 $data['iam_account_id']
             );
         }
+        if (array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Users',
+                $data['iam_user_id']
+            );
+        }
+        if (array_key_exists('crm_account_id', $data)) {
+            $data['crm_account_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\CRM\Database\Models\Accounts',
+                $data['crm_account_id']
+            );
+        }
     
+        if(!array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = UserHelper::currentAccount()->id;
+        }
+
+        if(!array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id']    = UserHelper::me()->id;
+        }
+
         try {
             $model = Opportunities::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
 
-        event(new OpportunitiesCreatedEvent($model));
+        Events::fire('created:NextDeveloper\CRM\Opportunities', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-    
-     @param  array $data
-     @return Opportunities
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return Opportunities
      */
     public static function updateRaw(array $data) : ?Opportunities
     {
@@ -162,8 +200,20 @@ class AbstractOpportunitiesService
                 $data['iam_account_id']
             );
         }
+        if (array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Users',
+                $data['iam_user_id']
+            );
+        }
+        if (array_key_exists('crm_account_id', $data)) {
+            $data['crm_account_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\CRM\Database\Models\Accounts',
+                $data['crm_account_id']
+            );
+        }
     
-        event(new OpportunitiesUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\CRM\Opportunities', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -172,7 +222,7 @@ class AbstractOpportunitiesService
             throw $e;
         }
 
-        event(new OpportunitiesUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\CRM\Opportunities', $model);
 
         return $model->fresh();
     }
@@ -191,7 +241,7 @@ class AbstractOpportunitiesService
     {
         $model = Opportunities::where('uuid', $id)->first();
 
-        event(new OpportunitiesDeletingEvent());
+        Events::fire('deleted:NextDeveloper\CRM\Opportunities', $model);
 
         try {
             $model = $model->delete();

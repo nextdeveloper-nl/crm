@@ -9,15 +9,34 @@ use NextDeveloper\Commons\Database\Traits\Filterable;
 use NextDeveloper\CRM\Database\Observers\UsersObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
+use NextDeveloper\Commons\Database\Traits\Taggable;
 
 /**
- * Class Users.
+ * Users model.
  *
- * @package NextDeveloper\CRM\Database\Models
+ * @package  NextDeveloper\CRM\Database\Models
+ * @property integer $id
+ * @property string $uuid
+ * @property integer $iam_user_id
+ * @property string $position
+ * @property string $job
+ * @property string $job_description
+ * @property string $hobbies
+ * @property string $city
+ * @property $email_risk
+ * @property string $relationship_status
+ * @property boolean $is_evangelist
+ * @property boolean $is_single
+ * @property $education
+ * @property integer $child_count
+ * @property array $tags
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $deleted_at
  */
 class Users extends Model
 {
-    use Filterable, UuidId, CleanCache;
+    use Filterable, UuidId, CleanCache, Taggable;
     use SoftDeletes;
 
 
@@ -30,6 +49,22 @@ class Users extends Model
      @var array
      */
     protected $guarded = [];
+
+    protected $fillable = [
+            'iam_user_id',
+            'position',
+            'job',
+            'job_description',
+            'hobbies',
+            'city',
+            'email_risk',
+            'relationship_status',
+            'is_evangelist',
+            'is_single',
+            'education',
+            'child_count',
+            'tags',
+    ];
 
     /**
       Here we have the fulltext fields. We can use these for fulltext search if enabled.
@@ -51,17 +86,20 @@ class Users extends Model
      @var array
      */
     protected $casts = [
-    'id'              => 'integer',
-    'uuid'            => 'string',
-    'position'        => 'string',
+    'id' => 'integer',
+    'position' => 'string',
+    'job' => 'string',
     'job_description' => 'string',
-    'hobbies'         => 'string',
-    'city'            => 'string',
-    'is_evangelist'   => 'boolean',
-    'child_count'     => 'integer',
-    'created_at'      => 'datetime',
-    'updated_at'      => 'datetime',
-    'deleted_at'      => 'datetime',
+    'hobbies' => 'string',
+    'city' => 'string',
+    'relationship_status' => 'string',
+    'is_evangelist' => 'boolean',
+    'is_single' => 'boolean',
+    'child_count' => 'integer',
+    'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
+    'deleted_at' => 'datetime',
     ];
 
     /**
@@ -122,16 +160,30 @@ class Users extends Model
         }
     }
 
-    public function userManagers() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\CRM\Database\Models\UserManagers::class);
-    }
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 
-    public function users() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
-    }
-    
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

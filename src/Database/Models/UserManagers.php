@@ -9,15 +9,23 @@ use NextDeveloper\Commons\Database\Traits\Filterable;
 use NextDeveloper\CRM\Database\Observers\UserManagersObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
+use NextDeveloper\Commons\Database\Traits\Taggable;
 
 /**
- * Class UserManagers.
+ * UserManagers model.
  *
- * @package NextDeveloper\CRM\Database\Models
+ * @package  NextDeveloper\CRM\Database\Models
+ * @property integer $id
+ * @property string $uuid
+ * @property integer $crm_user_id
+ * @property integer $iam_user_id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $deleted_at
  */
 class UserManagers extends Model
 {
-    use Filterable, UuidId, CleanCache;
+    use Filterable, UuidId, CleanCache, Taggable;
     use SoftDeletes;
 
 
@@ -30,6 +38,11 @@ class UserManagers extends Model
      @var array
      */
     protected $guarded = [];
+
+    protected $fillable = [
+            'crm_user_id',
+            'iam_user_id',
+    ];
 
     /**
       Here we have the fulltext fields. We can use these for fulltext search if enabled.
@@ -51,11 +64,11 @@ class UserManagers extends Model
      @var array
      */
     protected $casts = [
-    'id'          => 'integer',
-    'uuid'        => 'string',
+    'id' => 'integer',
     'crm_user_id' => 'integer',
-    'created_at'  => 'datetime',
-    'deleted_at'  => 'datetime',
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
+    'deleted_at' => 'datetime',
     ];
 
     /**
@@ -65,6 +78,7 @@ class UserManagers extends Model
      */
     protected $dates = [
     'created_at',
+    'updated_at',
     'deleted_at',
     ];
 
@@ -115,11 +129,30 @@ class UserManagers extends Model
         }
     }
 
-    public function users() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Users::class);
-    }
-    
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

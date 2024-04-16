@@ -11,13 +11,8 @@ use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\CRM\Database\Models\UserManagers;
 use NextDeveloper\CRM\Database\Filters\UserManagersQueryFilter;
-use NextDeveloper\CRM\Events\UserManagers\UserManagersCreatedEvent;
-use NextDeveloper\CRM\Events\UserManagers\UserManagersCreatingEvent;
-use NextDeveloper\CRM\Events\UserManagers\UserManagersUpdatedEvent;
-use NextDeveloper\CRM\Events\UserManagers\UserManagersUpdatingEvent;
-use NextDeveloper\CRM\Events\UserManagers\UserManagersDeletedEvent;
-use NextDeveloper\CRM\Events\UserManagers\UserManagersDeletingEvent;
-
+use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for UserManagers
@@ -97,6 +92,31 @@ class AbstractUserManagersService
     }
 
     /**
+     * This method returns the sub objects of the related models
+     *
+     * @param  $uuid
+     * @param  $object
+     * @return void
+     * @throws \Laravel\Octane\Exceptions\DdException
+     */
+    public static function relatedObjects($uuid, $object)
+    {
+        try {
+            $obj = UserManagers::where('uuid', $uuid)->first();
+
+            if(!$obj) {
+                throw new ModelNotFoundException('Cannot find the related model');
+            }
+
+            if($obj) {
+                return $obj->$object;
+            }
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
+    /**
      * This method created the model from an array.
      *
      * Throws an exception if stuck with any problem.
@@ -107,8 +127,6 @@ class AbstractUserManagersService
      */
     public static function create(array $data)
     {
-        event(new UserManagersCreatingEvent());
-
         if (array_key_exists('crm_user_id', $data)) {
             $data['crm_user_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\CRM\Database\Models\Users',
@@ -122,22 +140,30 @@ class AbstractUserManagersService
             );
         }
     
+        if(!array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = UserHelper::currentAccount()->id;
+        }
+
+        if(!array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id']    = UserHelper::me()->id;
+        }
+
         try {
             $model = UserManagers::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
 
-        event(new UserManagersCreatedEvent($model));
+        Events::fire('created:NextDeveloper\CRM\UserManagers', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-    
-     @param  array $data
-     @return UserManagers
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return UserManagers
      */
     public static function updateRaw(array $data) : ?UserManagers
     {
@@ -175,7 +201,7 @@ class AbstractUserManagersService
             );
         }
     
-        event(new UserManagersUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\CRM\UserManagers', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -184,7 +210,7 @@ class AbstractUserManagersService
             throw $e;
         }
 
-        event(new UserManagersUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\CRM\UserManagers', $model);
 
         return $model->fresh();
     }
@@ -203,7 +229,7 @@ class AbstractUserManagersService
     {
         $model = UserManagers::where('uuid', $id)->first();
 
-        event(new UserManagersDeletingEvent());
+        Events::fire('deleted:NextDeveloper\CRM\UserManagers', $model);
 
         try {
             $model = $model->delete();

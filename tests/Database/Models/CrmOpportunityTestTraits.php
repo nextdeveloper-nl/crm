@@ -62,7 +62,6 @@ trait CrmOpportunityTestTraits
                 'description'  =>  'a',
                 'source'  =>  'a',
                 'probability'  =>  '1',
-                'income'  =>  '1',
                     'deadline'  =>  now(),
                             ],
                 ['http_errors' => false]
@@ -422,25 +421,6 @@ trait CrmOpportunityTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmopportunity_event_income_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'income'  =>  '1'
-                ]
-            );
-
-            $filter = new CrmOpportunityQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmOpportunity::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
     public function test_crmopportunity_event_deadline_filter_start()
     {
         try {
@@ -672,5 +652,5 @@ trait CrmOpportunityTestTraits
 
         $this->assertTrue(true);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

@@ -9,15 +9,32 @@ use NextDeveloper\Commons\Database\Traits\Filterable;
 use NextDeveloper\CRM\Database\Observers\QuotesObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
+use NextDeveloper\Commons\Database\Traits\Taggable;
 
 /**
- * Class Quotes.
+ * Quotes model.
  *
- * @package NextDeveloper\CRM\Database\Models
+ * @package  NextDeveloper\CRM\Database\Models
+ * @property integer $id
+ * @property string $uuid
+ * @property integer $iam_account_id
+ * @property integer $iam_user_id
+ * @property integer $crm_opportunities_id
+ * @property string $name
+ * @property string $description
+ * @property $amount
+ * @property string $detailed_amount
+ * @property $suggested_price
+ * @property $suggested_currency_code
+ * @property $status
+ * @property array $tags
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $deleted_at
  */
 class Quotes extends Model
 {
-    use Filterable, UuidId, CleanCache;
+    use Filterable, UuidId, CleanCache, Taggable;
     use SoftDeletes;
 
 
@@ -30,6 +47,20 @@ class Quotes extends Model
      @var array
      */
     protected $guarded = [];
+
+    protected $fillable = [
+            'iam_account_id',
+            'iam_user_id',
+            'crm_opportunities_id',
+            'name',
+            'description',
+            'amount',
+            'detailed_amount',
+            'suggested_price',
+            'suggested_currency_code',
+            'status',
+            'tags',
+    ];
 
     /**
       Here we have the fulltext fields. We can use these for fulltext search if enabled.
@@ -51,20 +82,16 @@ class Quotes extends Model
      @var array
      */
     protected $casts = [
-    'id'                      => 'integer',
-    'uuid'                    => 'string',
-    'iam_accounts_id'         => 'integer',
-    'crm_projects_id'         => 'integer',
-    'crm_opportunities_id'    => 'integer',
-    'name'                    => 'string',
-    'description'             => 'string',
-    'amount'                  => 'double',
-    'detailed_amount'         => 'string',
-    'suggested_price'         => 'double',
-    'suggested_currency_code' => 'string',
-    'created_at'              => 'datetime',
-    'updated_at'              => 'datetime',
-    'deleted_at'              => 'datetime',
+    'id' => 'integer',
+    'crm_opportunities_id' => 'integer',
+    'name' => 'string',
+    'description' => 'string',
+    'detailed_amount' => 'string',
+    'suggested_price' => 'double',
+    'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
+    'deleted_at' => 'datetime',
     ];
 
     /**
@@ -125,11 +152,30 @@ class Quotes extends Model
         }
     }
 
-    public function accounts() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Accounts::class);
-    }
-    
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

@@ -4,14 +4,18 @@ namespace NextDeveloper\CRM\Http\Controllers\UserManagers;
 
 use Illuminate\Http\Request;
 use NextDeveloper\CRM\Http\Controllers\AbstractController;
-use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use NextDeveloper\CRM\Http\Requests\UserManagers\UserManagersUpdateRequest;
 use NextDeveloper\CRM\Database\Filters\UserManagersQueryFilter;
+use NextDeveloper\CRM\Database\Models\UserManagers;
 use NextDeveloper\CRM\Services\UserManagersService;
 use NextDeveloper\CRM\Http\Requests\UserManagers\UserManagersCreateRequest;
-
+use NextDeveloper\Commons\Http\Traits\Tags;
 class UserManagersController extends AbstractController
 {
+    private $model = UserManagers::class;
+
+    use Tags;
     /**
      * This method returns the list of usermanagers.
      *
@@ -43,6 +47,23 @@ class UserManagersController extends AbstractController
         $model = UserManagersService::getByRef($ref);
 
         return ResponsableFactory::makeResponse($this, $model);
+    }
+
+    /**
+     * This method returns the list of sub objects the related object. Sub object means an object which is preowned by
+     * this object.
+     *
+     * It can be tags, addresses, states etc.
+     *
+     * @param  $ref
+     * @param  $subObject
+     * @return void
+     */
+    public function relatedObjects($ref, $subObject)
+    {
+        $objects = UserManagersService::relatedObjects($ref, $subObject);
+
+        return ResponsableFactory::makeResponse($this, $objects);
     }
 
     /**
