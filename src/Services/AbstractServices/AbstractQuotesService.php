@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use NextDeveloper\IAM\Helpers\UserHelper;
 use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
+use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\CRM\Database\Models\Quotes;
 use NextDeveloper\CRM\Database\Filters\QuotesQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
@@ -80,6 +81,38 @@ class AbstractQuotesService
         return Quotes::findByRef($ref);
     }
 
+    public static function getActions()
+    {
+        $model = Quotes::class;
+
+        $model = Str::remove('Database\\Models\\', $model);
+
+        $actions = AvailableActions::where('input', $model)
+            ->get();
+
+        return $actions;
+    }
+
+    /**
+     * This method initiates the related action with the given parameters.
+     */
+    public static function doAction($objectId, $action, ...$params)
+    {
+        $object = Quotes::where('uuid', $objectId)->first();
+
+        $action = '\\NextDeveloper\\CRM\\Actions\\Quotes\\' . Str::studly($action);
+
+        if(class_exists($action)) {
+            $action = new $action($object, $params);
+
+            dispatch($action);
+
+            return $action->getActionId();
+        }
+
+        return null;
+    }
+
     /**
      * This method returns the model by lookint at its id
      *
@@ -133,11 +166,19 @@ class AbstractQuotesService
                 $data['iam_account_id']
             );
         }
+            
+        if(!array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = UserHelper::currentAccount()->id;
+        }
         if (array_key_exists('iam_user_id', $data)) {
             $data['iam_user_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\IAM\Database\Models\Users',
                 $data['iam_user_id']
             );
+        }
+                    
+        if(!array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id']    = UserHelper::me()->id;
         }
         if (array_key_exists('crm_opportunities_id', $data)) {
             $data['crm_opportunities_id'] = DatabaseHelper::uuidToId(
@@ -145,15 +186,13 @@ class AbstractQuotesService
                 $data['crm_opportunities_id']
             );
         }
-    
-        if(!array_key_exists('iam_account_id', $data)) {
-            $data['iam_account_id'] = UserHelper::currentAccount()->id;
+        if (array_key_exists('common_currency_id', $data)) {
+            $data['common_currency_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\Commons\Database\Models\Currencies',
+                $data['common_currency_id']
+            );
         }
-
-        if(!array_key_exists('iam_user_id', $data)) {
-            $data['iam_user_id']    = UserHelper::me()->id;
-        }
-
+                        
         try {
             $model = Quotes::create($data);
         } catch(\Exception $e) {
@@ -210,6 +249,12 @@ class AbstractQuotesService
             $data['crm_opportunities_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\CRM\Database\Models\Opportunities',
                 $data['crm_opportunities_id']
+            );
+        }
+        if (array_key_exists('common_currency_id', $data)) {
+            $data['common_currency_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\Commons\Database\Models\Currencies',
+                $data['common_currency_id']
             );
         }
     

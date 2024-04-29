@@ -18,11 +18,11 @@ class UsersCreateRequest extends AbstractFormRequest
         'job_description' => 'nullable|string',
         'hobbies' => 'nullable|string',
         'city' => 'nullable|string',
-        'email_risk' => 'nullable',
+        'risk' => 'nullable',
         'relationship_status' => 'nullable|string',
         'is_evangelist' => 'boolean',
         'is_single' => 'nullable|boolean',
-        'education' => 'nullable',
+        'education_level' => 'nullable',
         'child_count' => 'nullable|integer',
         'tags' => '',
         ];

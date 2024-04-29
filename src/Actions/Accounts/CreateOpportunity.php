@@ -1,21 +1,16 @@
 <?php
 
-namespace NextDeveloper\CRM\Actions\Users;
+namespace NextDeveloper\CRM\Actions\Accounts;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use NextDeveloper\Commons\Actions\AbstractAction;
 use NextDeveloper\CRM\Database\Models\Accounts;
+
 
 /**
  * This action creates an opportunity for the related account
  */
-class CreateOpportunity implements ShouldQueue
+class CreateOpportunity extends AbstractAction
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
     /**
      * This action takes a user object and assigns an Account Manager
      *
@@ -23,6 +18,9 @@ class CreateOpportunity implements ShouldQueue
      */
     public function __construct(Accounts $accounts)
     {
+        $this->model;
+
+        parent::__construct();
         /*
          * While creating the opportunity you should use the iam_user_id from UserHelper::()->id;
          */
@@ -32,9 +30,6 @@ class CreateOpportunity implements ShouldQueue
     {
         $isInitial = $this->createInitialOpportunity();
 
-        if(!$isInitial) {
-
-        }
     }
 
     /**

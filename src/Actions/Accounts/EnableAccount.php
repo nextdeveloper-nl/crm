@@ -7,6 +7,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use NextDeveloper\Commons\Actions\AbstractAction;
+use NextDeveloper\CRM\Database\Models\Accounts;
 use NextDeveloper\CRM\Database\Models\Users;
 
 /**
@@ -21,7 +23,7 @@ class EnableAccount extends AbstractAction
      *
      * @param Users $users
      */
-    public function __construct(Users $users)
+    public function __construct(Accounts $accounts)
     {
 
     }

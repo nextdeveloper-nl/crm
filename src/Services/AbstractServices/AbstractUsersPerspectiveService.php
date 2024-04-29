@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use NextDeveloper\IAM\Helpers\UserHelper;
 use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
+use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\CRM\Database\Models\UsersPerspective;
 use NextDeveloper\CRM\Database\Filters\UsersPerspectiveQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
@@ -80,6 +81,38 @@ class AbstractUsersPerspectiveService
         return UsersPerspective::findByRef($ref);
     }
 
+    public static function getActions()
+    {
+        $model = UsersPerspective::class;
+
+        $model = Str::remove('Database\\Models\\', $model);
+
+        $actions = AvailableActions::where('input', $model)
+            ->get();
+
+        return $actions;
+    }
+
+    /**
+     * This method initiates the related action with the given parameters.
+     */
+    public static function doAction($objectId, $action, ...$params)
+    {
+        $object = UsersPerspective::where('uuid', $objectId)->first();
+
+        $action = '\\NextDeveloper\\CRM\\Actions\\UsersPerspective\\' . Str::studly($action);
+
+        if(class_exists($action)) {
+            $action = new $action($object, $params);
+
+            dispatch($action);
+
+            return $action->getActionId();
+        }
+
+        return null;
+    }
+
     /**
      * This method returns the model by lookint at its id
      *
@@ -139,15 +172,7 @@ class AbstractUsersPerspectiveService
                 $data['common_language_id']
             );
         }
-    
-        if(!array_key_exists('iam_account_id', $data)) {
-            $data['iam_account_id'] = UserHelper::currentAccount()->id;
-        }
-
-        if(!array_key_exists('iam_user_id', $data)) {
-            $data['iam_user_id']    = UserHelper::me()->id;
-        }
-
+                        
         try {
             $model = UsersPerspective::create($data);
         } catch(\Exception $e) {

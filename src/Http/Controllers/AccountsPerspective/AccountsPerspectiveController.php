@@ -5,6 +5,7 @@ namespace NextDeveloper\CRM\Http\Controllers\AccountsPerspective;
 use Illuminate\Http\Request;
 use NextDeveloper\CRM\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\CRM\Http\Requests\AccountsPerspective\AccountsPerspectiveUpdateRequest;
 use NextDeveloper\CRM\Database\Filters\AccountsPerspectiveQueryFilter;
 use NextDeveloper\CRM\Database\Models\AccountsPerspective;
@@ -32,6 +33,36 @@ class AccountsPerspectiveController extends AbstractController
         $data = AccountsPerspectiveService::get($filter, $request->all());
 
         return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * This function returns the list of actions that can be performed on this object.
+     *
+     * @return void
+     */
+    public function getActions()
+    {
+        $data = AccountsPerspectiveService::getActions();
+
+        return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * Makes the related action to the object
+     *
+     * @param  $objectId
+     * @param  $action
+     * @return array
+     */
+    public function doAction($objectId, $action)
+    {
+        $actionId = AccountsPerspectiveService::doAction($objectId, $action);
+
+        return $this->withArray(
+            [
+            'action_id' =>  $actionId
+            ]
+        );
     }
 
     /**

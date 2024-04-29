@@ -5,17 +5,19 @@ namespace NextDeveloper\CRM\Http\Controllers\Users;
 use Illuminate\Http\Request;
 use NextDeveloper\CRM\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\CRM\Http\Requests\Users\UsersUpdateRequest;
 use NextDeveloper\CRM\Database\Filters\UsersQueryFilter;
 use NextDeveloper\CRM\Database\Models\Users;
 use NextDeveloper\CRM\Services\UsersService;
 use NextDeveloper\CRM\Http\Requests\Users\UsersCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
 class UsersController extends AbstractController
 {
     private $model = Users::class;
 
     use Tags;
+    use Addresses;
     /**
      * This method returns the list of users.
      *
@@ -31,6 +33,36 @@ class UsersController extends AbstractController
         $data = UsersService::get($filter, $request->all());
 
         return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * This function returns the list of actions that can be performed on this object.
+     *
+     * @return void
+     */
+    public function getActions()
+    {
+        $data = UsersService::getActions();
+
+        return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * Makes the related action to the object
+     *
+     * @param  $objectId
+     * @param  $action
+     * @return array
+     */
+    public function doAction($objectId, $action)
+    {
+        $actionId = UsersService::doAction($objectId, $action);
+
+        return $this->withArray(
+            [
+            'action_id' =>  $actionId
+            ]
+        );
     }
 
     /**

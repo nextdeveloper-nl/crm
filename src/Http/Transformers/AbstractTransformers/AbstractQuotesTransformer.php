@@ -23,6 +23,7 @@ class AbstractQuotesTransformer extends AbstractTransformer
                         $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
                     $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
                     $crmOpportunitiesId = \NextDeveloper\CRM\Database\Models\Opportunities::where('id', $model->crm_opportunities_id)->first();
+                    $commonCurrencyId = \NextDeveloper\Commons\Database\Models\Currencies::where('id', $model->common_currency_id)->first();
         
         return $this->buildPayload(
             [
@@ -32,11 +33,11 @@ class AbstractQuotesTransformer extends AbstractTransformer
             'crm_opportunities_id'  =>  $crmOpportunitiesId ? $crmOpportunitiesId->uuid : null,
             'name'  =>  $model->name,
             'description'  =>  $model->description,
-            'amount'  =>  $model->amount,
+            'total_amount'  =>  $model->total_amount,
             'detailed_amount'  =>  $model->detailed_amount,
             'suggested_price'  =>  $model->suggested_price,
-            'suggested_currency_code'  =>  $model->suggested_currency_code,
-            'status'  =>  $model->status,
+            'common_currency_id'  =>  $commonCurrencyId ? $commonCurrencyId->uuid : null,
+            'approval_level'  =>  $model->approval_level,
             'tags'  =>  $model->tags,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
@@ -46,6 +47,10 @@ class AbstractQuotesTransformer extends AbstractTransformer
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n
+
+
+
+
 
 
 

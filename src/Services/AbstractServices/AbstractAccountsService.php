@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use NextDeveloper\IAM\Helpers\UserHelper;
 use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
+use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\CRM\Database\Models\Accounts;
 use NextDeveloper\CRM\Database\Filters\AccountsQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
@@ -80,6 +81,38 @@ class AbstractAccountsService
         return Accounts::findByRef($ref);
     }
 
+    public static function getActions()
+    {
+        $model = Accounts::class;
+
+        $model = Str::remove('Database\\Models\\', $model);
+
+        $actions = AvailableActions::where('input', $model)
+            ->get();
+
+        return $actions;
+    }
+
+    /**
+     * This method initiates the related action with the given parameters.
+     */
+    public static function doAction($objectId, $action, ...$params)
+    {
+        $object = Accounts::where('uuid', $objectId)->first();
+
+        $action = '\\NextDeveloper\\CRM\\Actions\\Accounts\\' . Str::studly($action);
+
+        if(class_exists($action)) {
+            $action = new $action($object, $params);
+
+            dispatch($action);
+
+            return $action->getActionId();
+        }
+
+        return null;
+    }
+
     /**
      * This method returns the model by lookint at its id
      *
@@ -133,21 +166,17 @@ class AbstractAccountsService
                 $data['iam_account_id']
             );
         }
+            
+        if(!array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = UserHelper::currentAccount()->id;
+        }
         if (array_key_exists('common_city_id', $data)) {
             $data['common_city_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\Commons\Database\Models\Cities',
                 $data['common_city_id']
             );
         }
-
-//        if(!array_key_exists('iam_account_id', $data)) {
-//            $data['iam_account_id'] = UserHelper::currentAccount()->id;
-//        }
-//
-//        if(!array_key_exists('iam_user_id', $data)) {
-//            $data['iam_user_id']    = UserHelper::me()->id;
-//        }
-
+                        
         try {
             $model = Accounts::create($data);
         } catch(\Exception $e) {
@@ -200,7 +229,7 @@ class AbstractAccountsService
                 $data['common_city_id']
             );
         }
-
+    
         Events::fire('updating:NextDeveloper\CRM\Accounts', $model);
 
         try {

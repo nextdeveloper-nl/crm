@@ -22,11 +22,11 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property integer $crm_opportunities_id
  * @property string $name
  * @property string $description
- * @property $amount
- * @property string $detailed_amount
+ * @property $total_amount
+ * @property $detailed_amount
  * @property $suggested_price
- * @property $suggested_currency_code
- * @property $status
+ * @property integer $common_currency_id
+ * @property $approval_level
  * @property array $tags
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
@@ -54,11 +54,11 @@ class Quotes extends Model
             'crm_opportunities_id',
             'name',
             'description',
-            'amount',
+            'total_amount',
             'detailed_amount',
             'suggested_price',
-            'suggested_currency_code',
-            'status',
+            'common_currency_id',
+            'approval_level',
             'tags',
     ];
 
@@ -86,8 +86,8 @@ class Quotes extends Model
     'crm_opportunities_id' => 'integer',
     'name' => 'string',
     'description' => 'string',
-    'detailed_amount' => 'string',
-    'suggested_price' => 'double',
+    'detailed_amount' => 'array',
+    'common_currency_id' => 'integer',
     'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
@@ -153,6 +153,10 @@ class Quotes extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
 
 
 

@@ -31,11 +31,11 @@ class AbstractUsersTransformer extends AbstractTransformer
             'job_description'  =>  $model->job_description,
             'hobbies'  =>  $model->hobbies,
             'city'  =>  $model->city,
-            'email_risk'  =>  $model->email_risk,
+            'risk'  =>  $model->risk,
             'relationship_status'  =>  $model->relationship_status,
             'is_evangelist'  =>  $model->is_evangelist,
             'is_single'  =>  $model->is_single,
-            'education'  =>  $model->education,
+            'education_level'  =>  $model->education_level,
             'child_count'  =>  $model->child_count,
             'tags'  =>  $model->tags,
             'created_at'  =>  $model->created_at,
@@ -46,6 +46,10 @@ class AbstractUsersTransformer extends AbstractTransformer
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n
+
+
+
+
 
 
 

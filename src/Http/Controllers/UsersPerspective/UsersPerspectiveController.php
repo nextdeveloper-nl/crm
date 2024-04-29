@@ -5,6 +5,7 @@ namespace NextDeveloper\CRM\Http\Controllers\UsersPerspective;
 use Illuminate\Http\Request;
 use NextDeveloper\CRM\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\CRM\Http\Requests\UsersPerspective\UsersPerspectiveUpdateRequest;
 use NextDeveloper\CRM\Database\Filters\UsersPerspectiveQueryFilter;
 use NextDeveloper\CRM\Database\Models\UsersPerspective;
@@ -32,6 +33,36 @@ class UsersPerspectiveController extends AbstractController
         $data = UsersPerspectiveService::get($filter, $request->all());
 
         return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * This function returns the list of actions that can be performed on this object.
+     *
+     * @return void
+     */
+    public function getActions()
+    {
+        $data = UsersPerspectiveService::getActions();
+
+        return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * Makes the related action to the object
+     *
+     * @param  $objectId
+     * @param  $action
+     * @return array
+     */
+    public function doAction($objectId, $action)
+    {
+        $actionId = UsersPerspectiveService::doAction($objectId, $action);
+
+        return $this->withArray(
+            [
+            'action_id' =>  $actionId
+            ]
+        );
     }
 
     /**
