@@ -5,17 +5,19 @@ namespace NextDeveloper\CRM\Http\Controllers\Opportunities;
 use Illuminate\Http\Request;
 use NextDeveloper\CRM\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\CRM\Http\Requests\Opportunities\OpportunitiesUpdateRequest;
 use NextDeveloper\CRM\Database\Filters\OpportunitiesQueryFilter;
 use NextDeveloper\CRM\Database\Models\Opportunities;
 use NextDeveloper\CRM\Services\OpportunitiesService;
 use NextDeveloper\CRM\Http\Requests\Opportunities\OpportunitiesCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
 class OpportunitiesController extends AbstractController
 {
     private $model = Opportunities::class;
 
     use Tags;
+    use Addresses;
     /**
      * This method returns the list of opportunities.
      *
@@ -31,6 +33,36 @@ class OpportunitiesController extends AbstractController
         $data = OpportunitiesService::get($filter, $request->all());
 
         return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * This function returns the list of actions that can be performed on this object.
+     *
+     * @return void
+     */
+    public function getActions()
+    {
+        $data = OpportunitiesService::getActions();
+
+        return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * Makes the related action to the object
+     *
+     * @param  $objectId
+     * @param  $action
+     * @return array
+     */
+    public function doAction($objectId, $action)
+    {
+        $actionId = OpportunitiesService::doAction($objectId, $action);
+
+        return $this->withArray(
+            [
+            'action_id' =>  $actionId
+            ]
+        );
     }
 
     /**

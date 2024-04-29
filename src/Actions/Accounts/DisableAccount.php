@@ -7,6 +7,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use NextDeveloper\Commons\Actions\AbstractAction;
+use NextDeveloper\CRM\Database\Models\Accounts;
 use NextDeveloper\CRM\Database\Models\Users;
 
 /**
@@ -14,10 +16,8 @@ use NextDeveloper\CRM\Database\Models\Users;
  * so that use can come to the web site and/or control panel or authentication service,
  * to reset users password
  */
-class DisableAccount implements ShouldQueue
+class DisableAccount extends AbstractAction
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
     /**
      * Sample action;
      * https://.../iam/users/{user-id}/action/reset-password
@@ -28,7 +28,7 @@ class DisableAccount implements ShouldQueue
      *
      * @param Users $users
      */
-    public function __construct(Users $users)
+    public function __construct(Accounts $accounts)
     {
 
     }

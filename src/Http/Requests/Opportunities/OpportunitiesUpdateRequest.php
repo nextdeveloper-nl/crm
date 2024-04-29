@@ -16,7 +16,7 @@ class OpportunitiesUpdateRequest extends AbstractFormRequest
             'name' => 'nullable|string',
         'description' => 'nullable|string',
         'probability' => 'integer',
-        'stage' => '',
+        'opportunity_stage' => '',
         'source' => 'nullable|string',
         'income' => '',
         'deadline' => 'nullable|date',

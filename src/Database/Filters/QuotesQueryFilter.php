@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-            
+                
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -46,24 +46,6 @@ class QuotesQueryFilter extends AbstractQueryFilter
     public function description($value)
     {
         return $this->builder->where('description', 'like', '%' . $value . '%');
-    }
-    
-    public function detailedAmount($value)
-    {
-        return $this->builder->where('detailed_amount', 'like', '%' . $value . '%');
-    }
-
-    public function suggestedPrice($value)
-    {
-        $operator = substr($value, 0, 1);
-
-        if ($operator != '<' || $operator != '>') {
-            $operator = '=';
-        } else {
-            $value = substr($value, 1);
-        }
-
-        return $this->builder->where('suggested_price', $operator, $value);
     }
 
     public function createdAtStart($date)
@@ -123,7 +105,20 @@ class QuotesQueryFilter extends AbstractQueryFilter
         }
     }
 
+    public function commonCurrencyId($value)
+    {
+            $commonCurrency = \NextDeveloper\Commons\Database\Models\Currencies::where('uuid', $value)->first();
+
+        if($commonCurrency) {
+            return $this->builder->where('common_currency_id', '=', $commonCurrency->id);
+        }
+    }
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
 
 
 }

@@ -23,6 +23,11 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('name', 'like', '%' . $value . '%');
     }
     
+    public function phoneNumber($value)
+    {
+        return $this->builder->where('phone_number', 'like', '%' . $value . '%');
+    }
+    
     public function description($value)
     {
         return $this->builder->where('description', 'like', '%' . $value . '%');
@@ -89,24 +94,6 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-    public function iamUserId($value)
-    {
-            $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
-
-        if($iamUser) {
-            return $this->builder->where('iam_user_id', '=', $iamUser->id);
-        }
-    }
-
-    public function iamAccountId($value)
-    {
-            $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
-
-        if($iamAccount) {
-            return $this->builder->where('iam_account_id', '=', $iamAccount->id);
-        }
-    }
-
     public function iamAccountTypeId($value)
     {
             $iamAccountType = \NextDeveloper\IAM\Database\Models\AccountTypes::where('uuid', $value)->first();
@@ -125,7 +112,29 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
+    public function iamUserId($value)
+    {
+            $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
+
+        if($iamUser) {
+            return $this->builder->where('iam_user_id', '=', $iamUser->id);
+        }
+    }
+
+    public function iamAccountId($value)
+    {
+            $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
+
+        if($iamAccount) {
+            return $this->builder->where('iam_account_id', '=', $iamAccount->id);
+        }
+    }
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
+
 
 
 }

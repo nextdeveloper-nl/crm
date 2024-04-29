@@ -30,7 +30,7 @@ class AbstractOpportunitiesTransformer extends AbstractTransformer
             'name'  =>  $model->name,
             'description'  =>  $model->description,
             'probability'  =>  $model->probability,
-            'stage'  =>  $model->stage,
+            'opportunity_stage'  =>  $model->opportunity_stage,
             'source'  =>  $model->source,
             'income'  =>  $model->income,
             'deadline'  =>  $model->deadline,
@@ -46,6 +46,10 @@ class AbstractOpportunitiesTransformer extends AbstractTransformer
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n
+
+
+
+
 
 
 

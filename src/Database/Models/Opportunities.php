@@ -20,7 +20,7 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property string $name
  * @property string $description
  * @property integer $probability
- * @property $stage
+ * @property $opportunity_stage
  * @property string $source
  * @property $income
  * @property \Carbon\Carbon $deadline
@@ -52,7 +52,7 @@ class Opportunities extends Model
             'name',
             'description',
             'probability',
-            'stage',
+            'opportunity_stage',
             'source',
             'income',
             'deadline',
@@ -155,6 +155,10 @@ class Opportunities extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
 
 
 

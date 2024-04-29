@@ -5,17 +5,19 @@ namespace NextDeveloper\CRM\Http\Controllers\Quotes;
 use Illuminate\Http\Request;
 use NextDeveloper\CRM\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\CRM\Http\Requests\Quotes\QuotesUpdateRequest;
 use NextDeveloper\CRM\Database\Filters\QuotesQueryFilter;
 use NextDeveloper\CRM\Database\Models\Quotes;
 use NextDeveloper\CRM\Services\QuotesService;
 use NextDeveloper\CRM\Http\Requests\Quotes\QuotesCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
 class QuotesController extends AbstractController
 {
     private $model = Quotes::class;
 
     use Tags;
+    use Addresses;
     /**
      * This method returns the list of quotes.
      *
@@ -31,6 +33,36 @@ class QuotesController extends AbstractController
         $data = QuotesService::get($filter, $request->all());
 
         return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * This function returns the list of actions that can be performed on this object.
+     *
+     * @return void
+     */
+    public function getActions()
+    {
+        $data = QuotesService::getActions();
+
+        return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * Makes the related action to the object
+     *
+     * @param  $objectId
+     * @param  $action
+     * @return array
+     */
+    public function doAction($objectId, $action)
+    {
+        $actionId = QuotesService::doAction($objectId, $action);
+
+        return $this->withArray(
+            [
+            'action_id' =>  $actionId
+            ]
+        );
     }
 
     /**

@@ -23,11 +23,11 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property string $job_description
  * @property string $hobbies
  * @property string $city
- * @property $email_risk
+ * @property $risk
  * @property string $relationship_status
  * @property boolean $is_evangelist
  * @property boolean $is_single
- * @property $education
+ * @property $education_level
  * @property integer $child_count
  * @property array $tags
  * @property \Carbon\Carbon $created_at
@@ -57,11 +57,11 @@ class Users extends Model
             'job_description',
             'hobbies',
             'city',
-            'email_risk',
+            'risk',
             'relationship_status',
             'is_evangelist',
             'is_single',
-            'education',
+            'education_level',
             'child_count',
             'tags',
     ];
@@ -161,6 +161,10 @@ class Users extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
 
 
 

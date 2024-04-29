@@ -19,15 +19,15 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property string $name
  * @property integer $common_domain_id
  * @property integer $common_country_id
- * @property $phone_number
+ * @property string $phone_number
  * @property string $description
- * @property integer $iam_user_id
- * @property integer $iam_account_id
  * @property integer $iam_account_type_id
  * @property boolean $is_paying_customer
  * @property integer $common_city_id
  * @property string $position
  * @property integer $risk_level
+ * @property integer $iam_user_id
+ * @property integer $iam_account_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
@@ -52,13 +52,13 @@ class AccountsPerspective extends Model
             'common_country_id',
             'phone_number',
             'description',
-            'iam_user_id',
-            'iam_account_id',
             'iam_account_type_id',
             'is_paying_customer',
             'common_city_id',
             'position',
             'risk_level',
+            'iam_user_id',
+            'iam_account_id',
     ];
 
     /**
@@ -85,6 +85,7 @@ class AccountsPerspective extends Model
     'name' => 'string',
     'common_domain_id' => 'integer',
     'common_country_id' => 'integer',
+    'phone_number' => 'string',
     'description' => 'string',
     'iam_account_type_id' => 'integer',
     'is_paying_customer' => 'boolean',
@@ -153,6 +154,10 @@ class AccountsPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
+
 
 
 

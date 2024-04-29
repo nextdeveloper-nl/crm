@@ -8,7 +8,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use NextDeveloper\CRM\Database\Models\Accounts;
-use NextDeveloper\CRM\Database\Models\Users;
 use NextDeveloper\CRM\EventHandlers\Accounts\CrmAccountsUpdatedEvent;
 use NextDeveloper\CRM\Services\RiskManagement\RiskManagementService;
 

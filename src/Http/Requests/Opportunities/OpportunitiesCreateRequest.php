@@ -16,7 +16,7 @@ class OpportunitiesCreateRequest extends AbstractFormRequest
             'name' => 'required|string',
         'description' => 'nullable|string',
         'probability' => 'integer',
-        'stage' => '',
+        'opportunity_stage' => '',
         'source' => 'nullable|string',
         'income' => '',
         'deadline' => 'nullable|date',

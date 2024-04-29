@@ -60,8 +60,6 @@ trait CrmQuoteTestTraits
             'form_params'   =>  [
                 'name'  =>  'a',
                 'description'  =>  'a',
-                'detailed_amount'  =>  'a',
-                'suggested_price'  =>  '1',
                             ],
                 ['http_errors' => false]
             ]
@@ -369,44 +367,6 @@ trait CrmQuoteTestTraits
             $request = new Request(
                 [
                 'description'  =>  'a'
-                ]
-            );
-
-            $filter = new CrmQuoteQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmquote_event_detailed_amount_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'detailed_amount'  =>  'a'
-                ]
-            );
-
-            $filter = new CrmQuoteQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmQuote::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmquote_event_suggested_price_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'suggested_price'  =>  '1'
                 ]
             );
 
