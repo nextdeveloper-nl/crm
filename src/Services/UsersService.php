@@ -6,12 +6,9 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\App;
 use NextDeveloper\Commons\Database\Models\Languages;
-use NextDeveloper\IAM\Authorization\Roles\IAuthorizationRole;
-use NextDeveloper\IAM\Database\Filters\UsersQueryFilter;
-use NextDeveloper\IAM\Database\Models\AccountUsers;
-use NextDeveloper\IAM\Database\Models\Users;
-use NextDeveloper\IAM\Helpers\UserHelper;
-use NextDeveloper\IAM\Services\AbstractServices\AbstractUsersService;
+use NextDeveloper\CRM\Database\Filters\UsersQueryFilter;
+use NextDeveloper\CRM\Database\Models\Users;
+use NextDeveloper\CRM\Services\AbstractServices\AbstractUsersService;
 
 /**
  * This class is responsible from managing the data for Users
@@ -25,42 +22,7 @@ class UsersService extends AbstractUsersService
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
     public static function get(UsersQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator {
-        $user = UserHelper::me();
-
-        //  If user not logged in then we dont list users
-        if(!$user) {
-            return new Collection();
-        }
-
-        $users = AccountUsers::filter($filter)
-            ->where('iam_account_id', UserHelper::currentAccount()->id)
-            ->get();
-
-        return $users;
-    }
-
-    public static function assignUserToRole(Users $user, IAuthorizationRole $role) : void
-    {
-        //  We need to check first if the role is created in the database
-        $role = RolesService::getRole($role);
-
-        RolesService::assignUserToRole($user, $role);
-    }
-
-    /**
-     * Registers the user just by email address
-     *
-     * @param $email
-     * @return Users
-     * @throws \Exception
-     */
-    public static function createWithEmail($email) : Users
-    {
-        $user = self::create([
-            'email' =>  $email
-        ]);
-
-        return $user;
+        return parent::get($filter, $params);
     }
 
     /**

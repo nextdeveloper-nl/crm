@@ -5,13 +5,14 @@ namespace NextDeveloper\CRM\Http\Controllers\Users;
 use Illuminate\Http\Request;
 use NextDeveloper\CRM\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\CRM\Http\Requests\Users\UsersUpdateRequest;
 use NextDeveloper\CRM\Database\Filters\UsersQueryFilter;
 use NextDeveloper\CRM\Database\Models\Users;
 use NextDeveloper\CRM\Services\UsersService;
 use NextDeveloper\CRM\Http\Requests\Users\UsersCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Http\Traits\Addresses;
+
 class UsersController extends AbstractController
 {
     private $model = Users::class;
