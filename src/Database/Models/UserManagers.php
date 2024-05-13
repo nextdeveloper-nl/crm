@@ -22,6 +22,7 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
+ * @property integer $iam_account_id
  */
 class UserManagers extends Model
 {
@@ -42,6 +43,7 @@ class UserManagers extends Model
     protected $fillable = [
             'crm_user_id',
             'iam_user_id',
+            'iam_account_id',
     ];
 
     /**
@@ -130,6 +132,7 @@ class UserManagers extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 
