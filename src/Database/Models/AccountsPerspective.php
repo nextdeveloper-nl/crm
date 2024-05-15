@@ -21,6 +21,7 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property integer $common_country_id
  * @property string $phone_number
  * @property string $description
+ * @property integer $crm_account_id
  * @property integer $iam_account_type_id
  * @property boolean $is_paying_customer
  * @property integer $common_city_id
@@ -52,6 +53,7 @@ class AccountsPerspective extends Model
             'common_country_id',
             'phone_number',
             'description',
+            'crm_account_id',
             'iam_account_type_id',
             'is_paying_customer',
             'common_city_id',
@@ -87,6 +89,7 @@ class AccountsPerspective extends Model
     'common_country_id' => 'integer',
     'phone_number' => 'string',
     'description' => 'string',
+    'crm_account_id' => 'integer',
     'iam_account_type_id' => 'integer',
     'is_paying_customer' => 'boolean',
     'common_city_id' => 'integer',
@@ -154,6 +157,7 @@ class AccountsPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

@@ -37,7 +37,11 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
             ->where('iam_account_id', UserHelper::currentAccount()->id)
             ->pluck('crm_account_id');
 
-        $builder->whereIn('iam_account_id', $ids);
+        if($model->getTable() == 'crm_accounts')
+            $builder->whereIn('id', $ids);
+
+        if($model->getTable() == 'crm_accounts_perspective')
+            $builder->whereIn('crm_account_id', $ids);
     }
 
     public function checkPrivileges(Users $users = null)
