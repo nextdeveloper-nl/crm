@@ -40,7 +40,7 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
             ->where('iam_user_id', UserHelper::currentUser()->id)
             ->pluck('crm_account_id');
 
-        $builder->whereIn('iam_account_id', $ids);
+        $builder->whereIn('crm_account_id', $ids);
     }
 
     public function getLevel(): int

@@ -56,6 +56,7 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
     {
                                                 $commonDomainId = \NextDeveloper\Commons\Database\Models\Domains::where('id', $model->common_domain_id)->first();
                                                             $commonCountryId = \NextDeveloper\Commons\Database\Models\Countries::where('id', $model->common_country_id)->first();
+                                                            $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
                                                             $iamAccountTypeId = \NextDeveloper\IAM\Database\Models\AccountTypes::where('id', $model->iam_account_type_id)->first();
                                                             $commonCityId = \NextDeveloper\Commons\Database\Models\Cities::where('id', $model->common_city_id)->first();
                                                             $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
@@ -69,6 +70,7 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
             'common_country_id'  =>  $commonCountryId ? $commonCountryId->uuid : null,
             'phone_number'  =>  $model->phone_number,
             'description'  =>  $model->description,
+            'crm_account_id'  =>  $crmAccountId ? $crmAccountId->uuid : null,
             'iam_account_type_id'  =>  $iamAccountTypeId ? $iamAccountTypeId->uuid : null,
             'is_paying_customer'  =>  $model->is_paying_customer,
             'common_city_id'  =>  $commonCityId ? $commonCityId->uuid : null,
@@ -166,6 +168,7 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
