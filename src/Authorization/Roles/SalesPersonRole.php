@@ -74,6 +74,8 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
             'crm_opportunities:create',
             'crm_opportunities:update',
             'crm_user_managers:read',
+            'crm_user_managers:create',
+            'crm_user_managers:update',
             'crm_user_perspectives:read',
             'crm_quotes:read',
             'crm_quotes:create',
