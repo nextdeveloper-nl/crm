@@ -14,6 +14,7 @@ use NextDeveloper\CRM\Database\Models\AccountManagers;
 use NextDeveloper\CRM\Database\Filters\AccountManagersQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 use NextDeveloper\Events\Services\Events;
+use NextDeveloper\Commons\Exceptions\NotAllowedException;
 
 /**
  * This class is responsible from managing the data for AccountManagers
@@ -28,6 +29,8 @@ class AbstractAccountManagersService
     {
         $enablePaginate = array_key_exists('paginate', $params);
 
+        $request = new Request();
+
         /**
         * Here we are adding null request since if filter is null, this means that this function is called from
         * non http application. This is actually not I think its a correct way to handle this problem but it's a workaround.
@@ -35,7 +38,7 @@ class AbstractAccountManagersService
         * Please let me know if you have any other idea about this; baris.bulut@nextdeveloper.com
         */
         if($filter == null) {
-            $filter = new AccountManagersQueryFilter(new Request());
+            $filter = new AccountManagersQueryFilter($request);
         }
 
         $perPage = config('commons.pagination.per_page');
@@ -58,11 +61,18 @@ class AbstractAccountManagersService
 
         $model = AccountManagers::filter($filter);
 
-        if($model && $enablePaginate) {
-            return $model->paginate($perPage);
-        } else {
-            return $model->get();
+        if($enablePaginate) {
+            //  We are using this because we have been experiencing huge security problem when we use the paginate method.
+            //  The reason was, when the pagination method was using, somehow paginate was discarding all the filters.
+            return new \Illuminate\Pagination\LengthAwarePaginator(
+                $model->skip(($request->get('page', 1) - 1) * $perPage)->take($perPage)->get(),
+                $model->count(),
+                $perPage,
+                $request->get('page', 1)
+            );
         }
+
+        return $model->get();
     }
 
     public static function getAll()
@@ -227,6 +237,13 @@ class AbstractAccountManagersService
     {
         $model = AccountManagers::where('uuid', $id)->first();
 
+        if(!$model) {
+            throw new NotAllowedException(
+                'We cannot find the related object to update. ' .
+                'Maybe you dont have the permission to update this object?'
+            );
+        }
+
         if (array_key_exists('crm_account_id', $data)) {
             $data['crm_account_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\CRM\Database\Models\Accounts',
@@ -273,6 +290,13 @@ class AbstractAccountManagersService
     public static function delete($id)
     {
         $model = AccountManagers::where('uuid', $id)->first();
+
+        if(!$model) {
+            throw new NotAllowedException(
+                'We cannot find the related object to delete. ' .
+                'Maybe you dont have the permission to update this object?'
+            );
+        }
 
         Events::fire('deleted:NextDeveloper\CRM\AccountManagers', $model);
 

@@ -14,6 +14,7 @@ use NextDeveloper\CRM\Database\Models\Users;
 use NextDeveloper\CRM\Database\Filters\UsersQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 use NextDeveloper\Events\Services\Events;
+use NextDeveloper\Commons\Exceptions\NotAllowedException;
 
 /**
  * This class is responsible from managing the data for Users
@@ -28,6 +29,8 @@ class AbstractUsersService
     {
         $enablePaginate = array_key_exists('paginate', $params);
 
+        $request = new Request();
+
         /**
         * Here we are adding null request since if filter is null, this means that this function is called from
         * non http application. This is actually not I think its a correct way to handle this problem but it's a workaround.
@@ -35,7 +38,7 @@ class AbstractUsersService
         * Please let me know if you have any other idea about this; baris.bulut@nextdeveloper.com
         */
         if($filter == null) {
-            $filter = new UsersQueryFilter(new Request());
+            $filter = new UsersQueryFilter($request);
         }
 
         $perPage = config('commons.pagination.per_page');
@@ -58,11 +61,18 @@ class AbstractUsersService
 
         $model = Users::filter($filter);
 
-        if($model && $enablePaginate) {
-            return $model->paginate($perPage);
-        } else {
-            return $model->get();
+        if($enablePaginate) {
+            //  We are using this because we have been experiencing huge security problem when we use the paginate method.
+            //  The reason was, when the pagination method was using, somehow paginate was discarding all the filters.
+            return new \Illuminate\Pagination\LengthAwarePaginator(
+                $model->skip(($request->get('page', 1) - 1) * $perPage)->take($perPage)->get(),
+                $model->count(),
+                $perPage,
+                $request->get('page', 1)
+            );
         }
+
+        return $model->get();
     }
 
     public static function getAll()
@@ -211,6 +221,13 @@ class AbstractUsersService
     {
         $model = Users::where('uuid', $id)->first();
 
+        if(!$model) {
+            throw new NotAllowedException(
+                'We cannot find the related object to update. ' .
+                'Maybe you dont have the permission to update this object?'
+            );
+        }
+
         if (array_key_exists('iam_user_id', $data)) {
             $data['iam_user_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\IAM\Database\Models\Users',
@@ -245,6 +262,13 @@ class AbstractUsersService
     public static function delete($id)
     {
         $model = Users::where('uuid', $id)->first();
+
+        if(!$model) {
+            throw new NotAllowedException(
+                'We cannot find the related object to delete. ' .
+                'Maybe you dont have the permission to update this object?'
+            );
+        }
 
         Events::fire('deleted:NextDeveloper\CRM\Users', $model);
 
