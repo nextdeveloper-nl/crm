@@ -14,6 +14,7 @@ use NextDeveloper\CRM\Database\Models\UsersPerspective;
 use NextDeveloper\CRM\Database\Filters\UsersPerspectiveQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 use NextDeveloper\Events\Services\Events;
+use NextDeveloper\Commons\Exceptions\NotAllowedException;
 
 /**
  * This class is responsible from managing the data for UsersPerspective
@@ -28,6 +29,8 @@ class AbstractUsersPerspectiveService
     {
         $enablePaginate = array_key_exists('paginate', $params);
 
+        $request = new Request();
+
         /**
         * Here we are adding null request since if filter is null, this means that this function is called from
         * non http application. This is actually not I think its a correct way to handle this problem but it's a workaround.
@@ -35,7 +38,7 @@ class AbstractUsersPerspectiveService
         * Please let me know if you have any other idea about this; baris.bulut@nextdeveloper.com
         */
         if($filter == null) {
-            $filter = new UsersPerspectiveQueryFilter(new Request());
+            $filter = new UsersPerspectiveQueryFilter($request);
         }
 
         $perPage = config('commons.pagination.per_page');
@@ -58,11 +61,18 @@ class AbstractUsersPerspectiveService
 
         $model = UsersPerspective::filter($filter);
 
-        if($model && $enablePaginate) {
-            return $model->paginate($perPage);
-        } else {
-            return $model->get();
+        if($enablePaginate) {
+            //  We are using this because we have been experiencing huge security problem when we use the paginate method.
+            //  The reason was, when the pagination method was using, somehow paginate was discarding all the filters.
+            return new \Illuminate\Pagination\LengthAwarePaginator(
+                $model->skip(($request->get('page', 1) - 1) * $perPage)->take($perPage)->get(),
+                $model->count(),
+                $perPage,
+                $request->get('page', 1)
+            );
         }
+
+        return $model->get();
     }
 
     public static function getAll()
@@ -172,6 +182,26 @@ class AbstractUsersPerspectiveService
                 $data['common_language_id']
             );
         }
+        if (array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Users',
+                $data['iam_user_id']
+            );
+        }
+                    
+        if(!array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id']    = UserHelper::me()->id;
+        }
+        if (array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Accounts',
+                $data['iam_account_id']
+            );
+        }
+            
+        if(!array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = UserHelper::currentAccount()->id;
+        }
                         
         try {
             $model = UsersPerspective::create($data);
@@ -213,6 +243,13 @@ class AbstractUsersPerspectiveService
     {
         $model = UsersPerspective::where('uuid', $id)->first();
 
+        if(!$model) {
+            throw new NotAllowedException(
+                'We cannot find the related object to update. ' .
+                'Maybe you dont have the permission to update this object?'
+            );
+        }
+
         if (array_key_exists('common_country_id', $data)) {
             $data['common_country_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\Commons\Database\Models\Countries',
@@ -223,6 +260,18 @@ class AbstractUsersPerspectiveService
             $data['common_language_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\Commons\Database\Models\Languages',
                 $data['common_language_id']
+            );
+        }
+        if (array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Users',
+                $data['iam_user_id']
+            );
+        }
+        if (array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Accounts',
+                $data['iam_account_id']
             );
         }
     
@@ -253,6 +302,13 @@ class AbstractUsersPerspectiveService
     public static function delete($id)
     {
         $model = UsersPerspective::where('uuid', $id)->first();
+
+        if(!$model) {
+            throw new NotAllowedException(
+                'We cannot find the related object to delete. ' .
+                'Maybe you dont have the permission to update this object?'
+            );
+        }
 
         Events::fire('deleted:NextDeveloper\CRM\UsersPerspective', $model);
 
