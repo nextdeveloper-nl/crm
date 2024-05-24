@@ -67,7 +67,11 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
     {
         return [
             'crm_accounts:read',
+            'crm_accounts:create',
+            'crm_accounts:update',
             'crm_users:read',
+            'crm_users:create',
+            'crm_users:update',
             'crm_account_managers:read',
             'crm_account_perspectives:read',
             'crm_opportunities:read',
