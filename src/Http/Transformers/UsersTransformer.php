@@ -38,6 +38,6 @@ class UsersTransformer extends AbstractUsersTransformer
             $transformed
         );
 
-        return parent::transform($model);
+        return $transformed;
     }
 }

@@ -56,7 +56,7 @@ class MeetingsController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = MeetingsService::doAction($objectId, $action);
+        $actionId = MeetingsService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [

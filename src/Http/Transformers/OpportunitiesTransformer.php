@@ -38,6 +38,6 @@ class OpportunitiesTransformer extends AbstractOpportunitiesTransformer
             $transformed
         );
 
-        return parent::transform($model);
+        return $transformed;
     }
 }

@@ -56,7 +56,7 @@ class NotesController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = NotesService::doAction($objectId, $action);
+        $actionId = NotesService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [

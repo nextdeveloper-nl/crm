@@ -38,6 +38,6 @@ class AccountManagersTransformer extends AbstractAccountManagersTransformer
             $transformed
         );
 
-        return parent::transform($model);
+        return $transformed;
     }
 }
