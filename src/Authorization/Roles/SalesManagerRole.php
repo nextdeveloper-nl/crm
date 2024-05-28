@@ -4,6 +4,7 @@ namespace NextDeveloper\CRM\Authorization\Roles;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use NextDeveloper\CRM\Database\Models\AccountManagers;
 use NextDeveloper\IAM\Authorization\Roles\AbstractRole;
@@ -85,6 +86,20 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
             'crm_opportunites:delete',
         ];
     }
+
+    public function checkUpdatePolicy(Model $model, Users $users) : bool
+    {
+        $amIManager = AccountManagers::withoutGlobalScopes()
+            ->where('iam_user_id', UserHelper::currentUser()->id)
+            ->where('crm_account_id', $model->id)
+            ->first();
+
+        if(config('leo.debug.authorization_scope'))
+            Log::info('SalesManagerRole::checkUpdatePolicy', ['amIManager' => $amIManager]);
+
+        return $amIManager !== null;
+    }
+
 
     public function getLevel(): int
     {

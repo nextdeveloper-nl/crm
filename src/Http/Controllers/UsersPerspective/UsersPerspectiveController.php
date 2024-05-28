@@ -56,7 +56,7 @@ class UsersPerspectiveController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = UsersPerspectiveService::doAction($objectId, $action);
+        $actionId = UsersPerspectiveService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [

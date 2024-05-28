@@ -56,7 +56,7 @@ class TasksController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = TasksService::doAction($objectId, $action);
+        $actionId = TasksService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [

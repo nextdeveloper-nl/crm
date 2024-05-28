@@ -56,7 +56,7 @@ class QuotesController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = QuotesService::doAction($objectId, $action);
+        $actionId = QuotesService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [

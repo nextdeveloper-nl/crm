@@ -38,6 +38,6 @@ class UserManagersTransformer extends AbstractUserManagersTransformer
             $transformed
         );
 
-        return parent::transform($model);
+        return $transformed;
     }
 }

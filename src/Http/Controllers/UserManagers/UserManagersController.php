@@ -56,7 +56,7 @@ class UserManagersController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = UserManagersService::doAction($objectId, $action);
+        $actionId = UserManagersService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [

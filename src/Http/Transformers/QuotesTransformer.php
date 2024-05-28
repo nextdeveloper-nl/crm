@@ -38,6 +38,6 @@ class QuotesTransformer extends AbstractQuotesTransformer
             $transformed
         );
 
-        return parent::transform($model);
+        return $transformed;
     }
 }

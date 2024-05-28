@@ -58,6 +58,17 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
         return self::NAME;
     }
 
+    public function checkUpdatePolicy(Model $model, Users $users) : bool
+    {
+        $amIManager = AccountManagers::withoutGlobalScopes()
+            ->where('iam_user_id', UserHelper::currentUser()->id)
+            ->where('iam_account_id', UserHelper::currentAccount()->id)
+            ->where('crm_account_id', $model->id)
+            ->first();
+
+        return $amIManager !== null;
+    }
+
     public function getModule()
     {
         return 'crm';

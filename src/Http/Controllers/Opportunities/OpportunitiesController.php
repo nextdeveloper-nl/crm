@@ -56,7 +56,7 @@ class OpportunitiesController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = OpportunitiesService::doAction($objectId, $action);
+        $actionId = OpportunitiesService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [
