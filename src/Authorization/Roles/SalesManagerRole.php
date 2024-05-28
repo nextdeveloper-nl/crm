@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use NextDeveloper\CRM\Database\Models\AccountManagers;
+use NextDeveloper\CRM\Database\Models\UserManagers;
 use NextDeveloper\IAM\Authorization\Roles\AbstractRole;
 use NextDeveloper\IAM\Authorization\Roles\IAuthorizationRole;
 use NextDeveloper\IAM\Database\Models\Users;
+use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 use NextDeveloper\IAM\Helpers\UserHelper;
 
 class SalesManagerRole extends AbstractRole implements IAuthorizationRole
@@ -31,18 +33,28 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
      */
     public function apply(Builder $builder, Model $model)
     {
-        /**
-         * Here user will be able to list all models, because by default, sales manager can see everybody.
-         */
-        $ids = AccountManagers::withoutGlobalScopes()
-            ->where('iam_account_id', UserHelper::currentAccount()->id)
-            ->pluck('crm_account_id');
+        if($model->getTable() == 'crm_accounts' || $model->getTable() == 'crm_accounts_perspective') {
+            /**
+             * Here user will be able to list all models, because by default, sales manager can see everybody.
+             */
+            $ids = AccountManagers::withoutGlobalScopes()
+                ->where('iam_account_id', UserHelper::currentAccount()->id)
+                ->pluck('crm_account_id');
 
-        if($model->getTable() == 'crm_accounts')
+            if($model->getTable() == 'crm_accounts')
+                $builder->whereIn('id', $ids);
+
+            if($model->getTable() == 'crm_accounts_perspective')
+                $builder->whereIn('crm_account_id', $ids);
+        }
+
+        if($model->getTable() == 'crm_users' || $model->getTable() == 'crm_users_perspective') {
+            $ids = UserManagers::withoutGlobalScopes()
+                ->where('iam_account_id', UserHelper::currentAccount()->id)
+                ->pluck('crm_user_id');
+
             $builder->whereIn('id', $ids);
-
-        if($model->getTable() == 'crm_accounts_perspective')
-            $builder->whereIn('crm_account_id', $ids);
+        }
     }
 
     public function checkPrivileges(Users $users = null)
@@ -89,15 +101,29 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
 
     public function checkUpdatePolicy(Model $model, Users $users) : bool
     {
-        $amIManager = AccountManagers::withoutGlobalScopes()
-            ->where('iam_user_id', UserHelper::currentUser()->id)
-            ->where('crm_account_id', $model->id)
-            ->first();
+        if($model->getTable() == 'crm_accounts') {
+            $amIManager = AccountManagers::withoutGlobalScopes()
+                ->where('iam_account_id', UserHelper::currentAccount()->id)
+                ->where('crm_account_id', $model->id)
+                ->first();
 
-        if(config('leo.debug.authorization_scope'))
-            Log::info('SalesManagerRole::checkUpdatePolicy', ['amIManager' => $amIManager]);
+            if (config('leo.debug.authorization_scope'))
+                Log::info('SalesManagerRole::checkUpdatePolicy', ['amIManager' => $amIManager]);
 
-        return $amIManager !== null;
+            return $amIManager !== null;
+        }
+
+        if($model->getTable() == 'crm_users') {
+            $amIManager = UserManagers::withoutGlobalScopes()
+                ->where('iam_user_id', UserHelper::currentUser()->id)
+                ->where('crm_user_id', $model->id)
+                ->first();
+
+            if (config('leo.debug.authorization_scope'))
+                Log::info('SalesManagerRole::checkUpdatePolicy', ['amIManager' => $amIManager]);
+
+            return $amIManager !== null;
+        }
     }
 
 
