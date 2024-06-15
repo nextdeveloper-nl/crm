@@ -2,8 +2,6 @@
 
 namespace NextDeveloper\CRM\Http\Transformers\AbstractTransformers;
 
-use NextDeveloper\CRM\Database\Models\UsersPerspective;
-use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
 use NextDeveloper\Commons\Database\Models\Addresses;
 use NextDeveloper\Commons\Database\Models\Comments;
 use NextDeveloper\Commons\Database\Models\Meta;
@@ -22,6 +20,8 @@ use NextDeveloper\Commons\Http\Transformers\MetaTransformer;
 use NextDeveloper\Commons\Http\Transformers\VotesTransformer;
 use NextDeveloper\Commons\Http\Transformers\AddressesTransformer;
 use NextDeveloper\Commons\Http\Transformers\PhoneNumbersTransformer;
+use NextDeveloper\CRM\Database\Models\UsersPerspective;
+use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 
 /**
@@ -176,31 +176,4 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

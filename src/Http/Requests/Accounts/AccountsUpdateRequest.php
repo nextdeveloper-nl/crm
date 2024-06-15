@@ -18,6 +18,19 @@ class AccountsUpdateRequest extends AbstractFormRequest
         'common_city_id' => 'nullable|exists:common_cities,uuid|uuid',
         'position' => 'nullable|string',
         'tags' => '',
+        'company_size' => 'integer',
+        'sector_focus' => 'nullable',
+        'industry' => 'nullable|string',
+        'is_startup' => 'nullable|integer',
+        'regulatory_and_compliance' => 'nullable',
+        'employee_count' => 'nullable|integer',
+        'office_cities' => 'nullable',
+        'headquarter_city' => 'nullable|string',
+        'production_people_count' => 'integer',
+        'sales_people_count' => 'integer',
+        'marketing_people_count' => 'integer',
+        'support_people_count' => 'integer',
+        'automation_count' => 'integer',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n

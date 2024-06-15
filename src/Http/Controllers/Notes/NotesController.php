@@ -5,7 +5,6 @@ namespace NextDeveloper\CRM\Http\Controllers\Notes;
 use Illuminate\Http\Request;
 use NextDeveloper\CRM\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\CRM\Http\Requests\Notes\NotesUpdateRequest;
 use NextDeveloper\CRM\Database\Filters\NotesQueryFilter;
 use NextDeveloper\CRM\Database\Models\Notes;
@@ -107,6 +106,12 @@ class NotesController extends AbstractController
      */
     public function store(NotesCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = NotesService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class NotesController extends AbstractController
      * This method updates Notes object on database.
      *
      * @param  $notesId
-     * @param  CountryCreateRequest $request
+     * @param  NotesUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($notesId, NotesUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = NotesService::update($notesId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class NotesController extends AbstractController
      * This method updates Notes object on database.
      *
      * @param  $notesId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

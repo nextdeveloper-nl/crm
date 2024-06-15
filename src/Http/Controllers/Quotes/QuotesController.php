@@ -5,7 +5,6 @@ namespace NextDeveloper\CRM\Http\Controllers\Quotes;
 use Illuminate\Http\Request;
 use NextDeveloper\CRM\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\CRM\Http\Requests\Quotes\QuotesUpdateRequest;
 use NextDeveloper\CRM\Database\Filters\QuotesQueryFilter;
 use NextDeveloper\CRM\Database\Models\Quotes;
@@ -107,6 +106,12 @@ class QuotesController extends AbstractController
      */
     public function store(QuotesCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = QuotesService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class QuotesController extends AbstractController
      * This method updates Quotes object on database.
      *
      * @param  $quotesId
-     * @param  CountryCreateRequest $request
+     * @param  QuotesUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($quotesId, QuotesUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = QuotesService::update($quotesId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class QuotesController extends AbstractController
      * This method updates Quotes object on database.
      *
      * @param  $quotesId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

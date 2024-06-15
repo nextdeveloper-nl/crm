@@ -2,8 +2,6 @@
 
 namespace NextDeveloper\CRM\Http\Transformers\AbstractTransformers;
 
-use NextDeveloper\CRM\Database\Models\Accounts;
-use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
 use NextDeveloper\Commons\Database\Models\Addresses;
 use NextDeveloper\Commons\Database\Models\Comments;
 use NextDeveloper\Commons\Database\Models\Meta;
@@ -22,6 +20,8 @@ use NextDeveloper\Commons\Http\Transformers\MetaTransformer;
 use NextDeveloper\Commons\Http\Transformers\VotesTransformer;
 use NextDeveloper\Commons\Http\Transformers\AddressesTransformer;
 use NextDeveloper\Commons\Http\Transformers\PhoneNumbersTransformer;
+use NextDeveloper\CRM\Database\Models\Accounts;
+use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 
 /**
@@ -69,6 +69,19 @@ class AbstractAccountsTransformer extends AbstractTransformer
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
+            'company_size'  =>  $model->company_size,
+            'sector_focus'  =>  $model->sector_focus,
+            'industry'  =>  $model->industry,
+            'is_startup'  =>  $model->is_startup,
+            'regulatory_and_compliance'  =>  $model->regulatory_and_compliance,
+            'employee_count'  =>  $model->employee_count,
+            'office_cities'  =>  $model->office_cities,
+            'headquarter_city'  =>  $model->headquarter_city,
+            'production_people_count'  =>  $model->production_people_count,
+            'sales_people_count'  =>  $model->sales_people_count,
+            'marketing_people_count'  =>  $model->marketing_people_count,
+            'support_people_count'  =>  $model->support_people_count,
+            'automation_count'  =>  $model->automation_count,
             ]
         );
     }
@@ -156,39 +169,5 @@ class AbstractAccountsTransformer extends AbstractTransformer
 
         return $this->collection($addresses, new AddressesTransformer());
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

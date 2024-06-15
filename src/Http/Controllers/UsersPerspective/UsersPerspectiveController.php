@@ -5,7 +5,6 @@ namespace NextDeveloper\CRM\Http\Controllers\UsersPerspective;
 use Illuminate\Http\Request;
 use NextDeveloper\CRM\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\CRM\Http\Requests\UsersPerspective\UsersPerspectiveUpdateRequest;
 use NextDeveloper\CRM\Database\Filters\UsersPerspectiveQueryFilter;
 use NextDeveloper\CRM\Database\Models\UsersPerspective;
@@ -107,6 +106,12 @@ class UsersPerspectiveController extends AbstractController
      */
     public function store(UsersPerspectiveCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = UsersPerspectiveService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class UsersPerspectiveController extends AbstractController
      * This method updates UsersPerspective object on database.
      *
      * @param  $usersPerspectiveId
-     * @param  CountryCreateRequest $request
+     * @param  UsersPerspectiveUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($usersPerspectiveId, UsersPerspectiveUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = UsersPerspectiveService::update($usersPerspectiveId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class UsersPerspectiveController extends AbstractController
      * This method updates UsersPerspective object on database.
      *
      * @param  $usersPerspectiveId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

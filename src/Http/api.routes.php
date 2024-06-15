@@ -170,27 +170,6 @@ Route::prefix('crm')->group(
             }
         );
 
-        Route::prefix('quotes')->group(
-            function () {
-                Route::get('/', 'Quotes\QuotesController@index');
-                Route::get('/actions', 'Quotes\QuotesController@getActions');
-
-                Route::get('{crm_quotes}/tags ', 'Quotes\QuotesController@tags');
-                Route::post('{crm_quotes}/tags ', 'Quotes\QuotesController@saveTags');
-                Route::get('{crm_quotes}/addresses ', 'Quotes\QuotesController@addresses');
-                Route::post('{crm_quotes}/addresses ', 'Quotes\QuotesController@saveAddresses');
-
-                Route::get('/{crm_quotes}/{subObjects}', 'Quotes\QuotesController@relatedObjects');
-                Route::get('/{crm_quotes}', 'Quotes\QuotesController@show');
-
-                Route::post('/', 'Quotes\QuotesController@store');
-                Route::post('/{crm_quotes}/do/{action}', 'Quotes\QuotesController@doAction');
-
-                Route::patch('/{crm_quotes}', 'Quotes\QuotesController@update');
-                Route::delete('/{crm_quotes}', 'Quotes\QuotesController@destroy');
-            }
-        );
-
         Route::prefix('meetings')->group(
             function () {
                 Route::get('/', 'Meetings\MeetingsController@index');
@@ -209,6 +188,27 @@ Route::prefix('crm')->group(
 
                 Route::patch('/{crm_meetings}', 'Meetings\MeetingsController@update');
                 Route::delete('/{crm_meetings}', 'Meetings\MeetingsController@destroy');
+            }
+        );
+
+        Route::prefix('quotes')->group(
+            function () {
+                Route::get('/', 'Quotes\QuotesController@index');
+                Route::get('/actions', 'Quotes\QuotesController@getActions');
+
+                Route::get('{crm_quotes}/tags ', 'Quotes\QuotesController@tags');
+                Route::post('{crm_quotes}/tags ', 'Quotes\QuotesController@saveTags');
+                Route::get('{crm_quotes}/addresses ', 'Quotes\QuotesController@addresses');
+                Route::post('{crm_quotes}/addresses ', 'Quotes\QuotesController@saveAddresses');
+
+                Route::get('/{crm_quotes}/{subObjects}', 'Quotes\QuotesController@relatedObjects');
+                Route::get('/{crm_quotes}', 'Quotes\QuotesController@show');
+
+                Route::post('/', 'Quotes\QuotesController@store');
+                Route::post('/{crm_quotes}/do/{action}', 'Quotes\QuotesController@doAction');
+
+                Route::patch('/{crm_quotes}', 'Quotes\QuotesController@update');
+                Route::delete('/{crm_quotes}', 'Quotes\QuotesController@destroy');
             }
         );
 
@@ -398,8 +398,22 @@ Route::prefix('crm')->group(
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 );
+
 
 
 

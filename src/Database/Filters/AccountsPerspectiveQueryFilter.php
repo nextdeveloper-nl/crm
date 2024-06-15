@@ -51,9 +51,13 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('risk_level', $operator, $value);
     }
 
-    public function isPayingCustomer()
+    public function isPayingCustomer($value)
     {
-        return $this->builder->where('is_paying_customer', true);
+        if(!is_bool($value)) {
+            $value = false;
+        }
+
+        return $this->builder->where('is_paying_customer', $value);
     }
 
     public function createdAtStart($date)
@@ -140,6 +144,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

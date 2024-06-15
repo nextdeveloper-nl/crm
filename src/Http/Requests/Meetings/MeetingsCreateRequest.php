@@ -18,6 +18,9 @@ class MeetingsCreateRequest extends AbstractFormRequest
         'outcome' => 'required|string',
         'iam_account_it' => 'required|integer',
         'crm_account_id' => 'required|exists:crm_accounts,uuid|uuid',
+        'customer_requirements' => 'nullable|string',
+        'suggestions' => 'nullable|string',
+        'current_infrastructure' => 'nullable|string',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

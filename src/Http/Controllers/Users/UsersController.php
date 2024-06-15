@@ -10,9 +10,7 @@ use NextDeveloper\CRM\Database\Filters\UsersQueryFilter;
 use NextDeveloper\CRM\Database\Models\Users;
 use NextDeveloper\CRM\Services\UsersService;
 use NextDeveloper\CRM\Http\Requests\Users\UsersCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;
-use NextDeveloper\Commons\Http\Traits\Addresses;
-
+use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
 class UsersController extends AbstractController
 {
     private $model = Users::class;
@@ -108,6 +106,12 @@ class UsersController extends AbstractController
      */
     public function store(UsersCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = UsersService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -117,12 +121,18 @@ class UsersController extends AbstractController
      * This method updates Users object on database.
      *
      * @param  $usersId
-     * @param  CountryCreateRequest $request
+     * @param  UsersUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($usersId, UsersUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = UsersService::update($usersId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -132,7 +142,6 @@ class UsersController extends AbstractController
      * This method updates Users object on database.
      *
      * @param  $usersId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

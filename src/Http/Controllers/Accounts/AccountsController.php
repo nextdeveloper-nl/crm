@@ -5,7 +5,6 @@ namespace NextDeveloper\CRM\Http\Controllers\Accounts;
 use Illuminate\Http\Request;
 use NextDeveloper\CRM\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\CRM\Http\Requests\Accounts\AccountsUpdateRequest;
 use NextDeveloper\CRM\Database\Filters\AccountsQueryFilter;
 use NextDeveloper\CRM\Database\Models\Accounts;
@@ -107,6 +106,12 @@ class AccountsController extends AbstractController
      */
     public function store(AccountsCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = AccountsService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class AccountsController extends AbstractController
      * This method updates Accounts object on database.
      *
      * @param  $accountsId
-     * @param  CountryCreateRequest $request
+     * @param  AccountsUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($accountsId, AccountsUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = AccountsService::update($accountsId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class AccountsController extends AbstractController
      * This method updates Accounts object on database.
      *
      * @param  $accountsId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

@@ -60,6 +60,9 @@ trait CrmMeetingTestTraits
             'form_params'   =>  [
                 'meeting_note'  =>  'a',
                 'outcome'  =>  'a',
+                'customer_requirements'  =>  'a',
+                'suggestions'  =>  'a',
+                'current_infrastructure'  =>  'a',
                 'iam_account_it'  =>  '1',
                             ],
                 ['http_errors' => false]
@@ -368,6 +371,63 @@ trait CrmMeetingTestTraits
             $request = new Request(
                 [
                 'outcome'  =>  'a'
+                ]
+            );
+
+            $filter = new CrmMeetingQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmMeeting::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_crmmeeting_event_customer_requirements_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'customer_requirements'  =>  'a'
+                ]
+            );
+
+            $filter = new CrmMeetingQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmMeeting::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_crmmeeting_event_suggestions_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'suggestions'  =>  'a'
+                ]
+            );
+
+            $filter = new CrmMeetingQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmMeeting::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_crmmeeting_event_current_infrastructure_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'current_infrastructure'  =>  'a'
                 ]
             );
 
