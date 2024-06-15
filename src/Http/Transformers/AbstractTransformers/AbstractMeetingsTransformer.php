@@ -2,8 +2,6 @@
 
 namespace NextDeveloper\CRM\Http\Transformers\AbstractTransformers;
 
-use NextDeveloper\CRM\Database\Models\Meetings;
-use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
 use NextDeveloper\Commons\Database\Models\Addresses;
 use NextDeveloper\Commons\Database\Models\Comments;
 use NextDeveloper\Commons\Database\Models\Meta;
@@ -22,6 +20,8 @@ use NextDeveloper\Commons\Http\Transformers\MetaTransformer;
 use NextDeveloper\Commons\Http\Transformers\VotesTransformer;
 use NextDeveloper\Commons\Http\Transformers\AddressesTransformer;
 use NextDeveloper\Commons\Http\Transformers\PhoneNumbersTransformer;
+use NextDeveloper\CRM\Database\Models\Meetings;
+use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 
 /**
@@ -70,6 +70,9 @@ class AbstractMeetingsTransformer extends AbstractTransformer
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
+            'customer_requirements'  =>  $model->customer_requirements,
+            'suggestions'  =>  $model->suggestions,
+            'current_infrastructure'  =>  $model->current_infrastructure,
             ]
         );
     }
@@ -158,11 +161,5 @@ class AbstractMeetingsTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
 
 }

@@ -5,7 +5,6 @@ namespace NextDeveloper\CRM\Http\Controllers\UserManagers;
 use Illuminate\Http\Request;
 use NextDeveloper\CRM\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\CRM\Http\Requests\UserManagers\UserManagersUpdateRequest;
 use NextDeveloper\CRM\Database\Filters\UserManagersQueryFilter;
 use NextDeveloper\CRM\Database\Models\UserManagers;
@@ -107,6 +106,12 @@ class UserManagersController extends AbstractController
      */
     public function store(UserManagersCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = UserManagersService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class UserManagersController extends AbstractController
      * This method updates UserManagers object on database.
      *
      * @param  $userManagersId
-     * @param  CountryCreateRequest $request
+     * @param  UserManagersUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($userManagersId, UserManagersUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = UserManagersService::update($userManagersId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class UserManagersController extends AbstractController
      * This method updates UserManagers object on database.
      *
      * @param  $userManagersId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

@@ -5,7 +5,6 @@ namespace NextDeveloper\CRM\Http\Controllers\Tasks;
 use Illuminate\Http\Request;
 use NextDeveloper\CRM\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\CRM\Http\Requests\Tasks\TasksUpdateRequest;
 use NextDeveloper\CRM\Database\Filters\TasksQueryFilter;
 use NextDeveloper\CRM\Database\Models\Tasks;
@@ -107,6 +106,12 @@ class TasksController extends AbstractController
      */
     public function store(TasksCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = TasksService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class TasksController extends AbstractController
      * This method updates Tasks object on database.
      *
      * @param  $tasksId
-     * @param  CountryCreateRequest $request
+     * @param  TasksUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($tasksId, TasksUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = TasksService::update($tasksId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class TasksController extends AbstractController
      * This method updates Tasks object on database.
      *
      * @param  $tasksId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

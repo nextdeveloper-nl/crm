@@ -54,14 +54,22 @@ class TasksQueryFilter extends AbstractQueryFilter
         return $this->builder->where('priority', $operator, $value);
     }
 
-    public function isFinished()
+    public function isFinished($value)
     {
-        return $this->builder->where('is_finished', true);
+        if(!is_bool($value)) {
+            $value = false;
+        }
+
+        return $this->builder->where('is_finished', $value);
     }
 
-    public function isDelayed()
+    public function isDelayed($value)
     {
-        return $this->builder->where('is_delayed', true);
+        if(!is_bool($value)) {
+            $value = false;
+        }
+
+        return $this->builder->where('is_delayed', $value);
     }
 
     public function createdAtStart($date)
@@ -113,6 +121,8 @@ class TasksQueryFilter extends AbstractQueryFilter
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

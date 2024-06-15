@@ -5,7 +5,6 @@ namespace NextDeveloper\CRM\Http\Controllers\Calls;
 use Illuminate\Http\Request;
 use NextDeveloper\CRM\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\CRM\Http\Requests\Calls\CallsUpdateRequest;
 use NextDeveloper\CRM\Database\Filters\CallsQueryFilter;
 use NextDeveloper\CRM\Database\Models\Calls;
@@ -107,6 +106,12 @@ class CallsController extends AbstractController
      */
     public function store(CallsCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = CallsService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class CallsController extends AbstractController
      * This method updates Calls object on database.
      *
      * @param  $callsId
-     * @param  CountryCreateRequest $request
+     * @param  CallsUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($callsId, CallsUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = CallsService::update($callsId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class CallsController extends AbstractController
      * This method updates Calls object on database.
      *
      * @param  $callsId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

@@ -10,7 +10,6 @@ use NextDeveloper\CRM\Database\Observers\AccountsObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
-use NextDeveloper\Commons\Database\GlobalScopes\LimitScope;
 
 /**
  * Accounts model.
@@ -27,6 +26,19 @@ use NextDeveloper\Commons\Database\GlobalScopes\LimitScope;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
+ * @property integer $company_size
+ * @property array $sector_focus
+ * @property string $industry
+ * @property integer $is_startup
+ * @property array $regulatory_and_compliance
+ * @property integer $employee_count
+ * @property array $office_cities
+ * @property string $headquarter_city
+ * @property integer $production_people_count
+ * @property integer $sales_people_count
+ * @property integer $marketing_people_count
+ * @property integer $support_people_count
+ * @property integer $automation_count
  */
 class Accounts extends Model
 {
@@ -51,6 +63,19 @@ class Accounts extends Model
             'common_city_id',
             'position',
             'tags',
+            'company_size',
+            'sector_focus',
+            'industry',
+            'is_startup',
+            'regulatory_and_compliance',
+            'employee_count',
+            'office_cities',
+            'headquarter_city',
+            'production_people_count',
+            'sales_people_count',
+            'marketing_people_count',
+            'support_people_count',
+            'automation_count',
     ];
 
     /**
@@ -82,6 +107,19 @@ class Accounts extends Model
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
+    'company_size' => 'integer',
+    'sector_focus' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'industry' => 'string',
+    'is_startup' => 'integer',
+    'regulatory_and_compliance' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'employee_count' => 'integer',
+    'office_cities' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'headquarter_city' => 'string',
+    'production_people_count' => 'integer',
+    'sales_people_count' => 'integer',
+    'marketing_people_count' => 'integer',
+    'support_people_count' => 'integer',
+    'automation_count' => 'integer',
     ];
 
     /**
@@ -142,40 +180,6 @@ class Accounts extends Model
         }
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 }

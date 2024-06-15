@@ -5,7 +5,6 @@ namespace NextDeveloper\CRM\Http\Controllers\AccountManagers;
 use Illuminate\Http\Request;
 use NextDeveloper\CRM\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\CRM\Http\Requests\AccountManagers\AccountManagersUpdateRequest;
 use NextDeveloper\CRM\Database\Filters\AccountManagersQueryFilter;
 use NextDeveloper\CRM\Database\Models\AccountManagers;
@@ -107,6 +106,12 @@ class AccountManagersController extends AbstractController
      */
     public function store(AccountManagersCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = AccountManagersService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class AccountManagersController extends AbstractController
      * This method updates AccountManagers object on database.
      *
      * @param  $accountManagersId
-     * @param  CountryCreateRequest $request
+     * @param  AccountManagersUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($accountManagersId, AccountManagersUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = AccountManagersService::update($accountManagersId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class AccountManagersController extends AbstractController
      * This method updates AccountManagers object on database.
      *
      * @param  $accountManagersId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

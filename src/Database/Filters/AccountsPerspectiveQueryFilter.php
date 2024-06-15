@@ -37,6 +37,16 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->builder->where('position', 'like', '%' . $value . '%');
     }
+    
+    public function industry($value)
+    {
+        return $this->builder->where('industry', 'like', '%' . $value . '%');
+    }
+    
+    public function headquarterCity($value)
+    {
+        return $this->builder->where('headquarter_city', 'like', '%' . $value . '%');
+    }
 
     public function riskLevel($value)
     {
@@ -51,9 +61,117 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('risk_level', $operator, $value);
     }
 
-    public function isPayingCustomer()
+    public function companySize($value)
     {
-        return $this->builder->where('is_paying_customer', true);
+        $operator = substr($value, 0, 1);
+
+        if ($operator != '<' || $operator != '>') {
+            $operator = '=';
+        } else {
+            $value = substr($value, 1);
+        }
+
+        return $this->builder->where('company_size', $operator, $value);
+    }
+
+    public function isStartup($value)
+    {
+        $operator = substr($value, 0, 1);
+
+        if ($operator != '<' || $operator != '>') {
+            $operator = '=';
+        } else {
+            $value = substr($value, 1);
+        }
+
+        return $this->builder->where('is_startup', $operator, $value);
+    }
+
+    public function employeeCount($value)
+    {
+        $operator = substr($value, 0, 1);
+
+        if ($operator != '<' || $operator != '>') {
+            $operator = '=';
+        } else {
+            $value = substr($value, 1);
+        }
+
+        return $this->builder->where('employee_count', $operator, $value);
+    }
+
+    public function productionPeopleCount($value)
+    {
+        $operator = substr($value, 0, 1);
+
+        if ($operator != '<' || $operator != '>') {
+            $operator = '=';
+        } else {
+            $value = substr($value, 1);
+        }
+
+        return $this->builder->where('production_people_count', $operator, $value);
+    }
+
+    public function salesPeopleCount($value)
+    {
+        $operator = substr($value, 0, 1);
+
+        if ($operator != '<' || $operator != '>') {
+            $operator = '=';
+        } else {
+            $value = substr($value, 1);
+        }
+
+        return $this->builder->where('sales_people_count', $operator, $value);
+    }
+
+    public function marketingPeopleCount($value)
+    {
+        $operator = substr($value, 0, 1);
+
+        if ($operator != '<' || $operator != '>') {
+            $operator = '=';
+        } else {
+            $value = substr($value, 1);
+        }
+
+        return $this->builder->where('marketing_people_count', $operator, $value);
+    }
+
+    public function supportPeopleCount($value)
+    {
+        $operator = substr($value, 0, 1);
+
+        if ($operator != '<' || $operator != '>') {
+            $operator = '=';
+        } else {
+            $value = substr($value, 1);
+        }
+
+        return $this->builder->where('support_people_count', $operator, $value);
+    }
+
+    public function automationCount($value)
+    {
+        $operator = substr($value, 0, 1);
+
+        if ($operator != '<' || $operator != '>') {
+            $operator = '=';
+        } else {
+            $value = substr($value, 1);
+        }
+
+        return $this->builder->where('automation_count', $operator, $value);
+    }
+
+    public function isPayingCustomer($value)
+    {
+        if(!is_bool($value)) {
+            $value = false;
+        }
+
+        return $this->builder->where('is_paying_customer', $value);
     }
 
     public function createdAtStart($date)
@@ -140,6 +258,8 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

@@ -26,6 +26,9 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
+ * @property string $customer_requirements
+ * @property string $suggestions
+ * @property string $current_infrastructure
  */
 class Meetings extends Model
 {
@@ -50,6 +53,9 @@ class Meetings extends Model
             'iam_user_id',
             'iam_account_it',
             'crm_account_id',
+            'customer_requirements',
+            'suggestions',
+            'current_infrastructure',
     ];
 
     /**
@@ -81,6 +87,9 @@ class Meetings extends Model
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
+    'customer_requirements' => 'string',
+    'suggestions' => 'string',
+    'current_infrastructure' => 'string',
     ];
 
     /**
@@ -142,11 +151,5 @@ class Meetings extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
 
 }

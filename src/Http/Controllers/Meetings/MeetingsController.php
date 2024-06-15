@@ -5,7 +5,6 @@ namespace NextDeveloper\CRM\Http\Controllers\Meetings;
 use Illuminate\Http\Request;
 use NextDeveloper\CRM\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\CRM\Http\Requests\Meetings\MeetingsUpdateRequest;
 use NextDeveloper\CRM\Database\Filters\MeetingsQueryFilter;
 use NextDeveloper\CRM\Database\Models\Meetings;
@@ -107,6 +106,12 @@ class MeetingsController extends AbstractController
      */
     public function store(MeetingsCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = MeetingsService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class MeetingsController extends AbstractController
      * This method updates Meetings object on database.
      *
      * @param  $meetingsId
-     * @param  CountryCreateRequest $request
+     * @param  MeetingsUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($meetingsId, MeetingsUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = MeetingsService::update($meetingsId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class MeetingsController extends AbstractController
      * This method updates Meetings object on database.
      *
      * @param  $meetingsId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

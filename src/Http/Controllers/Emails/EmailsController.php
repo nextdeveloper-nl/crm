@@ -5,7 +5,6 @@ namespace NextDeveloper\CRM\Http\Controllers\Emails;
 use Illuminate\Http\Request;
 use NextDeveloper\CRM\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\CRM\Http\Requests\Emails\EmailsUpdateRequest;
 use NextDeveloper\CRM\Database\Filters\EmailsQueryFilter;
 use NextDeveloper\CRM\Database\Models\Emails;
@@ -107,6 +106,12 @@ class EmailsController extends AbstractController
      */
     public function store(EmailsCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = EmailsService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class EmailsController extends AbstractController
      * This method updates Emails object on database.
      *
      * @param  $emailsId
-     * @param  CountryCreateRequest $request
+     * @param  EmailsUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($emailsId, EmailsUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = EmailsService::update($emailsId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class EmailsController extends AbstractController
      * This method updates Emails object on database.
      *
      * @param  $emailsId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

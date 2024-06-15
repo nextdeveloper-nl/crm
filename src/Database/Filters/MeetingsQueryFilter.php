@@ -27,6 +27,21 @@ class MeetingsQueryFilter extends AbstractQueryFilter
     {
         return $this->builder->where('outcome', 'like', '%' . $value . '%');
     }
+    
+    public function customerRequirements($value)
+    {
+        return $this->builder->where('customer_requirements', 'like', '%' . $value . '%');
+    }
+    
+    public function suggestions($value)
+    {
+        return $this->builder->where('suggestions', 'like', '%' . $value . '%');
+    }
+    
+    public function currentInfrastructure($value)
+    {
+        return $this->builder->where('current_infrastructure', 'like', '%' . $value . '%');
+    }
 
     public function iamAccountIt($value)
     {
@@ -99,6 +114,8 @@ class MeetingsQueryFilter extends AbstractQueryFilter
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

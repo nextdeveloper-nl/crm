@@ -5,7 +5,6 @@ namespace NextDeveloper\CRM\Http\Controllers\AccountsPerspective;
 use Illuminate\Http\Request;
 use NextDeveloper\CRM\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\CRM\Http\Requests\AccountsPerspective\AccountsPerspectiveUpdateRequest;
 use NextDeveloper\CRM\Database\Filters\AccountsPerspectiveQueryFilter;
 use NextDeveloper\CRM\Database\Models\AccountsPerspective;
@@ -107,6 +106,12 @@ class AccountsPerspectiveController extends AbstractController
      */
     public function store(AccountsPerspectiveCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = AccountsPerspectiveService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class AccountsPerspectiveController extends AbstractController
      * This method updates AccountsPerspective object on database.
      *
      * @param  $accountsPerspectiveId
-     * @param  CountryCreateRequest $request
+     * @param  AccountsPerspectiveUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($accountsPerspectiveId, AccountsPerspectiveUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = AccountsPerspectiveService::update($accountsPerspectiveId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class AccountsPerspectiveController extends AbstractController
      * This method updates AccountsPerspective object on database.
      *
      * @param  $accountsPerspectiveId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
