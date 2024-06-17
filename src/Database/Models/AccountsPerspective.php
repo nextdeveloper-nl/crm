@@ -29,8 +29,8 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property integer $risk_level
  * @property integer $company_size
  * @property array $sector_focus
- * @property string $industry
- * @property integer $is_startup
+ * @property array $industry
+ * @property boolean $is_startup
  * @property array $regulatory_and_compliance
  * @property integer $employee_count
  * @property array $office_cities
@@ -40,6 +40,9 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property integer $marketing_people_count
  * @property integer $support_people_count
  * @property integer $automation_count
+ * @property string $additional_information
+ * @property array $target_markets
+ * @property array $partners_with
  * @property integer $iam_user_id
  * @property integer $iam_account_id
  * @property \Carbon\Carbon $created_at
@@ -85,6 +88,9 @@ class AccountsPerspective extends Model
             'marketing_people_count',
             'support_people_count',
             'automation_count',
+            'additional_information',
+            'target_markets',
+            'partners_with',
             'iam_user_id',
             'iam_account_id',
     ];
@@ -123,8 +129,8 @@ class AccountsPerspective extends Model
     'risk_level' => 'integer',
     'company_size' => 'integer',
     'sector_focus' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'industry' => 'string',
-    'is_startup' => 'integer',
+    'industry' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'is_startup' => 'boolean',
     'regulatory_and_compliance' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'employee_count' => 'integer',
     'office_cities' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
@@ -134,6 +140,9 @@ class AccountsPerspective extends Model
     'marketing_people_count' => 'integer',
     'support_people_count' => 'integer',
     'automation_count' => 'integer',
+    'additional_information' => 'string',
+    'target_markets' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'partners_with' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     ];
@@ -196,4 +205,6 @@ class AccountsPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 }

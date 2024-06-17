@@ -38,14 +38,14 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('position', 'like', '%' . $value . '%');
     }
     
-    public function industry($value)
-    {
-        return $this->builder->where('industry', 'like', '%' . $value . '%');
-    }
-    
     public function headquarterCity($value)
     {
         return $this->builder->where('headquarter_city', 'like', '%' . $value . '%');
+    }
+    
+    public function additionalInformation($value)
+    {
+        return $this->builder->where('additional_information', 'like', '%' . $value . '%');
     }
 
     public function riskLevel($value)
@@ -72,19 +72,6 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
         }
 
         return $this->builder->where('company_size', $operator, $value);
-    }
-
-    public function isStartup($value)
-    {
-        $operator = substr($value, 0, 1);
-
-        if ($operator != '<' || $operator != '>') {
-            $operator = '=';
-        } else {
-            $value = substr($value, 1);
-        }
-
-        return $this->builder->where('is_startup', $operator, $value);
     }
 
     public function employeeCount($value)
@@ -174,6 +161,15 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('is_paying_customer', $value);
     }
 
+    public function isStartup($value)
+    {
+        if(!is_bool($value)) {
+            $value = false;
+        }
+
+        return $this->builder->where('is_startup', $value);
+    }
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -258,6 +254,8 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

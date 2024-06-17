@@ -20,8 +20,8 @@ class AccountsUpdateRequest extends AbstractFormRequest
         'tags' => '',
         'company_size' => 'integer',
         'sector_focus' => 'nullable',
-        'industry' => 'nullable|string',
-        'is_startup' => 'nullable|integer',
+        'industry' => 'nullable',
+        'is_startup' => 'nullable|boolean',
         'regulatory_and_compliance' => 'nullable',
         'employee_count' => 'nullable|integer',
         'office_cities' => 'nullable',
@@ -31,6 +31,9 @@ class AccountsUpdateRequest extends AbstractFormRequest
         'marketing_people_count' => 'integer',
         'support_people_count' => 'integer',
         'automation_count' => 'integer',
+        'additional_information' => 'nullable|string',
+        'target_markets' => 'nullable',
+        'partners_with' => 'nullable',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n
