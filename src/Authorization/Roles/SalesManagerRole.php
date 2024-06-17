@@ -144,6 +144,11 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
 
             return $amIManager !== null;
         }
+
+        if($model->iam_user_id == $users->id)
+            return true;
+
+        return false;
     }
 
 
