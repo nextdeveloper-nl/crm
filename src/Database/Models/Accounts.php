@@ -42,6 +42,7 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property string $additional_information
  * @property array $target_markets
  * @property array $partners_with
+ * @property array $services
  */
 class Accounts extends Model
 {
@@ -82,6 +83,7 @@ class Accounts extends Model
             'additional_information',
             'target_markets',
             'partners_with',
+            'services',
     ];
 
     /**
@@ -129,6 +131,7 @@ class Accounts extends Model
     'additional_information' => 'string',
     'target_markets' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'partners_with' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'services' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     ];
 
     /**
@@ -190,6 +193,8 @@ class Accounts extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 
