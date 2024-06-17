@@ -59,11 +59,10 @@ trait CrmAccountTestTraits
             'POST', '/crm/crmaccount', [
             'form_params'   =>  [
                 'position'  =>  'a',
-                'industry'  =>  'a',
                 'headquarter_city'  =>  'a',
+                'additional_information'  =>  'a',
                 'risk_level'  =>  '1',
                 'company_size'  =>  '1',
-                'is_startup'  =>  '1',
                 'employee_count'  =>  '1',
                 'production_people_count'  =>  '1',
                 'sales_people_count'  =>  '1',
@@ -371,12 +370,12 @@ trait CrmAccountTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmaccount_event_industry_filter()
+    public function test_crmaccount_event_headquarter_city_filter()
     {
         try {
             $request = new Request(
                 [
-                'industry'  =>  'a'
+                'headquarter_city'  =>  'a'
                 ]
             );
 
@@ -390,12 +389,12 @@ trait CrmAccountTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmaccount_event_headquarter_city_filter()
+    public function test_crmaccount_event_additional_information_filter()
     {
         try {
             $request = new Request(
                 [
-                'headquarter_city'  =>  'a'
+                'additional_information'  =>  'a'
                 ]
             );
 
@@ -434,25 +433,6 @@ trait CrmAccountTestTraits
             $request = new Request(
                 [
                 'company_size'  =>  '1'
-                ]
-            );
-
-            $filter = new CrmAccountQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmAccount::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmaccount_event_is_startup_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'is_startup'  =>  '1'
                 ]
             );
 
