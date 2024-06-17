@@ -34,6 +34,7 @@ class AccountsCreateRequest extends AbstractFormRequest
         'additional_information' => 'nullable|string',
         'target_markets' => 'nullable',
         'partners_with' => 'nullable',
+        'services' => 'nullable',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n
