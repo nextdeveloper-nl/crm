@@ -62,8 +62,6 @@ trait CrmMeetingTestTraits
                 'outcome'  =>  'a',
                 'customer_requirements'  =>  'a',
                 'suggestions'  =>  'a',
-                'current_infrastructure'  =>  'a',
-                'iam_account_it'  =>  '1',
                             ],
                 ['http_errors' => false]
             ]
@@ -409,44 +407,6 @@ trait CrmMeetingTestTraits
             $request = new Request(
                 [
                 'suggestions'  =>  'a'
-                ]
-            );
-
-            $filter = new CrmMeetingQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmMeeting::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmmeeting_event_current_infrastructure_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'current_infrastructure'  =>  'a'
-                ]
-            );
-
-            $filter = new CrmMeetingQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmMeeting::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmmeeting_event_iam_account_it_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'iam_account_it'  =>  '1'
                 ]
             );
 

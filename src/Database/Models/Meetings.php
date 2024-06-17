@@ -21,14 +21,13 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property string $meeting_note
  * @property string $outcome
  * @property integer $iam_user_id
- * @property integer $iam_account_it
+ * @property integer $iam_account_id
  * @property integer $crm_account_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
  * @property string $customer_requirements
  * @property string $suggestions
- * @property string $current_infrastructure
  */
 class Meetings extends Model
 {
@@ -51,11 +50,10 @@ class Meetings extends Model
             'meeting_note',
             'outcome',
             'iam_user_id',
-            'iam_account_it',
+            'iam_account_id',
             'crm_account_id',
             'customer_requirements',
             'suggestions',
-            'current_infrastructure',
     ];
 
     /**
@@ -82,14 +80,12 @@ class Meetings extends Model
     'agenda_calendar_item_id' => 'integer',
     'meeting_note' => 'string',
     'outcome' => 'string',
-    'iam_account_it' => 'integer',
     'crm_account_id' => 'integer',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
     'customer_requirements' => 'string',
     'suggestions' => 'string',
-    'current_infrastructure' => 'string',
     ];
 
     /**
@@ -151,6 +147,7 @@ class Meetings extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

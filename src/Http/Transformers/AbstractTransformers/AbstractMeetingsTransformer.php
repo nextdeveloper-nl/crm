@@ -56,6 +56,7 @@ class AbstractMeetingsTransformer extends AbstractTransformer
     {
                                                 $agendaCalendarItemId = \NextDeveloper\Agenda\Database\Models\CalendarItems::where('id', $model->agenda_calendar_item_id)->first();
                                                             $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
+                                                            $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
                                                             $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
                         
         return $this->buildPayload(
@@ -65,14 +66,13 @@ class AbstractMeetingsTransformer extends AbstractTransformer
             'meeting_note'  =>  $model->meeting_note,
             'outcome'  =>  $model->outcome,
             'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
-            'iam_account_it'  =>  $model->iam_account_it,
+            'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
             'crm_account_id'  =>  $crmAccountId ? $crmAccountId->uuid : null,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
             'customer_requirements'  =>  $model->customer_requirements,
             'suggestions'  =>  $model->suggestions,
-            'current_infrastructure'  =>  $model->current_infrastructure,
             ]
         );
     }
@@ -161,9 +161,4 @@ class AbstractMeetingsTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
 }
