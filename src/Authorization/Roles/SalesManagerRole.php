@@ -144,6 +144,16 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
 
             return $amIManager !== null;
         }
+
+        if(property_exists('iam_account_id', $model)) {
+            if($model->iam_account_id == UserHelper::currentAccount()->id)
+                return true;
+        }
+
+        if($model->iam_user_id == $users->id)
+            return true;
+
+        return false;
     }
 
 
