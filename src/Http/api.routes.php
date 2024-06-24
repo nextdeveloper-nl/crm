@@ -86,27 +86,6 @@ Route::prefix('crm')->group(
             }
         );
 
-        Route::prefix('notes')->group(
-            function () {
-                Route::get('/', 'Notes\NotesController@index');
-                Route::get('/actions', 'Notes\NotesController@getActions');
-
-                Route::get('{crm_notes}/tags ', 'Notes\NotesController@tags');
-                Route::post('{crm_notes}/tags ', 'Notes\NotesController@saveTags');
-                Route::get('{crm_notes}/addresses ', 'Notes\NotesController@addresses');
-                Route::post('{crm_notes}/addresses ', 'Notes\NotesController@saveAddresses');
-
-                Route::get('/{crm_notes}/{subObjects}', 'Notes\NotesController@relatedObjects');
-                Route::get('/{crm_notes}', 'Notes\NotesController@show');
-
-                Route::post('/', 'Notes\NotesController@store');
-                Route::post('/{crm_notes}/do/{action}', 'Notes\NotesController@doAction');
-
-                Route::patch('/{crm_notes}', 'Notes\NotesController@update');
-                Route::delete('/{crm_notes}', 'Notes\NotesController@destroy');
-            }
-        );
-
         Route::prefix('calls')->group(
             function () {
                 Route::get('/', 'Calls\CallsController@index');
@@ -230,6 +209,27 @@ Route::prefix('crm')->group(
 
                 Route::patch('/{crm_tasks}', 'Tasks\TasksController@update');
                 Route::delete('/{crm_tasks}', 'Tasks\TasksController@destroy');
+            }
+        );
+
+        Route::prefix('notes')->group(
+            function () {
+                Route::get('/', 'Notes\NotesController@index');
+                Route::get('/actions', 'Notes\NotesController@getActions');
+
+                Route::get('{crm_notes}/tags ', 'Notes\NotesController@tags');
+                Route::post('{crm_notes}/tags ', 'Notes\NotesController@saveTags');
+                Route::get('{crm_notes}/addresses ', 'Notes\NotesController@addresses');
+                Route::post('{crm_notes}/addresses ', 'Notes\NotesController@saveAddresses');
+
+                Route::get('/{crm_notes}/{subObjects}', 'Notes\NotesController@relatedObjects');
+                Route::get('/{crm_notes}', 'Notes\NotesController@show');
+
+                Route::post('/', 'Notes\NotesController@store');
+                Route::post('/{crm_notes}/do/{action}', 'Notes\NotesController@doAction');
+
+                Route::patch('/{crm_notes}', 'Notes\NotesController@update');
+                Route::delete('/{crm_notes}', 'Notes\NotesController@destroy');
             }
         );
 
@@ -502,8 +502,36 @@ Route::prefix('crm')->group(
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 );
+
+
 
 
 

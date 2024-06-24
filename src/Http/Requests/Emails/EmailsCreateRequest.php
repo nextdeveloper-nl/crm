@@ -15,9 +15,9 @@ class EmailsCreateRequest extends AbstractFormRequest
         return [
             'subject' => 'required|string',
         'content' => 'required|string',
-        'iam_account_it' => 'required|integer',
-        'crm_account_id' => 'required|exists:crm_accounts,uuid|uuid',
         'email_meta' => 'nullable|string',
+        'from' => 'nullable|string',
+        'to' => 'nullable',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

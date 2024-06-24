@@ -18,7 +18,9 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property string $uuid
  * @property string $name
  * @property integer $common_domain_id
+ * @property string $domain_name
  * @property integer $common_country_id
+ * @property string $country_name
  * @property string $phone_number
  * @property string $description
  * @property integer $crm_account_id
@@ -44,7 +46,9 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property array $target_markets
  * @property array $partners_with
  * @property integer $iam_user_id
+ * @property string $account_manager
  * @property integer $iam_account_id
+ * @property string $account_responsible
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
@@ -66,7 +70,9 @@ class AccountsPerspective extends Model
     protected $fillable = [
             'name',
             'common_domain_id',
+            'domain_name',
             'common_country_id',
+            'country_name',
             'phone_number',
             'description',
             'crm_account_id',
@@ -92,7 +98,9 @@ class AccountsPerspective extends Model
             'target_markets',
             'partners_with',
             'iam_user_id',
+            'account_manager',
             'iam_account_id',
+            'account_responsible',
     ];
 
     /**
@@ -118,7 +126,9 @@ class AccountsPerspective extends Model
     'id' => 'integer',
     'name' => 'string',
     'common_domain_id' => 'integer',
+    'domain_name' => 'string',
     'common_country_id' => 'integer',
+    'country_name' => 'string',
     'phone_number' => 'string',
     'description' => 'string',
     'crm_account_id' => 'integer',
@@ -143,6 +153,8 @@ class AccountsPerspective extends Model
     'additional_information' => 'string',
     'target_markets' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'partners_with' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'account_manager' => 'string',
+    'account_responsible' => 'string',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     ];
@@ -205,6 +217,8 @@ class AccountsPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

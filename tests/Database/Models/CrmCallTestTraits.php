@@ -58,7 +58,7 @@ trait CrmCallTestTraits
         $response = $this->http->request(
             'POST', '/crm/crmcall', [
             'form_params'   =>  [
-                'title'  =>  'a',
+                'name'  =>  'a',
                 'description'  =>  'a',
                 'disposition'  =>  'a',
                 'from_number'  =>  'a',
@@ -348,12 +348,12 @@ trait CrmCallTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmcall_event_title_filter()
+    public function test_crmcall_event_name_filter()
     {
         try {
             $request = new Request(
                 [
-                'title'  =>  'a'
+                'name'  =>  'a'
                 ]
             );
 

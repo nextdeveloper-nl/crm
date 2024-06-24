@@ -55,7 +55,7 @@ class AbstractEmailsTransformer extends AbstractTransformer
     public function transform(Emails $model)
     {
                                                 $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
-                                                            $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
+                                                            $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
                         
         return $this->buildPayload(
             [
@@ -63,12 +63,13 @@ class AbstractEmailsTransformer extends AbstractTransformer
             'subject'  =>  $model->subject,
             'content'  =>  $model->content,
             'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
-            'iam_account_it'  =>  $model->iam_account_it,
-            'crm_account_id'  =>  $crmAccountId ? $crmAccountId->uuid : null,
+            'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
             'email_meta'  =>  $model->email_meta,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
+            'from'  =>  $model->from,
+            'to'  =>  $model->to,
             ]
         );
     }
@@ -157,5 +158,4 @@ class AbstractEmailsTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
 }

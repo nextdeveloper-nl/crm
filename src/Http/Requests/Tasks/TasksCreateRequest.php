@@ -13,9 +13,8 @@ class TasksCreateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string',
+            'name' => 'required|string',
         'description' => 'required|string',
-        'iam_account_it' => 'required|integer',
         'crm_account_id' => 'required|exists:crm_accounts,uuid|uuid',
         'priority' => 'integer',
         'is_finished' => 'boolean',

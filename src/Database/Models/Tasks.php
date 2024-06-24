@@ -17,10 +17,10 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @package  NextDeveloper\CRM\Database\Models
  * @property integer $id
  * @property string $uuid
- * @property string $title
+ * @property string $name
  * @property string $description
  * @property integer $iam_user_id
- * @property integer $iam_account_it
+ * @property integer $iam_account_id
  * @property integer $crm_account_id
  * @property integer $priority
  * @property boolean $is_finished
@@ -46,10 +46,10 @@ class Tasks extends Model
     protected $guarded = [];
 
     protected $fillable = [
-            'title',
+            'name',
             'description',
             'iam_user_id',
-            'iam_account_it',
+            'iam_account_id',
             'crm_account_id',
             'priority',
             'is_finished',
@@ -77,9 +77,8 @@ class Tasks extends Model
      */
     protected $casts = [
     'id' => 'integer',
-    'title' => 'string',
+    'name' => 'string',
     'description' => 'string',
-    'iam_account_it' => 'integer',
     'crm_account_id' => 'integer',
     'priority' => 'integer',
     'is_finished' => 'boolean',
@@ -148,6 +147,8 @@ class Tasks extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

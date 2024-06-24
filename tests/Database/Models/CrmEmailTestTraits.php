@@ -61,7 +61,7 @@ trait CrmEmailTestTraits
                 'subject'  =>  'a',
                 'content'  =>  'a',
                 'email_meta'  =>  'a',
-                'iam_account_it'  =>  '1',
+                'from'  =>  'a',
                             ],
                 ['http_errors' => false]
             ]
@@ -401,12 +401,12 @@ trait CrmEmailTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmemail_event_iam_account_it_filter()
+    public function test_crmemail_event_from_filter()
     {
         try {
             $request = new Request(
                 [
-                'iam_account_it'  =>  '1'
+                'from'  =>  'a'
                 ]
             );
 
