@@ -58,9 +58,8 @@ trait CrmTaskTestTraits
         $response = $this->http->request(
             'POST', '/crm/crmtask', [
             'form_params'   =>  [
-                'title'  =>  'a',
+                'name'  =>  'a',
                 'description'  =>  'a',
-                'iam_account_it'  =>  '1',
                 'priority'  =>  '1',
                             ],
                 ['http_errors' => false]
@@ -344,12 +343,12 @@ trait CrmTaskTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmtask_event_title_filter()
+    public function test_crmtask_event_name_filter()
     {
         try {
             $request = new Request(
                 [
-                'title'  =>  'a'
+                'name'  =>  'a'
                 ]
             );
 
@@ -369,25 +368,6 @@ trait CrmTaskTestTraits
             $request = new Request(
                 [
                 'description'  =>  'a'
-                ]
-            );
-
-            $filter = new CrmTaskQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmTask::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmtask_event_iam_account_it_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'iam_account_it'  =>  '1'
                 ]
             );
 

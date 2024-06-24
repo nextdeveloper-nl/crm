@@ -60,7 +60,7 @@ class AbstractCallsTransformer extends AbstractTransformer
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
-            'title'  =>  $model->title,
+            'name'  =>  $model->name,
             'description'  =>  $model->description,
             'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
             'iam_account_it'  =>  $model->iam_account_it,
@@ -161,5 +161,4 @@ class AbstractCallsTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
 }

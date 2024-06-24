@@ -23,6 +23,16 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('name', 'like', '%' . $value . '%');
     }
     
+    public function domainName($value)
+    {
+        return $this->builder->where('domain_name', 'like', '%' . $value . '%');
+    }
+    
+    public function countryName($value)
+    {
+        return $this->builder->where('country_name', 'like', '%' . $value . '%');
+    }
+    
     public function phoneNumber($value)
     {
         return $this->builder->where('phone_number', 'like', '%' . $value . '%');
@@ -46,6 +56,16 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     public function additionalInformation($value)
     {
         return $this->builder->where('additional_information', 'like', '%' . $value . '%');
+    }
+    
+    public function accountManager($value)
+    {
+        return $this->builder->where('account_manager', 'like', '%' . $value . '%');
+    }
+    
+    public function accountResponsible($value)
+    {
+        return $this->builder->where('account_responsible', 'like', '%' . $value . '%');
     }
 
     public function riskLevel($value)
@@ -254,6 +274,8 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

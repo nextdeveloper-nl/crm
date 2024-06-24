@@ -17,7 +17,7 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @package  NextDeveloper\CRM\Database\Models
  * @property integer $id
  * @property string $uuid
- * @property string $title
+ * @property string $name
  * @property string $description
  * @property integer $iam_user_id
  * @property integer $iam_account_it
@@ -48,7 +48,7 @@ class Calls extends Model
     protected $guarded = [];
 
     protected $fillable = [
-            'title',
+            'name',
             'description',
             'iam_user_id',
             'iam_account_it',
@@ -81,7 +81,7 @@ class Calls extends Model
      */
     protected $casts = [
     'id' => 'integer',
-    'title' => 'string',
+    'name' => 'string',
     'description' => 'string',
     'iam_account_it' => 'integer',
     'crm_account_id' => 'integer',
@@ -154,6 +154,8 @@ class Calls extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

@@ -15,9 +15,9 @@ class EmailsUpdateRequest extends AbstractFormRequest
         return [
             'subject' => 'nullable|string',
         'content' => 'nullable|string',
-        'iam_account_it' => 'nullable|integer',
-        'crm_account_id' => 'nullable|exists:crm_accounts,uuid|uuid',
         'email_meta' => 'nullable|string',
+        'from' => 'nullable|string',
+        'to' => 'nullable',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

@@ -20,12 +20,13 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property string $subject
  * @property string $content
  * @property integer $iam_user_id
- * @property integer $iam_account_it
- * @property integer $crm_account_id
+ * @property integer $iam_account_id
  * @property string $email_meta
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
+ * @property string $from
+ * @property array $to
  */
 class Emails extends Model
 {
@@ -47,9 +48,10 @@ class Emails extends Model
             'subject',
             'content',
             'iam_user_id',
-            'iam_account_it',
-            'crm_account_id',
+            'iam_account_id',
             'email_meta',
+            'from',
+            'to',
     ];
 
     /**
@@ -75,12 +77,12 @@ class Emails extends Model
     'id' => 'integer',
     'subject' => 'string',
     'content' => 'string',
-    'iam_account_it' => 'integer',
-    'crm_account_id' => 'integer',
     'email_meta' => 'string',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
+    'from' => 'string',
+    'to' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     ];
 
     /**
@@ -142,6 +144,8 @@ class Emails extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

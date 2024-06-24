@@ -67,7 +67,9 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
             'id'  =>  $model->uuid,
             'name'  =>  $model->name,
             'common_domain_id'  =>  $commonDomainId ? $commonDomainId->uuid : null,
+            'domain_name'  =>  $model->domain_name,
             'common_country_id'  =>  $commonCountryId ? $commonCountryId->uuid : null,
+            'country_name'  =>  $model->country_name,
             'phone_number'  =>  $model->phone_number,
             'description'  =>  $model->description,
             'crm_account_id'  =>  $crmAccountId ? $crmAccountId->uuid : null,
@@ -93,7 +95,9 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
             'target_markets'  =>  $model->target_markets,
             'partners_with'  =>  $model->partners_with,
             'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
+            'account_manager'  =>  $model->account_manager,
             'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
+            'account_responsible'  =>  $model->account_responsible,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             ]
@@ -184,5 +188,4 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
 }

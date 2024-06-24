@@ -18,9 +18,9 @@ class CallsQueryFilter extends AbstractQueryFilter
      */
     protected $builder;
     
-    public function title($value)
+    public function name($value)
     {
-        return $this->builder->where('title', 'like', '%' . $value . '%');
+        return $this->builder->where('name', 'like', '%' . $value . '%');
     }
     
     public function description($value)
@@ -123,6 +123,8 @@ class CallsQueryFilter extends AbstractQueryFilter
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

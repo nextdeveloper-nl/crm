@@ -55,15 +55,16 @@ class AbstractTasksTransformer extends AbstractTransformer
     public function transform(Tasks $model)
     {
                                                 $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
+                                                            $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
                                                             $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
                         
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
-            'title'  =>  $model->title,
+            'name'  =>  $model->name,
             'description'  =>  $model->description,
             'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
-            'iam_account_it'  =>  $model->iam_account_it,
+            'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
             'crm_account_id'  =>  $crmAccountId ? $crmAccountId->uuid : null,
             'priority'  =>  $model->priority,
             'is_finished'  =>  $model->is_finished,
@@ -159,5 +160,4 @@ class AbstractTasksTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
 }

@@ -32,18 +32,10 @@ class EmailsQueryFilter extends AbstractQueryFilter
     {
         return $this->builder->where('email_meta', 'like', '%' . $value . '%');
     }
-
-    public function iamAccountIt($value)
+    
+    public function from($value)
     {
-        $operator = substr($value, 0, 1);
-
-        if ($operator != '<' || $operator != '>') {
-            $operator = '=';
-        } else {
-            $value = substr($value, 1);
-        }
-
-        return $this->builder->where('iam_account_it', $operator, $value);
+        return $this->builder->where('from', 'like', '%' . $value . '%');
     }
 
     public function createdAtStart($date)
@@ -85,16 +77,18 @@ class EmailsQueryFilter extends AbstractQueryFilter
         }
     }
 
-    public function crmAccountId($value)
+    public function iamAccountId($value)
     {
-            $crmAccount = \NextDeveloper\CRM\Database\Models\Accounts::where('uuid', $value)->first();
+            $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
 
-        if($crmAccount) {
-            return $this->builder->where('crm_account_id', '=', $crmAccount->id);
+        if($iamAccount) {
+            return $this->builder->where('iam_account_id', '=', $iamAccount->id);
         }
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 
