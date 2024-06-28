@@ -233,6 +233,27 @@ Route::prefix('crm')->group(
             }
         );
 
+        Route::prefix('ideal-customer-profiles')->group(
+            function () {
+                Route::get('/', 'IdealCustomerProfiles\IdealCustomerProfilesController@index');
+                Route::get('/actions', 'IdealCustomerProfiles\IdealCustomerProfilesController@getActions');
+
+                Route::get('{crm_ideal_customer_profiles}/tags ', 'IdealCustomerProfiles\IdealCustomerProfilesController@tags');
+                Route::post('{crm_ideal_customer_profiles}/tags ', 'IdealCustomerProfiles\IdealCustomerProfilesController@saveTags');
+                Route::get('{crm_ideal_customer_profiles}/addresses ', 'IdealCustomerProfiles\IdealCustomerProfilesController@addresses');
+                Route::post('{crm_ideal_customer_profiles}/addresses ', 'IdealCustomerProfiles\IdealCustomerProfilesController@saveAddresses');
+
+                Route::get('/{crm_ideal_customer_profiles}/{subObjects}', 'IdealCustomerProfiles\IdealCustomerProfilesController@relatedObjects');
+                Route::get('/{crm_ideal_customer_profiles}', 'IdealCustomerProfiles\IdealCustomerProfilesController@show');
+
+                Route::post('/', 'IdealCustomerProfiles\IdealCustomerProfilesController@store');
+                Route::post('/{crm_ideal_customer_profiles}/do/{action}', 'IdealCustomerProfiles\IdealCustomerProfilesController@doAction');
+
+                Route::patch('/{crm_ideal_customer_profiles}', 'IdealCustomerProfiles\IdealCustomerProfilesController@update');
+                Route::delete('/{crm_ideal_customer_profiles}', 'IdealCustomerProfiles\IdealCustomerProfilesController@destroy');
+            }
+        );
+
         Route::prefix('users-perspective')->group(
             function () {
                 Route::get('/', 'UsersPerspective\UsersPerspectiveController@index');
@@ -528,8 +549,23 @@ Route::prefix('crm')->group(
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 );
+
 
 
 
