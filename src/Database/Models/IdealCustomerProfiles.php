@@ -6,33 +6,37 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
-use NextDeveloper\CRM\Database\Observers\QuotesObserver;
+use NextDeveloper\CRM\Database\Observers\IdealCustomerProfilesObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 
 /**
- * Quotes model.
+ * IdealCustomerProfiles model.
  *
  * @package  NextDeveloper\CRM\Database\Models
  * @property integer $id
  * @property string $uuid
- * @property integer $iam_account_id
- * @property integer $iam_user_id
- * @property integer $crm_opportunities_id
- * @property string $name
- * @property string $description
- * @property $total_amount
- * @property $detailed_amount
- * @property $suggested_price
- * @property integer $common_currency_id
- * @property $approval_level
- * @property array $tags
+ * @property integer $crm_account_id
+ * @property string $customer_positions
+ * @property string $company_size
+ * @property boolean $is_working_home_office
+ * @property array $pain_points
+ * @property string $solutions_interested_in
+ * @property string $current_technology_stack
+ * @property $budget
+ * @property string $decision_making_process
+ * @property string $implementation_timeline
+ * @property string $unique_selling_proposition
+ * @property string $lead_generation_channels
+ * @property string $sales_process
+ * @property string $sales_funnel
+ * @property string $additional_notes
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
  */
-class Quotes extends Model
+class IdealCustomerProfiles extends Model
 {
     use Filterable, UuidId, CleanCache, Taggable;
     use SoftDeletes;
@@ -40,7 +44,7 @@ class Quotes extends Model
 
     public $timestamps = true;
 
-    protected $table = 'crm_quotes';
+    protected $table = 'crm_ideal_customer_profiles';
 
 
     /**
@@ -49,17 +53,21 @@ class Quotes extends Model
     protected $guarded = [];
 
     protected $fillable = [
-            'iam_account_id',
-            'iam_user_id',
-            'crm_opportunities_id',
-            'name',
-            'description',
-            'total_amount',
-            'detailed_amount',
-            'suggested_price',
-            'common_currency_id',
-            'approval_level',
-            'tags',
+            'crm_account_id',
+            'customer_positions',
+            'company_size',
+            'is_working_home_office',
+            'pain_points',
+            'solutions_interested_in',
+            'current_technology_stack',
+            'budget',
+            'decision_making_process',
+            'implementation_timeline',
+            'unique_selling_proposition',
+            'lead_generation_channels',
+            'sales_process',
+            'sales_funnel',
+            'additional_notes',
     ];
 
     /**
@@ -83,12 +91,20 @@ class Quotes extends Model
      */
     protected $casts = [
     'id' => 'integer',
-    'crm_opportunities_id' => 'integer',
-    'name' => 'string',
-    'description' => 'string',
-    'detailed_amount' => 'array',
-    'common_currency_id' => 'integer',
-    'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'crm_account_id' => 'integer',
+    'customer_positions' => 'string',
+    'company_size' => 'string',
+    'is_working_home_office' => 'boolean',
+    'pain_points' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'solutions_interested_in' => 'string',
+    'current_technology_stack' => 'string',
+    'decision_making_process' => 'string',
+    'implementation_timeline' => 'string',
+    'unique_selling_proposition' => 'string',
+    'lead_generation_channels' => 'string',
+    'sales_process' => 'string',
+    'sales_funnel' => 'string',
+    'additional_notes' => 'string',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
@@ -125,7 +141,7 @@ class Quotes extends Model
         parent::boot();
 
         //  We create and add Observer even if we wont use it.
-        parent::observe(QuotesObserver::class);
+        parent::observe(IdealCustomerProfilesObserver::class);
 
         self::registerScopes();
     }
@@ -133,7 +149,7 @@ class Quotes extends Model
     public static function registerScopes()
     {
         $globalScopes = config('crm.scopes.global');
-        $modelScopes = config('crm.scopes.crm_quotes');
+        $modelScopes = config('crm.scopes.crm_ideal_customer_profiles');
 
         if(!$modelScopes) { $modelScopes = [];
         }
@@ -153,14 +169,4 @@ class Quotes extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
 }
