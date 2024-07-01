@@ -38,6 +38,11 @@ class SalesAdminRole extends AbstractRole implements IAuthorizationRole
         //return UserHelper::hasRole(self::NAME, $users);
     }
 
+    public function checkUpdatePolicy(Model $model, Users $user): bool
+    {
+        return true;
+    }
+
     public function getModule()
     {
         return 'crm';
