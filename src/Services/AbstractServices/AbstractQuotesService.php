@@ -115,9 +115,11 @@ class AbstractQuotesService
 
         if(class_exists($class)) {
             $action = new $class($object, $params);
+            $actionId = $action->getActionId();
+
             dispatch($action);
 
-            return $action->getActionId();
+            return $actionId;
         }
 
         return null;
@@ -176,7 +178,7 @@ class AbstractQuotesService
                 $data['iam_account_id']
             );
         }
-            
+
         if(!array_key_exists('iam_account_id', $data)) {
             $data['iam_account_id'] = UserHelper::currentAccount()->id;
         }
@@ -186,7 +188,7 @@ class AbstractQuotesService
                 $data['iam_user_id']
             );
         }
-                    
+
         if(!array_key_exists('iam_user_id', $data)) {
             $data['iam_user_id']    = UserHelper::me()->id;
         }
@@ -202,7 +204,7 @@ class AbstractQuotesService
                 $data['common_currency_id']
             );
         }
-                        
+
         try {
             $model = Quotes::create($data);
         } catch(\Exception $e) {
@@ -274,7 +276,7 @@ class AbstractQuotesService
                 $data['common_currency_id']
             );
         }
-    
+
         Events::fire('updating:NextDeveloper\CRM\Quotes', $model);
 
         try {

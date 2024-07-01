@@ -115,9 +115,11 @@ class AbstractNotesService
 
         if(class_exists($class)) {
             $action = new $class($object, $params);
+            $actionId = $action->getActionId();
+
             dispatch($action);
 
-            return $action->getActionId();
+            return $actionId;
         }
 
         return null;
@@ -176,7 +178,7 @@ class AbstractNotesService
                 $data['crm_account_id']
             );
         }
-                        
+
         try {
             $model = Notes::create($data);
         } catch(\Exception $e) {
@@ -230,7 +232,7 @@ class AbstractNotesService
                 $data['crm_account_id']
             );
         }
-    
+
         Events::fire('updating:NextDeveloper\CRM\Notes', $model);
 
         try {

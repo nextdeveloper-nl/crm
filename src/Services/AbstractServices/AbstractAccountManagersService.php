@@ -115,9 +115,11 @@ class AbstractAccountManagersService
 
         if(class_exists($class)) {
             $action = new $class($object, $params);
+            $actionId = $action->getActionId();
+
             dispatch($action);
 
-            return $action->getActionId();
+            return $actionId;
         }
 
         return null;
@@ -182,7 +184,7 @@ class AbstractAccountManagersService
                 $data['iam_user_id']
             );
         }
-                    
+
         if(!array_key_exists('iam_user_id', $data)) {
             $data['iam_user_id']    = UserHelper::me()->id;
         }
@@ -192,11 +194,11 @@ class AbstractAccountManagersService
                 $data['iam_account_id']
             );
         }
-            
+
         if(!array_key_exists('iam_account_id', $data)) {
             $data['iam_account_id'] = UserHelper::currentAccount()->id;
         }
-                        
+
         try {
             $model = AccountManagers::create($data);
         } catch(\Exception $e) {
@@ -262,7 +264,7 @@ class AbstractAccountManagersService
                 $data['iam_account_id']
             );
         }
-    
+
         Events::fire('updating:NextDeveloper\CRM\AccountManagers', $model);
 
         try {
