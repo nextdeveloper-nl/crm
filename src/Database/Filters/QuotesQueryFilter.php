@@ -138,4 +138,5 @@ class QuotesQueryFilter extends AbstractQueryFilter
 
 
 
+
 }

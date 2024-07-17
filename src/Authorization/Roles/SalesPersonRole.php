@@ -34,7 +34,6 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
          * Here the user will only be able to run this query only if the table name starts with 'crm_*' and
          * the owner of the model is the user itself.
          */
-
         $ids = AccountManagers::withoutGlobalScopes()
             ->where('iam_account_id', UserHelper::currentAccount()->id)
             ->where('iam_user_id', UserHelper::currentUser()->id)
@@ -85,6 +84,10 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
             'crm_users:update',
             'crm_account_managers:read',
             'crm_account_perspectives:read',
+            'crm_ideal_customer_profiles:read',
+            'crm_ideal_customer_profiles:create',
+            'crm_ideal_customer_profiles:update',
+            'crm_ideal_customer_profiles:delete',
             'crm_opportunities:read',
             'crm_opportunities:create',
             'crm_opportunities:update',
@@ -117,7 +120,7 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
             'crm_meetings:read',
             'crm_meetings:create',
             'crm_meetings:update',
-            'crm_meetings:delete',
+            'crm_meetings:delete'
         ];
     }
 

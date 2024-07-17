@@ -10,6 +10,7 @@ use NextDeveloper\CRM\Database\Observers\NotesObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
+use NextDeveloper\Commons\Database\Traits\HasStates;
 
 /**
  * Notes model.
@@ -27,9 +28,8 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  */
 class Notes extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates;
     use SoftDeletes;
-
 
     public $timestamps = true;
 
@@ -135,6 +135,7 @@ class Notes extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
