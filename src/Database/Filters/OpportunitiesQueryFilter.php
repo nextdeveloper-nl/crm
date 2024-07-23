@@ -158,4 +158,5 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
 
 
 
+
 }

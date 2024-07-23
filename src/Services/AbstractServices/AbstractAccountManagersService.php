@@ -110,7 +110,10 @@ class AbstractAccountManagersService
     {
         $object = AccountManagers::where('uuid', $objectId)->first();
 
-        $action = AvailableActions::where('name', $action)->first();
+        $action = AvailableActions::where('name', $action)
+            ->where('input', 'NextDeveloper\CRM\AccountManagers')
+            ->first();
+
         $class = $action->class;
 
         if(class_exists($class)) {
@@ -184,7 +187,7 @@ class AbstractAccountManagersService
                 $data['iam_user_id']
             );
         }
-
+                    
         if(!array_key_exists('iam_user_id', $data)) {
             $data['iam_user_id']    = UserHelper::me()->id;
         }
@@ -194,11 +197,11 @@ class AbstractAccountManagersService
                 $data['iam_account_id']
             );
         }
-
+            
         if(!array_key_exists('iam_account_id', $data)) {
             $data['iam_account_id'] = UserHelper::currentAccount()->id;
         }
-
+                        
         try {
             $model = AccountManagers::create($data);
         } catch(\Exception $e) {
@@ -264,7 +267,7 @@ class AbstractAccountManagersService
                 $data['iam_account_id']
             );
         }
-
+    
         Events::fire('updating:NextDeveloper\CRM\AccountManagers', $model);
 
         try {

@@ -59,8 +59,8 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
                                                             $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
                                                             $iamAccountTypeId = \NextDeveloper\IAM\Database\Models\AccountTypes::where('id', $model->iam_account_type_id)->first();
                                                             $commonCityId = \NextDeveloper\Commons\Database\Models\Cities::where('id', $model->common_city_id)->first();
-                                                            $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
-                                                            $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
+                                                            $accountManagerId = \NextDeveloper\\Database\Models\AccountManagers::where('id', $model->account_manager_id)->first();
+                                                            $accountManagerAccountId = \NextDeveloper\\Database\Models\AccountManagerAccounts::where('id', $model->account_manager_account_id)->first();
                         
         return $this->buildPayload(
             [
@@ -74,11 +74,12 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
             'description'  =>  $model->description,
             'crm_account_id'  =>  $crmAccountId ? $crmAccountId->uuid : null,
             'iam_account_type_id'  =>  $iamAccountTypeId ? $iamAccountTypeId->uuid : null,
+            'account_type'  =>  $model->account_type,
             'is_paying_customer'  =>  $model->is_paying_customer,
             'common_city_id'  =>  $commonCityId ? $commonCityId->uuid : null,
             'position'  =>  $model->position,
             'risk_level'  =>  $model->risk_level,
-            'company_size'  =>  $model->company_size,
+            'total_number_of_personel'  =>  $model->total_number_of_personel,
             'sector_focus'  =>  $model->sector_focus,
             'industry'  =>  $model->industry,
             'is_startup'  =>  $model->is_startup,
@@ -94,9 +95,9 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
             'additional_information'  =>  $model->additional_information,
             'target_markets'  =>  $model->target_markets,
             'partners_with'  =>  $model->partners_with,
-            'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
+            'account_manager_id'  =>  $accountManagerId ? $accountManagerId->uuid : null,
             'account_manager'  =>  $model->account_manager,
-            'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
+            'account_manager_account_id'  =>  $accountManagerAccountId ? $accountManagerAccountId->uuid : null,
             'account_responsible'  =>  $model->account_responsible,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
@@ -188,5 +189,6 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 }

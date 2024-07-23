@@ -110,7 +110,10 @@ class AbstractIdealCustomerProfilesService
     {
         $object = IdealCustomerProfiles::where('uuid', $objectId)->first();
 
-        $action = AvailableActions::where('name', $action)->first();
+        $action = AvailableActions::where('name', $action)
+            ->where('input', 'NextDeveloper\CRM\IdealCustomerProfiles')
+            ->first();
+
         $class = $action->class;
 
         if(class_exists($class)) {
