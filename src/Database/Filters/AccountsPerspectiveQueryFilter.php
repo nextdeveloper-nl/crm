@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                            
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,57 +17,57 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
         return $this->builder->where('name', 'like', '%' . $value . '%');
     }
-    
+
     public function domainName($value)
     {
         return $this->builder->where('domain_name', 'like', '%' . $value . '%');
     }
-    
+
     public function countryName($value)
     {
         return $this->builder->where('country_name', 'like', '%' . $value . '%');
     }
-    
+
     public function phoneNumber($value)
     {
         return $this->builder->where('phone_number', 'like', '%' . $value . '%');
     }
-    
+
     public function description($value)
     {
         return $this->builder->where('description', 'like', '%' . $value . '%');
     }
-    
+
     public function accountType($value)
     {
         return $this->builder->where('account_type', 'like', '%' . $value . '%');
     }
-    
+
     public function position($value)
     {
         return $this->builder->where('position', 'like', '%' . $value . '%');
     }
-    
+
     public function headquarterCity($value)
     {
         return $this->builder->where('headquarter_city', 'like', '%' . $value . '%');
     }
-    
+
     public function additionalInformation($value)
     {
         return $this->builder->where('additional_information', 'like', '%' . $value . '%');
     }
-    
+
     public function accountManager($value)
     {
         return $this->builder->where('account_manager', 'like', '%' . $value . '%');
     }
-    
+
     public function accountResponsible($value)
     {
         return $this->builder->where('account_responsible', 'like', '%' . $value . '%');
@@ -260,47 +260,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-    public function accountManagerId($value)
-    {
-            $accountManager = \NextDeveloper\\Database\Models\AccountManagers::where('uuid', $value)->first();
-
-        if($accountManager) {
-            return $this->builder->where('account_manager_id', '=', $accountManager->id);
-        }
-    }
-
-    public function accountManagerAccountId($value)
-    {
-            $accountManagerAccount = \NextDeveloper\\Database\Models\AccountManagerAccounts::where('uuid', $value)->first();
-
-        if($accountManagerAccount) {
-            return $this->builder->where('account_manager_account_id', '=', $accountManagerAccount->id);
-        }
-    }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
