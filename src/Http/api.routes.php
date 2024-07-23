@@ -275,27 +275,6 @@ Route::prefix('crm')->group(
             }
         );
 
-        Route::prefix('account-users-perspective')->group(
-            function () {
-                Route::get('/', 'AccountUsersPerspective\AccountUsersPerspectiveController@index');
-                Route::get('/actions', 'AccountUsersPerspective\AccountUsersPerspectiveController@getActions');
-
-                Route::get('{crm_account_users_perspective}/tags ', 'AccountUsersPerspective\AccountUsersPerspectiveController@tags');
-                Route::post('{crm_account_users_perspective}/tags ', 'AccountUsersPerspective\AccountUsersPerspectiveController@saveTags');
-                Route::get('{crm_account_users_perspective}/addresses ', 'AccountUsersPerspective\AccountUsersPerspectiveController@addresses');
-                Route::post('{crm_account_users_perspective}/addresses ', 'AccountUsersPerspective\AccountUsersPerspectiveController@saveAddresses');
-
-                Route::get('/{crm_account_users_perspective}/{subObjects}', 'AccountUsersPerspective\AccountUsersPerspectiveController@relatedObjects');
-                Route::get('/{crm_account_users_perspective}', 'AccountUsersPerspective\AccountUsersPerspectiveController@show');
-
-                Route::post('/', 'AccountUsersPerspective\AccountUsersPerspectiveController@store');
-                Route::post('/{crm_account_users_perspective}/do/{action}', 'AccountUsersPerspective\AccountUsersPerspectiveController@doAction');
-
-                Route::patch('/{crm_account_users_perspective}', 'AccountUsersPerspective\AccountUsersPerspectiveController@update');
-                Route::delete('/{crm_account_users_perspective}', 'AccountUsersPerspective\AccountUsersPerspectiveController@destroy');
-            }
-        );
-
         Route::prefix('users-perspective')->group(
             function () {
                 Route::get('/', 'UsersPerspective\UsersPerspectiveController@index');
@@ -625,8 +604,38 @@ Route::prefix('crm')->group(
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 );
+
+
 
 
 

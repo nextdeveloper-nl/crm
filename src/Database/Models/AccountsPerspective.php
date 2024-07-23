@@ -18,7 +18,6 @@ use NextDeveloper\Commons\Database\Traits\HasStates;
  * @property integer $id
  * @property string $uuid
  * @property string $name
- * @property string $iam_account_id
  * @property integer $common_domain_id
  * @property string $domain_name
  * @property integer $common_country_id
@@ -67,7 +66,6 @@ class AccountsPerspective extends Model
 
     protected $fillable = [
             'name',
-            'iam_account_id',
             'common_domain_id',
             'domain_name',
             'common_country_id',
@@ -212,6 +210,8 @@ class AccountsPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 
