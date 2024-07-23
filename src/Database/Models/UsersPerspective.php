@@ -41,6 +41,7 @@ use NextDeveloper\Commons\Database\Traits\HasStates;
  * @property boolean $is_single
  * @property $education
  * @property integer $child_count
+ * @property string $crm_account_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
@@ -83,6 +84,7 @@ class UsersPerspective extends Model
             'is_single',
             'education',
             'child_count',
+            'crm_account_id',
     ];
 
     /**
@@ -190,6 +192,8 @@ class UsersPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

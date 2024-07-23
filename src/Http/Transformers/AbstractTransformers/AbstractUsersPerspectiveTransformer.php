@@ -58,6 +58,7 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
                                                             $commonLanguageId = \NextDeveloper\Commons\Database\Models\Languages::where('id', $model->common_language_id)->first();
                                                             $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
                                                             $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
+                                                            $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
                         
         return $this->buildPayload(
             [
@@ -86,6 +87,7 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
             'is_single'  =>  $model->is_single,
             'education'  =>  $model->education,
             'child_count'  =>  $model->child_count,
+            'crm_account_id'  =>  $crmAccountId ? $crmAccountId->uuid : null,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             ]
@@ -176,6 +178,8 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 
