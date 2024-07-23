@@ -110,7 +110,10 @@ class AbstractMeetingsService
     {
         $object = Meetings::where('uuid', $objectId)->first();
 
-        $action = AvailableActions::where('name', $action)->first();
+        $action = AvailableActions::where('name', $action)
+            ->where('input', 'NextDeveloper\CRM\Meetings')
+            ->first();
+
         $class = $action->class;
 
         if(class_exists($class)) {
@@ -184,7 +187,7 @@ class AbstractMeetingsService
                 $data['iam_user_id']
             );
         }
-
+                    
         if(!array_key_exists('iam_user_id', $data)) {
             $data['iam_user_id']    = UserHelper::me()->id;
         }
@@ -194,7 +197,7 @@ class AbstractMeetingsService
                 $data['iam_account_id']
             );
         }
-
+            
         if(!array_key_exists('iam_account_id', $data)) {
             $data['iam_account_id'] = UserHelper::currentAccount()->id;
         }
@@ -204,7 +207,7 @@ class AbstractMeetingsService
                 $data['crm_account_id']
             );
         }
-
+                        
         try {
             $model = Meetings::create($data);
         } catch(\Exception $e) {
@@ -276,7 +279,7 @@ class AbstractMeetingsService
                 $data['crm_account_id']
             );
         }
-
+    
         Events::fire('updating:NextDeveloper\CRM\Meetings', $model);
 
         try {

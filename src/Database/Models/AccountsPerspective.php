@@ -9,6 +9,7 @@ use NextDeveloper\CRM\Database\Observers\AccountsPerspectiveObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
+use NextDeveloper\Commons\Database\Traits\HasStates;
 
 /**
  * AccountsPerspective model.
@@ -25,11 +26,12 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property string $description
  * @property integer $crm_account_id
  * @property integer $iam_account_type_id
+ * @property string $account_type
  * @property boolean $is_paying_customer
  * @property integer $common_city_id
  * @property string $position
  * @property integer $risk_level
- * @property integer $company_size
+ * @property integer $total_number_of_personel
  * @property array $sector_focus
  * @property array $industry
  * @property boolean $is_startup
@@ -45,17 +47,16 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property string $additional_information
  * @property array $target_markets
  * @property array $partners_with
- * @property integer $iam_user_id
+ * @property integer $account_manager_id
  * @property string $account_manager
- * @property integer $iam_account_id
+ * @property integer $account_manager_account_id
  * @property string $account_responsible
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
 class AccountsPerspective extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable;
-
+    use Filterable, UuidId, CleanCache, Taggable, HasStates;
 
     public $timestamps = true;
 
@@ -77,11 +78,12 @@ class AccountsPerspective extends Model
             'description',
             'crm_account_id',
             'iam_account_type_id',
+            'account_type',
             'is_paying_customer',
             'common_city_id',
             'position',
             'risk_level',
-            'company_size',
+            'total_number_of_personel',
             'sector_focus',
             'industry',
             'is_startup',
@@ -97,9 +99,9 @@ class AccountsPerspective extends Model
             'additional_information',
             'target_markets',
             'partners_with',
-            'iam_user_id',
+            'account_manager_id',
             'account_manager',
-            'iam_account_id',
+            'account_manager_account_id',
             'account_responsible',
     ];
 
@@ -133,11 +135,12 @@ class AccountsPerspective extends Model
     'description' => 'string',
     'crm_account_id' => 'integer',
     'iam_account_type_id' => 'integer',
+    'account_type' => 'string',
     'is_paying_customer' => 'boolean',
     'common_city_id' => 'integer',
     'position' => 'string',
     'risk_level' => 'integer',
-    'company_size' => 'integer',
+    'total_number_of_personel' => 'integer',
     'sector_focus' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'industry' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'is_startup' => 'boolean',
@@ -153,7 +156,9 @@ class AccountsPerspective extends Model
     'additional_information' => 'string',
     'target_markets' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'partners_with' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'account_manager_id' => 'integer',
     'account_manager' => 'string',
+    'account_manager_account_id' => 'integer',
     'account_responsible' => 'string',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
@@ -217,6 +222,7 @@ class AccountsPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

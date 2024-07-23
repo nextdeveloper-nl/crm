@@ -110,7 +110,10 @@ class AbstractOpportunitiesService
     {
         $object = Opportunities::where('uuid', $objectId)->first();
 
-        $action = AvailableActions::where('name', $action)->first();
+        $action = AvailableActions::where('name', $action)
+            ->where('input', 'NextDeveloper\CRM\Opportunities')
+            ->first();
+
         $class = $action->class;
 
         if(class_exists($class)) {
@@ -178,7 +181,7 @@ class AbstractOpportunitiesService
                 $data['iam_account_id']
             );
         }
-
+            
         if(!array_key_exists('iam_account_id', $data)) {
             $data['iam_account_id'] = UserHelper::currentAccount()->id;
         }
@@ -188,7 +191,7 @@ class AbstractOpportunitiesService
                 $data['iam_user_id']
             );
         }
-
+                    
         if(!array_key_exists('iam_user_id', $data)) {
             $data['iam_user_id']    = UserHelper::me()->id;
         }
@@ -198,7 +201,7 @@ class AbstractOpportunitiesService
                 $data['crm_account_id']
             );
         }
-
+                        
         try {
             $model = Opportunities::create($data);
         } catch(\Exception $e) {
@@ -264,7 +267,7 @@ class AbstractOpportunitiesService
                 $data['crm_account_id']
             );
         }
-
+    
         Events::fire('updating:NextDeveloper\CRM\Opportunities', $model);
 
         try {

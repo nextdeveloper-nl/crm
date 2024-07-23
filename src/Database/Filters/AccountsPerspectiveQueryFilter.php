@@ -43,6 +43,11 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('description', 'like', '%' . $value . '%');
     }
     
+    public function accountType($value)
+    {
+        return $this->builder->where('account_type', 'like', '%' . $value . '%');
+    }
+    
     public function position($value)
     {
         return $this->builder->where('position', 'like', '%' . $value . '%');
@@ -81,7 +86,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('risk_level', $operator, $value);
     }
 
-    public function companySize($value)
+    public function totalNumberOfPersonel($value)
     {
         $operator = substr($value, 0, 1);
 
@@ -91,7 +96,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
             $value = substr($value, 1);
         }
 
-        return $this->builder->where('company_size', $operator, $value);
+        return $this->builder->where('total_number_of_personel', $operator, $value);
     }
 
     public function employeeCount($value)
@@ -255,25 +260,26 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-    public function iamUserId($value)
+    public function accountManagerId($value)
     {
-            $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
+            $accountManager = \NextDeveloper\\Database\Models\AccountManagers::where('uuid', $value)->first();
 
-        if($iamUser) {
-            return $this->builder->where('iam_user_id', '=', $iamUser->id);
+        if($accountManager) {
+            return $this->builder->where('account_manager_id', '=', $accountManager->id);
         }
     }
 
-    public function iamAccountId($value)
+    public function accountManagerAccountId($value)
     {
-            $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
+            $accountManagerAccount = \NextDeveloper\\Database\Models\AccountManagerAccounts::where('uuid', $value)->first();
 
-        if($iamAccount) {
-            return $this->builder->where('iam_account_id', '=', $iamAccount->id);
+        if($accountManagerAccount) {
+            return $this->builder->where('account_manager_account_id', '=', $accountManagerAccount->id);
         }
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

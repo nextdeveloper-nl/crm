@@ -110,7 +110,10 @@ class AbstractUsersService
     {
         $object = Users::where('uuid', $objectId)->first();
 
-        $action = AvailableActions::where('name', $action)->first();
+        $action = AvailableActions::where('name', $action)
+            ->where('input', 'NextDeveloper\CRM\Users')
+            ->first();
+
         $class = $action->class;
 
         if(class_exists($class)) {
@@ -178,11 +181,11 @@ class AbstractUsersService
                 $data['iam_user_id']
             );
         }
-
+                    
         if(!array_key_exists('iam_user_id', $data)) {
             $data['iam_user_id']    = UserHelper::me()->id;
         }
-
+            
         try {
             $model = Users::create($data);
         } catch(\Exception $e) {
@@ -236,7 +239,7 @@ class AbstractUsersService
                 $data['iam_user_id']
             );
         }
-
+    
         Events::fire('updating:NextDeveloper\CRM\Users', $model);
 
         try {

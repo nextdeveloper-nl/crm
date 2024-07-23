@@ -110,7 +110,10 @@ class AbstractAccountsPerspectiveService
     {
         $object = AccountsPerspective::where('uuid', $objectId)->first();
 
-        $action = AvailableActions::where('name', $action)->first();
+        $action = AvailableActions::where('name', $action)
+            ->where('input', 'NextDeveloper\CRM\AccountsPerspective')
+            ->first();
+
         $class = $action->class;
 
         if(class_exists($class)) {
@@ -202,27 +205,19 @@ class AbstractAccountsPerspectiveService
                 $data['common_city_id']
             );
         }
-        if (array_key_exists('iam_user_id', $data)) {
-            $data['iam_user_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\IAM\Database\Models\Users',
-                $data['iam_user_id']
+        if (array_key_exists('account_manager_id', $data)) {
+            $data['account_manager_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\\Database\Models\AccountManagers',
+                $data['account_manager_id']
             );
         }
-
-        if(!array_key_exists('iam_user_id', $data)) {
-            $data['iam_user_id']    = UserHelper::me()->id;
-        }
-        if (array_key_exists('iam_account_id', $data)) {
-            $data['iam_account_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\IAM\Database\Models\Accounts',
-                $data['iam_account_id']
+        if (array_key_exists('account_manager_account_id', $data)) {
+            $data['account_manager_account_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\\Database\Models\AccountManagerAccounts',
+                $data['account_manager_account_id']
             );
         }
-
-        if(!array_key_exists('iam_account_id', $data)) {
-            $data['iam_account_id'] = UserHelper::currentAccount()->id;
-        }
-
+                        
         try {
             $model = AccountsPerspective::create($data);
         } catch(\Exception $e) {
@@ -300,19 +295,19 @@ class AbstractAccountsPerspectiveService
                 $data['common_city_id']
             );
         }
-        if (array_key_exists('iam_user_id', $data)) {
-            $data['iam_user_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\IAM\Database\Models\Users',
-                $data['iam_user_id']
+        if (array_key_exists('account_manager_id', $data)) {
+            $data['account_manager_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\\Database\Models\AccountManagers',
+                $data['account_manager_id']
             );
         }
-        if (array_key_exists('iam_account_id', $data)) {
-            $data['iam_account_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\IAM\Database\Models\Accounts',
-                $data['iam_account_id']
+        if (array_key_exists('account_manager_account_id', $data)) {
+            $data['account_manager_account_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\\Database\Models\AccountManagerAccounts',
+                $data['account_manager_account_id']
             );
         }
-
+    
         Events::fire('updating:NextDeveloper\CRM\AccountsPerspective', $model);
 
         try {
