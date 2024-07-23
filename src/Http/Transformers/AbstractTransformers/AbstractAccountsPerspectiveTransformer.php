@@ -54,16 +54,18 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
      */
     public function transform(AccountsPerspective $model)
     {
-                                                $commonDomainId = \NextDeveloper\Commons\Database\Models\Domains::where('id', $model->common_domain_id)->first();
+                                                $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
+                                                            $commonDomainId = \NextDeveloper\Commons\Database\Models\Domains::where('id', $model->common_domain_id)->first();
                                                             $commonCountryId = \NextDeveloper\Commons\Database\Models\Countries::where('id', $model->common_country_id)->first();
                                                             $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
                                                             $iamAccountTypeId = \NextDeveloper\IAM\Database\Models\AccountTypes::where('id', $model->iam_account_type_id)->first();
                                                             $commonCityId = \NextDeveloper\Commons\Database\Models\Cities::where('id', $model->common_city_id)->first();
-
+                        
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
             'name'  =>  $model->name,
+            'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
             'common_domain_id'  =>  $commonDomainId ? $commonDomainId->uuid : null,
             'domain_name'  =>  $model->domain_name,
             'common_country_id'  =>  $commonCountryId ? $commonCountryId->uuid : null,
@@ -93,8 +95,6 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
             'additional_information'  =>  $model->additional_information,
             'target_markets'  =>  $model->target_markets,
             'partners_with'  =>  $model->partners_with,
-            'account_manager'  =>  $model->account_manager,
-            'account_responsible'  =>  $model->account_responsible,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             ]
@@ -185,6 +185,7 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 }

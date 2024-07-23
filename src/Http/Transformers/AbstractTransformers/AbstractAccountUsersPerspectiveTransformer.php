@@ -20,16 +20,16 @@ use NextDeveloper\Commons\Http\Transformers\MetaTransformer;
 use NextDeveloper\Commons\Http\Transformers\VotesTransformer;
 use NextDeveloper\Commons\Http\Transformers\AddressesTransformer;
 use NextDeveloper\Commons\Http\Transformers\PhoneNumbersTransformer;
-use NextDeveloper\CRM\Database\Models\IdealCustomerProfiles;
+use NextDeveloper\CRM\Database\Models\AccountUsersPerspective;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 
 /**
- * Class IdealCustomerProfilesTransformer. This class is being used to manipulate the data we are serving to the customer
+ * Class AccountUsersPerspectiveTransformer. This class is being used to manipulate the data we are serving to the customer
  *
  * @package NextDeveloper\CRM\Http\Transformers
  */
-class AbstractIdealCustomerProfilesTransformer extends AbstractTransformer
+class AbstractAccountUsersPerspectiveTransformer extends AbstractTransformer
 {
 
     /**
@@ -48,40 +48,53 @@ class AbstractIdealCustomerProfilesTransformer extends AbstractTransformer
     ];
 
     /**
-     * @param IdealCustomerProfiles $model
+     * @param AccountUsersPerspective $model
      *
      * @return array
      */
-    public function transform(IdealCustomerProfiles $model)
+    public function transform(AccountUsersPerspective $model)
     {
-                                                $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
+                                                $commonCountryId = \NextDeveloper\Commons\Database\Models\Countries::where('id', $model->common_country_id)->first();
+                                                            $commonLanguageId = \NextDeveloper\Commons\Database\Models\Languages::where('id', $model->common_language_id)->first();
+                                                            $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
+                                                            $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
+                                                            $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
                         
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
+            'name'  =>  $model->name,
+            'surname'  =>  $model->surname,
+            'fullname'  =>  $model->fullname,
+            'email'  =>  $model->email,
+            'about'  =>  $model->about,
+            'pronoun'  =>  $model->pronoun,
+            'birthday'  =>  $model->birthday,
+            'nin'  =>  $model->nin,
+            'common_country_id'  =>  $commonCountryId ? $commonCountryId->uuid : null,
+            'common_language_id'  =>  $commonLanguageId ? $commonLanguageId->uuid : null,
+            'iam_updated_at'  =>  $model->iam_updated_at,
+            'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
+            'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
+            'position'  =>  $model->position,
+            'job'  =>  $model->job,
+            'job_description'  =>  $model->job_description,
+            'hobbies'  =>  $model->hobbies,
+            'city'  =>  $model->city,
+            'email_risk'  =>  $model->email_risk,
+            'relationship_status'  =>  $model->relationship_status,
+            'is_evangelist'  =>  $model->is_evangelist,
+            'is_single'  =>  $model->is_single,
+            'education'  =>  $model->education,
+            'child_count'  =>  $model->child_count,
             'crm_account_id'  =>  $crmAccountId ? $crmAccountId->uuid : null,
-            'customer_positions'  =>  $model->customer_positions,
-            'company_size'  =>  $model->company_size,
-            'is_working_home_office'  =>  $model->is_working_home_office,
-            'pain_points'  =>  $model->pain_points,
-            'solutions_interested_in'  =>  $model->solutions_interested_in,
-            'current_technology_stack'  =>  $model->current_technology_stack,
-            'budget'  =>  $model->budget,
-            'decision_making_process'  =>  $model->decision_making_process,
-            'implementation_timeline'  =>  $model->implementation_timeline,
-            'unique_selling_proposition'  =>  $model->unique_selling_proposition,
-            'lead_generation_channels'  =>  $model->lead_generation_channels,
-            'sales_process'  =>  $model->sales_process,
-            'sales_funnel'  =>  $model->sales_funnel,
-            'additional_notes'  =>  $model->additional_notes,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
-            'deleted_at'  =>  $model->deleted_at,
             ]
         );
     }
 
-    public function includeStates(IdealCustomerProfiles $model)
+    public function includeStates(AccountUsersPerspective $model)
     {
         $states = States::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -90,7 +103,7 @@ class AbstractIdealCustomerProfilesTransformer extends AbstractTransformer
         return $this->collection($states, new StatesTransformer());
     }
 
-    public function includeActions(IdealCustomerProfiles $model)
+    public function includeActions(AccountUsersPerspective $model)
     {
         $input = get_class($model);
         $input = str_replace('\\Database\\Models', '', $input);
@@ -102,7 +115,7 @@ class AbstractIdealCustomerProfilesTransformer extends AbstractTransformer
         return $this->collection($actions, new AvailableActionsTransformer());
     }
 
-    public function includeMedia(IdealCustomerProfiles $model)
+    public function includeMedia(AccountUsersPerspective $model)
     {
         $media = Media::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -111,7 +124,7 @@ class AbstractIdealCustomerProfilesTransformer extends AbstractTransformer
         return $this->collection($media, new MediaTransformer());
     }
 
-    public function includeSocialMedia(IdealCustomerProfiles $model)
+    public function includeSocialMedia(AccountUsersPerspective $model)
     {
         $socialMedia = SocialMedia::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -120,7 +133,7 @@ class AbstractIdealCustomerProfilesTransformer extends AbstractTransformer
         return $this->collection($socialMedia, new SocialMediaTransformer());
     }
 
-    public function includeComments(IdealCustomerProfiles $model)
+    public function includeComments(AccountUsersPerspective $model)
     {
         $comments = Comments::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -129,7 +142,7 @@ class AbstractIdealCustomerProfilesTransformer extends AbstractTransformer
         return $this->collection($comments, new CommentsTransformer());
     }
 
-    public function includeVotes(IdealCustomerProfiles $model)
+    public function includeVotes(AccountUsersPerspective $model)
     {
         $votes = Votes::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -138,7 +151,7 @@ class AbstractIdealCustomerProfilesTransformer extends AbstractTransformer
         return $this->collection($votes, new VotesTransformer());
     }
 
-    public function includeMeta(IdealCustomerProfiles $model)
+    public function includeMeta(AccountUsersPerspective $model)
     {
         $meta = Meta::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -147,7 +160,7 @@ class AbstractIdealCustomerProfilesTransformer extends AbstractTransformer
         return $this->collection($meta, new MetaTransformer());
     }
 
-    public function includePhoneNumbers(IdealCustomerProfiles $model)
+    public function includePhoneNumbers(AccountUsersPerspective $model)
     {
         $phoneNumbers = PhoneNumbers::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -156,7 +169,7 @@ class AbstractIdealCustomerProfilesTransformer extends AbstractTransformer
         return $this->collection($phoneNumbers, new PhoneNumbersTransformer());
     }
 
-    public function includeAddresses(IdealCustomerProfiles $model)
+    public function includeAddresses(AccountUsersPerspective $model)
     {
         $addresses = Addresses::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -165,7 +178,4 @@ class AbstractIdealCustomerProfilesTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
 }

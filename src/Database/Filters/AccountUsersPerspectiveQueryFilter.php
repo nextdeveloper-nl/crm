@@ -4,13 +4,13 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                
+                    
 
 /**
  * This class automatically puts where clause on database so that use can filter
  * data returned from the query.
  */
-class UsersPerspectiveQueryFilter extends AbstractQueryFilter
+class AccountUsersPerspectiveQueryFilter extends AbstractQueryFilter
 {
 
     /**
@@ -190,30 +190,14 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
+    public function crmAccountId($value)
+    {
+            $crmAccount = \NextDeveloper\CRM\Database\Models\Accounts::where('uuid', $value)->first();
+
+        if($crmAccount) {
+            return $this->builder->where('crm_account_id', '=', $crmAccount->id);
+        }
+    }
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
