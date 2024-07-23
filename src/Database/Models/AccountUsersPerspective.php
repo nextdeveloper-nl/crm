@@ -2,47 +2,56 @@
 
 namespace NextDeveloper\CRM\Database\Models;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
+use NextDeveloper\Commons\Database\Traits\HasStates;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
-use NextDeveloper\CRM\Database\Observers\UsersObserver;
+use NextDeveloper\CRM\Database\Observers\AccountUsersPerspectiveObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
-use NextDeveloper\Commons\Database\Traits\HasStates;
 
 /**
- * Users model.
+ * AccountUsersPerspective model.
  *
  * @package  NextDeveloper\CRM\Database\Models
  * @property integer $id
  * @property string $uuid
+ * @property string $name
+ * @property string $surname
+ * @property string $fullname
+ * @property string $email
+ * @property string $about
+ * @property string $pronoun
+ * @property \Carbon\Carbon $birthday
+ * @property string $nin
+ * @property integer $common_country_id
+ * @property integer $common_language_id
+ * @property \Carbon\Carbon $iam_updated_at
  * @property integer $iam_user_id
+ * @property integer $iam_account_id
  * @property string $position
  * @property string $job
  * @property string $job_description
  * @property string $hobbies
  * @property string $city
- * @property $risk
+ * @property $email_risk
  * @property string $relationship_status
  * @property boolean $is_evangelist
  * @property boolean $is_single
- * @property $education_level
+ * @property $education
  * @property integer $child_count
- * @property array $tags
+ * @property string $crm_account_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
  */
-class Users extends Model
+class AccountUsersPerspective extends Model
 {
     use Filterable, UuidId, CleanCache, Taggable, HasStates;
-    use SoftDeletes;
 
     public $timestamps = true;
 
-    protected $table = 'crm_users';
+    protected $table = 'crm_account_users_perspective';
 
 
     /**
@@ -51,19 +60,31 @@ class Users extends Model
     protected $guarded = [];
 
     protected $fillable = [
+            'name',
+            'surname',
+            'fullname',
+            'email',
+            'about',
+            'pronoun',
+            'birthday',
+            'nin',
+            'common_country_id',
+            'common_language_id',
+            'iam_updated_at',
             'iam_user_id',
+            'iam_account_id',
             'position',
             'job',
             'job_description',
             'hobbies',
             'city',
-            'risk',
+            'email_risk',
             'relationship_status',
             'is_evangelist',
             'is_single',
-            'education_level',
+            'education',
             'child_count',
-            'tags',
+            'crm_account_id',
     ];
 
     /**
@@ -87,6 +108,17 @@ class Users extends Model
      */
     protected $casts = [
     'id' => 'integer',
+    'name' => 'string',
+    'surname' => 'string',
+    'fullname' => 'string',
+    'email' => 'string',
+    'about' => 'string',
+    'pronoun' => 'string',
+    'birthday' => 'datetime',
+    'nin' => 'string',
+    'common_country_id' => 'integer',
+    'common_language_id' => 'integer',
+    'iam_updated_at' => 'datetime',
     'position' => 'string',
     'job' => 'string',
     'job_description' => 'string',
@@ -96,10 +128,8 @@ class Users extends Model
     'is_evangelist' => 'boolean',
     'is_single' => 'boolean',
     'child_count' => 'integer',
-    'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
-    'deleted_at' => 'datetime',
     ];
 
     /**
@@ -108,9 +138,10 @@ class Users extends Model
      @var array
      */
     protected $dates = [
+    'birthday',
+    'iam_updated_at',
     'created_at',
     'updated_at',
-    'deleted_at',
     ];
 
     /**
@@ -133,7 +164,7 @@ class Users extends Model
         parent::boot();
 
         //  We create and add Observer even if we wont use it.
-        parent::observe(UsersObserver::class);
+        parent::observe(AccountUsersPerspectiveObserver::class);
 
         self::registerScopes();
     }
@@ -141,7 +172,7 @@ class Users extends Model
     public static function registerScopes()
     {
         $globalScopes = config('crm.scopes.global');
-        $modelScopes = config('crm.scopes.crm_users');
+        $modelScopes = config('crm.scopes.crm_account_users_perspective');
 
         if(!$modelScopes) { $modelScopes = [];
         }
@@ -160,28 +191,5 @@ class Users extends Model
         }
     }
 
-    public function users() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
-    }
-    
-    public function userManagers() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\CRM\Database\Models\UserManagers::class);
-    }
-
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

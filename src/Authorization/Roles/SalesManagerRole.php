@@ -80,6 +80,7 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
             'crm_account_managers:create',
             'crm_account_managers:delete',
             'crm_account_perspectives:read',
+            'crm_account_users_perspective:read',
             'crm_ideal_customer_profiles:read',
             'crm_ideal_customer_profiles:create',
             'crm_ideal_customer_profiles:update',

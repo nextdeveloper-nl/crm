@@ -84,6 +84,7 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
             'crm_users:update',
             'crm_account_managers:read',
             'crm_account_perspectives:read',
+            'crm_account_users_perspective:read',
             'crm_ideal_customer_profiles:read',
             'crm_ideal_customer_profiles:create',
             'crm_ideal_customer_profiles:update',

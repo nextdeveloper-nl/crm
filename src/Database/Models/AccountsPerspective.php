@@ -18,6 +18,7 @@ use NextDeveloper\Commons\Database\Traits\HasStates;
  * @property integer $id
  * @property string $uuid
  * @property string $name
+ * @property string $iam_account_id
  * @property integer $common_domain_id
  * @property string $domain_name
  * @property integer $common_country_id
@@ -47,10 +48,6 @@ use NextDeveloper\Commons\Database\Traits\HasStates;
  * @property string $additional_information
  * @property array $target_markets
  * @property array $partners_with
- * @property integer $account_manager_id
- * @property string $account_manager
- * @property integer $account_manager_account_id
- * @property string $account_responsible
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
@@ -70,6 +67,7 @@ class AccountsPerspective extends Model
 
     protected $fillable = [
             'name',
+            'iam_account_id',
             'common_domain_id',
             'domain_name',
             'common_country_id',
@@ -99,10 +97,6 @@ class AccountsPerspective extends Model
             'additional_information',
             'target_markets',
             'partners_with',
-            'account_manager_id',
-            'account_manager',
-            'account_manager_account_id',
-            'account_responsible',
     ];
 
     /**
@@ -156,10 +150,6 @@ class AccountsPerspective extends Model
     'additional_information' => 'string',
     'target_markets' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'partners_with' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'account_manager_id' => 'integer',
-    'account_manager' => 'string',
-    'account_manager_account_id' => 'integer',
-    'account_responsible' => 'string',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     ];
@@ -222,6 +212,7 @@ class AccountsPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
