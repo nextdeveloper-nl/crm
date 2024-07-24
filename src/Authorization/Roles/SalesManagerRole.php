@@ -11,7 +11,6 @@ use NextDeveloper\CRM\Database\Models\UserManagers;
 use NextDeveloper\IAM\Authorization\Roles\AbstractRole;
 use NextDeveloper\IAM\Authorization\Roles\IAuthorizationRole;
 use NextDeveloper\IAM\Database\Models\Users;
-use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 use NextDeveloper\IAM\Helpers\UserHelper;
 
 class SalesManagerRole extends AbstractRole implements IAuthorizationRole
@@ -33,7 +32,17 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
      */
     public function apply(Builder $builder, Model $model)
     {
-        if($model->getTable() == 'crm_accounts' || $model->getTable() == 'crm_accounts_perspective') {
+        if($model->getTable() == 'crm_accounts_perspective') {
+            $builder->whereRaw('iam_account_id IN       (
+                select iam_account_id from crm_accounts_perspective where id in (
+                    select crm_account_id from crm_account_managers cam where cam.iam_account_id = ' . UserHelper::currentAccount()->id . '
+                )
+            )');
+
+            return;
+        }
+
+        if($model->getTable() == 'crm_accounts') {
             /**
              * Here user will be able to list all models, because by default, sales manager can see everybody.
              */
@@ -46,14 +55,26 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
 
             if($model->getTable() == 'crm_accounts_perspective')
                 $builder->whereIn('id', $ids);
+
+            return;
         }
 
-        if($model->getTable() == 'crm_users' || $model->getTable() == 'crm_users_perspective') {
+        if($model->getTable() == 'crm_users_perspective') {
+            $builder->whereRaw('iam_account_id IN       (
+                select distinct iam_account_id from crm_accounts_perspective where id in (
+                    select distinct crm_account_id from crm_account_managers cam where cam.iam_account_id = ' . UserHelper::currentAccount()->id . '
+                )
+            )');
+            return;
+        }
+
+        if($model->getTable() == 'crm_users') {
             $ids = UserManagers::withoutGlobalScopes()
                 ->where('iam_account_id', UserHelper::currentAccount()->id)
                 ->pluck('crm_user_id');
 
             $builder->whereIn('id', $ids);
+            return;
         }
     }
 

@@ -34,12 +34,7 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
          * Here the user will only be able to run this query only if the table name starts with 'crm_*' and
          * the owner of the model is the user itself.
          */
-        $ids = AccountManagers::withoutGlobalScopes()
-            ->where('iam_account_id', UserHelper::currentAccount()->id)
-            ->where('iam_user_id', UserHelper::currentUser()->id)
-            ->pluck('crm_account_id');
-
-        $builder->whereIn('crm_account_id', $ids);
+        $builder->where('iam_user_id', UserHelper::me()->id);
     }
 
     public function getLevel(): int
