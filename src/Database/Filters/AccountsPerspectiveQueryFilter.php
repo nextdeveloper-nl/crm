@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                    
+                
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -223,15 +223,6 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-    public function crmAccountId($value)
-    {
-            $crmAccount = \NextDeveloper\CRM\Database\Models\Accounts::where('uuid', $value)->first();
-
-        if($crmAccount) {
-            return $this->builder->where('crm_account_id', '=', $crmAccount->id);
-        }
-    }
-
     public function iamAccountTypeId($value)
     {
             $iamAccountType = \NextDeveloper\IAM\Database\Models\AccountTypes::where('uuid', $value)->first();
@@ -251,6 +242,8 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

@@ -56,7 +56,6 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
     {
                                                 $commonDomainId = \NextDeveloper\Commons\Database\Models\Domains::where('id', $model->common_domain_id)->first();
                                                             $commonCountryId = \NextDeveloper\Commons\Database\Models\Countries::where('id', $model->common_country_id)->first();
-                                                            $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
                                                             $iamAccountTypeId = \NextDeveloper\IAM\Database\Models\AccountTypes::where('id', $model->iam_account_type_id)->first();
                                                             $commonCityId = \NextDeveloper\Commons\Database\Models\Cities::where('id', $model->common_city_id)->first();
                         
@@ -70,7 +69,6 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
             'country_name'  =>  $model->country_name,
             'phone_number'  =>  $model->phone_number,
             'description'  =>  $model->description,
-            'crm_account_id'  =>  $crmAccountId ? $crmAccountId->uuid : null,
             'iam_account_type_id'  =>  $iamAccountTypeId ? $iamAccountTypeId->uuid : null,
             'account_type'  =>  $model->account_type,
             'is_paying_customer'  =>  $model->is_paying_customer,
@@ -183,6 +181,8 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 
