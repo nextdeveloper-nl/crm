@@ -24,7 +24,6 @@ use NextDeveloper\Commons\Database\Traits\HasStates;
  * @property string $country_name
  * @property string $phone_number
  * @property string $description
- * @property integer $crm_account_id
  * @property integer $iam_account_type_id
  * @property string $account_type
  * @property boolean $is_paying_customer
@@ -72,7 +71,6 @@ class AccountsPerspective extends Model
             'country_name',
             'phone_number',
             'description',
-            'crm_account_id',
             'iam_account_type_id',
             'account_type',
             'is_paying_customer',
@@ -125,7 +123,6 @@ class AccountsPerspective extends Model
     'country_name' => 'string',
     'phone_number' => 'string',
     'description' => 'string',
-    'crm_account_id' => 'integer',
     'iam_account_type_id' => 'integer',
     'account_type' => 'string',
     'is_paying_customer' => 'boolean',
@@ -210,6 +207,8 @@ class AccountsPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 
