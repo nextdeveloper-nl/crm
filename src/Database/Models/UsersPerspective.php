@@ -28,8 +28,6 @@ use NextDeveloper\Commons\Database\Traits\HasStates;
  * @property integer $common_country_id
  * @property integer $common_language_id
  * @property \Carbon\Carbon $iam_updated_at
- * @property integer $iam_user_id
- * @property integer $iam_account_id
  * @property string $position
  * @property string $job
  * @property string $job_description
@@ -41,7 +39,7 @@ use NextDeveloper\Commons\Database\Traits\HasStates;
  * @property boolean $is_single
  * @property $education
  * @property integer $child_count
- * @property string $crm_account_id
+ * @property integer $iam_user_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
@@ -71,8 +69,6 @@ class UsersPerspective extends Model
             'common_country_id',
             'common_language_id',
             'iam_updated_at',
-            'iam_user_id',
-            'iam_account_id',
             'position',
             'job',
             'job_description',
@@ -84,7 +80,7 @@ class UsersPerspective extends Model
             'is_single',
             'education',
             'child_count',
-            'crm_account_id',
+            'iam_user_id',
     ];
 
     /**
@@ -192,6 +188,7 @@ class UsersPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

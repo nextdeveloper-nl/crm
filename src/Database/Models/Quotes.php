@@ -180,4 +180,5 @@ class Quotes extends Model
 
 
 
+
 }
