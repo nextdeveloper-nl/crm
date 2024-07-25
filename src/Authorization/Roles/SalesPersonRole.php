@@ -30,6 +30,25 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
      */
     public function apply(Builder $builder, Model $model)
     {
+        if($model->getTable() == 'crm_accounts_perspective') {
+            $builder->whereRaw('iam_account_id IN       (
+                select iam_account_id from crm_accounts_perspective where id in (
+                    select crm_account_id from crm_account_managers cam where cam.iam_user_id = ' . UserHelper::me()->id . '
+                )
+            )');
+
+            return;
+        }
+
+        if($model->getTable() == 'crm_users_perspective') {
+            $builder->whereRaw('iam_account_id IN       (
+                select distinct iam_account_id from crm_accounts_perspective where id in (
+                    select distinct crm_account_id from crm_account_managers cam where cam.iam_user_id = ' . UserHelper::me()->id . '
+                )
+            )');
+            return;
+        }
+
         /**
          * Here the user will only be able to run this query only if the table name starts with 'crm_*' and
          * the owner of the model is the user itself.
