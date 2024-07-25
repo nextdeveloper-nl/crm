@@ -46,6 +46,8 @@ use NextDeveloper\Commons\Database\Traits\HasStates;
  * @property string $additional_information
  * @property array $target_markets
  * @property array $partners_with
+ * @property integer $iam_user_id
+ * @property integer $iam_account_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
@@ -93,6 +95,8 @@ class AccountsPerspective extends Model
             'additional_information',
             'target_markets',
             'partners_with',
+            'iam_user_id',
+            'iam_account_id',
     ];
 
     /**
@@ -207,6 +211,7 @@ class AccountsPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
