@@ -3,37 +3,47 @@
 namespace NextDeveloper\CRM\Database\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use NextDeveloper\Commons\Database\Traits\HasStates;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
-use NextDeveloper\CRM\Database\Observers\NotesObserver;
+use NextDeveloper\CRM\Database\Observers\OpportunitiesPerspectiveObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
-use NextDeveloper\Commons\Database\Traits\HasStates;
 
 /**
- * Notes model.
+ * OpportunitiesPerspective model.
  *
  * @package  NextDeveloper\CRM\Database\Models
  * @property integer $id
  * @property string $uuid
- * @property integer $crm_account_id
- * @property string $note
+ * @property string $name
+ * @property string $description
+ * @property integer $probability
+ * @property $opportunity_stage
+ * @property string $source
+ * @property $income
+ * @property \Carbon\Carbon $deadline
+ * @property string $account_name
+ * @property string $responsible_account
+ * @property string $responsible_name
+ * @property integer $quote_count
+ * @property integer $iam_user_id
+ * @property integer $iam_account_id
+ * @property array $tags
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
- * @property integer $iam_user_id
- * @property integer $iam_account_id
  */
-class Notes extends Model
+class OpportunitiesPerspective extends Model
 {
     use Filterable, UuidId, CleanCache, Taggable, HasStates;
     use SoftDeletes;
 
     public $timestamps = true;
 
-    protected $table = 'crm_notes';
+    protected $table = 'crm_opportunities_perspective';
 
 
     /**
@@ -42,10 +52,20 @@ class Notes extends Model
     protected $guarded = [];
 
     protected $fillable = [
-            'crm_account_id',
-            'note',
+            'name',
+            'description',
+            'probability',
+            'opportunity_stage',
+            'source',
+            'income',
+            'deadline',
+            'account_name',
+            'responsible_account',
+            'responsible_name',
+            'quote_count',
             'iam_user_id',
             'iam_account_id',
+            'tags',
     ];
 
     /**
@@ -69,8 +89,16 @@ class Notes extends Model
      */
     protected $casts = [
     'id' => 'integer',
-    'crm_account_id' => 'integer',
-    'note' => 'string',
+    'name' => 'string',
+    'description' => 'string',
+    'probability' => 'integer',
+    'source' => 'string',
+    'deadline' => 'datetime',
+    'account_name' => 'string',
+    'responsible_account' => 'string',
+    'responsible_name' => 'string',
+    'quote_count' => 'integer',
+    'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
@@ -82,6 +110,7 @@ class Notes extends Model
      @var array
      */
     protected $dates = [
+    'deadline',
     'created_at',
     'updated_at',
     'deleted_at',
@@ -107,7 +136,7 @@ class Notes extends Model
         parent::boot();
 
         //  We create and add Observer even if we wont use it.
-        parent::observe(NotesObserver::class);
+        parent::observe(OpportunitiesPerspectiveObserver::class);
 
         self::registerScopes();
     }
@@ -115,7 +144,7 @@ class Notes extends Model
     public static function registerScopes()
     {
         $globalScopes = config('crm.scopes.global');
-        $modelScopes = config('crm.scopes.crm_notes');
+        $modelScopes = config('crm.scopes.crm_opportunities_perspective');
 
         if(!$modelScopes) { $modelScopes = [];
         }
@@ -135,23 +164,4 @@ class Notes extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

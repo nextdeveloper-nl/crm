@@ -296,7 +296,43 @@ Route::prefix('crm')->group(
             }
         );
 
+        Route::prefix('opportunities-perspective')->group(
+            function () {
+                Route::get('/', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@index');
+                Route::get('/actions', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@getActions');
+
+                Route::get('{crm_opportunities_perspective}/tags ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@tags');
+                Route::post('{crm_opportunities_perspective}/tags ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@saveTags');
+                Route::get('{crm_opportunities_perspective}/addresses ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@addresses');
+                Route::post('{crm_opportunities_perspective}/addresses ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@saveAddresses');
+
+                Route::get('/{crm_opportunities_perspective}/{subObjects}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@relatedObjects');
+                Route::get('/{crm_opportunities_perspective}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@show');
+
+                Route::post('/', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@store');
+                Route::post('/{crm_opportunities_perspective}/do/{action}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@doAction');
+
+                Route::patch('/{crm_opportunities_perspective}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@update');
+                Route::delete('/{crm_opportunities_perspective}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@destroy');
+            }
+        );
+
         // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -676,6 +712,7 @@ Route::prefix('crm')->group(
 
     }
 );
+
 
 
 

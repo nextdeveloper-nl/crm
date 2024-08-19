@@ -18,6 +18,10 @@ use NextDeveloper\CRM\Database\Models\Users;
  */
 class EnableAccount extends AbstractAction
 {
+    public const EVENTS = [
+        'enabled:NextDeveloper\IAM\Accounts'
+    ];
+
     /**
      * This action takes a user object and assigns an Account Manager
      *
@@ -25,7 +29,9 @@ class EnableAccount extends AbstractAction
      */
     public function __construct(Accounts $accounts)
     {
+        $this->model = $accounts;
 
+        parent::__construct();
     }
 
     public function handle()

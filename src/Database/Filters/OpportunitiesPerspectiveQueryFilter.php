@@ -4,13 +4,13 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                
+        
 
 /**
  * This class automatically puts where clause on database so that use can filter
  * data returned from the query.
  */
-class QuotesQueryFilter extends AbstractQueryFilter
+class OpportunitiesPerspectiveQueryFilter extends AbstractQueryFilter
 {
     /**
      * Filter by tags
@@ -47,6 +47,62 @@ class QuotesQueryFilter extends AbstractQueryFilter
     {
         return $this->builder->where('description', 'like', '%' . $value . '%');
     }
+    
+    public function source($value)
+    {
+        return $this->builder->where('source', 'like', '%' . $value . '%');
+    }
+    
+    public function accountName($value)
+    {
+        return $this->builder->where('account_name', 'like', '%' . $value . '%');
+    }
+    
+    public function responsibleAccount($value)
+    {
+        return $this->builder->where('responsible_account', 'like', '%' . $value . '%');
+    }
+    
+    public function responsibleName($value)
+    {
+        return $this->builder->where('responsible_name', 'like', '%' . $value . '%');
+    }
+
+    public function probability($value)
+    {
+        $operator = substr($value, 0, 1);
+
+        if ($operator != '<' || $operator != '>') {
+            $operator = '=';
+        } else {
+            $value = substr($value, 1);
+        }
+
+        return $this->builder->where('probability', $operator, $value);
+    }
+
+    public function quoteCount($value)
+    {
+        $operator = substr($value, 0, 1);
+
+        if ($operator != '<' || $operator != '>') {
+            $operator = '=';
+        } else {
+            $value = substr($value, 1);
+        }
+
+        return $this->builder->where('quote_count', $operator, $value);
+    }
+
+    public function deadlineStart($date)
+    {
+        return $this->builder->where('deadline', '>=', $date);
+    }
+
+    public function deadlineEnd($date)
+    {
+        return $this->builder->where('deadline', '<=', $date);
+    }
 
     public function createdAtStart($date)
     {
@@ -78,15 +134,6 @@ class QuotesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('deleted_at', '<=', $date);
     }
 
-    public function iamAccountId($value)
-    {
-            $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
-
-        if($iamAccount) {
-            return $this->builder->where('iam_account_id', '=', $iamAccount->id);
-        }
-    }
-
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -96,55 +143,14 @@ class QuotesQueryFilter extends AbstractQueryFilter
         }
     }
 
-    public function crmOpportunitiesId($value)
+    public function iamAccountId($value)
     {
-            $crmOpportunities = \NextDeveloper\CRM\Database\Models\Opportunities::where('uuid', $value)->first();
+            $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
 
-        if($crmOpportunities) {
-            return $this->builder->where('crm_opportunities_id', '=', $crmOpportunities->id);
+        if($iamAccount) {
+            return $this->builder->where('iam_account_id', '=', $iamAccount->id);
         }
     }
 
-    public function commonCurrencyId($value)
-    {
-            $commonCurrency = \NextDeveloper\Commons\Database\Models\Currencies::where('uuid', $value)->first();
-
-        if($commonCurrency) {
-            return $this->builder->where('common_currency_id', '=', $commonCurrency->id);
-        }
-    }
-
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

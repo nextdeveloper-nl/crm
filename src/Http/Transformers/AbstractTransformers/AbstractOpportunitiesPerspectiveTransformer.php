@@ -20,16 +20,16 @@ use NextDeveloper\Commons\Http\Transformers\MetaTransformer;
 use NextDeveloper\Commons\Http\Transformers\VotesTransformer;
 use NextDeveloper\Commons\Http\Transformers\AddressesTransformer;
 use NextDeveloper\Commons\Http\Transformers\PhoneNumbersTransformer;
-use NextDeveloper\CRM\Database\Models\Meetings;
+use NextDeveloper\CRM\Database\Models\OpportunitiesPerspective;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 
 /**
- * Class MeetingsTransformer. This class is being used to manipulate the data we are serving to the customer
+ * Class OpportunitiesPerspectiveTransformer. This class is being used to manipulate the data we are serving to the customer
  *
  * @package NextDeveloper\CRM\Http\Transformers
  */
-class AbstractMeetingsTransformer extends AbstractTransformer
+class AbstractOpportunitiesPerspectiveTransformer extends AbstractTransformer
 {
 
     /**
@@ -48,36 +48,40 @@ class AbstractMeetingsTransformer extends AbstractTransformer
     ];
 
     /**
-     * @param Meetings $model
+     * @param OpportunitiesPerspective $model
      *
      * @return array
      */
-    public function transform(Meetings $model)
+    public function transform(OpportunitiesPerspective $model)
     {
-                                                $agendaCalendarItemId = \NextDeveloper\Agenda\Database\Models\CalendarItems::where('id', $model->agenda_calendar_item_id)->first();
-                                                            $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
+                                                $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
                                                             $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
-                                                            $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
                         
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
-            'agenda_calendar_item_id'  =>  $agendaCalendarItemId ? $agendaCalendarItemId->uuid : null,
-            'meeting_note'  =>  $model->meeting_note,
-            'outcome'  =>  $model->outcome,
+            'name'  =>  $model->name,
+            'description'  =>  $model->description,
+            'probability'  =>  $model->probability,
+            'opportunity_stage'  =>  $model->opportunity_stage,
+            'source'  =>  $model->source,
+            'income'  =>  $model->income,
+            'deadline'  =>  $model->deadline,
+            'account_name'  =>  $model->account_name,
+            'responsible_account'  =>  $model->responsible_account,
+            'responsible_name'  =>  $model->responsible_name,
+            'quote_count'  =>  $model->quote_count,
             'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
             'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
-            'crm_account_id'  =>  $crmAccountId ? $crmAccountId->uuid : null,
+            'tags'  =>  $model->tags,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
-            'customer_requirements'  =>  $model->customer_requirements,
-            'suggestions'  =>  $model->suggestions,
             ]
         );
     }
 
-    public function includeStates(Meetings $model)
+    public function includeStates(OpportunitiesPerspective $model)
     {
         $states = States::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -86,7 +90,7 @@ class AbstractMeetingsTransformer extends AbstractTransformer
         return $this->collection($states, new StatesTransformer());
     }
 
-    public function includeActions(Meetings $model)
+    public function includeActions(OpportunitiesPerspective $model)
     {
         $input = get_class($model);
         $input = str_replace('\\Database\\Models', '', $input);
@@ -98,7 +102,7 @@ class AbstractMeetingsTransformer extends AbstractTransformer
         return $this->collection($actions, new AvailableActionsTransformer());
     }
 
-    public function includeMedia(Meetings $model)
+    public function includeMedia(OpportunitiesPerspective $model)
     {
         $media = Media::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -107,7 +111,7 @@ class AbstractMeetingsTransformer extends AbstractTransformer
         return $this->collection($media, new MediaTransformer());
     }
 
-    public function includeSocialMedia(Meetings $model)
+    public function includeSocialMedia(OpportunitiesPerspective $model)
     {
         $socialMedia = SocialMedia::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -116,7 +120,7 @@ class AbstractMeetingsTransformer extends AbstractTransformer
         return $this->collection($socialMedia, new SocialMediaTransformer());
     }
 
-    public function includeComments(Meetings $model)
+    public function includeComments(OpportunitiesPerspective $model)
     {
         $comments = Comments::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -125,7 +129,7 @@ class AbstractMeetingsTransformer extends AbstractTransformer
         return $this->collection($comments, new CommentsTransformer());
     }
 
-    public function includeVotes(Meetings $model)
+    public function includeVotes(OpportunitiesPerspective $model)
     {
         $votes = Votes::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -134,7 +138,7 @@ class AbstractMeetingsTransformer extends AbstractTransformer
         return $this->collection($votes, new VotesTransformer());
     }
 
-    public function includeMeta(Meetings $model)
+    public function includeMeta(OpportunitiesPerspective $model)
     {
         $meta = Meta::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -143,7 +147,7 @@ class AbstractMeetingsTransformer extends AbstractTransformer
         return $this->collection($meta, new MetaTransformer());
     }
 
-    public function includePhoneNumbers(Meetings $model)
+    public function includePhoneNumbers(OpportunitiesPerspective $model)
     {
         $phoneNumbers = PhoneNumbers::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -152,7 +156,7 @@ class AbstractMeetingsTransformer extends AbstractTransformer
         return $this->collection($phoneNumbers, new PhoneNumbersTransformer());
     }
 
-    public function includeAddresses(Meetings $model)
+    public function includeAddresses(OpportunitiesPerspective $model)
     {
         $addresses = Addresses::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -161,14 +165,4 @@ class AbstractMeetingsTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
 }
