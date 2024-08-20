@@ -127,7 +127,7 @@ class Opportunities extends Model
         parent::boot();
 
         //  We create and add Observer even if we wont use it.
-       // parent::observe(OpportunitiesObserver::class);
+        parent::observe(OpportunitiesObserver::class);
 
         self::registerScopes();
     }
