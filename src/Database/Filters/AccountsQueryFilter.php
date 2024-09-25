@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-        
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -37,17 +37,17 @@ class AccountsQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function position($value)
     {
         return $this->builder->where('position', 'like', '%' . $value . '%');
     }
-    
+
     public function headquarterCity($value)
     {
         return $this->builder->where('headquarter_city', 'like', '%' . $value . '%');
     }
-    
+
     public function additionalInformation($value)
     {
         return $this->builder->where('additional_information', 'like', '%' . $value . '%');
@@ -159,18 +159,14 @@ class AccountsQueryFilter extends AbstractQueryFilter
 
     public function isPayingCustomer($value)
     {
-        if(!is_bool($value)) {
-            $value = false;
-        }
+
 
         return $this->builder->where('is_paying_customer', $value);
     }
 
     public function isStartup($value)
     {
-        if(!is_bool($value)) {
-            $value = false;
-        }
+
 
         return $this->builder->where('is_startup', $value);
     }

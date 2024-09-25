@@ -58,4 +58,4 @@ class SuspendAccount extends AbstractAction
         // Set the process as finished
         $this->setFinished();
     }
-},
+}

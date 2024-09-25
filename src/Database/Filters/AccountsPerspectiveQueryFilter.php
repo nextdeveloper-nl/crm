@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                        
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,47 +17,47 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
         return $this->builder->where('name', 'like', '%' . $value . '%');
     }
-    
+
     public function domainName($value)
     {
         return $this->builder->where('domain_name', 'like', '%' . $value . '%');
     }
-    
+
     public function countryName($value)
     {
         return $this->builder->where('country_name', 'like', '%' . $value . '%');
     }
-    
+
     public function phoneNumber($value)
     {
         return $this->builder->where('phone_number', 'like', '%' . $value . '%');
     }
-    
+
     public function description($value)
     {
         return $this->builder->where('description', 'like', '%' . $value . '%');
     }
-    
+
     public function accountType($value)
     {
         return $this->builder->where('account_type', 'like', '%' . $value . '%');
     }
-    
+
     public function position($value)
     {
         return $this->builder->where('position', 'like', '%' . $value . '%');
     }
-    
+
     public function headquarterCity($value)
     {
         return $this->builder->where('headquarter_city', 'like', '%' . $value . '%');
     }
-    
+
     public function additionalInformation($value)
     {
         return $this->builder->where('additional_information', 'like', '%' . $value . '%');
@@ -169,18 +169,14 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
 
     public function isPayingCustomer($value)
     {
-        if(!is_bool($value)) {
-            $value = false;
-        }
+
 
         return $this->builder->where('is_paying_customer', $value);
     }
 
     public function isStartup($value)
     {
-        if(!is_bool($value)) {
-            $value = false;
-        }
+
 
         return $this->builder->where('is_startup', $value);
     }
