@@ -212,6 +212,27 @@ Route::prefix('crm')->group(
             }
         );
 
+        Route::prefix('projects')->group(
+            function () {
+                Route::get('/', 'Projects\ProjectsController@index');
+                Route::get('/actions', 'Projects\ProjectsController@getActions');
+
+                Route::get('{crm_projects}/tags ', 'Projects\ProjectsController@tags');
+                Route::post('{crm_projects}/tags ', 'Projects\ProjectsController@saveTags');
+                Route::get('{crm_projects}/addresses ', 'Projects\ProjectsController@addresses');
+                Route::post('{crm_projects}/addresses ', 'Projects\ProjectsController@saveAddresses');
+
+                Route::get('/{crm_projects}/{subObjects}', 'Projects\ProjectsController@relatedObjects');
+                Route::get('/{crm_projects}', 'Projects\ProjectsController@show');
+
+                Route::post('/', 'Projects\ProjectsController@store');
+                Route::post('/{crm_projects}/do/{action}', 'Projects\ProjectsController@doAction');
+
+                Route::patch('/{crm_projects}', 'Projects\ProjectsController@update');
+                Route::delete('/{crm_projects}', 'Projects\ProjectsController@destroy');
+            }
+        );
+
         Route::prefix('notes')->group(
             function () {
                 Route::get('/', 'Notes\NotesController@index');
@@ -710,8 +731,26 @@ Route::prefix('crm')->group(
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 );
+
 
 
 
