@@ -56,109 +56,111 @@ class Accounts extends Model
 
 
     /**
-     @var array
+     * @var array
      */
     protected $guarded = [];
 
     protected $fillable = [
-            'iam_account_id',
-            'is_paying_customer',
-            'risk_level',
-            'common_city_id',
-            'position',
-            'tags',
-            'company_size',
-            'sector_focus',
-            'industry',
-            'is_startup',
-            'regulatory_and_compliance',
-            'employee_count',
-            'office_cities',
-            'headquarter_city',
-            'production_people_count',
-            'sales_people_count',
-            'marketing_people_count',
-            'support_people_count',
-            'automation_count',
-            'additional_information',
-            'target_markets',
-            'partners_with',
-            'services',
+        'iam_account_id',
+        'is_paying_customer',
+        'risk_level',
+        'common_city_id',
+        'position',
+        'tags',
+        'company_size',
+        'sector_focus',
+        'industry',
+        'is_startup',
+        'regulatory_and_compliance',
+        'employee_count',
+        'office_cities',
+        'headquarter_city',
+        'production_people_count',
+        'sales_people_count',
+        'marketing_people_count',
+        'support_people_count',
+        'automation_count',
+        'additional_information',
+        'target_markets',
+        'partners_with',
+        'services',
+        'is_suspended'
     ];
 
     /**
-      Here we have the fulltext fields. We can use these for fulltext search if enabled.
+     * Here we have the fulltext fields. We can use these for fulltext search if enabled.
      */
     protected $fullTextFields = [
 
     ];
 
     /**
-     @var array
+     * @var array
      */
     protected $appends = [
 
     ];
 
     /**
-     We are casting fields to objects so that we can work on them better
+     * We are casting fields to objects so that we can work on them better
      *
-     @var array
+     * @var array
      */
     protected $casts = [
-    'id' => 'integer',
-    'is_paying_customer' => 'boolean',
-    'risk_level' => 'integer',
-    'common_city_id' => 'integer',
-    'position' => 'string',
-    'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'created_at' => 'datetime',
-    'updated_at' => 'datetime',
-    'deleted_at' => 'datetime',
-    'company_size' => 'integer',
-    'sector_focus' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'industry' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'is_startup' => 'boolean',
-    'regulatory_and_compliance' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'employee_count' => 'integer',
-    'office_cities' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'headquarter_city' => 'string',
-    'production_people_count' => 'integer',
-    'sales_people_count' => 'integer',
-    'marketing_people_count' => 'integer',
-    'support_people_count' => 'integer',
-    'automation_count' => 'integer',
-    'additional_information' => 'string',
-    'target_markets' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'partners_with' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'services' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+        'id' => 'integer',
+        'is_paying_customer' => 'boolean',
+        'risk_level' => 'integer',
+        'common_city_id' => 'integer',
+        'position' => 'string',
+        'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
+        'company_size' => 'integer',
+        'sector_focus' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+        'industry' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+        'is_startup' => 'boolean',
+        'regulatory_and_compliance' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+        'employee_count' => 'integer',
+        'office_cities' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+        'headquarter_city' => 'string',
+        'production_people_count' => 'integer',
+        'sales_people_count' => 'integer',
+        'marketing_people_count' => 'integer',
+        'support_people_count' => 'integer',
+        'automation_count' => 'integer',
+        'additional_information' => 'string',
+        'target_markets' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+        'partners_with' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+        'services' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+        'is_suspended' => 'boolean'
     ];
 
     /**
-     We are casting data fields.
+     * We are casting data fields.
      *
-     @var array
+     * @var array
      */
     protected $dates = [
-    'created_at',
-    'updated_at',
-    'deleted_at',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     /**
-     @var array
+     * @var array
      */
     protected $with = [
 
     ];
 
     /**
-     @var int
+     * @var int
      */
     protected $perPage = 20;
 
     /**
-     @return void
+     * @return void
      */
     public static function boot()
     {
@@ -175,9 +177,11 @@ class Accounts extends Model
         $globalScopes = config('crm.scopes.global');
         $modelScopes = config('crm.scopes.crm_accounts');
 
-        if(!$modelScopes) { $modelScopes = [];
+        if (!$modelScopes) {
+            $modelScopes = [];
         }
-        if (!$globalScopes) { $globalScopes = [];
+        if (!$globalScopes) {
+            $globalScopes = [];
         }
 
         $scopes = array_merge(
@@ -185,40 +189,33 @@ class Accounts extends Model
             $modelScopes
         );
 
-        if($scopes) {
+        if ($scopes) {
             foreach ($scopes as $scope) {
                 static::addGlobalScope(app($scope));
             }
         }
     }
 
-    public function accountManagers() : \Illuminate\Database\Eloquent\Relations\HasMany
+    public function accountManagers(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\NextDeveloper\CRM\Database\Models\AccountManagers::class);
     }
 
-    public function accounts() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function accounts(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Accounts::class);
     }
-    
-    public function cities() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+
+    public function cities(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\NextDeveloper\Commons\Database\Models\Cities::class);
     }
-    
-    public function opportunities() : \Illuminate\Database\Eloquent\Relations\HasMany
+
+    public function opportunities(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\NextDeveloper\CRM\Database\Models\Opportunities::class);
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
 
 }

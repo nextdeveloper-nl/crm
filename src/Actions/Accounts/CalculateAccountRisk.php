@@ -7,9 +7,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use NextDeveloper\Commons\Actions\AbstractAction;
 use NextDeveloper\CRM\Database\Models\Accounts;
 use NextDeveloper\CRM\EventHandlers\Accounts\CrmAccountsUpdatedEvent;
 use NextDeveloper\CRM\Services\RiskManagement\RiskManagementService;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This action, calculates the risk points for the account by looking at the user behaviour with the objects,
@@ -19,12 +21,8 @@ use NextDeveloper\CRM\Services\RiskManagement\RiskManagementService;
  * - Payment cycle information
  * - Service usage behaviour
  */
-class CalculateAccountRisk implements ShouldQueue
+class CalculateAccountRisk extends AbstractAction
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
-    private $account = null;
-
     /**
      * This action takes a user object and assigns an Account Manager
      *
@@ -32,15 +30,15 @@ class CalculateAccountRisk implements ShouldQueue
      */
     public function __construct(Accounts $accounts)
     {
-        $this->account = $accounts;
+        $this->model = $accounts;
     }
 
     public function handle()
     {
-        $this->account->update([
-            'risk_level'    =>  (new RiskManagementService($this->account))->calculateRiskLevel()
+        $this->model->update([
+            'risk_level'    =>  (new RiskManagementService($this->model))->calculateRiskLevel()
         ]);
 
-        event(new CrmAccountsUpdatedEvent($this->account));
+        Events::fire('risk-calculated', $this->model);
     }
 }

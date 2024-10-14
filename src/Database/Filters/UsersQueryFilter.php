@@ -5,7 +5,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
 use NextDeveloper\Accounts\Database\Models\User;
-    
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -38,32 +38,32 @@ class UsersQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function position($value)
     {
         return $this->builder->where('position', 'like', '%' . $value . '%');
     }
-    
+
     public function job($value)
     {
         return $this->builder->where('job', 'like', '%' . $value . '%');
     }
-    
+
     public function jobDescription($value)
     {
         return $this->builder->where('job_description', 'like', '%' . $value . '%');
     }
-    
+
     public function hobbies($value)
     {
         return $this->builder->where('hobbies', 'like', '%' . $value . '%');
     }
-    
+
     public function city($value)
     {
         return $this->builder->where('city', 'like', '%' . $value . '%');
     }
-    
+
     public function relationshipStatus($value)
     {
         return $this->builder->where('relationship_status', 'like', '%' . $value . '%');
@@ -84,18 +84,14 @@ class UsersQueryFilter extends AbstractQueryFilter
 
     public function isEvangelist($value)
     {
-        if(!is_bool($value)) {
-            $value = false;
-        }
+
 
         return $this->builder->where('is_evangelist', $value);
     }
 
     public function isSingle($value)
     {
-        if(!is_bool($value)) {
-            $value = false;
-        }
+
 
         return $this->builder->where('is_single', $value);
     }
@@ -140,6 +136,7 @@ class UsersQueryFilter extends AbstractQueryFilter
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 
