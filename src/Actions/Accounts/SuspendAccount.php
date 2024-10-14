@@ -6,11 +6,9 @@ use NextDeveloper\Commons\Actions\AbstractAction;
 use NextDeveloper\Commons\Exceptions\NotAllowedException;
 use NextDeveloper\CRM\Database\Models\Accounts;
 use NextDeveloper\Events\Services\Events;
-use NextDeveloper\IAM\Database\Models\Accounts as IAMAccounts;
-use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 
 /**
- * Class DisableAccount
+ * Class SuspendAccount
  *
  * This action disables an IAM account associated with a CRM account, marking the account as inactive.
  *
@@ -22,11 +20,11 @@ class SuspendAccount extends AbstractAction
      * Events associated with this action.
      */
     public const EVENTS = [
-        'disabled:NextDeveloper\IAM\Accounts'
+        'suspended:NextDeveloper\CRM\Accounts'
     ];
 
     /**
-     * DisableAccount constructor.
+     * SuspendAccount constructor.
      *
      * Initializes the action with the given CRM account.
      *
@@ -40,21 +38,22 @@ class SuspendAccount extends AbstractAction
     }
 
     /**
-     * Handles the process of disabling an account.
+     * Handle the suspend account action.
      *
-     * This function performs the following steps:
-     * 1. Sets initial progress.
-     * 2. Check if the IAM account exists.
-     * 3. Disables the IAM account.
-     * 4. Fires an event indicating the account has been disabled.
-     * 5. Set the process as finished.
+     * This method updates the account's status to suspended and fires an event.
+     *
+     * @return void
      */
     public function handle(): void
     {
         // Set initial progress
         $this->setProgress(0, 'Starting to disable account');
 
+        // Update the account's status to suspended
+        $this->model->update(['is_suspended' => true]);
 
+        // Fire an event indicating the account has been disabled
+        Events::fire('suspended', $this->model);
 
         // Set the process as finished
         $this->setFinished();
