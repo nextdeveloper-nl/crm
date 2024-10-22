@@ -58,17 +58,13 @@ trait CrmIdealCustomerProfileTestTraits
         $response = $this->http->request(
             'POST', '/crm/crmidealcustomerprofile', [
             'form_params'   =>  [
-                'customer_positions'  =>  'a',
                 'company_size'  =>  'a',
-                'solutions_interested_in'  =>  'a',
-                'current_technology_stack'  =>  'a',
-                'decision_making_process'  =>  'a',
-                'implementation_timeline'  =>  'a',
-                'unique_selling_proposition'  =>  'a',
-                'lead_generation_channels'  =>  'a',
-                'sales_process'  =>  'a',
-                'sales_funnel'  =>  'a',
                 'additional_notes'  =>  'a',
+                'growth_stage'  =>  'a',
+                'business_model'  =>  'a',
+                'name'  =>  'a',
+                'description'  =>  'a',
+                'technology_rank'  =>  '1',
                             ],
                 ['http_errors' => false]
             ]
@@ -351,25 +347,6 @@ trait CrmIdealCustomerProfileTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmidealcustomerprofile_event_customer_positions_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'customer_positions'  =>  'a'
-                ]
-            );
-
-            $filter = new CrmIdealCustomerProfileQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmIdealCustomerProfile::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
     public function test_crmidealcustomerprofile_event_company_size_filter()
     {
         try {
@@ -389,164 +366,107 @@ trait CrmIdealCustomerProfileTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmidealcustomerprofile_event_solutions_interested_in_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'solutions_interested_in'  =>  'a'
-                ]
-            );
-
-            $filter = new CrmIdealCustomerProfileQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmIdealCustomerProfile::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmidealcustomerprofile_event_current_technology_stack_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'current_technology_stack'  =>  'a'
-                ]
-            );
-
-            $filter = new CrmIdealCustomerProfileQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmIdealCustomerProfile::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmidealcustomerprofile_event_decision_making_process_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'decision_making_process'  =>  'a'
-                ]
-            );
-
-            $filter = new CrmIdealCustomerProfileQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmIdealCustomerProfile::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmidealcustomerprofile_event_implementation_timeline_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'implementation_timeline'  =>  'a'
-                ]
-            );
-
-            $filter = new CrmIdealCustomerProfileQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmIdealCustomerProfile::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmidealcustomerprofile_event_unique_selling_proposition_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'unique_selling_proposition'  =>  'a'
-                ]
-            );
-
-            $filter = new CrmIdealCustomerProfileQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmIdealCustomerProfile::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmidealcustomerprofile_event_lead_generation_channels_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'lead_generation_channels'  =>  'a'
-                ]
-            );
-
-            $filter = new CrmIdealCustomerProfileQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmIdealCustomerProfile::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmidealcustomerprofile_event_sales_process_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'sales_process'  =>  'a'
-                ]
-            );
-
-            $filter = new CrmIdealCustomerProfileQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmIdealCustomerProfile::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmidealcustomerprofile_event_sales_funnel_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'sales_funnel'  =>  'a'
-                ]
-            );
-
-            $filter = new CrmIdealCustomerProfileQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmIdealCustomerProfile::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
     public function test_crmidealcustomerprofile_event_additional_notes_filter()
     {
         try {
             $request = new Request(
                 [
                 'additional_notes'  =>  'a'
+                ]
+            );
+
+            $filter = new CrmIdealCustomerProfileQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmIdealCustomerProfile::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_crmidealcustomerprofile_event_growth_stage_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'growth_stage'  =>  'a'
+                ]
+            );
+
+            $filter = new CrmIdealCustomerProfileQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmIdealCustomerProfile::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_crmidealcustomerprofile_event_business_model_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'business_model'  =>  'a'
+                ]
+            );
+
+            $filter = new CrmIdealCustomerProfileQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmIdealCustomerProfile::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_crmidealcustomerprofile_event_name_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'name'  =>  'a'
+                ]
+            );
+
+            $filter = new CrmIdealCustomerProfileQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmIdealCustomerProfile::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_crmidealcustomerprofile_event_description_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'description'  =>  'a'
+                ]
+            );
+
+            $filter = new CrmIdealCustomerProfileQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmIdealCustomerProfile::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_crmidealcustomerprofile_event_technology_rank_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'technology_rank'  =>  '1'
                 ]
             );
 

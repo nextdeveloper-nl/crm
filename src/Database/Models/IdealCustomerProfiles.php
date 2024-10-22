@@ -19,23 +19,21 @@ use NextDeveloper\Commons\Database\Traits\HasStates;
  * @property integer $id
  * @property string $uuid
  * @property integer $crm_account_id
- * @property string $customer_positions
  * @property string $company_size
  * @property boolean $is_working_home_office
- * @property array $pain_points
- * @property string $solutions_interested_in
- * @property string $current_technology_stack
- * @property $budget
- * @property string $decision_making_process
- * @property string $implementation_timeline
- * @property string $unique_selling_proposition
- * @property string $lead_generation_channels
- * @property string $sales_process
- * @property string $sales_funnel
+ * @property array $current_technology_stack
  * @property string $additional_notes
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
+ * @property string $growth_stage
+ * @property array $geographical_focus
+ * @property string $business_model
+ * @property array $verticals
+ * @property integer $technology_rank
+ * @property array $keywords
+ * @property string $name
+ * @property string $description
  */
 class IdealCustomerProfiles extends Model
 {
@@ -54,20 +52,18 @@ class IdealCustomerProfiles extends Model
 
     protected $fillable = [
             'crm_account_id',
-            'customer_positions',
             'company_size',
             'is_working_home_office',
-            'pain_points',
-            'solutions_interested_in',
             'current_technology_stack',
-            'budget',
-            'decision_making_process',
-            'implementation_timeline',
-            'unique_selling_proposition',
-            'lead_generation_channels',
-            'sales_process',
-            'sales_funnel',
             'additional_notes',
+            'growth_stage',
+            'geographical_focus',
+            'business_model',
+            'verticals',
+            'technology_rank',
+            'keywords',
+            'name',
+            'description',
     ];
 
     /**
@@ -92,22 +88,21 @@ class IdealCustomerProfiles extends Model
     protected $casts = [
     'id' => 'integer',
     'crm_account_id' => 'integer',
-    'customer_positions' => 'string',
     'company_size' => 'string',
     'is_working_home_office' => 'boolean',
-    'pain_points' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'solutions_interested_in' => 'string',
-    'current_technology_stack' => 'string',
-    'decision_making_process' => 'string',
-    'implementation_timeline' => 'string',
-    'unique_selling_proposition' => 'string',
-    'lead_generation_channels' => 'string',
-    'sales_process' => 'string',
-    'sales_funnel' => 'string',
+    'current_technology_stack' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'additional_notes' => 'string',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
+    'growth_stage' => 'string',
+    'geographical_focus' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'business_model' => 'string',
+    'verticals' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'technology_rank' => 'integer',
+    'keywords' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'name' => 'string',
+    'description' => 'string',
     ];
 
     /**
@@ -169,6 +164,8 @@ class IdealCustomerProfiles extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

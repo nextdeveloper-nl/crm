@@ -95,6 +95,9 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
             'partners_with'  =>  $model->partners_with,
             'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
             'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
+            'total_user_count'  =>  $model->total_user_count,
+            'registered_user_count'  =>  $model->registered_user_count,
+            'ideal_customer_profile_count'  =>  $model->ideal_customer_profile_count,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             ]
@@ -185,6 +188,8 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

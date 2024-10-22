@@ -60,23 +60,21 @@ class AbstractIdealCustomerProfilesTransformer extends AbstractTransformer
             [
             'id'  =>  $model->uuid,
             'crm_account_id'  =>  $crmAccountId ? $crmAccountId->uuid : null,
-            'customer_positions'  =>  $model->customer_positions,
             'company_size'  =>  $model->company_size,
             'is_working_home_office'  =>  $model->is_working_home_office,
-            'pain_points'  =>  $model->pain_points,
-            'solutions_interested_in'  =>  $model->solutions_interested_in,
             'current_technology_stack'  =>  $model->current_technology_stack,
-            'budget'  =>  $model->budget,
-            'decision_making_process'  =>  $model->decision_making_process,
-            'implementation_timeline'  =>  $model->implementation_timeline,
-            'unique_selling_proposition'  =>  $model->unique_selling_proposition,
-            'lead_generation_channels'  =>  $model->lead_generation_channels,
-            'sales_process'  =>  $model->sales_process,
-            'sales_funnel'  =>  $model->sales_funnel,
             'additional_notes'  =>  $model->additional_notes,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
+            'growth_stage'  =>  $model->growth_stage,
+            'geographical_focus'  =>  $model->geographical_focus,
+            'business_model'  =>  $model->business_model,
+            'verticals'  =>  $model->verticals,
+            'technology_rank'  =>  $model->technology_rank,
+            'keywords'  =>  $model->keywords,
+            'name'  =>  $model->name,
+            'description'  =>  $model->description,
             ]
         );
     }
@@ -165,6 +163,8 @@ class AbstractIdealCustomerProfilesTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

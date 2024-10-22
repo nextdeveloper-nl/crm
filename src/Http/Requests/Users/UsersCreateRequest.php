@@ -25,6 +25,7 @@ class UsersCreateRequest extends AbstractFormRequest
         'education_level' => 'nullable',
         'child_count' => 'nullable|integer',
         'tags' => '',
+        'is_suspended' => 'nullable|boolean',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
