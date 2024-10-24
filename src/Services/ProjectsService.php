@@ -2,11 +2,13 @@
 
 namespace NextDeveloper\CRM\Services;
 
+
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;
 use NextDeveloper\CRM\Database\Models\Projects;
 use NextDeveloper\CRM\Services\AbstractServices\AbstractProjectsService;
 use NextDeveloper\CRM\Services\Clients\ProjectClientService;
+
 
 /**
  * This class is responsible from managing the data for Projects
@@ -19,7 +21,6 @@ class ProjectsService extends AbstractProjectsService
 {
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
 
     /**
      * @throws GuzzleException
@@ -46,5 +47,4 @@ class ProjectsService extends AbstractProjectsService
 
         return $model;
     }
-
 }

@@ -23,27 +23,6 @@ Route::prefix('crm')->group(
             }
         );
 
-        Route::prefix('accounts')->group(
-            function () {
-                Route::get('/', 'Accounts\AccountsController@index');
-                Route::get('/actions', 'Accounts\AccountsController@getActions');
-
-                Route::get('{crm_accounts}/tags ', 'Accounts\AccountsController@tags');
-                Route::post('{crm_accounts}/tags ', 'Accounts\AccountsController@saveTags');
-                Route::get('{crm_accounts}/addresses ', 'Accounts\AccountsController@addresses');
-                Route::post('{crm_accounts}/addresses ', 'Accounts\AccountsController@saveAddresses');
-
-                Route::get('/{crm_accounts}/{subObjects}', 'Accounts\AccountsController@relatedObjects');
-                Route::get('/{crm_accounts}', 'Accounts\AccountsController@show');
-
-                Route::post('/', 'Accounts\AccountsController@store');
-                Route::post('/{crm_accounts}/do/{action}', 'Accounts\AccountsController@doAction');
-
-                Route::patch('/{crm_accounts}', 'Accounts\AccountsController@update');
-                Route::delete('/{crm_accounts}', 'Accounts\AccountsController@destroy');
-            }
-        );
-
         Route::prefix('users')->group(
             function () {
                 Route::get('/', 'Users\UsersController@index');
@@ -83,6 +62,27 @@ Route::prefix('crm')->group(
 
                 Route::patch('/{crm_user_managers}', 'UserManagers\UserManagersController@update');
                 Route::delete('/{crm_user_managers}', 'UserManagers\UserManagersController@destroy');
+            }
+        );
+
+        Route::prefix('accounts')->group(
+            function () {
+                Route::get('/', 'Accounts\AccountsController@index');
+                Route::get('/actions', 'Accounts\AccountsController@getActions');
+
+                Route::get('{crm_accounts}/tags ', 'Accounts\AccountsController@tags');
+                Route::post('{crm_accounts}/tags ', 'Accounts\AccountsController@saveTags');
+                Route::get('{crm_accounts}/addresses ', 'Accounts\AccountsController@addresses');
+                Route::post('{crm_accounts}/addresses ', 'Accounts\AccountsController@saveAddresses');
+
+                Route::get('/{crm_accounts}/{subObjects}', 'Accounts\AccountsController@relatedObjects');
+                Route::get('/{crm_accounts}', 'Accounts\AccountsController@show');
+
+                Route::post('/', 'Accounts\AccountsController@store');
+                Route::post('/{crm_accounts}/do/{action}', 'Accounts\AccountsController@doAction');
+
+                Route::patch('/{crm_accounts}', 'Accounts\AccountsController@update');
+                Route::delete('/{crm_accounts}', 'Accounts\AccountsController@destroy');
             }
         );
 
@@ -275,6 +275,27 @@ Route::prefix('crm')->group(
             }
         );
 
+        Route::prefix('quote-lines')->group(
+            function () {
+                Route::get('/', 'QuoteLines\QuoteLinesController@index');
+                Route::get('/actions', 'QuoteLines\QuoteLinesController@getActions');
+
+                Route::get('{crm_quote_lines}/tags ', 'QuoteLines\QuoteLinesController@tags');
+                Route::post('{crm_quote_lines}/tags ', 'QuoteLines\QuoteLinesController@saveTags');
+                Route::get('{crm_quote_lines}/addresses ', 'QuoteLines\QuoteLinesController@addresses');
+                Route::post('{crm_quote_lines}/addresses ', 'QuoteLines\QuoteLinesController@saveAddresses');
+
+                Route::get('/{crm_quote_lines}/{subObjects}', 'QuoteLines\QuoteLinesController@relatedObjects');
+                Route::get('/{crm_quote_lines}', 'QuoteLines\QuoteLinesController@show');
+
+                Route::post('/', 'QuoteLines\QuoteLinesController@store');
+                Route::post('/{crm_quote_lines}/do/{action}', 'QuoteLines\QuoteLinesController@doAction');
+
+                Route::patch('/{crm_quote_lines}', 'QuoteLines\QuoteLinesController@update');
+                Route::delete('/{crm_quote_lines}', 'QuoteLines\QuoteLinesController@destroy');
+            }
+        );
+
         Route::prefix('users-perspective')->group(
             function () {
                 Route::get('/', 'UsersPerspective\UsersPerspectiveController@index');
@@ -293,27 +314,6 @@ Route::prefix('crm')->group(
 
                 Route::patch('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@update');
                 Route::delete('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@destroy');
-            }
-        );
-
-        Route::prefix('accounts-perspective')->group(
-            function () {
-                Route::get('/', 'AccountsPerspective\AccountsPerspectiveController@index');
-                Route::get('/actions', 'AccountsPerspective\AccountsPerspectiveController@getActions');
-
-                Route::get('{crm_accounts_perspective}/tags ', 'AccountsPerspective\AccountsPerspectiveController@tags');
-                Route::post('{crm_accounts_perspective}/tags ', 'AccountsPerspective\AccountsPerspectiveController@saveTags');
-                Route::get('{crm_accounts_perspective}/addresses ', 'AccountsPerspective\AccountsPerspectiveController@addresses');
-                Route::post('{crm_accounts_perspective}/addresses ', 'AccountsPerspective\AccountsPerspectiveController@saveAddresses');
-
-                Route::get('/{crm_accounts_perspective}/{subObjects}', 'AccountsPerspective\AccountsPerspectiveController@relatedObjects');
-                Route::get('/{crm_accounts_perspective}', 'AccountsPerspective\AccountsPerspectiveController@show');
-
-                Route::post('/', 'AccountsPerspective\AccountsPerspectiveController@store');
-                Route::post('/{crm_accounts_perspective}/do/{action}', 'AccountsPerspective\AccountsPerspectiveController@doAction');
-
-                Route::patch('/{crm_accounts_perspective}', 'AccountsPerspective\AccountsPerspectiveController@update');
-                Route::delete('/{crm_accounts_perspective}', 'AccountsPerspective\AccountsPerspectiveController@destroy');
             }
         );
 
@@ -338,446 +338,27 @@ Route::prefix('crm')->group(
             }
         );
 
+        Route::prefix('accounts-perspective')->group(
+            function () {
+                Route::get('/', 'AccountsPerspective\AccountsPerspectiveController@index');
+                Route::get('/actions', 'AccountsPerspective\AccountsPerspectiveController@getActions');
+
+                Route::get('{crm_accounts_perspective}/tags ', 'AccountsPerspective\AccountsPerspectiveController@tags');
+                Route::post('{crm_accounts_perspective}/tags ', 'AccountsPerspective\AccountsPerspectiveController@saveTags');
+                Route::get('{crm_accounts_perspective}/addresses ', 'AccountsPerspective\AccountsPerspectiveController@addresses');
+                Route::post('{crm_accounts_perspective}/addresses ', 'AccountsPerspective\AccountsPerspectiveController@saveAddresses');
+
+                Route::get('/{crm_accounts_perspective}/{subObjects}', 'AccountsPerspective\AccountsPerspectiveController@relatedObjects');
+                Route::get('/{crm_accounts_perspective}', 'AccountsPerspective\AccountsPerspectiveController@show');
+
+                Route::post('/', 'AccountsPerspective\AccountsPerspectiveController@store');
+                Route::post('/{crm_accounts_perspective}/do/{action}', 'AccountsPerspective\AccountsPerspectiveController@doAction');
+
+                Route::patch('/{crm_accounts_perspective}', 'AccountsPerspective\AccountsPerspectiveController@update');
+                Route::delete('/{crm_accounts_perspective}', 'AccountsPerspective\AccountsPerspectiveController@destroy');
+            }
+        );
+
         // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

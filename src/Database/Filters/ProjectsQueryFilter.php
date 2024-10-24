@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,17 +17,28 @@ class ProjectsQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
         return $this->builder->where('name', 'like', '%' . $value . '%');
     }
-    
+
     public function url($value)
     {
         return $this->builder->where('url', 'like', '%' . $value . '%');
     }
-    
+
+    public function projectId($value)
+    {
+        return $this->builder->where('project_id', 'like', '%' . $value . '%');
+    }
+
+    //  This is an alias function of projectId
+    public function project_id($value)
+    {
+        return $this->projectId($value);
+    }
+
     public function token($value)
     {
         return $this->builder->where('token', 'like', '%' . $value . '%');
@@ -43,6 +54,18 @@ class ProjectsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('created_at', '<=', $date);
     }
 
+    //  This is an alias function of createdAt
+    public function created_at_start($value)
+    {
+        return $this->createdAtStart($value);
+    }
+
+    //  This is an alias function of createdAt
+    public function created_at_end($value)
+    {
+        return $this->createdAtEnd($value);
+    }
+
     public function updatedAtStart($date)
     {
         return $this->builder->where('updated_at', '>=', $date);
@@ -51,6 +74,18 @@ class ProjectsQueryFilter extends AbstractQueryFilter
     public function updatedAtEnd($date)
     {
         return $this->builder->where('updated_at', '<=', $date);
+    }
+
+    //  This is an alias function of updatedAt
+    public function updated_at_start($value)
+    {
+        return $this->updatedAtStart($value);
+    }
+
+    //  This is an alias function of updatedAt
+    public function updated_at_end($value)
+    {
+        return $this->updatedAtEnd($value);
     }
 
     public function deletedAtStart($date)
@@ -63,38 +98,62 @@ class ProjectsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('deleted_at', '<=', $date);
     }
 
-    public function projectId($value)
+    //  This is an alias function of deletedAt
+    public function deleted_at_start($value)
     {
-            $project = \NextDeveloper\CRM\Database\Models\Projects::where('uuid', $value)->first();
+        return $this->deletedAtStart($value);
+    }
 
-        if($project) {
+    //  This is an alias function of deletedAt
+    public function deleted_at_end($value)
+    {
+        return $this->deletedAtEnd($value);
+    }
+
+    public function projectsId($value)
+    {
+        $project = \NextDeveloper\CRM\Database\Models\Projects::where('uuid', $value)->first();
+
+        if ($project) {
             return $this->builder->where('project_id', '=', $project->id);
         }
     }
 
+    //  This is an alias function of project
+    public function projects_id($value)
+    {
+        return $this->project($value);
+    }
+
     public function crmAccountId($value)
     {
-            $crmAccount = \NextDeveloper\CRM\Database\Models\Accounts::where('uuid', $value)->first();
+        $crmAccount = \NextDeveloper\CRM\Database\Models\Accounts::where('uuid', $value)->first();
 
-        if($crmAccount) {
+        if ($crmAccount) {
             return $this->builder->where('crm_account_id', '=', $crmAccount->id);
         }
     }
 
+    //  This is an alias function of crmAccount
+    public function crm_account_id($value)
+    {
+        return $this->crmAccount($value);
+    }
+
     public function iamUserId($value)
     {
-            $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
+        $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
 
-        if($iamUser) {
+        if ($iamUser) {
             return $this->builder->where('iam_user_id', '=', $iamUser->id);
         }
     }
 
     public function iamAccountId($value)
     {
-            $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
+        $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
 
-        if($iamAccount) {
+        if ($iamAccount) {
             return $this->builder->where('iam_account_id', '=', $iamAccount->id);
         }
     }

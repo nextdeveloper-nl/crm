@@ -3,6 +3,7 @@
 namespace NextDeveloper\CRM\Database\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use NextDeveloper\Commons\Database\Traits\HasStates;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
@@ -30,9 +31,8 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  */
 class Projects extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates;
     use SoftDeletes;
-
 
     public $timestamps = true;
 
@@ -141,6 +141,16 @@ class Projects extends Model
                 static::addGlobalScope(app($scope));
             }
         }
+    }
+
+    public function accounts() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Accounts::class);
+    }
+
+    public function users() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

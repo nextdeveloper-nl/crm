@@ -86,6 +86,8 @@ class AbstractAccountsTransformer extends AbstractTransformer
             'target_markets'  =>  $model->target_markets,
             'partners_with'  =>  $model->partners_with,
             'services'  =>  $model->services,
+            'is_suspended'  =>  $model->is_suspended,
+            'is_service_enabled'  =>  $model->is_service_enabled,
             ]
         );
     }
@@ -174,6 +176,8 @@ class AbstractAccountsTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

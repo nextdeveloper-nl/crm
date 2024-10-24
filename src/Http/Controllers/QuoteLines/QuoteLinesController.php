@@ -1,37 +1,35 @@
 <?php
 
-namespace NextDeveloper\CRM\Http\Controllers\Projects;
+namespace NextDeveloper\CRM\Http\Controllers\QuoteLines;
 
 use Illuminate\Http\Request;
 use NextDeveloper\CRM\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\CRM\Http\Requests\Projects\ProjectsUpdateRequest;
-use NextDeveloper\CRM\Database\Filters\ProjectsQueryFilter;
-use NextDeveloper\CRM\Database\Models\Projects;
-use NextDeveloper\CRM\Services\ProjectsService;
-use NextDeveloper\CRM\Http\Requests\Projects\ProjectsCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;
-use NextDeveloper\Commons\Http\Traits\Addresses;
-
-class ProjectsController extends AbstractController
+use NextDeveloper\CRM\Http\Requests\QuoteLines\QuoteLinesUpdateRequest;
+use NextDeveloper\CRM\Database\Filters\QuoteLinesQueryFilter;
+use NextDeveloper\CRM\Database\Models\QuoteLines;
+use NextDeveloper\CRM\Services\QuoteLinesService;
+use NextDeveloper\CRM\Http\Requests\QuoteLines\QuoteLinesCreateRequest;
+use NextDeveloper\Commons\Http\Traits\Tags as TagsTrait;use NextDeveloper\Commons\Http\Traits\Addresses as AddressesTrait;
+class QuoteLinesController extends AbstractController
 {
-    private $model = Projects::class;
+    private $model = QuoteLines::class;
 
-    use Tags;
-
+    use TagsTrait;
+    use AddressesTrait;
     /**
-     * This method returns the list of projects.
+     * This method returns the list of quotelines.
      *
      * optional http params:
      * - paginate: If you set paginate parameter, the result will be returned paginated.
      *
-     * @param  ProjectsQueryFilter $filter  An object that builds search query
-     * @param  Request             $request Laravel request object, this holds all data about request. Automatically populated.
+     * @param  QuoteLinesQueryFilter $filter  An object that builds search query
+     * @param  Request               $request Laravel request object, this holds all data about request. Automatically populated.
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(ProjectsQueryFilter $filter, Request $request)
+    public function index(QuoteLinesQueryFilter $filter, Request $request)
     {
-        $data = ProjectsService::get($filter, $request->all());
+        $data = QuoteLinesService::get($filter, $request->all());
 
         return ResponsableFactory::makeResponse($this, $data);
     }
@@ -43,7 +41,7 @@ class ProjectsController extends AbstractController
      */
     public function getActions()
     {
-        $data = ProjectsService::getActions();
+        $data = QuoteLinesService::getActions();
 
         return ResponsableFactory::makeResponse($this, $data);
     }
@@ -57,7 +55,7 @@ class ProjectsController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = ProjectsService::doAction($objectId, $action, request()->all());
+        $actionId = QuoteLinesService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [
@@ -69,7 +67,7 @@ class ProjectsController extends AbstractController
     /**
      * This method receives ID for the related model and returns the item to the client.
      *
-     * @param  $projectsId
+     * @param  $quoteLinesId
      * @return mixed|null
      * @throws \Laravel\Octane\Exceptions\DdException
      */
@@ -77,7 +75,7 @@ class ProjectsController extends AbstractController
     {
         //  Here we are not using Laravel Route Model Binding. Please check routeBinding.md file
         //  in NextDeveloper Platform Project
-        $model = ProjectsService::getByRef($ref);
+        $model = QuoteLinesService::getByRef($ref);
 
         return ResponsableFactory::makeResponse($this, $model);
     }
@@ -94,19 +92,19 @@ class ProjectsController extends AbstractController
      */
     public function relatedObjects($ref, $subObject)
     {
-        $objects = ProjectsService::relatedObjects($ref, $subObject);
+        $objects = QuoteLinesService::relatedObjects($ref, $subObject);
 
         return ResponsableFactory::makeResponse($this, $objects);
     }
 
     /**
-     * This method created Projects object on database.
+     * This method created QuoteLines object on database.
      *
-     * @param  ProjectsCreateRequest $request
+     * @param  QuoteLinesCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
-    public function store(ProjectsCreateRequest $request)
+    public function store(QuoteLinesCreateRequest $request)
     {
         if($request->has('validateOnly') && $request->get('validateOnly') == true) {
             return [
@@ -114,20 +112,20 @@ class ProjectsController extends AbstractController
             ];
         }
 
-        $model = ProjectsService::create($request->validated());
+        $model = QuoteLinesService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
     }
 
     /**
-     * This method updates Projects object on database.
+     * This method updates QuoteLines object on database.
      *
-     * @param  $projectsId
-     * @param  ProjectsUpdateRequest $request
+     * @param  $quoteLinesId
+     * @param  QuoteLinesUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
-    public function update($projectsId, ProjectsUpdateRequest $request)
+    public function update($quoteLinesId, QuoteLinesUpdateRequest $request)
     {
         if($request->has('validateOnly') && $request->get('validateOnly') == true) {
             return [
@@ -135,21 +133,21 @@ class ProjectsController extends AbstractController
             ];
         }
 
-        $model = ProjectsService::update($projectsId, $request->validated());
+        $model = QuoteLinesService::update($quoteLinesId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
     }
 
     /**
-     * This method updates Projects object on database.
+     * This method updates QuoteLines object on database.
      *
-     * @param  $projectsId
+     * @param  $quoteLinesId
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
-    public function destroy($projectsId)
+    public function destroy($quoteLinesId)
     {
-        $model = ProjectsService::delete($projectsId);
+        $model = QuoteLinesService::delete($quoteLinesId);
 
         return $this->noContent();
     }

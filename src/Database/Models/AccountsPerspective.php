@@ -48,6 +48,9 @@ use NextDeveloper\Commons\Database\Traits\HasStates;
  * @property array $partners_with
  * @property integer $iam_user_id
  * @property integer $iam_account_id
+ * @property integer $total_user_count
+ * @property integer $registered_user_count
+ * @property integer $ideal_customer_profile_count
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
@@ -97,6 +100,9 @@ class AccountsPerspective extends Model
             'partners_with',
             'iam_user_id',
             'iam_account_id',
+            'total_user_count',
+            'registered_user_count',
+            'ideal_customer_profile_count',
     ];
 
     /**
@@ -149,6 +155,9 @@ class AccountsPerspective extends Model
     'additional_information' => 'string',
     'target_markets' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'partners_with' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'total_user_count' => 'integer',
+    'registered_user_count' => 'integer',
+    'ideal_customer_profile_count' => 'integer',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     ];
@@ -211,6 +220,8 @@ class AccountsPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

@@ -7,43 +7,38 @@ use NextDeveloper\Commons\Database\Traits\HasStates;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
-use NextDeveloper\CRM\Database\Observers\OpportunitiesPerspectiveObserver;
+use NextDeveloper\CRM\Database\Observers\QuoteLinesObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 
 /**
- * OpportunitiesPerspective model.
+ * QuoteLines model.
  *
  * @package  NextDeveloper\CRM\Database\Models
  * @property integer $id
  * @property string $uuid
- * @property string $name
- * @property string $description
- * @property integer $probability
- * @property $opportunity_stage
- * @property string $source
- * @property $income
- * @property \Carbon\Carbon $deadline
- * @property string $account_name
- * @property string $responsible_account
- * @property string $responsible_name
- * @property integer $quote_count
+ * @property integer $crm_quote_id
+ * @property integer $marketplace_product_id
+ * @property integer $marketplace_product_catalog_id
+ * @property integer $quantity
+ * @property $unit_price
+ * @property $discount
+ * @property $total_price
  * @property integer $iam_user_id
  * @property integer $iam_account_id
- * @property array $tags
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
  */
-class OpportunitiesPerspective extends Model
+class QuoteLines extends Model
 {
     use Filterable, UuidId, CleanCache, Taggable, HasStates;
     use SoftDeletes;
 
     public $timestamps = true;
 
-    protected $table = 'crm_opportunities_perspective';
+    protected $table = 'crm_quote_lines';
 
 
     /**
@@ -52,20 +47,15 @@ class OpportunitiesPerspective extends Model
     protected $guarded = [];
 
     protected $fillable = [
-            'name',
-            'description',
-            'probability',
-            'opportunity_stage',
-            'source',
-            'income',
-            'deadline',
-            'account_name',
-            'responsible_account',
-            'responsible_name',
-            'quote_count',
+            'crm_quote_id',
+            'marketplace_product_id',
+            'marketplace_product_catalog_id',
+            'quantity',
+            'unit_price',
+            'discount',
+            'total_price',
             'iam_user_id',
             'iam_account_id',
-            'tags',
     ];
 
     /**
@@ -89,16 +79,10 @@ class OpportunitiesPerspective extends Model
      */
     protected $casts = [
     'id' => 'integer',
-    'name' => 'string',
-    'description' => 'string',
-    'probability' => 'integer',
-    'source' => 'string',
-    'deadline' => 'datetime',
-    'account_name' => 'string',
-    'responsible_account' => 'string',
-    'responsible_name' => 'string',
-    'quote_count' => 'integer',
-    'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'crm_quote_id' => 'integer',
+    'marketplace_product_id' => 'integer',
+    'marketplace_product_catalog_id' => 'integer',
+    'quantity' => 'integer',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
@@ -110,7 +94,6 @@ class OpportunitiesPerspective extends Model
      @var array
      */
     protected $dates = [
-    'deadline',
     'created_at',
     'updated_at',
     'deleted_at',
@@ -136,7 +119,7 @@ class OpportunitiesPerspective extends Model
         parent::boot();
 
         //  We create and add Observer even if we wont use it.
-        parent::observe(OpportunitiesPerspectiveObserver::class);
+        parent::observe(QuoteLinesObserver::class);
 
         self::registerScopes();
     }
@@ -144,7 +127,7 @@ class OpportunitiesPerspective extends Model
     public static function registerScopes()
     {
         $globalScopes = config('crm.scopes.global');
-        $modelScopes = config('crm.scopes.crm_opportunities_perspective');
+        $modelScopes = config('crm.scopes.crm_quote_lines');
 
         if(!$modelScopes) { $modelScopes = [];
         }
@@ -164,6 +147,5 @@ class OpportunitiesPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
 
 }

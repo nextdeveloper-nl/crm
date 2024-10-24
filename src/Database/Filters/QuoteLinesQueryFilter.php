@@ -4,23 +4,31 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-            
+                    
 
 /**
  * This class automatically puts where clause on database so that use can filter
  * data returned from the query.
  */
-class NotesQueryFilter extends AbstractQueryFilter
+class QuoteLinesQueryFilter extends AbstractQueryFilter
 {
 
     /**
      * @var Builder
      */
     protected $builder;
-    
-    public function note($value)
+
+    public function quantity($value)
     {
-        return $this->builder->where('note', 'like', '%' . $value . '%');
+        $operator = substr($value, 0, 1);
+
+        if ($operator != '<' || $operator != '>') {
+            $operator = '=';
+        } else {
+            $value = substr($value, 1);
+        }
+
+        return $this->builder->where('quantity', $operator, $value);
     }
 
     
@@ -90,19 +98,49 @@ class NotesQueryFilter extends AbstractQueryFilter
         return $this->deletedAtEnd($value);
     }
 
-    public function crmAccountId($value)
+    public function crmQuoteId($value)
     {
-            $crmAccount = \NextDeveloper\CRM\Database\Models\Accounts::where('uuid', $value)->first();
+            $crmQuote = \NextDeveloper\CRM\Database\Models\Quotes::where('uuid', $value)->first();
 
-        if($crmAccount) {
-            return $this->builder->where('crm_account_id', '=', $crmAccount->id);
+        if($crmQuote) {
+            return $this->builder->where('crm_quote_id', '=', $crmQuote->id);
         }
     }
 
-        //  This is an alias function of crmAccount
-    public function crm_account_id($value)
+        //  This is an alias function of crmQuote
+    public function crm_quote_id($value)
     {
-        return $this->crmAccount($value);
+        return $this->crmQuote($value);
+    }
+    
+    public function marketplaceProductId($value)
+    {
+            $marketplaceProduct = \NextDeveloper\Marketplace\Database\Models\Products::where('uuid', $value)->first();
+
+        if($marketplaceProduct) {
+            return $this->builder->where('marketplace_product_id', '=', $marketplaceProduct->id);
+        }
+    }
+
+        //  This is an alias function of marketplaceProduct
+    public function marketplace_product_id($value)
+    {
+        return $this->marketplaceProduct($value);
+    }
+    
+    public function marketplaceProductCatalogId($value)
+    {
+            $marketplaceProductCatalog = \NextDeveloper\Marketplace\Database\Models\ProductCatalogs::where('uuid', $value)->first();
+
+        if($marketplaceProductCatalog) {
+            return $this->builder->where('marketplace_product_catalog_id', '=', $marketplaceProductCatalog->id);
+        }
+    }
+
+        //  This is an alias function of marketplaceProductCatalog
+    public function marketplace_product_catalog_id($value)
+    {
+        return $this->marketplaceProductCatalog($value);
     }
     
     public function iamUserId($value)
@@ -126,33 +164,5 @@ class NotesQueryFilter extends AbstractQueryFilter
 
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

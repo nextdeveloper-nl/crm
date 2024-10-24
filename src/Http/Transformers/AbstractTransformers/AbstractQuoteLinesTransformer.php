@@ -3,7 +3,6 @@
 namespace NextDeveloper\CRM\Http\Transformers\AbstractTransformers;
 
 use NextDeveloper\Commons\Database\Models\Addresses;
-<<<<<<< HEAD
 use NextDeveloper\Commons\Database\Models\Comments;
 use NextDeveloper\Commons\Database\Models\Meta;
 use NextDeveloper\Commons\Database\Models\PhoneNumbers;
@@ -21,37 +20,16 @@ use NextDeveloper\Commons\Http\Transformers\MetaTransformer;
 use NextDeveloper\Commons\Http\Transformers\VotesTransformer;
 use NextDeveloper\Commons\Http\Transformers\AddressesTransformer;
 use NextDeveloper\Commons\Http\Transformers\PhoneNumbersTransformer;
-use NextDeveloper\CRM\Database\Models\Projects;
+use NextDeveloper\CRM\Database\Models\QuoteLines;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
-=======
-use NextDeveloper\Commons\Database\Models\AvailableActions;
-use NextDeveloper\Commons\Database\Models\Comments;
-use NextDeveloper\Commons\Database\Models\Media;
-use NextDeveloper\Commons\Database\Models\Meta;
-use NextDeveloper\Commons\Database\Models\PhoneNumbers;
-use NextDeveloper\Commons\Database\Models\SocialMedia;
-use NextDeveloper\Commons\Database\Models\States;
-use NextDeveloper\Commons\Database\Models\Votes;
-use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
-use NextDeveloper\Commons\Http\Transformers\AddressesTransformer;
-use NextDeveloper\Commons\Http\Transformers\AvailableActionsTransformer;
-use NextDeveloper\Commons\Http\Transformers\CommentsTransformer;
-use NextDeveloper\Commons\Http\Transformers\MediaTransformer;
-use NextDeveloper\Commons\Http\Transformers\MetaTransformer;
-use NextDeveloper\Commons\Http\Transformers\PhoneNumbersTransformer;
-use NextDeveloper\Commons\Http\Transformers\SocialMediaTransformer;
-use NextDeveloper\Commons\Http\Transformers\StatesTransformer;
-use NextDeveloper\Commons\Http\Transformers\VotesTransformer;
-use NextDeveloper\CRM\Database\Models\Projects;
->>>>>>> a7d91da912c1df75be47755b8a6b8489bd849c99
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 
 /**
- * Class ProjectsTransformer. This class is being used to manipulate the data we are serving to the customer
+ * Class QuoteLinesTransformer. This class is being used to manipulate the data we are serving to the customer
  *
  * @package NextDeveloper\CRM\Http\Transformers
  */
-class AbstractProjectsTransformer extends AbstractTransformer
+class AbstractQuoteLinesTransformer extends AbstractTransformer
 {
 
     /**
@@ -66,65 +44,42 @@ class AbstractProjectsTransformer extends AbstractTransformer
         'socialMedia',
         'phoneNumbers',
         'addresses',
-<<<<<<< HEAD
         'meta'
-=======
-        'meta',
->>>>>>> a7d91da912c1df75be47755b8a6b8489bd849c99
     ];
 
     /**
-     * @param Projects $model
+     * @param QuoteLines $model
      *
      * @return array
      */
-    public function transform(Projects $model)
+    public function transform(QuoteLines $model)
     {
-<<<<<<< HEAD
-                                                $projectId = \NextDeveloper\\Database\Models\Projects::where('id', $model->project_id)->first();
-                                                            $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
+                                                $crmQuoteId = \NextDeveloper\CRM\Database\Models\Quotes::where('id', $model->crm_quote_id)->first();
+                                                            $marketplaceProductId = \NextDeveloper\Marketplace\Database\Models\Products::where('id', $model->marketplace_product_id)->first();
+                                                            $marketplaceProductCatalogId = \NextDeveloper\Marketplace\Database\Models\ProductCatalogs::where('id', $model->marketplace_product_catalog_id)->first();
                                                             $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
                                                             $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
                         
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
-            'name'  =>  $model->name,
-            'url'  =>  $model->url,
-            'project_id'  =>  $projectId ? $projectId->uuid : null,
-            'token'  =>  $model->token,
-            'crm_account_id'  =>  $crmAccountId ? $crmAccountId->uuid : null,
+            'crm_quote_id'  =>  $crmQuoteId ? $crmQuoteId->uuid : null,
+            'marketplace_product_id'  =>  $marketplaceProductId ? $marketplaceProductId->uuid : null,
+            'marketplace_product_catalog_id'  =>  $marketplaceProductCatalogId ? $marketplaceProductCatalogId->uuid : null,
+            'quantity'  =>  $model->quantity,
+            'unit_price'  =>  $model->unit_price,
+            'discount'  =>  $model->discount,
+            'total_price'  =>  $model->total_price,
             'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
             'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
             ]
-=======
-
-        $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
-        $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
-        $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
-
-        return $this->buildPayload(
-            [
-                'id'                => $model->uuid,
-                'name'              => $model->name,
-                'url'               => $model->url,
-                'project_id'        => $model->project_id,
-                'token'             => $model->token,
-                'crm_account_id'    => $crmAccountId ? $crmAccountId->uuid : null,
-                'iam_user_id'       => $iamUserId ? $iamUserId->uuid : null,
-                'iam_account_id'    => $iamAccountId ? $iamAccountId->uuid : null,
-                'created_at'        => $model->created_at,
-                'updated_at'        => $model->updated_at,
-                'deleted_at'        => $model->deleted_at,
-            ],
->>>>>>> a7d91da912c1df75be47755b8a6b8489bd849c99
         );
     }
 
-    public function includeStates(Projects $model)
+    public function includeStates(QuoteLines $model)
     {
         $states = States::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -133,7 +88,7 @@ class AbstractProjectsTransformer extends AbstractTransformer
         return $this->collection($states, new StatesTransformer());
     }
 
-    public function includeActions(Projects $model)
+    public function includeActions(QuoteLines $model)
     {
         $input = get_class($model);
         $input = str_replace('\\Database\\Models', '', $input);
@@ -145,7 +100,7 @@ class AbstractProjectsTransformer extends AbstractTransformer
         return $this->collection($actions, new AvailableActionsTransformer());
     }
 
-    public function includeMedia(Projects $model)
+    public function includeMedia(QuoteLines $model)
     {
         $media = Media::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -154,7 +109,7 @@ class AbstractProjectsTransformer extends AbstractTransformer
         return $this->collection($media, new MediaTransformer());
     }
 
-    public function includeSocialMedia(Projects $model)
+    public function includeSocialMedia(QuoteLines $model)
     {
         $socialMedia = SocialMedia::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -163,7 +118,7 @@ class AbstractProjectsTransformer extends AbstractTransformer
         return $this->collection($socialMedia, new SocialMediaTransformer());
     }
 
-    public function includeComments(Projects $model)
+    public function includeComments(QuoteLines $model)
     {
         $comments = Comments::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -172,7 +127,7 @@ class AbstractProjectsTransformer extends AbstractTransformer
         return $this->collection($comments, new CommentsTransformer());
     }
 
-    public function includeVotes(Projects $model)
+    public function includeVotes(QuoteLines $model)
     {
         $votes = Votes::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -181,7 +136,7 @@ class AbstractProjectsTransformer extends AbstractTransformer
         return $this->collection($votes, new VotesTransformer());
     }
 
-    public function includeMeta(Projects $model)
+    public function includeMeta(QuoteLines $model)
     {
         $meta = Meta::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -190,7 +145,7 @@ class AbstractProjectsTransformer extends AbstractTransformer
         return $this->collection($meta, new MetaTransformer());
     }
 
-    public function includePhoneNumbers(Projects $model)
+    public function includePhoneNumbers(QuoteLines $model)
     {
         $phoneNumbers = PhoneNumbers::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -199,7 +154,7 @@ class AbstractProjectsTransformer extends AbstractTransformer
         return $this->collection($phoneNumbers, new PhoneNumbersTransformer());
     }
 
-    public function includeAddresses(Projects $model)
+    public function includeAddresses(QuoteLines $model)
     {
         $addresses = Addresses::where('object_type', get_class($model))
             ->where('object_id', $model->id)

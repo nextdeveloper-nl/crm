@@ -34,6 +34,7 @@ use NextDeveloper\Commons\Database\Traits\HasStates;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
+ * @property boolean $is_suspended
  */
 class Users extends Model
 {
@@ -46,88 +47,89 @@ class Users extends Model
 
 
     /**
-     * @var array
+     @var array
      */
     protected $guarded = [];
 
     protected $fillable = [
-        'iam_user_id',
-        'position',
-        'job',
-        'job_description',
-        'hobbies',
-        'city',
-        'risk',
-        'relationship_status',
-        'is_evangelist',
-        'is_single',
-        'education_level',
-        'child_count',
-        'is_suspended',
-        'tags',
+            'iam_user_id',
+            'position',
+            'job',
+            'job_description',
+            'hobbies',
+            'city',
+            'risk',
+            'relationship_status',
+            'is_evangelist',
+            'is_single',
+            'education_level',
+            'child_count',
+            'tags',
+            'is_suspended',
     ];
 
     /**
-     * Here we have the fulltext fields. We can use these for fulltext search if enabled.
+      Here we have the fulltext fields. We can use these for fulltext search if enabled.
      */
     protected $fullTextFields = [
 
     ];
 
     /**
-     * @var array
+     @var array
      */
     protected $appends = [
 
     ];
 
     /**
-     * We are casting fields to objects so that we can work on them better
+     We are casting fields to objects so that we can work on them better
      *
-     * @var array
+     @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'position' => 'string',
-        'job' => 'string',
-        'job_description' => 'string',
-        'hobbies' => 'string',
-        'city' => 'string',
-        'relationship_status' => 'string',
-        'is_evangelist' => 'boolean',
-        'is_single' => 'boolean',
-        'child_count' => 'integer',
-        'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-        'deleted_at' => 'datetime',
+    'id' => 'integer',
+    'position' => 'string',
+    'job' => 'string',
+    'job_description' => 'string',
+    'hobbies' => 'string',
+    'city' => 'string',
+    'relationship_status' => 'string',
+    'is_evangelist' => 'boolean',
+    'is_single' => 'boolean',
+    'child_count' => 'integer',
+    'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
+    'deleted_at' => 'datetime',
+    'is_suspended' => 'boolean',
     ];
 
     /**
-     * We are casting data fields.
+     We are casting data fields.
      *
-     * @var array
+     @var array
      */
     protected $dates = [
-        'created_at',
-        'updated_at',
-        'deleted_at',
+    'created_at',
+    'updated_at',
+    'deleted_at',
     ];
 
     /**
-     * @var array
+     @var array
      */
     protected $with = [
 
     ];
 
     /**
-     * @var int
+     @var int
      */
     protected $perPage = 20;
 
     /**
-     * @return void
+     @return void
      */
     public static function boot()
     {
@@ -144,11 +146,9 @@ class Users extends Model
         $globalScopes = config('crm.scopes.global');
         $modelScopes = config('crm.scopes.crm_users');
 
-        if (!$modelScopes) {
-            $modelScopes = [];
+        if(!$modelScopes) { $modelScopes = [];
         }
-        if (!$globalScopes) {
-            $globalScopes = [];
+        if (!$globalScopes) { $globalScopes = [];
         }
 
         $scopes = array_merge(
@@ -156,24 +156,26 @@ class Users extends Model
             $modelScopes
         );
 
-        if ($scopes) {
+        if($scopes) {
             foreach ($scopes as $scope) {
                 static::addGlobalScope(app($scope));
             }
         }
     }
 
-    public function users(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function users() : \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
     }
-
-    public function userManagers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    
+    public function userManagers() : \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\NextDeveloper\CRM\Database\Models\UserManagers::class);
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 }

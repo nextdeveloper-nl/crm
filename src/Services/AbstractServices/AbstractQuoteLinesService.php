@@ -10,22 +10,22 @@ use NextDeveloper\IAM\Helpers\UserHelper;
 use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\AvailableActions;
-use NextDeveloper\CRM\Database\Models\Projects;
-use NextDeveloper\CRM\Database\Filters\ProjectsQueryFilter;
+use NextDeveloper\CRM\Database\Models\QuoteLines;
+use NextDeveloper\CRM\Database\Filters\QuoteLinesQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 use NextDeveloper\Events\Services\Events;
 use NextDeveloper\Commons\Exceptions\NotAllowedException;
 
 /**
- * This class is responsible from managing the data for Projects
+ * This class is responsible from managing the data for QuoteLines
  *
- * Class ProjectsService.
+ * Class QuoteLinesService.
  *
  * @package NextDeveloper\CRM\Database\Models
  */
-class AbstractProjectsService
+class AbstractQuoteLinesService
 {
-    public static function get(ProjectsQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
+    public static function get(QuoteLinesQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
     {
         $enablePaginate = array_key_exists('paginate', $params);
 
@@ -38,7 +38,7 @@ class AbstractProjectsService
         * Please let me know if you have any other idea about this; baris.bulut@nextdeveloper.com
         */
         if($filter == null) {
-            $filter = new ProjectsQueryFilter($request);
+            $filter = new QuoteLinesQueryFilter($request);
         }
 
         $perPage = config('commons.pagination.per_page');
@@ -59,7 +59,7 @@ class AbstractProjectsService
             $filter->orderBy($params['orderBy']);
         }
 
-        $model = Projects::filter($filter);
+        $model = QuoteLines::filter($filter);
 
         if($enablePaginate) {
             //  We are using this because we have been experiencing huge security problem when we use the paginate method.
@@ -77,7 +77,7 @@ class AbstractProjectsService
 
     public static function getAll()
     {
-        return Projects::all();
+        return QuoteLines::all();
     }
 
     /**
@@ -86,14 +86,14 @@ class AbstractProjectsService
      * @param  $ref
      * @return mixed
      */
-    public static function getByRef($ref) : ?Projects
+    public static function getByRef($ref) : ?QuoteLines
     {
-        return Projects::findByRef($ref);
+        return QuoteLines::findByRef($ref);
     }
 
     public static function getActions()
     {
-        $model = Projects::class;
+        $model = QuoteLines::class;
 
         $model = Str::remove('Database\\Models\\', $model);
 
@@ -108,17 +108,16 @@ class AbstractProjectsService
      */
     public static function doAction($objectId, $action, ...$params)
     {
-        $object = Projects::where('uuid', $objectId)->first();
+        $object = QuoteLines::where('uuid', $objectId)->first();
 
         $action = AvailableActions::where('name', $action)
-            ->where('input', 'NextDeveloper\CRM\Projects')
+            ->where('input', 'NextDeveloper\CRM\QuoteLines')
             ->first();
 
         $class = $action->class;
 
         if(class_exists($class)) {
             $action = new $class($object, $params);
-
             $actionId = $action->getActionId();
 
             dispatch($action);
@@ -133,11 +132,11 @@ class AbstractProjectsService
      * This method returns the model by lookint at its id
      *
      * @param  $id
-     * @return Projects|null
+     * @return QuoteLines|null
      */
-    public static function getById($id) : ?Projects
+    public static function getById($id) : ?QuoteLines
     {
-        return Projects::where('id', $id)->first();
+        return QuoteLines::where('id', $id)->first();
     }
 
     /**
@@ -151,7 +150,7 @@ class AbstractProjectsService
     public static function relatedObjects($uuid, $object)
     {
         try {
-            $obj = Projects::where('uuid', $uuid)->first();
+            $obj = QuoteLines::where('uuid', $uuid)->first();
 
             if(!$obj) {
                 throw new ModelNotFoundException('Cannot find the related model');
@@ -176,17 +175,22 @@ class AbstractProjectsService
      */
     public static function create(array $data)
     {
-        if (array_key_exists('project_id', $data)) {
-            $data['project_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\\Database\Models\Projects',
-                $data['project_id']
+        if (array_key_exists('crm_quote_id', $data)) {
+            $data['crm_quote_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\CRM\Database\Models\Quotes',
+                $data['crm_quote_id']
             );
         }
-
-        if (array_key_exists('crm_account_id', $data)) {
-            $data['crm_account_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\CRM\Database\Models\Accounts',
-                $data['crm_account_id']
+        if (array_key_exists('marketplace_product_id', $data)) {
+            $data['marketplace_product_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\Marketplace\Database\Models\Products',
+                $data['marketplace_product_id']
+            );
+        }
+        if (array_key_exists('marketplace_product_catalog_id', $data)) {
+            $data['marketplace_product_catalog_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\Marketplace\Database\Models\ProductCatalogs',
+                $data['marketplace_product_catalog_id']
             );
         }
         if (array_key_exists('iam_user_id', $data)) {
@@ -195,7 +199,7 @@ class AbstractProjectsService
                 $data['iam_user_id']
             );
         }
-
+                    
         if(!array_key_exists('iam_user_id', $data)) {
             $data['iam_user_id']    = UserHelper::me()->id;
         }
@@ -205,18 +209,18 @@ class AbstractProjectsService
                 $data['iam_account_id']
             );
         }
-
+            
         if(!array_key_exists('iam_account_id', $data)) {
             $data['iam_account_id'] = UserHelper::currentAccount()->id;
         }
-
+                        
         try {
-            $model = Projects::create($data);
+            $model = QuoteLines::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
 
-        Events::fire('created:NextDeveloper\CRM\Projects', $model);
+        Events::fire('created:NextDeveloper\CRM\QuoteLines', $model);
 
         return $model->fresh();
     }
@@ -225,9 +229,9 @@ class AbstractProjectsService
      * This function expects the ID inside the object.
      *
      * @param  array $data
-     * @return Projects
+     * @return QuoteLines
      */
-    public static function updateRaw(array $data) : ?Projects
+    public static function updateRaw(array $data) : ?QuoteLines
     {
         if(array_key_exists('id', $data)) {
             return self::update($data['id'], $data);
@@ -248,7 +252,7 @@ class AbstractProjectsService
      */
     public static function update($id, array $data)
     {
-        $model = Projects::where('uuid', $id)->first();
+        $model = QuoteLines::where('uuid', $id)->first();
 
         if(!$model) {
             throw new NotAllowedException(
@@ -257,17 +261,22 @@ class AbstractProjectsService
             );
         }
 
-        if (array_key_exists('project_id', $data)) {
-            $data['project_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\\Database\Models\Projects',
-                $data['project_id']
+        if (array_key_exists('crm_quote_id', $data)) {
+            $data['crm_quote_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\CRM\Database\Models\Quotes',
+                $data['crm_quote_id']
             );
         }
-
-        if (array_key_exists('crm_account_id', $data)) {
-            $data['crm_account_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\CRM\Database\Models\Accounts',
-                $data['crm_account_id']
+        if (array_key_exists('marketplace_product_id', $data)) {
+            $data['marketplace_product_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\Marketplace\Database\Models\Products',
+                $data['marketplace_product_id']
+            );
+        }
+        if (array_key_exists('marketplace_product_catalog_id', $data)) {
+            $data['marketplace_product_catalog_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\Marketplace\Database\Models\ProductCatalogs',
+                $data['marketplace_product_catalog_id']
             );
         }
         if (array_key_exists('iam_user_id', $data)) {
@@ -282,8 +291,8 @@ class AbstractProjectsService
                 $data['iam_account_id']
             );
         }
-
-        Events::fire('updating:NextDeveloper\CRM\Projects', $model);
+    
+        Events::fire('updating:NextDeveloper\CRM\QuoteLines', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -292,7 +301,7 @@ class AbstractProjectsService
             throw $e;
         }
 
-        Events::fire('updated:NextDeveloper\CRM\Projects', $model);
+        Events::fire('updated:NextDeveloper\CRM\QuoteLines', $model);
 
         return $model->fresh();
     }
@@ -309,7 +318,7 @@ class AbstractProjectsService
      */
     public static function delete($id)
     {
-        $model = Projects::where('uuid', $id)->first();
+        $model = QuoteLines::where('uuid', $id)->first();
 
         if(!$model) {
             throw new NotAllowedException(
@@ -318,7 +327,7 @@ class AbstractProjectsService
             );
         }
 
-        Events::fire('deleted:NextDeveloper\CRM\Projects', $model);
+        Events::fire('deleted:NextDeveloper\CRM\QuoteLines', $model);
 
         try {
             $model = $model->delete();

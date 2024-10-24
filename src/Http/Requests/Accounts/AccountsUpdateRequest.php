@@ -35,6 +35,8 @@ class AccountsUpdateRequest extends AbstractFormRequest
         'target_markets' => 'nullable',
         'partners_with' => 'nullable',
         'services' => 'nullable',
+        'is_suspended' => 'boolean',
+        'is_service_enabled' => 'boolean',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
