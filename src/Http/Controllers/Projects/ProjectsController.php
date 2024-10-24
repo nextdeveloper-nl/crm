@@ -10,13 +10,15 @@ use NextDeveloper\CRM\Database\Filters\ProjectsQueryFilter;
 use NextDeveloper\CRM\Database\Models\Projects;
 use NextDeveloper\CRM\Services\ProjectsService;
 use NextDeveloper\CRM\Http\Requests\Projects\ProjectsCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags as TagsTrait;use NextDeveloper\Commons\Http\Traits\Addresses as AddressesTrait;
+use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Http\Traits\Addresses;
+
 class ProjectsController extends AbstractController
 {
     private $model = Projects::class;
 
-    use TagsTrait;
-    use AddressesTrait;
+    use Tags;
+
     /**
      * This method returns the list of projects.
      *

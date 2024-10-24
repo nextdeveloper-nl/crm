@@ -118,6 +118,7 @@ class AbstractProjectsService
 
         if(class_exists($class)) {
             $action = new $class($object, $params);
+
             $actionId = $action->getActionId();
 
             dispatch($action);
@@ -181,6 +182,7 @@ class AbstractProjectsService
                 $data['project_id']
             );
         }
+
         if (array_key_exists('crm_account_id', $data)) {
             $data['crm_account_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\CRM\Database\Models\Accounts',
@@ -193,7 +195,7 @@ class AbstractProjectsService
                 $data['iam_user_id']
             );
         }
-                    
+
         if(!array_key_exists('iam_user_id', $data)) {
             $data['iam_user_id']    = UserHelper::me()->id;
         }
@@ -203,11 +205,11 @@ class AbstractProjectsService
                 $data['iam_account_id']
             );
         }
-            
+
         if(!array_key_exists('iam_account_id', $data)) {
             $data['iam_account_id'] = UserHelper::currentAccount()->id;
         }
-                        
+
         try {
             $model = Projects::create($data);
         } catch(\Exception $e) {
@@ -261,6 +263,7 @@ class AbstractProjectsService
                 $data['project_id']
             );
         }
+
         if (array_key_exists('crm_account_id', $data)) {
             $data['crm_account_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\CRM\Database\Models\Accounts',
@@ -279,7 +282,7 @@ class AbstractProjectsService
                 $data['iam_account_id']
             );
         }
-    
+
         Events::fire('updating:NextDeveloper\CRM\Projects', $model);
 
         try {
