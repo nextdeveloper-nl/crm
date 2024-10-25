@@ -4,13 +4,13 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-        
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
  * data returned from the query.
  */
-class CallsQueryFilter extends AbstractQueryFilter
+class IdealCustomerProfilesPerspectiveQueryFilter extends AbstractQueryFilter
 {
 
     /**
@@ -30,46 +30,51 @@ class CallsQueryFilter extends AbstractQueryFilter
     }
 
         
-    public function disposition($value)
+    public function companySize($value)
     {
-        return $this->builder->where('disposition', 'like', '%' . $value . '%');
+        return $this->builder->where('company_size', 'like', '%' . $value . '%');
     }
 
-        
-    public function fromNumber($value)
+        //  This is an alias function of companySize
+    public function company_size($value)
     {
-        return $this->builder->where('from_number', 'like', '%' . $value . '%');
-    }
-
-        //  This is an alias function of fromNumber
-    public function from_number($value)
-    {
-        return $this->fromNumber($value);
+        return $this->companySize($value);
     }
         
-    public function toNumber($value)
+    public function additionalNotes($value)
     {
-        return $this->builder->where('to_number', 'like', '%' . $value . '%');
+        return $this->builder->where('additional_notes', 'like', '%' . $value . '%');
     }
 
-        //  This is an alias function of toNumber
-    public function to_number($value)
+        //  This is an alias function of additionalNotes
+    public function additional_notes($value)
     {
-        return $this->toNumber($value);
+        return $this->additionalNotes($value);
     }
         
-    public function callDirection($value)
+    public function growthStage($value)
     {
-        return $this->builder->where('call_direction', 'like', '%' . $value . '%');
+        return $this->builder->where('growth_stage', 'like', '%' . $value . '%');
     }
 
-        //  This is an alias function of callDirection
-    public function call_direction($value)
+        //  This is an alias function of growthStage
+    public function growth_stage($value)
     {
-        return $this->callDirection($value);
+        return $this->growthStage($value);
+    }
+        
+    public function businessModel($value)
+    {
+        return $this->builder->where('business_model', 'like', '%' . $value . '%');
+    }
+
+        //  This is an alias function of businessModel
+    public function business_model($value)
+    {
+        return $this->businessModel($value);
     }
     
-    public function iamAccountIt($value)
+    public function technologyRank($value)
     {
         $operator = substr($value, 0, 1);
 
@@ -79,16 +84,16 @@ class CallsQueryFilter extends AbstractQueryFilter
             $value = substr($value, 1);
         }
 
-        return $this->builder->where('iam_account_it', $operator, $value);
+        return $this->builder->where('technology_rank', $operator, $value);
     }
 
-        //  This is an alias function of iamAccountIt
-    public function iam_account_it($value)
+        //  This is an alias function of technologyRank
+    public function technology_rank($value)
     {
-        return $this->iamAccountIt($value);
+        return $this->technologyRank($value);
     }
     
-    public function duration($value)
+    public function opportunityCount($value)
     {
         $operator = substr($value, 0, 1);
 
@@ -98,10 +103,26 @@ class CallsQueryFilter extends AbstractQueryFilter
             $value = substr($value, 1);
         }
 
-        return $this->builder->where('duration', $operator, $value);
+        return $this->builder->where('opportunity_count', $operator, $value);
     }
 
+        //  This is an alias function of opportunityCount
+    public function opportunity_count($value)
+    {
+        return $this->opportunityCount($value);
+    }
     
+    public function isWorkingHomeOffice($value)
+    {
+        return $this->builder->where('is_working_home_office', $value);
+    }
+
+        //  This is an alias function of isWorkingHomeOffice
+    public function is_working_home_office($value)
+    {
+        return $this->isWorkingHomeOffice($value);
+    }
+     
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -168,60 +189,5 @@ class CallsQueryFilter extends AbstractQueryFilter
         return $this->deletedAtEnd($value);
     }
 
-    public function iamUserId($value)
-    {
-            $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
-
-        if($iamUser) {
-            return $this->builder->where('iam_user_id', '=', $iamUser->id);
-        }
-    }
-
-    
-    public function crmAccountId($value)
-    {
-            $crmAccount = \NextDeveloper\CRM\Database\Models\Accounts::where('uuid', $value)->first();
-
-        if($crmAccount) {
-            return $this->builder->where('crm_account_id', '=', $crmAccount->id);
-        }
-    }
-
-        //  This is an alias function of crmAccount
-    public function crm_account_id($value)
-    {
-        return $this->crmAccount($value);
-    }
-    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

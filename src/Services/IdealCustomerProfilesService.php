@@ -24,6 +24,15 @@ class IdealCustomerProfilesService extends AbstractIdealCustomerProfilesService
 
         $data['crm_account_id'] = $crmAccount->id;
 
+        if(array_key_exists('geographical_focus', $data))
+            $data['geographical_focus'] = explode(',', $data['geographical_focus']);
+
+        if(array_key_exists('keywords', $data))
+            $data['keywords']   = explode(',', $data['keywords']);
+
+        if(array_key_exists('verticals', $data))
+            $data['verticals']   = explode(',', $data['verticals']);
+
         return parent::create($data);
     }
 }

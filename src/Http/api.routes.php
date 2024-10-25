@@ -317,6 +317,27 @@ Route::prefix('crm')->group(
             }
         );
 
+        Route::prefix('ideal-customer-profiles-perspective')->group(
+            function () {
+                Route::get('/', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@index');
+                Route::get('/actions', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@getActions');
+
+                Route::get('{cicpp}/tags ', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@tags');
+                Route::post('{cicpp}/tags ', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@saveTags');
+                Route::get('{cicpp}/addresses ', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@addresses');
+                Route::post('{cicpp}/addresses ', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@saveAddresses');
+
+                Route::get('/{cicpp}/{subObjects}', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@relatedObjects');
+                Route::get('/{cicpp}', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@show');
+
+                Route::post('/', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@store');
+                Route::post('/{cicpp}/do/{action}', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@doAction');
+
+                Route::patch('/{cicpp}', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@update');
+                Route::delete('/{cicpp}', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@destroy');
+            }
+        );
+
         Route::prefix('opportunities-perspective')->group(
             function () {
                 Route::get('/', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@index');
@@ -360,5 +381,24 @@ Route::prefix('crm')->group(
         );
 
         // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 );
+

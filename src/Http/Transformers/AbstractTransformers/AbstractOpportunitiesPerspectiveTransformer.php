@@ -54,7 +54,8 @@ class AbstractOpportunitiesPerspectiveTransformer extends AbstractTransformer
      */
     public function transform(OpportunitiesPerspective $model)
     {
-                                                $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
+                                                $crmIdealCustomerProfileId = \NextDeveloper\CRM\Database\Models\ealCustomerProfiles::where('id', $model->crm_ideal_customer_profile_id)->first();
+                                                            $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
                                                             $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
                         
         return $this->buildPayload(
@@ -71,6 +72,7 @@ class AbstractOpportunitiesPerspectiveTransformer extends AbstractTransformer
             'responsible_account'  =>  $model->responsible_account,
             'responsible_name'  =>  $model->responsible_name,
             'quote_count'  =>  $model->quote_count,
+            'crm_ideal_customer_profile_id'  =>  $crmIdealCustomerProfileId ? $crmIdealCustomerProfileId->uuid : null,
             'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
             'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
             'tags'  =>  $model->tags,
@@ -165,6 +167,7 @@ class AbstractOpportunitiesPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 }

@@ -3,37 +3,46 @@
 namespace NextDeveloper\CRM\Database\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use NextDeveloper\Commons\Database\Traits\HasStates;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
-use NextDeveloper\CRM\Database\Observers\NotesObserver;
+use NextDeveloper\CRM\Database\Observers\IdealCustomerProfilesPerspectiveObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
-use NextDeveloper\Commons\Database\Traits\HasStates;
 
 /**
- * Notes model.
+ * IdealCustomerProfilesPerspective model.
  *
  * @package  NextDeveloper\CRM\Database\Models
  * @property integer $id
  * @property string $uuid
- * @property integer $crm_account_id
- * @property string $note
+ * @property string $name
+ * @property string $description
+ * @property string $company_size
+ * @property boolean $is_working_home_office
+ * @property array $current_technology_stack
+ * @property string $additional_notes
+ * @property string $growth_stage
+ * @property array $geographical_focus
+ * @property string $business_model
+ * @property array $verticals
+ * @property integer $technology_rank
+ * @property array $keywords
+ * @property integer $opportunity_count
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
- * @property integer $iam_user_id
- * @property integer $iam_account_id
  */
-class Notes extends Model
+class IdealCustomerProfilesPerspective extends Model
 {
     use Filterable, UuidId, CleanCache, Taggable, HasStates;
     use SoftDeletes;
 
     public $timestamps = true;
 
-    protected $table = 'crm_notes';
+    protected $table = 'crm_ideal_customer_profiles_perspective';
 
 
     /**
@@ -42,10 +51,19 @@ class Notes extends Model
     protected $guarded = [];
 
     protected $fillable = [
-            'crm_account_id',
-            'note',
-            'iam_user_id',
-            'iam_account_id',
+            'name',
+            'description',
+            'company_size',
+            'is_working_home_office',
+            'current_technology_stack',
+            'additional_notes',
+            'growth_stage',
+            'geographical_focus',
+            'business_model',
+            'verticals',
+            'technology_rank',
+            'keywords',
+            'opportunity_count',
     ];
 
     /**
@@ -69,8 +87,19 @@ class Notes extends Model
      */
     protected $casts = [
     'id' => 'integer',
-    'crm_account_id' => 'integer',
-    'note' => 'string',
+    'name' => 'string',
+    'description' => 'string',
+    'company_size' => 'string',
+    'is_working_home_office' => 'boolean',
+    'current_technology_stack' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'additional_notes' => 'string',
+    'growth_stage' => 'string',
+    'geographical_focus' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'business_model' => 'string',
+    'verticals' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'technology_rank' => 'integer',
+    'keywords' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'opportunity_count' => 'integer',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
@@ -107,7 +136,7 @@ class Notes extends Model
         parent::boot();
 
         //  We create and add Observer even if we wont use it.
-        parent::observe(NotesObserver::class);
+        parent::observe(IdealCustomerProfilesPerspectiveObserver::class);
 
         self::registerScopes();
     }
@@ -115,7 +144,7 @@ class Notes extends Model
     public static function registerScopes()
     {
         $globalScopes = config('crm.scopes.global');
-        $modelScopes = config('crm.scopes.crm_notes');
+        $modelScopes = config('crm.scopes.crm_ideal_customer_profiles_perspective');
 
         if(!$modelScopes) { $modelScopes = [];
         }
@@ -135,26 +164,4 @@ class Notes extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
