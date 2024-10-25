@@ -13,7 +13,7 @@ class IdealCustomerProfilesCreateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'crm_account_id' => 'required|exists:crm_accounts,uuid|uuid',
+            'crm_account_id' => 'exists:crm_accounts,uuid|uuid',
         'company_size' => 'nullable|string',
         'is_working_home_office' => 'boolean',
         'current_technology_stack' => 'nullable',
