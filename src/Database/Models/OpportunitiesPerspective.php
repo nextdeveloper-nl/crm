@@ -29,6 +29,7 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property string $responsible_account
  * @property string $responsible_name
  * @property integer $quote_count
+ * @property integer $crm_ideal_customer_profile_id
  * @property integer $iam_user_id
  * @property integer $iam_account_id
  * @property array $tags
@@ -63,6 +64,7 @@ class OpportunitiesPerspective extends Model
             'responsible_account',
             'responsible_name',
             'quote_count',
+            'crm_ideal_customer_profile_id',
             'iam_user_id',
             'iam_account_id',
             'tags',
@@ -98,6 +100,7 @@ class OpportunitiesPerspective extends Model
     'responsible_account' => 'string',
     'responsible_name' => 'string',
     'quote_count' => 'integer',
+    'crm_ideal_customer_profile_id' => 'integer',
     'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
@@ -164,6 +167,7 @@ class OpportunitiesPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 }

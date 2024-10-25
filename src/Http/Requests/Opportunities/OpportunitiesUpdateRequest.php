@@ -22,6 +22,7 @@ class OpportunitiesUpdateRequest extends AbstractFormRequest
         'deadline' => 'nullable|date',
         'crm_account_id' => 'nullable|exists:crm_accounts,uuid|uuid',
         'tags' => '',
+        'crm_ideal_customer_profile_id' => 'nullable|exists:crmeal_customer_profiles,uuid|uuid',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

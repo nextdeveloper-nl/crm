@@ -20,16 +20,16 @@ use NextDeveloper\Commons\Http\Transformers\MetaTransformer;
 use NextDeveloper\Commons\Http\Transformers\VotesTransformer;
 use NextDeveloper\Commons\Http\Transformers\AddressesTransformer;
 use NextDeveloper\Commons\Http\Transformers\PhoneNumbersTransformer;
-use NextDeveloper\CRM\Database\Models\UsersPerspective;
+use NextDeveloper\CRM\Database\Models\IdealCustomerProfilesPerspective;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 
 /**
- * Class UsersPerspectiveTransformer. This class is being used to manipulate the data we are serving to the customer
+ * Class IdealCustomerProfilesPerspectiveTransformer. This class is being used to manipulate the data we are serving to the customer
  *
  * @package NextDeveloper\CRM\Http\Transformers
  */
-class AbstractUsersPerspectiveTransformer extends AbstractTransformer
+class AbstractIdealCustomerProfilesPerspectiveTransformer extends AbstractTransformer
 {
 
     /**
@@ -48,49 +48,37 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
     ];
 
     /**
-     * @param UsersPerspective $model
+     * @param IdealCustomerProfilesPerspective $model
      *
      * @return array
      */
-    public function transform(UsersPerspective $model)
+    public function transform(IdealCustomerProfilesPerspective $model)
     {
-                                                $commonCountryId = \NextDeveloper\Commons\Database\Models\Countries::where('id', $model->common_country_id)->first();
-                                                            $commonLanguageId = \NextDeveloper\Commons\Database\Models\Languages::where('id', $model->common_language_id)->first();
-                                                            $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
-                        
+            
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
             'name'  =>  $model->name,
-            'surname'  =>  $model->surname,
-            'fullname'  =>  $model->fullname,
-            'email'  =>  $model->email,
-            'about'  =>  $model->about,
-            'pronoun'  =>  $model->pronoun,
-            'birthday'  =>  $model->birthday,
-            'nin'  =>  $model->nin,
-            'common_country_id'  =>  $commonCountryId ? $commonCountryId->uuid : null,
-            'common_language_id'  =>  $commonLanguageId ? $commonLanguageId->uuid : null,
-            'iam_updated_at'  =>  $model->iam_updated_at,
-            'position'  =>  $model->position,
-            'job'  =>  $model->job,
-            'job_description'  =>  $model->job_description,
-            'hobbies'  =>  $model->hobbies,
-            'city'  =>  $model->city,
-            'email_risk'  =>  $model->email_risk,
-            'relationship_status'  =>  $model->relationship_status,
-            'is_evangelist'  =>  $model->is_evangelist,
-            'is_single'  =>  $model->is_single,
-            'education'  =>  $model->education,
-            'child_count'  =>  $model->child_count,
-            'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
+            'description'  =>  $model->description,
+            'company_size'  =>  $model->company_size,
+            'is_working_home_office'  =>  $model->is_working_home_office,
+            'current_technology_stack'  =>  $model->current_technology_stack,
+            'additional_notes'  =>  $model->additional_notes,
+            'growth_stage'  =>  $model->growth_stage,
+            'geographical_focus'  =>  $model->geographical_focus,
+            'business_model'  =>  $model->business_model,
+            'verticals'  =>  $model->verticals,
+            'technology_rank'  =>  $model->technology_rank,
+            'keywords'  =>  $model->keywords,
+            'opportunity_count'  =>  $model->opportunity_count,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
+            'deleted_at'  =>  $model->deleted_at,
             ]
         );
     }
 
-    public function includeStates(UsersPerspective $model)
+    public function includeStates(IdealCustomerProfilesPerspective $model)
     {
         $states = States::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -99,7 +87,7 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
         return $this->collection($states, new StatesTransformer());
     }
 
-    public function includeActions(UsersPerspective $model)
+    public function includeActions(IdealCustomerProfilesPerspective $model)
     {
         $input = get_class($model);
         $input = str_replace('\\Database\\Models', '', $input);
@@ -111,7 +99,7 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
         return $this->collection($actions, new AvailableActionsTransformer());
     }
 
-    public function includeMedia(UsersPerspective $model)
+    public function includeMedia(IdealCustomerProfilesPerspective $model)
     {
         $media = Media::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -120,7 +108,7 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
         return $this->collection($media, new MediaTransformer());
     }
 
-    public function includeSocialMedia(UsersPerspective $model)
+    public function includeSocialMedia(IdealCustomerProfilesPerspective $model)
     {
         $socialMedia = SocialMedia::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -129,7 +117,7 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
         return $this->collection($socialMedia, new SocialMediaTransformer());
     }
 
-    public function includeComments(UsersPerspective $model)
+    public function includeComments(IdealCustomerProfilesPerspective $model)
     {
         $comments = Comments::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -138,7 +126,7 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
         return $this->collection($comments, new CommentsTransformer());
     }
 
-    public function includeVotes(UsersPerspective $model)
+    public function includeVotes(IdealCustomerProfilesPerspective $model)
     {
         $votes = Votes::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -147,7 +135,7 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
         return $this->collection($votes, new VotesTransformer());
     }
 
-    public function includeMeta(UsersPerspective $model)
+    public function includeMeta(IdealCustomerProfilesPerspective $model)
     {
         $meta = Meta::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -156,7 +144,7 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
         return $this->collection($meta, new MetaTransformer());
     }
 
-    public function includePhoneNumbers(UsersPerspective $model)
+    public function includePhoneNumbers(IdealCustomerProfilesPerspective $model)
     {
         $phoneNumbers = PhoneNumbers::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -165,7 +153,7 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
         return $this->collection($phoneNumbers, new PhoneNumbersTransformer());
     }
 
-    public function includeAddresses(UsersPerspective $model)
+    public function includeAddresses(IdealCustomerProfilesPerspective $model)
     {
         $addresses = Addresses::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -174,11 +162,4 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
 }

@@ -13,7 +13,7 @@ class IdealCustomerProfilesCreateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'crm_account_id' => 'exists:crm_accounts,uuid|uuid',
+            'crm_account_id' => 'nullable|exists:crm_accounts,uuid|uuid',
         'company_size' => 'nullable|string',
         'is_working_home_office' => 'boolean',
         'current_technology_stack' => 'nullable',
@@ -24,9 +24,10 @@ class IdealCustomerProfilesCreateRequest extends AbstractFormRequest
         'verticals' => 'nullable',
         'technology_rank' => 'nullable|integer',
         'keywords' => 'nullable',
-        'name' => 'required|string',
+        'name' => 'nullable|string',
         'description' => 'nullable|string',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

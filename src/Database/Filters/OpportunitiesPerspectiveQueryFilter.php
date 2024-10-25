@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-        
+            
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -210,6 +210,21 @@ class OpportunitiesPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->deletedAtEnd($value);
     }
 
+    public function crmIdealCustomerProfileId($value)
+    {
+            $crmIdealCustomerProfile = \NextDeveloper\CRM\Database\Models\ealCustomerProfiles::where('uuid', $value)->first();
+
+        if($crmIdealCustomerProfile) {
+            return $this->builder->where('crm_ideal_customer_profile_id', '=', $crmIdealCustomerProfile->id);
+        }
+    }
+
+        //  This is an alias function of crmIdealCustomerProfile
+    public function crm_ideal_customer_profile_id($value)
+    {
+        return $this->crmIdealCustomerProfile($value);
+    }
+    
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -231,6 +246,7 @@ class OpportunitiesPerspectiveQueryFilter extends AbstractQueryFilter
 
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 }
