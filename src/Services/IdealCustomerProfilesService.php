@@ -23,6 +23,8 @@ class IdealCustomerProfilesService extends AbstractIdealCustomerProfilesService
         $crmAccount = Accounts::where('iam_account_id', UserHelper::currentAccount()->id)->first();
 
         $data['crm_account_id'] = $crmAccount->id;
+        $data['geographical_focus'] = explode(',', $data['geographical_focus']);
+        $data['keywords']   = explode(',', $data['keywords']);
 
         return parent::create($data);
     }
