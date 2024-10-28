@@ -34,6 +34,8 @@ use NextDeveloper\Commons\Database\Traits\HasStates;
  * @property array $keywords
  * @property string $name
  * @property string $description
+ * @property integer $iam_user_id
+ * @property integer $iam_account_id
  */
 class IdealCustomerProfiles extends Model
 {
@@ -64,6 +66,8 @@ class IdealCustomerProfiles extends Model
             'keywords',
             'name',
             'description',
+            'iam_user_id',
+            'iam_account_id',
     ];
 
     /**
@@ -164,6 +168,7 @@ class IdealCustomerProfiles extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
