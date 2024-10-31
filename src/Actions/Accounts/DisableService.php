@@ -19,7 +19,7 @@ class DisableService extends AbstractAction
      * @var array
      */
     public const array EVENTS = [
-        'disable-service:NextDeveloper\IAM\Accounts'
+        'disable-service:NextDeveloper\CRM\Accounts'
     ];
 
     /**

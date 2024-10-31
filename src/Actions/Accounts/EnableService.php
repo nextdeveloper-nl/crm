@@ -19,7 +19,7 @@ class EnableService extends AbstractAction
      * @var array
      */
     public const array EVENTS = [
-        'enable-service:NextDeveloper\IAM\Accounts'
+        'enable-service:NextDeveloper\CRM\Accounts'
     ];
 
     /**
