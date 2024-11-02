@@ -13,7 +13,7 @@ class QuotesUpdateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'crm_opportunities_id' => 'nullable|exists:crm_opportunities,uuid|uuid',
+            'crm_opportunity_id' => 'nullable|exists:crm_opportunities,uuid|uuid',
         'name' => 'nullable|string',
         'description' => 'nullable|string',
         'suggested_price' => 'nullable',

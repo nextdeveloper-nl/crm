@@ -219,4 +219,6 @@ class IdealCustomerProfilesQueryFilter extends AbstractQueryFilter
 
 
 
+
+
 }
