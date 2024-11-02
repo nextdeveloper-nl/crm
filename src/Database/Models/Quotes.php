@@ -20,7 +20,7 @@ use NextDeveloper\Commons\Database\Traits\HasStates;
  * @property string $uuid
  * @property integer $iam_account_id
  * @property integer $iam_user_id
- * @property integer $crm_opportunities_id
+ * @property integer $crm_opportunity_id
  * @property string $name
  * @property string $description
  * @property $total_amount
@@ -51,7 +51,7 @@ class Quotes extends Model
     protected $fillable = [
             'iam_account_id',
             'iam_user_id',
-            'crm_opportunities_id',
+            'crm_opportunity_id',
             'name',
             'description',
             'total_amount',
@@ -83,7 +83,7 @@ class Quotes extends Model
      */
     protected $casts = [
     'id' => 'integer',
-    'crm_opportunities_id' => 'integer',
+    'crm_opportunity_id' => 'integer',
     'name' => 'string',
     'description' => 'string',
     'detailed_amount' => 'array',
@@ -163,6 +163,8 @@ class Quotes extends Model
     }
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

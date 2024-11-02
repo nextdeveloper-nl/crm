@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -37,25 +37,25 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
         return $this->builder->where('name', 'like', '%' . $value . '%');
     }
 
-        
+
     public function description($value)
     {
         return $this->builder->where('description', 'like', '%' . $value . '%');
     }
 
-        
+
     public function source($value)
     {
         return $this->builder->where('source', 'like', '%' . $value . '%');
     }
 
-    
+
     public function probability($value)
     {
         $operator = substr($value, 0, 1);
@@ -69,7 +69,7 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('probability', $operator, $value);
     }
 
-    
+
     public function deadlineStart($date)
     {
         return $this->builder->where('deadline', '>=', $date);
@@ -167,7 +167,7 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -177,7 +177,7 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function crmAccountId($value)
     {
             $crmAccount = \NextDeveloper\CRM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -192,10 +192,10 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
     {
         return $this->crmAccount($value);
     }
-    
+
     public function crmIdealCustomerProfileId($value)
     {
-            $crmIdealCustomerProfile = \NextDeveloper\CRM\Database\Models\ealCustomerProfiles::where('uuid', $value)->first();
+            $crmIdealCustomerProfile = \NextDeveloper\CRM\Database\Models\IdealCustomerProfiles::where('uuid', $value)->first();
 
         if($crmIdealCustomerProfile) {
             return $this->builder->where('crm_ideal_customer_profile_id', '=', $crmIdealCustomerProfile->id);
@@ -207,8 +207,10 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
     {
         return $this->crmIdealCustomerProfile($value);
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 

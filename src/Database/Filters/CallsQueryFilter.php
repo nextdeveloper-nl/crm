@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-        
+            
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -193,7 +193,24 @@ class CallsQueryFilter extends AbstractQueryFilter
         return $this->crmAccount($value);
     }
     
+    public function crmOpportunityId($value)
+    {
+            $crmOpportunity = \NextDeveloper\CRM\Database\Models\Opportunities::where('uuid', $value)->first();
+
+        if($crmOpportunity) {
+            return $this->builder->where('crm_opportunity_id', '=', $crmOpportunity->id);
+        }
+    }
+
+        //  This is an alias function of crmOpportunity
+    public function crm_opportunity_id($value)
+    {
+        return $this->crmOpportunity($value);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

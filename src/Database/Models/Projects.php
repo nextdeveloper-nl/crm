@@ -28,6 +28,7 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
+ * @property integer $crm_opportunity_id
  */
 class Projects extends Model
 {
@@ -52,6 +53,7 @@ class Projects extends Model
             'crm_account_id',
             'iam_user_id',
             'iam_account_id',
+            'crm_opportunity_id',
     ];
 
     /**
@@ -83,6 +85,7 @@ class Projects extends Model
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
+    'crm_opportunity_id' => 'integer',
     ];
 
     /**
@@ -153,7 +156,14 @@ class Projects extends Model
         return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
     }
     
+    public function opportunities() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Opportunities::class);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

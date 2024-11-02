@@ -13,7 +13,7 @@ class QuotesCreateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'crm_opportunities_id' => 'nullable|exists:crm_opportunities,uuid|uuid',
+            'crm_opportunity_id' => 'nullable|exists:crm_opportunities,uuid|uuid',
         'name' => 'required|string',
         'description' => 'nullable|string',
         'suggested_price' => 'nullable',

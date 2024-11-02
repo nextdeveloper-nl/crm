@@ -136,19 +136,19 @@ class QuotesQueryFilter extends AbstractQueryFilter
     }
 
     
-    public function crmOpportunitiesId($value)
+    public function crmOpportunityId($value)
     {
-            $crmOpportunities = \NextDeveloper\CRM\Database\Models\Opportunities::where('uuid', $value)->first();
+            $crmOpportunity = \NextDeveloper\CRM\Database\Models\Opportunities::where('uuid', $value)->first();
 
-        if($crmOpportunities) {
-            return $this->builder->where('crm_opportunities_id', '=', $crmOpportunities->id);
+        if($crmOpportunity) {
+            return $this->builder->where('crm_opportunity_id', '=', $crmOpportunity->id);
         }
     }
 
-        //  This is an alias function of crmOpportunities
-    public function crm_opportunities_id($value)
+        //  This is an alias function of crmOpportunity
+    public function crm_opportunity_id($value)
     {
-        return $this->crmOpportunities($value);
+        return $this->crmOpportunity($value);
     }
     
     public function commonCurrencyId($value)
@@ -167,6 +167,8 @@ class QuotesQueryFilter extends AbstractQueryFilter
     }
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 

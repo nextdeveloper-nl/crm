@@ -56,7 +56,7 @@ class AbstractQuotesTransformer extends AbstractTransformer
     {
                                                 $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
                                                             $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
-                                                            $crmOpportunitiesId = \NextDeveloper\CRM\Database\Models\Opportunities::where('id', $model->crm_opportunities_id)->first();
+                                                            $crmOpportunityId = \NextDeveloper\CRM\Database\Models\Opportunities::where('id', $model->crm_opportunity_id)->first();
                                                             $commonCurrencyId = \NextDeveloper\Commons\Database\Models\Currencies::where('id', $model->common_currency_id)->first();
                         
         return $this->buildPayload(
@@ -64,7 +64,7 @@ class AbstractQuotesTransformer extends AbstractTransformer
             'id'  =>  $model->uuid,
             'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
             'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
-            'crm_opportunities_id'  =>  $crmOpportunitiesId ? $crmOpportunitiesId->uuid : null,
+            'crm_opportunity_id'  =>  $crmOpportunityId ? $crmOpportunityId->uuid : null,
             'name'  =>  $model->name,
             'description'  =>  $model->description,
             'total_amount'  =>  $model->total_amount,
@@ -164,6 +164,8 @@ class AbstractQuotesTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

@@ -22,6 +22,7 @@ class CallsUpdateRequest extends AbstractFormRequest
         'from_number' => 'nullable|string',
         'to_number' => 'nullable|string',
         'call_direction' => 'nullable|string',
+        'crm_opportunity_id' => 'nullable|exists:crm_opportunities,uuid|uuid',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

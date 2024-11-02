@@ -26,9 +26,13 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property $income
  * @property \Carbon\Carbon $deadline
  * @property string $account_name
+ * @property integer $crm_account_id
  * @property string $responsible_account
  * @property string $responsible_name
  * @property integer $quote_count
+ * @property integer $meeting_count
+ * @property integer $call_count
+ * @property integer $project_count
  * @property integer $crm_ideal_customer_profile_id
  * @property integer $iam_user_id
  * @property integer $iam_account_id
@@ -61,9 +65,13 @@ class OpportunitiesPerspective extends Model
             'income',
             'deadline',
             'account_name',
+            'crm_account_id',
             'responsible_account',
             'responsible_name',
             'quote_count',
+            'meeting_count',
+            'call_count',
+            'project_count',
             'crm_ideal_customer_profile_id',
             'iam_user_id',
             'iam_account_id',
@@ -97,9 +105,13 @@ class OpportunitiesPerspective extends Model
     'source' => 'string',
     'deadline' => 'datetime',
     'account_name' => 'string',
+    'crm_account_id' => 'integer',
     'responsible_account' => 'string',
     'responsible_name' => 'string',
     'quote_count' => 'integer',
+    'meeting_count' => 'integer',
+    'call_count' => 'integer',
+    'project_count' => 'integer',
     'crm_ideal_customer_profile_id' => 'integer',
     'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'created_at' => 'datetime',
@@ -167,6 +179,8 @@ class OpportunitiesPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

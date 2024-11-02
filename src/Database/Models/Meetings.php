@@ -29,6 +29,7 @@ use NextDeveloper\Commons\Database\Traits\HasStates;
  * @property \Carbon\Carbon $deleted_at
  * @property string $customer_requirements
  * @property string $suggestions
+ * @property integer $crm_opportunity_id
  */
 class Meetings extends Model
 {
@@ -54,6 +55,7 @@ class Meetings extends Model
             'crm_account_id',
             'customer_requirements',
             'suggestions',
+            'crm_opportunity_id',
     ];
 
     /**
@@ -86,6 +88,7 @@ class Meetings extends Model
     'deleted_at' => 'datetime',
     'customer_requirements' => 'string',
     'suggestions' => 'string',
+    'crm_opportunity_id' => 'integer',
     ];
 
     /**
@@ -146,7 +149,14 @@ class Meetings extends Model
         }
     }
 
+    public function opportunities() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Opportunities::class);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 
