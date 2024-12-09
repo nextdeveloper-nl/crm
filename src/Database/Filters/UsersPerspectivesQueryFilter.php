@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-        
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -16,62 +16,62 @@ class UsersPerspectivesQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
-        return $this->builder->where('name', 'like', '%' . $value . '%');
+        return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
-    
+
     public function surname($value)
     {
-        return $this->builder->where('surname', 'like', '%' . $value . '%');
+        return $this->builder->where('surname', 'ilike', '%' . $value . '%');
     }
-    
+
     public function fullname($value)
     {
         return $this->builder->where('fullname', 'like', '%' . $value . '%');
     }
-    
+
     public function email($value)
     {
         return $this->builder->where('email', 'like', '%' . $value . '%');
     }
-    
+
     public function about($value)
     {
         return $this->builder->where('about', 'like', '%' . $value . '%');
     }
-    
+
     public function pronoun($value)
     {
         return $this->builder->where('pronoun', 'like', '%' . $value . '%');
     }
-    
+
     public function nin($value)
     {
         return $this->builder->where('nin', 'like', '%' . $value . '%');
     }
-    
+
     public function cellPhone($value)
     {
         return $this->builder->where('cell_phone', 'like', '%' . $value . '%');
     }
-    
+
     public function position($value)
     {
         return $this->builder->where('position', 'like', '%' . $value . '%');
     }
-    
+
     public function jobDescription($value)
     {
         return $this->builder->where('job_description', 'like', '%' . $value . '%');
     }
-    
+
     public function hobbies($value)
     {
         return $this->builder->where('hobbies', 'like', '%' . $value . '%');
     }
-    
+
     public function city($value)
     {
         return $this->builder->where('city', 'like', '%' . $value . '%');
@@ -89,48 +89,48 @@ class UsersPerspectivesQueryFilter extends AbstractQueryFilter
 
         return $this->builder->where('child_count', $operator, $value);
     }
-    
+
     public function isEvangelist()
     {
         return $this->builder->where('is_evangelist', true);
     }
-    
-    public function birthdayStart($date) 
+
+    public function birthdayStart($date)
     {
         return $this->builder->where('birthday', '>=', $date);
     }
 
-    public function birthdayEnd($date) 
+    public function birthdayEnd($date)
     {
         return $this->builder->where('birthday', '<=', $date);
     }
 
-    public function iamUpdatedAtStart($date) 
+    public function iamUpdatedAtStart($date)
     {
         return $this->builder->where('iam_updated_at', '>=', $date);
     }
 
-    public function iamUpdatedAtEnd($date) 
+    public function iamUpdatedAtEnd($date)
     {
         return $this->builder->where('iam_updated_at', '<=', $date);
     }
 
-    public function createdAtStart($date) 
+    public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
     }
 
-    public function createdAtEnd($date) 
+    public function createdAtEnd($date)
     {
         return $this->builder->where('created_at', '<=', $date);
     }
 
-    public function updatedAtStart($date) 
+    public function updatedAtStart($date)
     {
         return $this->builder->where('updated_at', '>=', $date);
     }
 
-    public function updatedAtEnd($date) 
+    public function updatedAtEnd($date)
     {
         return $this->builder->where('updated_at', '<=', $date);
     }

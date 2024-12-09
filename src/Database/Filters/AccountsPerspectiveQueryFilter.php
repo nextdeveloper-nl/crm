@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                        
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,16 +17,16 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
-        return $this->builder->where('name', 'like', '%' . $value . '%');
+        return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function domainName($value)
     {
-        return $this->builder->where('domain_name', 'like', '%' . $value . '%');
+        return $this->builder->where('domain_name', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of domainName
@@ -34,10 +34,10 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->domainName($value);
     }
-        
+
     public function countryName($value)
     {
-        return $this->builder->where('country_name', 'like', '%' . $value . '%');
+        return $this->builder->where('country_name', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of countryName
@@ -45,10 +45,10 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->countryName($value);
     }
-        
+
     public function phoneNumber($value)
     {
-        return $this->builder->where('phone_number', 'like', '%' . $value . '%');
+        return $this->builder->where('phone_number', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of phoneNumber
@@ -56,16 +56,16 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->phoneNumber($value);
     }
-        
+
     public function description($value)
     {
-        return $this->builder->where('description', 'like', '%' . $value . '%');
+        return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function accountType($value)
     {
-        return $this->builder->where('account_type', 'like', '%' . $value . '%');
+        return $this->builder->where('account_type', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of accountType
@@ -73,13 +73,13 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->accountType($value);
     }
-        
+
     public function position($value)
     {
-        return $this->builder->where('position', 'like', '%' . $value . '%');
+        return $this->builder->where('position', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function headquarterCity($value)
     {
         return $this->builder->where('headquarter_city', 'like', '%' . $value . '%');
@@ -90,7 +90,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->headquarterCity($value);
     }
-        
+
     public function additionalInformation($value)
     {
         return $this->builder->where('additional_information', 'like', '%' . $value . '%');
@@ -101,7 +101,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->additionalInformation($value);
     }
-    
+
     public function riskLevel($value)
     {
         $operator = substr($value, 0, 1);
@@ -120,7 +120,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->riskLevel($value);
     }
-    
+
     public function totalNumberOfPersonel($value)
     {
         $operator = substr($value, 0, 1);
@@ -139,7 +139,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->totalNumberOfPersonel($value);
     }
-    
+
     public function employeeCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -158,7 +158,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->employeeCount($value);
     }
-    
+
     public function productionPeopleCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -177,7 +177,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->productionPeopleCount($value);
     }
-    
+
     public function salesPeopleCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -196,7 +196,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->salesPeopleCount($value);
     }
-    
+
     public function marketingPeopleCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -215,7 +215,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->marketingPeopleCount($value);
     }
-    
+
     public function supportPeopleCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -234,7 +234,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->supportPeopleCount($value);
     }
-    
+
     public function automationCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -253,7 +253,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->automationCount($value);
     }
-    
+
     public function totalUserCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -272,7 +272,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->totalUserCount($value);
     }
-    
+
     public function registeredUserCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -291,7 +291,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->registeredUserCount($value);
     }
-    
+
     public function idealCustomerProfileCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -310,7 +310,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->idealCustomerProfileCount($value);
     }
-    
+
     public function isPayingCustomer($value)
     {
         return $this->builder->where('is_paying_customer', $value);
@@ -321,7 +321,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isPayingCustomer($value);
     }
-     
+
     public function isStartup($value)
     {
         return $this->builder->where('is_startup', $value);
@@ -332,7 +332,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isStartup($value);
     }
-     
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -391,7 +391,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->commonDomain($value);
     }
-    
+
     public function commonCountryId($value)
     {
             $commonCountry = \NextDeveloper\Commons\Database\Models\Countries::where('uuid', $value)->first();
@@ -406,7 +406,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->commonCountry($value);
     }
-    
+
     public function iamAccountTypeId($value)
     {
             $iamAccountType = \NextDeveloper\IAM\Database\Models\AccountTypes::where('uuid', $value)->first();
@@ -421,7 +421,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->iamAccountType($value);
     }
-    
+
     public function commonCityId($value)
     {
             $commonCity = \NextDeveloper\Commons\Database\Models\Cities::where('uuid', $value)->first();
@@ -436,7 +436,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->commonCity($value);
     }
-    
+
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -446,7 +446,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function iamAccountId($value)
     {
             $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -456,7 +456,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

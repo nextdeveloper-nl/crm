@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-            
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,10 +17,10 @@ class IdealCustomerProfilesQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function companySize($value)
     {
-        return $this->builder->where('company_size', 'like', '%' . $value . '%');
+        return $this->builder->where('company_size', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of companySize
@@ -28,10 +28,10 @@ class IdealCustomerProfilesQueryFilter extends AbstractQueryFilter
     {
         return $this->companySize($value);
     }
-        
+
     public function additionalNotes($value)
     {
-        return $this->builder->where('additional_notes', 'like', '%' . $value . '%');
+        return $this->builder->where('additional_notes', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of additionalNotes
@@ -39,10 +39,10 @@ class IdealCustomerProfilesQueryFilter extends AbstractQueryFilter
     {
         return $this->additionalNotes($value);
     }
-        
+
     public function growthStage($value)
     {
-        return $this->builder->where('growth_stage', 'like', '%' . $value . '%');
+        return $this->builder->where('growth_stage', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of growthStage
@@ -50,10 +50,10 @@ class IdealCustomerProfilesQueryFilter extends AbstractQueryFilter
     {
         return $this->growthStage($value);
     }
-        
+
     public function businessModel($value)
     {
-        return $this->builder->where('business_model', 'like', '%' . $value . '%');
+        return $this->builder->where('business_model', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of businessModel
@@ -61,19 +61,19 @@ class IdealCustomerProfilesQueryFilter extends AbstractQueryFilter
     {
         return $this->businessModel($value);
     }
-        
+
     public function name($value)
     {
-        return $this->builder->where('name', 'like', '%' . $value . '%');
+        return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function description($value)
     {
-        return $this->builder->where('description', 'like', '%' . $value . '%');
+        return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
 
-    
+
     public function technologyRank($value)
     {
         $operator = substr($value, 0, 1);
@@ -92,7 +92,7 @@ class IdealCustomerProfilesQueryFilter extends AbstractQueryFilter
     {
         return $this->technologyRank($value);
     }
-    
+
     public function isWorkingHomeOffice($value)
     {
         return $this->builder->where('is_working_home_office', $value);
@@ -103,7 +103,7 @@ class IdealCustomerProfilesQueryFilter extends AbstractQueryFilter
     {
         return $this->isWorkingHomeOffice($value);
     }
-     
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -184,7 +184,7 @@ class IdealCustomerProfilesQueryFilter extends AbstractQueryFilter
     {
         return $this->crmAccount($value);
     }
-    
+
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -194,7 +194,7 @@ class IdealCustomerProfilesQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function iamAccountId($value)
     {
             $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -204,7 +204,7 @@ class IdealCustomerProfilesQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

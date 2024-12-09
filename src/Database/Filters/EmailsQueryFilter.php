@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-        
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,22 +17,22 @@ class EmailsQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function subject($value)
     {
-        return $this->builder->where('subject', 'like', '%' . $value . '%');
+        return $this->builder->where('subject', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function content($value)
     {
-        return $this->builder->where('content', 'like', '%' . $value . '%');
+        return $this->builder->where('content', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function emailMeta($value)
     {
-        return $this->builder->where('email_meta', 'like', '%' . $value . '%');
+        return $this->builder->where('email_meta', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of emailMeta
@@ -40,13 +40,13 @@ class EmailsQueryFilter extends AbstractQueryFilter
     {
         return $this->emailMeta($value);
     }
-        
+
     public function from($value)
     {
-        return $this->builder->where('from', 'like', '%' . $value . '%');
+        return $this->builder->where('from', 'ilike', '%' . $value . '%');
     }
 
-    
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -122,7 +122,7 @@ class EmailsQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function iamAccountId($value)
     {
             $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -132,7 +132,7 @@ class EmailsQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

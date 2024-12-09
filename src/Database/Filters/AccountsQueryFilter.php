@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-        
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -37,16 +37,16 @@ class AccountsQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function position($value)
     {
-        return $this->builder->where('position', 'like', '%' . $value . '%');
+        return $this->builder->where('position', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function headquarterCity($value)
     {
-        return $this->builder->where('headquarter_city', 'like', '%' . $value . '%');
+        return $this->builder->where('headquarter_city', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of headquarterCity
@@ -54,10 +54,10 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->headquarterCity($value);
     }
-        
+
     public function additionalInformation($value)
     {
-        return $this->builder->where('additional_information', 'like', '%' . $value . '%');
+        return $this->builder->where('additional_information', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of additionalInformation
@@ -65,7 +65,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->additionalInformation($value);
     }
-    
+
     public function riskLevel($value)
     {
         $operator = substr($value, 0, 1);
@@ -84,7 +84,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->riskLevel($value);
     }
-    
+
     public function companySize($value)
     {
         $operator = substr($value, 0, 1);
@@ -103,7 +103,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->companySize($value);
     }
-    
+
     public function employeeCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -122,7 +122,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->employeeCount($value);
     }
-    
+
     public function productionPeopleCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -141,7 +141,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->productionPeopleCount($value);
     }
-    
+
     public function salesPeopleCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -160,7 +160,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->salesPeopleCount($value);
     }
-    
+
     public function marketingPeopleCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -179,7 +179,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->marketingPeopleCount($value);
     }
-    
+
     public function supportPeopleCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -198,7 +198,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->supportPeopleCount($value);
     }
-    
+
     public function automationCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -217,7 +217,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->automationCount($value);
     }
-    
+
     public function isPayingCustomer($value)
     {
         return $this->builder->where('is_paying_customer', $value);
@@ -228,7 +228,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->isPayingCustomer($value);
     }
-     
+
     public function isStartup($value)
     {
         return $this->builder->where('is_startup', $value);
@@ -239,7 +239,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->isStartup($value);
     }
-     
+
     public function isSuspended($value)
     {
         return $this->builder->where('is_suspended', $value);
@@ -250,7 +250,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->isSuspended($value);
     }
-     
+
     public function isServiceEnabled($value)
     {
         return $this->builder->where('is_service_enabled', $value);
@@ -261,7 +261,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->isServiceEnabled($value);
     }
-     
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -337,7 +337,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function commonCityId($value)
     {
             $commonCity = \NextDeveloper\Commons\Database\Models\Cities::where('uuid', $value)->first();
@@ -352,7 +352,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->commonCity($value);
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 
 
