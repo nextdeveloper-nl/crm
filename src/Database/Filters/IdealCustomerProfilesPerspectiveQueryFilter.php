@@ -17,22 +17,22 @@ class IdealCustomerProfilesPerspectiveQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
-        return $this->builder->where('name', 'like', '%' . $value . '%');
+        return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function description($value)
     {
-        return $this->builder->where('description', 'like', '%' . $value . '%');
+        return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function companySize($value)
     {
-        return $this->builder->where('company_size', 'like', '%' . $value . '%');
+        return $this->builder->where('company_size', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of companySize
@@ -40,10 +40,10 @@ class IdealCustomerProfilesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->companySize($value);
     }
-        
+
     public function additionalNotes($value)
     {
-        return $this->builder->where('additional_notes', 'like', '%' . $value . '%');
+        return $this->builder->where('additional_notes', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of additionalNotes
@@ -51,10 +51,10 @@ class IdealCustomerProfilesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->additionalNotes($value);
     }
-        
+
     public function growthStage($value)
     {
-        return $this->builder->where('growth_stage', 'like', '%' . $value . '%');
+        return $this->builder->where('growth_stage', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of growthStage
@@ -62,10 +62,10 @@ class IdealCustomerProfilesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->growthStage($value);
     }
-        
+
     public function businessModel($value)
     {
-        return $this->builder->where('business_model', 'like', '%' . $value . '%');
+        return $this->builder->where('business_model', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of businessModel
@@ -73,7 +73,7 @@ class IdealCustomerProfilesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->businessModel($value);
     }
-    
+
     public function technologyRank($value)
     {
         $operator = substr($value, 0, 1);
@@ -92,7 +92,7 @@ class IdealCustomerProfilesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->technologyRank($value);
     }
-    
+
     public function opportunityCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -111,7 +111,7 @@ class IdealCustomerProfilesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->opportunityCount($value);
     }
-    
+
     public function isWorkingHomeOffice($value)
     {
         return $this->builder->where('is_working_home_office', $value);
@@ -122,7 +122,7 @@ class IdealCustomerProfilesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isWorkingHomeOffice($value);
     }
-     
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);

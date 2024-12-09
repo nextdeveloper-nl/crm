@@ -20,32 +20,32 @@ class AccountUsersPerspectiveQueryFilter extends AbstractQueryFilter
 
     public function name($value)
     {
-        return $this->builder->where('name', 'like', '%' . $value . '%');
+        return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
     public function surname($value)
     {
-        return $this->builder->where('surname', 'like', '%' . $value . '%');
+        return $this->builder->where('surname', 'ilike', '%' . $value . '%');
     }
 
     public function fullname($value)
     {
-        return $this->builder->where('fullname', 'like', '%' . $value . '%');
+        return $this->builder->where('fullname', 'ilike', '%' . $value . '%');
     }
 
     public function email($value)
     {
-        return $this->builder->where('email', 'like', '%' . $value . '%');
+        return $this->builder->where('email', 'ilike', '%' . $value . '%');
     }
 
     public function about($value)
     {
-        return $this->builder->where('about', 'like', '%' . $value . '%');
+        return $this->builder->where('about', 'ilike', '%' . $value . '%');
     }
 
     public function pronoun($value)
     {
-        return $this->builder->where('pronoun', 'like', '%' . $value . '%');
+        return $this->builder->where('pronoun', 'ilike', '%' . $value . '%');
     }
 
     public function nin($value)
