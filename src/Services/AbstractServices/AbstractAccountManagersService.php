@@ -208,8 +208,6 @@ class AbstractAccountManagersService
             throw $e;
         }
 
-        Events::fire('created:NextDeveloper\CRM\AccountManagers', $model);
-
         return $model->fresh();
     }
 
@@ -268,16 +266,12 @@ class AbstractAccountManagersService
             );
         }
     
-        Events::fire('updating:NextDeveloper\CRM\AccountManagers', $model);
-
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();
         } catch(\Exception $e) {
             throw $e;
         }
-
-        Events::fire('updated:NextDeveloper\CRM\AccountManagers', $model);
 
         return $model->fresh();
     }
@@ -302,8 +296,6 @@ class AbstractAccountManagersService
                 'Maybe you dont have the permission to update this object?'
             );
         }
-
-        Events::fire('deleted:NextDeveloper\CRM\AccountManagers', $model);
 
         try {
             $model = $model->delete();

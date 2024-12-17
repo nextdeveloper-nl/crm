@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-
+                
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -37,19 +37,19 @@ class QuotesQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-
+    
     public function name($value)
     {
-        return $this->builder->where('name', 'ilike', '%' . $value . '%');
+        return $this->builder->where('name', 'like', '%' . $value . '%');
     }
 
-
+        
     public function description($value)
     {
-        return $this->builder->where('description', 'ilike', '%' . $value . '%');
+        return $this->builder->where('description', 'like', '%' . $value . '%');
     }
 
-
+    
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -125,7 +125,7 @@ class QuotesQueryFilter extends AbstractQueryFilter
         }
     }
 
-
+    
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -135,7 +135,7 @@ class QuotesQueryFilter extends AbstractQueryFilter
         }
     }
 
-
+    
     public function crmOpportunityId($value)
     {
             $crmOpportunity = \NextDeveloper\CRM\Database\Models\Opportunities::where('uuid', $value)->first();
@@ -150,7 +150,7 @@ class QuotesQueryFilter extends AbstractQueryFilter
     {
         return $this->crmOpportunity($value);
     }
-
+    
     public function commonCurrencyId($value)
     {
             $commonCurrency = \NextDeveloper\Commons\Database\Models\Currencies::where('uuid', $value)->first();
@@ -165,8 +165,9 @@ class QuotesQueryFilter extends AbstractQueryFilter
     {
         return $this->commonCurrency($value);
     }
-
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 

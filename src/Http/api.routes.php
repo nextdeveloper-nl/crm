@@ -296,6 +296,48 @@ Route::prefix('crm')->group(
             }
         );
 
+        Route::prefix('industries')->group(
+            function () {
+                Route::get('/', 'Industries\IndustriesController@index');
+                Route::get('/actions', 'Industries\IndustriesController@getActions');
+
+                Route::get('{crm_industries}/tags ', 'Industries\IndustriesController@tags');
+                Route::post('{crm_industries}/tags ', 'Industries\IndustriesController@saveTags');
+                Route::get('{crm_industries}/addresses ', 'Industries\IndustriesController@addresses');
+                Route::post('{crm_industries}/addresses ', 'Industries\IndustriesController@saveAddresses');
+
+                Route::get('/{crm_industries}/{subObjects}', 'Industries\IndustriesController@relatedObjects');
+                Route::get('/{crm_industries}', 'Industries\IndustriesController@show');
+
+                Route::post('/', 'Industries\IndustriesController@store');
+                Route::post('/{crm_industries}/do/{action}', 'Industries\IndustriesController@doAction');
+
+                Route::patch('/{crm_industries}', 'Industries\IndustriesController@update');
+                Route::delete('/{crm_industries}', 'Industries\IndustriesController@destroy');
+            }
+        );
+
+        Route::prefix('offerings')->group(
+            function () {
+                Route::get('/', 'Offerings\OfferingsController@index');
+                Route::get('/actions', 'Offerings\OfferingsController@getActions');
+
+                Route::get('{crm_offerings}/tags ', 'Offerings\OfferingsController@tags');
+                Route::post('{crm_offerings}/tags ', 'Offerings\OfferingsController@saveTags');
+                Route::get('{crm_offerings}/addresses ', 'Offerings\OfferingsController@addresses');
+                Route::post('{crm_offerings}/addresses ', 'Offerings\OfferingsController@saveAddresses');
+
+                Route::get('/{crm_offerings}/{subObjects}', 'Offerings\OfferingsController@relatedObjects');
+                Route::get('/{crm_offerings}', 'Offerings\OfferingsController@show');
+
+                Route::post('/', 'Offerings\OfferingsController@store');
+                Route::post('/{crm_offerings}/do/{action}', 'Offerings\OfferingsController@doAction');
+
+                Route::patch('/{crm_offerings}', 'Offerings\OfferingsController@update');
+                Route::delete('/{crm_offerings}', 'Offerings\OfferingsController@destroy');
+            }
+        );
+
         Route::prefix('users-perspective')->group(
             function () {
                 Route::get('/', 'UsersPerspective\UsersPerspectiveController@index');
@@ -338,27 +380,6 @@ Route::prefix('crm')->group(
             }
         );
 
-        Route::prefix('ideal-customer-profiles-perspective')->group(
-            function () {
-                Route::get('/', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@index');
-                Route::get('/actions', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@getActions');
-
-                Route::get('{cicpp}/tags ', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@tags');
-                Route::post('{cicpp}/tags ', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@saveTags');
-                Route::get('{cicpp}/addresses ', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@addresses');
-                Route::post('{cicpp}/addresses ', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@saveAddresses');
-
-                Route::get('/{cicpp}/{subObjects}', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@relatedObjects');
-                Route::get('/{cicpp}', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@show');
-
-                Route::post('/', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@store');
-                Route::post('/{cicpp}/do/{action}', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@doAction');
-
-                Route::patch('/{cicpp}', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@update');
-                Route::delete('/{cicpp}', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@destroy');
-            }
-        );
-
         Route::prefix('accounts-perspective')->group(
             function () {
                 Route::get('/', 'AccountsPerspective\AccountsPerspectiveController@index');
@@ -377,6 +398,27 @@ Route::prefix('crm')->group(
 
                 Route::patch('/{crm_accounts_perspective}', 'AccountsPerspective\AccountsPerspectiveController@update');
                 Route::delete('/{crm_accounts_perspective}', 'AccountsPerspective\AccountsPerspectiveController@destroy');
+            }
+        );
+
+        Route::prefix('ideal-customer-profiles-perspective')->group(
+            function () {
+                Route::get('/', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@index');
+                Route::get('/actions', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@getActions');
+
+                Route::get('{cicpp}/tags ', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@tags');
+                Route::post('{cicpp}/tags ', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@saveTags');
+                Route::get('{cicpp}/addresses ', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@addresses');
+                Route::post('{cicpp}/addresses ', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@saveAddresses');
+
+                Route::get('/{cicpp}/{subObjects}', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@relatedObjects');
+                Route::get('/{cicpp}', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@show');
+
+                Route::post('/', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@store');
+                Route::post('/{cicpp}/do/{action}', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@doAction');
+
+                Route::patch('/{cicpp}', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@update');
+                Route::delete('/{cicpp}', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@destroy');
             }
         );
 
@@ -453,8 +495,29 @@ Route::prefix('crm')->group(
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 );
+
 
 
 

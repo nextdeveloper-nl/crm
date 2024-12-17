@@ -208,8 +208,6 @@ class AbstractTasksService
             throw $e;
         }
 
-        Events::fire('created:NextDeveloper\CRM\Tasks', $model);
-
         return $model->fresh();
     }
 
@@ -268,16 +266,12 @@ class AbstractTasksService
             );
         }
     
-        Events::fire('updating:NextDeveloper\CRM\Tasks', $model);
-
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();
         } catch(\Exception $e) {
             throw $e;
         }
-
-        Events::fire('updated:NextDeveloper\CRM\Tasks', $model);
 
         return $model->fresh();
     }
@@ -302,8 +296,6 @@ class AbstractTasksService
                 'Maybe you dont have the permission to update this object?'
             );
         }
-
-        Events::fire('deleted:NextDeveloper\CRM\Tasks', $model);
 
         try {
             $model = $model->delete();

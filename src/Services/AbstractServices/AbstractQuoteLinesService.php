@@ -220,8 +220,6 @@ class AbstractQuoteLinesService
             throw $e;
         }
 
-        Events::fire('created:NextDeveloper\CRM\QuoteLines', $model);
-
         return $model->fresh();
     }
 
@@ -292,16 +290,12 @@ class AbstractQuoteLinesService
             );
         }
     
-        Events::fire('updating:NextDeveloper\CRM\QuoteLines', $model);
-
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();
         } catch(\Exception $e) {
             throw $e;
         }
-
-        Events::fire('updated:NextDeveloper\CRM\QuoteLines', $model);
 
         return $model->fresh();
     }
@@ -326,8 +320,6 @@ class AbstractQuoteLinesService
                 'Maybe you dont have the permission to update this object?'
             );
         }
-
-        Events::fire('deleted:NextDeveloper\CRM\QuoteLines', $model);
 
         try {
             $model = $model->delete();

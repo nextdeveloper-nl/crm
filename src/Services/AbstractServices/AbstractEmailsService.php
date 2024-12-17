@@ -202,8 +202,6 @@ class AbstractEmailsService
             throw $e;
         }
 
-        Events::fire('created:NextDeveloper\CRM\Emails', $model);
-
         return $model->fresh();
     }
 
@@ -256,16 +254,12 @@ class AbstractEmailsService
             );
         }
     
-        Events::fire('updating:NextDeveloper\CRM\Emails', $model);
-
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();
         } catch(\Exception $e) {
             throw $e;
         }
-
-        Events::fire('updated:NextDeveloper\CRM\Emails', $model);
 
         return $model->fresh();
     }
@@ -290,8 +284,6 @@ class AbstractEmailsService
                 'Maybe you dont have the permission to update this object?'
             );
         }
-
-        Events::fire('deleted:NextDeveloper\CRM\Emails', $model);
 
         try {
             $model = $model->delete();

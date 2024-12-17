@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-
+            
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,19 +17,19 @@ class TasksQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-
+    
     public function name($value)
     {
-        return $this->builder->where('name', 'ilike', '%' . $value . '%');
+        return $this->builder->where('name', 'like', '%' . $value . '%');
     }
 
-
+        
     public function description($value)
     {
-        return $this->builder->where('description', 'ilike', '%' . $value . '%');
+        return $this->builder->where('description', 'like', '%' . $value . '%');
     }
 
-
+    
     public function priority($value)
     {
         $operator = substr($value, 0, 1);
@@ -43,7 +43,7 @@ class TasksQueryFilter extends AbstractQueryFilter
         return $this->builder->where('priority', $operator, $value);
     }
 
-
+    
     public function isFinished($value)
     {
         return $this->builder->where('is_finished', $value);
@@ -54,7 +54,7 @@ class TasksQueryFilter extends AbstractQueryFilter
     {
         return $this->isFinished($value);
     }
-
+     
     public function isDelayed($value)
     {
         return $this->builder->where('is_delayed', $value);
@@ -65,7 +65,7 @@ class TasksQueryFilter extends AbstractQueryFilter
     {
         return $this->isDelayed($value);
     }
-
+     
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -141,7 +141,7 @@ class TasksQueryFilter extends AbstractQueryFilter
         }
     }
 
-
+    
     public function iamAccountId($value)
     {
             $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -151,7 +151,7 @@ class TasksQueryFilter extends AbstractQueryFilter
         }
     }
 
-
+    
     public function crmAccountId($value)
     {
             $crmAccount = \NextDeveloper\CRM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -166,8 +166,9 @@ class TasksQueryFilter extends AbstractQueryFilter
     {
         return $this->crmAccount($value);
     }
-
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

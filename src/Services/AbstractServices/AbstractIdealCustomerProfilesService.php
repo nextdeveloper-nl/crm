@@ -181,14 +181,32 @@ class AbstractIdealCustomerProfilesService
                 $data['crm_account_id']
             );
         }
+        if (array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Users',
+                $data['iam_user_id']
+            );
+        }
+                    
+        if(!array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id']    = UserHelper::me()->id;
+        }
+        if (array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Accounts',
+                $data['iam_account_id']
+            );
+        }
+            
+        if(!array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = UserHelper::currentAccount()->id;
+        }
                         
         try {
             $model = IdealCustomerProfiles::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
-
-        Events::fire('created:NextDeveloper\CRM\IdealCustomerProfiles', $model);
 
         return $model->fresh();
     }
@@ -235,17 +253,25 @@ class AbstractIdealCustomerProfilesService
                 $data['crm_account_id']
             );
         }
+        if (array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Users',
+                $data['iam_user_id']
+            );
+        }
+        if (array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Accounts',
+                $data['iam_account_id']
+            );
+        }
     
-        Events::fire('updating:NextDeveloper\CRM\IdealCustomerProfiles', $model);
-
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();
         } catch(\Exception $e) {
             throw $e;
         }
-
-        Events::fire('updated:NextDeveloper\CRM\IdealCustomerProfiles', $model);
 
         return $model->fresh();
     }
@@ -270,8 +296,6 @@ class AbstractIdealCustomerProfilesService
                 'Maybe you dont have the permission to update this object?'
             );
         }
-
-        Events::fire('deleted:NextDeveloper\CRM\IdealCustomerProfiles', $model);
 
         try {
             $model = $model->delete();
