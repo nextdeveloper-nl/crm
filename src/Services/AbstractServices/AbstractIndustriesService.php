@@ -10,22 +10,22 @@ use NextDeveloper\IAM\Helpers\UserHelper;
 use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\AvailableActions;
-use NextDeveloper\CRM\Database\Models\AccountUsersPerspective;
-use NextDeveloper\CRM\Database\Filters\AccountUsersPerspectiveQueryFilter;
+use NextDeveloper\CRM\Database\Models\Industries;
+use NextDeveloper\CRM\Database\Filters\IndustriesQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 use NextDeveloper\Events\Services\Events;
 use NextDeveloper\Commons\Exceptions\NotAllowedException;
 
 /**
- * This class is responsible from managing the data for AccountUsersPerspective
+ * This class is responsible from managing the data for Industries
  *
- * Class AccountUsersPerspectiveService.
+ * Class IndustriesService.
  *
  * @package NextDeveloper\CRM\Database\Models
  */
-class AbstractAccountUsersPerspectiveService
+class AbstractIndustriesService
 {
-    public static function get(AccountUsersPerspectiveQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
+    public static function get(IndustriesQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
     {
         $enablePaginate = array_key_exists('paginate', $params);
 
@@ -38,7 +38,7 @@ class AbstractAccountUsersPerspectiveService
         * Please let me know if you have any other idea about this; baris.bulut@nextdeveloper.com
         */
         if($filter == null) {
-            $filter = new AccountUsersPerspectiveQueryFilter($request);
+            $filter = new IndustriesQueryFilter($request);
         }
 
         $perPage = config('commons.pagination.per_page');
@@ -59,7 +59,7 @@ class AbstractAccountUsersPerspectiveService
             $filter->orderBy($params['orderBy']);
         }
 
-        $model = AccountUsersPerspective::filter($filter);
+        $model = Industries::filter($filter);
 
         if($enablePaginate) {
             //  We are using this because we have been experiencing huge security problem when we use the paginate method.
@@ -77,7 +77,7 @@ class AbstractAccountUsersPerspectiveService
 
     public static function getAll()
     {
-        return AccountUsersPerspective::all();
+        return Industries::all();
     }
 
     /**
@@ -86,14 +86,14 @@ class AbstractAccountUsersPerspectiveService
      * @param  $ref
      * @return mixed
      */
-    public static function getByRef($ref) : ?AccountUsersPerspective
+    public static function getByRef($ref) : ?Industries
     {
-        return AccountUsersPerspective::findByRef($ref);
+        return Industries::findByRef($ref);
     }
 
     public static function getActions()
     {
-        $model = AccountUsersPerspective::class;
+        $model = Industries::class;
 
         $model = Str::remove('Database\\Models\\', $model);
 
@@ -108,10 +108,10 @@ class AbstractAccountUsersPerspectiveService
      */
     public static function doAction($objectId, $action, ...$params)
     {
-        $object = AccountUsersPerspective::where('uuid', $objectId)->first();
+        $object = Industries::where('uuid', $objectId)->first();
 
         $action = AvailableActions::where('name', $action)
-            ->where('input', 'NextDeveloper\CRM\AccountUsersPerspective')
+            ->where('input', 'NextDeveloper\CRM\Industries')
             ->first();
 
         $class = $action->class;
@@ -132,11 +132,11 @@ class AbstractAccountUsersPerspectiveService
      * This method returns the model by lookint at its id
      *
      * @param  $id
-     * @return AccountUsersPerspective|null
+     * @return Industries|null
      */
-    public static function getById($id) : ?AccountUsersPerspective
+    public static function getById($id) : ?Industries
     {
-        return AccountUsersPerspective::where('id', $id)->first();
+        return Industries::where('id', $id)->first();
     }
 
     /**
@@ -150,7 +150,7 @@ class AbstractAccountUsersPerspectiveService
     public static function relatedObjects($uuid, $object)
     {
         try {
-            $obj = AccountUsersPerspective::where('uuid', $uuid)->first();
+            $obj = Industries::where('uuid', $uuid)->first();
 
             if(!$obj) {
                 throw new ModelNotFoundException('Cannot find the related model');
@@ -175,52 +175,12 @@ class AbstractAccountUsersPerspectiveService
      */
     public static function create(array $data)
     {
-        if (array_key_exists('common_country_id', $data)) {
-            $data['common_country_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\Commons\Database\Models\Countries',
-                $data['common_country_id']
-            );
-        }
-        if (array_key_exists('common_language_id', $data)) {
-            $data['common_language_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\Commons\Database\Models\Languages',
-                $data['common_language_id']
-            );
-        }
-        if (array_key_exists('iam_user_id', $data)) {
-            $data['iam_user_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\IAM\Database\Models\Users',
-                $data['iam_user_id']
-            );
-        }
-                    
-        if(!array_key_exists('iam_user_id', $data)) {
-            $data['iam_user_id']    = UserHelper::me()->id;
-        }
-        if (array_key_exists('iam_account_id', $data)) {
-            $data['iam_account_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\IAM\Database\Models\Accounts',
-                $data['iam_account_id']
-            );
-        }
-            
-        if(!array_key_exists('iam_account_id', $data)) {
-            $data['iam_account_id'] = UserHelper::currentAccount()->id;
-        }
-        if (array_key_exists('crm_account_id', $data)) {
-            $data['crm_account_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\CRM\Database\Models\Accounts',
-                $data['crm_account_id']
-            );
-        }
-                        
+        
         try {
-            $model = AccountUsersPerspective::create($data);
+            $model = Industries::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
-
-        Events::fire('created:NextDeveloper\CRM\AccountUsersPerspective', $model);
 
         return $model->fresh();
     }
@@ -229,9 +189,9 @@ class AbstractAccountUsersPerspectiveService
      * This function expects the ID inside the object.
      *
      * @param  array $data
-     * @return AccountUsersPerspective
+     * @return Industries
      */
-    public static function updateRaw(array $data) : ?AccountUsersPerspective
+    public static function updateRaw(array $data) : ?Industries
     {
         if(array_key_exists('id', $data)) {
             return self::update($data['id'], $data);
@@ -252,7 +212,7 @@ class AbstractAccountUsersPerspectiveService
      */
     public static function update($id, array $data)
     {
-        $model = AccountUsersPerspective::where('uuid', $id)->first();
+        $model = Industries::where('uuid', $id)->first();
 
         if(!$model) {
             throw new NotAllowedException(
@@ -261,47 +221,13 @@ class AbstractAccountUsersPerspectiveService
             );
         }
 
-        if (array_key_exists('common_country_id', $data)) {
-            $data['common_country_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\Commons\Database\Models\Countries',
-                $data['common_country_id']
-            );
-        }
-        if (array_key_exists('common_language_id', $data)) {
-            $data['common_language_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\Commons\Database\Models\Languages',
-                $data['common_language_id']
-            );
-        }
-        if (array_key_exists('iam_user_id', $data)) {
-            $data['iam_user_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\IAM\Database\Models\Users',
-                $data['iam_user_id']
-            );
-        }
-        if (array_key_exists('iam_account_id', $data)) {
-            $data['iam_account_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\IAM\Database\Models\Accounts',
-                $data['iam_account_id']
-            );
-        }
-        if (array_key_exists('crm_account_id', $data)) {
-            $data['crm_account_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\CRM\Database\Models\Accounts',
-                $data['crm_account_id']
-            );
-        }
-    
-        Events::fire('updating:NextDeveloper\CRM\AccountUsersPerspective', $model);
-
+        
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();
         } catch(\Exception $e) {
             throw $e;
         }
-
-        Events::fire('updated:NextDeveloper\CRM\AccountUsersPerspective', $model);
 
         return $model->fresh();
     }
@@ -318,7 +244,7 @@ class AbstractAccountUsersPerspectiveService
      */
     public static function delete($id)
     {
-        $model = AccountUsersPerspective::where('uuid', $id)->first();
+        $model = Industries::where('uuid', $id)->first();
 
         if(!$model) {
             throw new NotAllowedException(
@@ -326,8 +252,6 @@ class AbstractAccountUsersPerspectiveService
                 'Maybe you dont have the permission to update this object?'
             );
         }
-
-        Events::fire('deleted:NextDeveloper\CRM\AccountUsersPerspective', $model);
 
         try {
             $model = $model->delete();

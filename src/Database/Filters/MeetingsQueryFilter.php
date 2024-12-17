@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-
+                    
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,10 +17,10 @@ class MeetingsQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-
+    
     public function meetingNote($value)
     {
-        return $this->builder->where('meeting_note', 'ilike', '%' . $value . '%');
+        return $this->builder->where('meeting_note', 'like', '%' . $value . '%');
     }
 
         //  This is an alias function of meetingNote
@@ -28,16 +28,16 @@ class MeetingsQueryFilter extends AbstractQueryFilter
     {
         return $this->meetingNote($value);
     }
-
+        
     public function outcome($value)
     {
-        return $this->builder->where('outcome', 'ilike', '%' . $value . '%');
+        return $this->builder->where('outcome', 'like', '%' . $value . '%');
     }
 
-
+        
     public function customerRequirements($value)
     {
-        return $this->builder->where('customer_requirements', 'ilike', '%' . $value . '%');
+        return $this->builder->where('customer_requirements', 'like', '%' . $value . '%');
     }
 
         //  This is an alias function of customerRequirements
@@ -45,13 +45,13 @@ class MeetingsQueryFilter extends AbstractQueryFilter
     {
         return $this->customerRequirements($value);
     }
-
+        
     public function suggestions($value)
     {
-        return $this->builder->where('suggestions', 'ilike', '%' . $value . '%');
+        return $this->builder->where('suggestions', 'like', '%' . $value . '%');
     }
 
-
+    
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -132,7 +132,7 @@ class MeetingsQueryFilter extends AbstractQueryFilter
     {
         return $this->agendaCalendarItem($value);
     }
-
+    
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -142,7 +142,7 @@ class MeetingsQueryFilter extends AbstractQueryFilter
         }
     }
 
-
+    
     public function iamAccountId($value)
     {
             $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -152,7 +152,7 @@ class MeetingsQueryFilter extends AbstractQueryFilter
         }
     }
 
-
+    
     public function crmAccountId($value)
     {
             $crmAccount = \NextDeveloper\CRM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -167,7 +167,7 @@ class MeetingsQueryFilter extends AbstractQueryFilter
     {
         return $this->crmAccount($value);
     }
-
+    
     public function crmOpportunityId($value)
     {
             $crmOpportunity = \NextDeveloper\CRM\Database\Models\Opportunities::where('uuid', $value)->first();
@@ -182,8 +182,9 @@ class MeetingsQueryFilter extends AbstractQueryFilter
     {
         return $this->crmOpportunity($value);
     }
-
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

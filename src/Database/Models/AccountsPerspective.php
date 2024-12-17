@@ -10,6 +10,7 @@ use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 use NextDeveloper\Commons\Database\Traits\HasStates;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * AccountsPerspective model.
@@ -18,6 +19,9 @@ use NextDeveloper\Commons\Database\Traits\HasStates;
  * @property integer $id
  * @property string $uuid
  * @property string $name
+ * @property string $account_owners_fullname
+ * @property string $account_owners_email
+ * @property string $account_owners_phone_number
  * @property integer $common_domain_id
  * @property string $domain_name
  * @property integer $common_country_id
@@ -53,10 +57,12 @@ use NextDeveloper\Commons\Database\Traits\HasStates;
  * @property integer $ideal_customer_profile_count
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $deleted_at
  */
 class AccountsPerspective extends Model
 {
     use Filterable, UuidId, CleanCache, Taggable, HasStates;
+    use SoftDeletes;
 
     public $timestamps = true;
 
@@ -64,131 +70,136 @@ class AccountsPerspective extends Model
 
 
     /**
-     * @var array
+     @var array
      */
     protected $guarded = [];
 
     protected $fillable = [
-        'name',
-        'common_domain_id',
-        'domain_name',
-        'common_country_id',
-        'country_name',
-        'phone_number',
-        'description',
-        'iam_account_type_id',
-        'account_type',
-        'is_paying_customer',
-        'common_city_id',
-        'position',
-        'risk_level',
-        'total_number_of_personel',
-        'sector_focus',
-        'industry',
-        'is_startup',
-        'regulatory_and_compliance',
-        'employee_count',
-        'office_cities',
-        'headquarter_city',
-        'production_people_count',
-        'sales_people_count',
-        'marketing_people_count',
-        'support_people_count',
-        'automation_count',
-        'additional_information',
-        'target_markets',
-        'partners_with',
-        'iam_user_id',
-        'iam_account_id',
-        'total_user_count',
-        'registered_user_count',
-        'ideal_customer_profile_count',
+            'name',
+            'account_owners_fullname',
+            'account_owners_email',
+            'account_owners_phone_number',
+            'common_domain_id',
+            'domain_name',
+            'common_country_id',
+            'country_name',
+            'phone_number',
+            'description',
+            'iam_account_type_id',
+            'account_type',
+            'is_paying_customer',
+            'common_city_id',
+            'position',
+            'risk_level',
+            'total_number_of_personel',
+            'sector_focus',
+            'industry',
+            'is_startup',
+            'regulatory_and_compliance',
+            'employee_count',
+            'office_cities',
+            'headquarter_city',
+            'production_people_count',
+            'sales_people_count',
+            'marketing_people_count',
+            'support_people_count',
+            'automation_count',
+            'additional_information',
+            'target_markets',
+            'partners_with',
+            'iam_user_id',
+            'iam_account_id',
+            'total_user_count',
+            'registered_user_count',
+            'ideal_customer_profile_count',
     ];
 
     /**
-     * Here we have the fulltext fields. We can use these for fulltext search if enabled.
+      Here we have the fulltext fields. We can use these for fulltext search if enabled.
      */
     protected $fullTextFields = [
 
     ];
 
     /**
-     * @var array
+     @var array
      */
     protected $appends = [
 
     ];
 
     /**
-     * We are casting fields to objects so that we can work on them better
+     We are casting fields to objects so that we can work on them better
      *
-     * @var array
+     @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'name' => 'string',
-        'account_owners_fullname'   =>  'string',
-        'account_owners_phone_number'   =>  'string',
-        'account_owners_email'   =>  'string',
-        'common_domain_id' => 'integer',
-        'domain_name' => 'string',
-        'common_country_id' => 'integer',
-        'country_name' => 'string',
-        'phone_number' => 'string',
-        'description' => 'string',
-        'iam_account_type_id' => 'integer',
-        'account_type' => 'string',
-        'is_paying_customer' => 'boolean',
-        'common_city_id' => 'integer',
-        'position' => 'string',
-        'risk_level' => 'integer',
-        'total_number_of_personel' => 'integer',
-        'sector_focus' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-        'industry' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-        'is_startup' => 'boolean',
-        'regulatory_and_compliance' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-        'employee_count' => 'integer',
-        'office_cities' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-        'headquarter_city' => 'string',
-        'production_people_count' => 'integer',
-        'sales_people_count' => 'integer',
-        'marketing_people_count' => 'integer',
-        'support_people_count' => 'integer',
-        'automation_count' => 'integer',
-        'additional_information' => 'string',
-        'target_markets' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-        'partners_with' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-        'total_user_count' => 'integer',
-        'registered_user_count' => 'integer',
-        'ideal_customer_profile_count' => 'integer',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
+    'id' => 'integer',
+    'name' => 'string',
+    'account_owners_fullname' => 'string',
+    'account_owners_email' => 'string',
+    'account_owners_phone_number' => 'string',
+    'common_domain_id' => 'integer',
+    'domain_name' => 'string',
+    'common_country_id' => 'integer',
+    'country_name' => 'string',
+    'phone_number' => 'string',
+    'description' => 'string',
+    'iam_account_type_id' => 'integer',
+    'account_type' => 'string',
+    'is_paying_customer' => 'boolean',
+    'common_city_id' => 'integer',
+    'position' => 'string',
+    'risk_level' => 'integer',
+    'total_number_of_personel' => 'integer',
+    'sector_focus' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'industry' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'is_startup' => 'boolean',
+    'regulatory_and_compliance' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'employee_count' => 'integer',
+    'office_cities' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'headquarter_city' => 'string',
+    'production_people_count' => 'integer',
+    'sales_people_count' => 'integer',
+    'marketing_people_count' => 'integer',
+    'support_people_count' => 'integer',
+    'automation_count' => 'integer',
+    'additional_information' => 'string',
+    'target_markets' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'partners_with' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'total_user_count' => 'integer',
+    'registered_user_count' => 'integer',
+    'ideal_customer_profile_count' => 'integer',
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
+    'deleted_at' => 'datetime',
     ];
 
     /**
-     * We are casting data fields.
+     We are casting data fields.
      *
-     * @var array
+     @var array
      */
     protected $dates = [
-        'created_at',
-        'updated_at',
+    'created_at',
+    'updated_at',
+    'deleted_at',
     ];
 
     /**
-     * @var array
+     @var array
      */
     protected $with = [
 
     ];
 
     /**
-     * @var int
+     @var int
      */
     protected $perPage = 20;
 
     /**
-     * @return void
+     @return void
      */
     public static function boot()
     {
@@ -205,11 +216,9 @@ class AccountsPerspective extends Model
         $globalScopes = config('crm.scopes.global');
         $modelScopes = config('crm.scopes.crm_accounts_perspective');
 
-        if (!$modelScopes) {
-            $modelScopes = [];
+        if(!$modelScopes) { $modelScopes = [];
         }
-        if (!$globalScopes) {
-            $globalScopes = [];
+        if (!$globalScopes) { $globalScopes = [];
         }
 
         $scopes = array_merge(
@@ -217,7 +226,7 @@ class AccountsPerspective extends Model
             $modelScopes
         );
 
-        if ($scopes) {
+        if($scopes) {
             foreach ($scopes as $scope) {
                 static::addGlobalScope(app($scope));
             }
@@ -225,6 +234,7 @@ class AccountsPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 }

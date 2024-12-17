@@ -195,10 +195,10 @@ class AbstractQuotesService
         if(!array_key_exists('iam_user_id', $data)) {
             $data['iam_user_id']    = UserHelper::me()->id;
         }
-        if (array_key_exists('crm_opportunities_id', $data)) {
-            $data['crm_opportunities_id'] = DatabaseHelper::uuidToId(
+        if (array_key_exists('crm_opportunity_id', $data)) {
+            $data['crm_opportunity_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\CRM\Database\Models\Opportunities',
-                $data['crm_opportunities_id']
+                $data['crm_opportunity_id']
             );
         }
         if (array_key_exists('common_currency_id', $data)) {
@@ -213,8 +213,6 @@ class AbstractQuotesService
         } catch(\Exception $e) {
             throw $e;
         }
-
-        Events::fire('created:NextDeveloper\CRM\Quotes', $model);
 
         return $model->fresh();
     }
@@ -267,10 +265,10 @@ class AbstractQuotesService
                 $data['iam_user_id']
             );
         }
-        if (array_key_exists('crm_opportunities_id', $data)) {
-            $data['crm_opportunities_id'] = DatabaseHelper::uuidToId(
+        if (array_key_exists('crm_opportunity_id', $data)) {
+            $data['crm_opportunity_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\CRM\Database\Models\Opportunities',
-                $data['crm_opportunities_id']
+                $data['crm_opportunity_id']
             );
         }
         if (array_key_exists('common_currency_id', $data)) {
@@ -280,16 +278,12 @@ class AbstractQuotesService
             );
         }
     
-        Events::fire('updating:NextDeveloper\CRM\Quotes', $model);
-
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();
         } catch(\Exception $e) {
             throw $e;
         }
-
-        Events::fire('updated:NextDeveloper\CRM\Quotes', $model);
 
         return $model->fresh();
     }
@@ -314,8 +308,6 @@ class AbstractQuotesService
                 'Maybe you dont have the permission to update this object?'
             );
         }
-
-        Events::fire('deleted:NextDeveloper\CRM\Quotes', $model);
 
         try {
             $model = $model->delete();

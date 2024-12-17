@@ -201,14 +201,18 @@ class AbstractOpportunitiesService
                 $data['crm_account_id']
             );
         }
+        if (array_key_exists('crm_ideal_customer_profile_id', $data)) {
+            $data['crm_ideal_customer_profile_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\CRM\Database\Models\ealCustomerProfiles',
+                $data['crm_ideal_customer_profile_id']
+            );
+        }
                         
         try {
             $model = Opportunities::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
-
-        Events::fire('created:NextDeveloper\CRM\Opportunities', $model);
 
         return $model->fresh();
     }
@@ -267,17 +271,19 @@ class AbstractOpportunitiesService
                 $data['crm_account_id']
             );
         }
+        if (array_key_exists('crm_ideal_customer_profile_id', $data)) {
+            $data['crm_ideal_customer_profile_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\CRM\Database\Models\ealCustomerProfiles',
+                $data['crm_ideal_customer_profile_id']
+            );
+        }
     
-        Events::fire('updating:NextDeveloper\CRM\Opportunities', $model);
-
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();
         } catch(\Exception $e) {
             throw $e;
         }
-
-        Events::fire('updated:NextDeveloper\CRM\Opportunities', $model);
 
         return $model->fresh();
     }
@@ -302,8 +308,6 @@ class AbstractOpportunitiesService
                 'Maybe you dont have the permission to update this object?'
             );
         }
-
-        Events::fire('deleted:NextDeveloper\CRM\Opportunities', $model);
 
         try {
             $model = $model->delete();

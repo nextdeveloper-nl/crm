@@ -175,6 +175,18 @@ class AbstractOpportunitiesPerspectiveService
      */
     public static function create(array $data)
     {
+        if (array_key_exists('crm_account_id', $data)) {
+            $data['crm_account_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\CRM\Database\Models\Accounts',
+                $data['crm_account_id']
+            );
+        }
+        if (array_key_exists('crm_ideal_customer_profile_id', $data)) {
+            $data['crm_ideal_customer_profile_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\CRM\Database\Models\ealCustomerProfiles',
+                $data['crm_ideal_customer_profile_id']
+            );
+        }
         if (array_key_exists('iam_user_id', $data)) {
             $data['iam_user_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\IAM\Database\Models\Users',
@@ -201,8 +213,6 @@ class AbstractOpportunitiesPerspectiveService
         } catch(\Exception $e) {
             throw $e;
         }
-
-        Events::fire('created:NextDeveloper\CRM\OpportunitiesPerspective', $model);
 
         return $model->fresh();
     }
@@ -243,6 +253,18 @@ class AbstractOpportunitiesPerspectiveService
             );
         }
 
+        if (array_key_exists('crm_account_id', $data)) {
+            $data['crm_account_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\CRM\Database\Models\Accounts',
+                $data['crm_account_id']
+            );
+        }
+        if (array_key_exists('crm_ideal_customer_profile_id', $data)) {
+            $data['crm_ideal_customer_profile_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\CRM\Database\Models\ealCustomerProfiles',
+                $data['crm_ideal_customer_profile_id']
+            );
+        }
         if (array_key_exists('iam_user_id', $data)) {
             $data['iam_user_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\IAM\Database\Models\Users',
@@ -256,16 +278,12 @@ class AbstractOpportunitiesPerspectiveService
             );
         }
     
-        Events::fire('updating:NextDeveloper\CRM\OpportunitiesPerspective', $model);
-
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();
         } catch(\Exception $e) {
             throw $e;
         }
-
-        Events::fire('updated:NextDeveloper\CRM\OpportunitiesPerspective', $model);
 
         return $model->fresh();
     }
@@ -290,8 +308,6 @@ class AbstractOpportunitiesPerspectiveService
                 'Maybe you dont have the permission to update this object?'
             );
         }
-
-        Events::fire('deleted:NextDeveloper\CRM\OpportunitiesPerspective', $model);
 
         try {
             $model = $model->delete();

@@ -187,12 +187,6 @@ class AbstractAccountsPerspectiveService
                 $data['common_country_id']
             );
         }
-        if (array_key_exists('crm_account_id', $data)) {
-            $data['crm_account_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\CRM\Database\Models\Accounts',
-                $data['crm_account_id']
-            );
-        }
         if (array_key_exists('iam_account_type_id', $data)) {
             $data['iam_account_type_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\IAM\Database\Models\AccountTypes',
@@ -205,17 +199,25 @@ class AbstractAccountsPerspectiveService
                 $data['common_city_id']
             );
         }
-        if (array_key_exists('account_manager_id', $data)) {
-            $data['account_manager_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\\Database\Models\AccountManagers',
-                $data['account_manager_id']
+        if (array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Users',
+                $data['iam_user_id']
             );
         }
-        if (array_key_exists('account_manager_account_id', $data)) {
-            $data['account_manager_account_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\\Database\Models\AccountManagerAccounts',
-                $data['account_manager_account_id']
+                    
+        if(!array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id']    = UserHelper::me()->id;
+        }
+        if (array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Accounts',
+                $data['iam_account_id']
             );
+        }
+            
+        if(!array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = UserHelper::currentAccount()->id;
         }
                         
         try {
@@ -223,8 +225,6 @@ class AbstractAccountsPerspectiveService
         } catch(\Exception $e) {
             throw $e;
         }
-
-        Events::fire('created:NextDeveloper\CRM\AccountsPerspective', $model);
 
         return $model->fresh();
     }
@@ -277,12 +277,6 @@ class AbstractAccountsPerspectiveService
                 $data['common_country_id']
             );
         }
-        if (array_key_exists('crm_account_id', $data)) {
-            $data['crm_account_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\CRM\Database\Models\Accounts',
-                $data['crm_account_id']
-            );
-        }
         if (array_key_exists('iam_account_type_id', $data)) {
             $data['iam_account_type_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\IAM\Database\Models\AccountTypes',
@@ -295,29 +289,25 @@ class AbstractAccountsPerspectiveService
                 $data['common_city_id']
             );
         }
-        if (array_key_exists('account_manager_id', $data)) {
-            $data['account_manager_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\\Database\Models\AccountManagers',
-                $data['account_manager_id']
+        if (array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Users',
+                $data['iam_user_id']
             );
         }
-        if (array_key_exists('account_manager_account_id', $data)) {
-            $data['account_manager_account_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\\Database\Models\AccountManagerAccounts',
-                $data['account_manager_account_id']
+        if (array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Accounts',
+                $data['iam_account_id']
             );
         }
     
-        Events::fire('updating:NextDeveloper\CRM\AccountsPerspective', $model);
-
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();
         } catch(\Exception $e) {
             throw $e;
         }
-
-        Events::fire('updated:NextDeveloper\CRM\AccountsPerspective', $model);
 
         return $model->fresh();
     }
@@ -342,8 +332,6 @@ class AbstractAccountsPerspectiveService
                 'Maybe you dont have the permission to update this object?'
             );
         }
-
-        Events::fire('deleted:NextDeveloper\CRM\AccountsPerspective', $model);
 
         try {
             $model = $model->delete();

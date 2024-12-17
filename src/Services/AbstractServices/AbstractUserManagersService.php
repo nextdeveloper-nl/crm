@@ -208,8 +208,6 @@ class AbstractUserManagersService
             throw $e;
         }
 
-        Events::fire('created:NextDeveloper\CRM\UserManagers', $model);
-
         return $model->fresh();
     }
 
@@ -268,16 +266,12 @@ class AbstractUserManagersService
             );
         }
     
-        Events::fire('updating:NextDeveloper\CRM\UserManagers', $model);
-
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();
         } catch(\Exception $e) {
             throw $e;
         }
-
-        Events::fire('updated:NextDeveloper\CRM\UserManagers', $model);
 
         return $model->fresh();
     }
@@ -302,8 +296,6 @@ class AbstractUserManagersService
                 'Maybe you dont have the permission to update this object?'
             );
         }
-
-        Events::fire('deleted:NextDeveloper\CRM\UserManagers', $model);
 
         try {
             $model = $model->delete();

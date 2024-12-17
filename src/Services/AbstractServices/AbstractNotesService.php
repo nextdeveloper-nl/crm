@@ -208,8 +208,6 @@ class AbstractNotesService
             throw $e;
         }
 
-        Events::fire('created:NextDeveloper\CRM\Notes', $model);
-
         return $model->fresh();
     }
 
@@ -268,16 +266,12 @@ class AbstractNotesService
             );
         }
     
-        Events::fire('updating:NextDeveloper\CRM\Notes', $model);
-
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();
         } catch(\Exception $e) {
             throw $e;
         }
-
-        Events::fire('updated:NextDeveloper\CRM\Notes', $model);
 
         return $model->fresh();
     }
@@ -302,8 +296,6 @@ class AbstractNotesService
                 'Maybe you dont have the permission to update this object?'
             );
         }
-
-        Events::fire('deleted:NextDeveloper\CRM\Notes', $model);
 
         try {
             $model = $model->delete();

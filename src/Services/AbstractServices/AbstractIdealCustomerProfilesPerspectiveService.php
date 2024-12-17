@@ -182,8 +182,6 @@ class AbstractIdealCustomerProfilesPerspectiveService
             throw $e;
         }
 
-        Events::fire('created:NextDeveloper\CRM\IdealCustomerProfilesPerspective', $model);
-
         return $model->fresh();
     }
 
@@ -224,16 +222,12 @@ class AbstractIdealCustomerProfilesPerspectiveService
         }
 
         
-        Events::fire('updating:NextDeveloper\CRM\IdealCustomerProfilesPerspective', $model);
-
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();
         } catch(\Exception $e) {
             throw $e;
         }
-
-        Events::fire('updated:NextDeveloper\CRM\IdealCustomerProfilesPerspective', $model);
 
         return $model->fresh();
     }
@@ -258,8 +252,6 @@ class AbstractIdealCustomerProfilesPerspectiveService
                 'Maybe you dont have the permission to update this object?'
             );
         }
-
-        Events::fire('deleted:NextDeveloper\CRM\IdealCustomerProfilesPerspective', $model);
 
         try {
             $model = $model->delete();
