@@ -181,7 +181,7 @@ class AbstractOpportunitiesService
                 $data['iam_account_id']
             );
         }
-            
+
         if(!array_key_exists('iam_account_id', $data)) {
             $data['iam_account_id'] = UserHelper::currentAccount()->id;
         }
@@ -191,7 +191,7 @@ class AbstractOpportunitiesService
                 $data['iam_user_id']
             );
         }
-                    
+
         if(!array_key_exists('iam_user_id', $data)) {
             $data['iam_user_id']    = UserHelper::me()->id;
         }
@@ -203,11 +203,11 @@ class AbstractOpportunitiesService
         }
         if (array_key_exists('crm_ideal_customer_profile_id', $data)) {
             $data['crm_ideal_customer_profile_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\CRM\Database\Models\ealCustomerProfiles',
+                '\NextDeveloper\CRM\Database\Models\IdealCustomerProfiles',
                 $data['crm_ideal_customer_profile_id']
             );
         }
-                        
+
         try {
             $model = Opportunities::create($data);
         } catch(\Exception $e) {
@@ -273,11 +273,11 @@ class AbstractOpportunitiesService
         }
         if (array_key_exists('crm_ideal_customer_profile_id', $data)) {
             $data['crm_ideal_customer_profile_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\CRM\Database\Models\ealCustomerProfiles',
+                '\NextDeveloper\CRM\Database\Models\IdealCustomerProfiles',
                 $data['crm_ideal_customer_profile_id']
             );
         }
-    
+
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();
