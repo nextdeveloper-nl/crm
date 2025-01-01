@@ -2,12 +2,14 @@
 
 namespace NextDeveloper\CRM\Actions\Accounts;
 
+use Helpers\CrmHelper;
 use NextDeveloper\Commons\Actions\AbstractAction;
 use NextDeveloper\Commons\Exceptions\NotAllowedException;
 use NextDeveloper\CRM\Database\Models\Accounts;
 use NextDeveloper\CRM\Database\Models\Opportunities;
 use NextDeveloper\Events\Services\Events;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
+use NextDeveloper\IAM\Helpers\UserHelper;
 
 /**
  * Class CreateOpportunity
@@ -59,11 +61,15 @@ class CreateOpportunity extends AbstractAction
             ->first();
 
         if (!$opportunity) {
+            $accountManager = CrmHelper::getAccountManagerAccount($this->model);
+
             // Create the opportunity if it does not exist
             $opportunity = Opportunities::withoutGlobalScope(AuthorizationScope::class)
                 ->create([
-                    'crm_account_id' => $this->model->id,
-                    'name'           => 'Initial opportunity',
+                    'crm_account_id'    => $this->model->id,
+                    'name'              => 'Initial opportunity',
+                    'iam_account_id'    => $opportunity->iam_account_id ?? $accountManager->id,
+                    'iam_user_id'       => $opportunity->iam_user_id ?? UserHelper::getAccountOwner($accountManager)
                 ]);
 
             $this->setProgress(80, 'Opportunity created');
