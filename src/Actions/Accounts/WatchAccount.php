@@ -89,7 +89,6 @@ class WatchAccount extends AbstractAction
             ->where('iam_account_id', $iamAccount->id)
             ->first();
 
-
         if (!$accountManager) {
             $accountManager = AccountManagers::withoutGlobalScope(AuthorizationScope::class)
                 ->create([
