@@ -275,24 +275,24 @@ Route::prefix('crm')->group(
             }
         );
 
-        Route::prefix('quote-lines')->group(
+        Route::prefix('quote-items')->group(
             function () {
-                Route::get('/', 'QuoteLines\QuoteLinesController@index');
-                Route::get('/actions', 'QuoteLines\QuoteLinesController@getActions');
+                Route::get('/', 'QuoteItems\QuoteItemsController@index');
+                Route::get('/actions', 'QuoteItems\QuoteItemsController@getActions');
 
-                Route::get('{crm_quote_lines}/tags ', 'QuoteLines\QuoteLinesController@tags');
-                Route::post('{crm_quote_lines}/tags ', 'QuoteLines\QuoteLinesController@saveTags');
-                Route::get('{crm_quote_lines}/addresses ', 'QuoteLines\QuoteLinesController@addresses');
-                Route::post('{crm_quote_lines}/addresses ', 'QuoteLines\QuoteLinesController@saveAddresses');
+                Route::get('{crm_quote_items}/tags ', 'QuoteItems\QuoteItemsController@tags');
+                Route::post('{crm_quote_items}/tags ', 'QuoteItems\QuoteItemsController@saveTags');
+                Route::get('{crm_quote_items}/addresses ', 'QuoteItems\QuoteItemsController@addresses');
+                Route::post('{crm_quote_items}/addresses ', 'QuoteItems\QuoteItemsController@saveAddresses');
 
-                Route::get('/{crm_quote_lines}/{subObjects}', 'QuoteLines\QuoteLinesController@relatedObjects');
-                Route::get('/{crm_quote_lines}', 'QuoteLines\QuoteLinesController@show');
+                Route::get('/{crm_quote_items}/{subObjects}', 'QuoteItems\QuoteItemsController@relatedObjects');
+                Route::get('/{crm_quote_items}', 'QuoteItems\QuoteItemsController@show');
 
-                Route::post('/', 'QuoteLines\QuoteLinesController@store');
-                Route::post('/{crm_quote_lines}/do/{action}', 'QuoteLines\QuoteLinesController@doAction');
+                Route::post('/', 'QuoteItems\QuoteItemsController@store');
+                Route::post('/{crm_quote_items}/do/{action}', 'QuoteItems\QuoteItemsController@doAction');
 
-                Route::patch('/{crm_quote_lines}', 'QuoteLines\QuoteLinesController@update');
-                Route::delete('/{crm_quote_lines}', 'QuoteLines\QuoteLinesController@destroy');
+                Route::patch('/{crm_quote_items}', 'QuoteItems\QuoteItemsController@update');
+                Route::delete('/{crm_quote_items}', 'QuoteItems\QuoteItemsController@destroy');
             }
         );
 
@@ -359,24 +359,24 @@ Route::prefix('crm')->group(
             }
         );
 
-        Route::prefix('opportunities-perspective')->group(
+        Route::prefix('ideal-customer-profiles-perspective')->group(
             function () {
-                Route::get('/', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@index');
-                Route::get('/actions', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@getActions');
+                Route::get('/', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@index');
+                Route::get('/actions', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@getActions');
 
-                Route::get('{crm_opportunities_perspective}/tags ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@tags');
-                Route::post('{crm_opportunities_perspective}/tags ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@saveTags');
-                Route::get('{crm_opportunities_perspective}/addresses ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@addresses');
-                Route::post('{crm_opportunities_perspective}/addresses ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@saveAddresses');
+                Route::get('{cicpp}/tags ', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@tags');
+                Route::post('{cicpp}/tags ', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@saveTags');
+                Route::get('{cicpp}/addresses ', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@addresses');
+                Route::post('{cicpp}/addresses ', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@saveAddresses');
 
-                Route::get('/{crm_opportunities_perspective}/{subObjects}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@relatedObjects');
-                Route::get('/{crm_opportunities_perspective}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@show');
+                Route::get('/{cicpp}/{subObjects}', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@relatedObjects');
+                Route::get('/{cicpp}', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@show');
 
-                Route::post('/', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@store');
-                Route::post('/{crm_opportunities_perspective}/do/{action}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@doAction');
+                Route::post('/', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@store');
+                Route::post('/{cicpp}/do/{action}', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@doAction');
 
-                Route::patch('/{crm_opportunities_perspective}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@update');
-                Route::delete('/{crm_opportunities_perspective}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@destroy');
+                Route::patch('/{cicpp}', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@update');
+                Route::delete('/{cicpp}', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@destroy');
             }
         );
 
@@ -401,24 +401,66 @@ Route::prefix('crm')->group(
             }
         );
 
-        Route::prefix('ideal-customer-profiles-perspective')->group(
+        Route::prefix('opportunities-perspective')->group(
             function () {
-                Route::get('/', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@index');
-                Route::get('/actions', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@getActions');
+                Route::get('/', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@index');
+                Route::get('/actions', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@getActions');
 
-                Route::get('{cicpp}/tags ', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@tags');
-                Route::post('{cicpp}/tags ', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@saveTags');
-                Route::get('{cicpp}/addresses ', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@addresses');
-                Route::post('{cicpp}/addresses ', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@saveAddresses');
+                Route::get('{crm_opportunities_perspective}/tags ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@tags');
+                Route::post('{crm_opportunities_perspective}/tags ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@saveTags');
+                Route::get('{crm_opportunities_perspective}/addresses ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@addresses');
+                Route::post('{crm_opportunities_perspective}/addresses ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@saveAddresses');
 
-                Route::get('/{cicpp}/{subObjects}', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@relatedObjects');
-                Route::get('/{cicpp}', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@show');
+                Route::get('/{crm_opportunities_perspective}/{subObjects}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@relatedObjects');
+                Route::get('/{crm_opportunities_perspective}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@show');
 
-                Route::post('/', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@store');
-                Route::post('/{cicpp}/do/{action}', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@doAction');
+                Route::post('/', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@store');
+                Route::post('/{crm_opportunities_perspective}/do/{action}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@doAction');
 
-                Route::patch('/{cicpp}', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@update');
-                Route::delete('/{cicpp}', 'IdealCustomerProfilesPerspective\IdealCustomerProfilesPerspectiveController@destroy');
+                Route::patch('/{crm_opportunities_perspective}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@update');
+                Route::delete('/{crm_opportunities_perspective}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@destroy');
+            }
+        );
+
+        Route::prefix('quote-items-perspective')->group(
+            function () {
+                Route::get('/', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@index');
+                Route::get('/actions', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@getActions');
+
+                Route::get('{crm_quote_items_perspective}/tags ', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@tags');
+                Route::post('{crm_quote_items_perspective}/tags ', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@saveTags');
+                Route::get('{crm_quote_items_perspective}/addresses ', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@addresses');
+                Route::post('{crm_quote_items_perspective}/addresses ', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@saveAddresses');
+
+                Route::get('/{crm_quote_items_perspective}/{subObjects}', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@relatedObjects');
+                Route::get('/{crm_quote_items_perspective}', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@show');
+
+                Route::post('/', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@store');
+                Route::post('/{crm_quote_items_perspective}/do/{action}', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@doAction');
+
+                Route::patch('/{crm_quote_items_perspective}', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@update');
+                Route::delete('/{crm_quote_items_perspective}', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@destroy');
+            }
+        );
+
+        Route::prefix('quotes-perspective')->group(
+            function () {
+                Route::get('/', 'QuotesPerspective\QuotesPerspectiveController@index');
+                Route::get('/actions', 'QuotesPerspective\QuotesPerspectiveController@getActions');
+
+                Route::get('{crm_quotes_perspective}/tags ', 'QuotesPerspective\QuotesPerspectiveController@tags');
+                Route::post('{crm_quotes_perspective}/tags ', 'QuotesPerspective\QuotesPerspectiveController@saveTags');
+                Route::get('{crm_quotes_perspective}/addresses ', 'QuotesPerspective\QuotesPerspectiveController@addresses');
+                Route::post('{crm_quotes_perspective}/addresses ', 'QuotesPerspective\QuotesPerspectiveController@saveAddresses');
+
+                Route::get('/{crm_quotes_perspective}/{subObjects}', 'QuotesPerspective\QuotesPerspectiveController@relatedObjects');
+                Route::get('/{crm_quotes_perspective}', 'QuotesPerspective\QuotesPerspectiveController@show');
+
+                Route::post('/', 'QuotesPerspective\QuotesPerspectiveController@store');
+                Route::post('/{crm_quotes_perspective}/do/{action}', 'QuotesPerspective\QuotesPerspectiveController@doAction');
+
+                Route::patch('/{crm_quotes_perspective}', 'QuotesPerspective\QuotesPerspectiveController@update');
+                Route::delete('/{crm_quotes_perspective}', 'QuotesPerspective\QuotesPerspectiveController@destroy');
             }
         );
 
@@ -515,8 +557,100 @@ Route::prefix('crm')->group(
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 );
+
+
+
+
 
 
 
