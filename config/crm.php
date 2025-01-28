@@ -8,4 +8,8 @@ return [
             '\NextDeveloper\Commons\Database\GlobalScopes\LimitScope',
         ]
     ],
+
+    'linked_actions'    =>  [
+        'created:NextDeveloper\CRM\QuoteItems' => \NextDeveloper\CRM\Actions\QuoteItems\ValidateQuoteItem::class
+    ]
 ];

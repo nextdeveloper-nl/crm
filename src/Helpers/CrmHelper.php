@@ -2,6 +2,7 @@
 
 namespace Helpers;
 
+use Illuminate\Support\Str;
 use NextDeveloper\CRM\Database\Models\AccountManagers;
 use NextDeveloper\IAM\Database\Models\Accounts;
 use NextDeveloper\IAM\Database\Models\Users;
@@ -27,9 +28,20 @@ class CrmHelper
 
     public static function getCustomerByCrmAccountId($id)
     {
-        $crmAccount = CrmAccounts::withoutGlobalScope(AuthorizationScope::class)
-            ->where('id', $id)
-            ->first();
+        $crmAccount = null;
+
+        if(Str::isUuid($id)) {
+            $crmAccount = CrmAccounts::withoutGlobalScope(AuthorizationScope::class)
+                ->where('uuid', $id)
+                ->first();
+        } else {
+            $crmAccount = CrmAccounts::withoutGlobalScope(AuthorizationScope::class)
+                ->where('id', $id)
+                ->first();
+        }
+
+        if(!$crmAccount)
+            return null;
 
         return UserHelper::getAccountById($crmAccount->iam_account_id);
     }
