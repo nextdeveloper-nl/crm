@@ -27,6 +27,7 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property $discount
  * @property $unit_price
  * @property $total_price
+ * @property integer $crm_quote_id
  * @property integer $iam_user_id
  * @property integer $iam_account_id
  * @property \Carbon\Carbon $created_at
@@ -58,6 +59,7 @@ class QuoteItemsPerspective extends Model
             'discount',
             'unit_price',
             'total_price',
+            'crm_quote_id',
             'iam_user_id',
             'iam_account_id',
     ];
@@ -89,6 +91,7 @@ class QuoteItemsPerspective extends Model
     'product_catatalog_name' => 'string',
     'currency_code' => 'string',
     'quantity' => 'integer',
+    'crm_quote_id' => 'integer',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
@@ -153,6 +156,7 @@ class QuoteItemsPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

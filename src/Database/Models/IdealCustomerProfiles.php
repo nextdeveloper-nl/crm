@@ -190,4 +190,5 @@ class IdealCustomerProfiles extends Model
 
 
 
+
 }

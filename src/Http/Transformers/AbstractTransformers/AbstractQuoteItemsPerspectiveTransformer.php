@@ -56,6 +56,7 @@ class AbstractQuoteItemsPerspectiveTransformer extends AbstractTransformer
     {
                                                 $marketplaceProductId = \NextDeveloper\Marketplace\Database\Models\Products::where('id', $model->marketplace_product_id)->first();
                                                             $marketplaceProductCatalogId = \NextDeveloper\Marketplace\Database\Models\ProductCatalogs::where('id', $model->marketplace_product_catalog_id)->first();
+                                                            $crmQuoteId = \NextDeveloper\CRM\Database\Models\Quotes::where('id', $model->crm_quote_id)->first();
                                                             $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
                                                             $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
                         
@@ -71,6 +72,7 @@ class AbstractQuoteItemsPerspectiveTransformer extends AbstractTransformer
             'discount'  =>  $model->discount,
             'unit_price'  =>  $model->unit_price,
             'total_price'  =>  $model->total_price,
+            'crm_quote_id'  =>  $crmQuoteId ? $crmQuoteId->uuid : null,
             'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
             'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
             'created_at'  =>  $model->created_at,
@@ -164,6 +166,7 @@ class AbstractQuoteItemsPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
