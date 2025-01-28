@@ -156,4 +156,5 @@ class QuotesPerspective extends Model
 
 
 
+
 }
