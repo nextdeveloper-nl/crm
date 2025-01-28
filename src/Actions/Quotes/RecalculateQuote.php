@@ -26,8 +26,6 @@ use NextDeveloper\Marketplace\Database\Models\ProductsPerspective;
  */
 class RecalculateQuote extends AbstractAction
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
     /**
      * This action takes a user object and assigns an Account Manager
      *
@@ -36,6 +34,8 @@ class RecalculateQuote extends AbstractAction
     public function __construct(Quotes $quote, $params = null, $previousAction = null)
     {
         $this->model = $quote;
+
+        $this->queue = 'crm';
 
         parent::__construct($params, $previousAction);
     }

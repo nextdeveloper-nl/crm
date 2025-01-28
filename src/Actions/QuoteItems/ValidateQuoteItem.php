@@ -18,8 +18,6 @@ use NextDeveloper\CRM\Database\Models\Users;
  */
 class ValidateQuoteItem extends AbstractAction
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
     /**
      * This action takes a user object and assigns an Account Manager
      *
@@ -28,6 +26,8 @@ class ValidateQuoteItem extends AbstractAction
     public function __construct(QuoteItems $item, $params = null, $previousAction = null)
     {
         $this->model = $item;
+
+        $this->queue = 'crm';
 
         parent::__construct($params, $previousAction);
     }
