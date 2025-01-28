@@ -24,6 +24,7 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property string $product_catatalog_name
  * @property string $currency_code
  * @property integer $quantity
+ * @property $discount
  * @property $unit_price
  * @property $total_price
  * @property integer $iam_user_id
@@ -54,6 +55,7 @@ class QuoteItemsPerspective extends Model
             'product_catatalog_name',
             'currency_code',
             'quantity',
+            'discount',
             'unit_price',
             'total_price',
             'iam_user_id',
@@ -151,5 +153,6 @@ class QuoteItemsPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 }

@@ -95,4 +95,5 @@ class IndustriesQueryFilter extends AbstractQueryFilter
 
 
 
+
 }

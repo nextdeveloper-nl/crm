@@ -68,6 +68,7 @@ class AbstractQuoteItemsPerspectiveTransformer extends AbstractTransformer
             'product_catatalog_name'  =>  $model->product_catatalog_name,
             'currency_code'  =>  $model->currency_code,
             'quantity'  =>  $model->quantity,
+            'discount'  =>  $model->discount,
             'unit_price'  =>  $model->unit_price,
             'total_price'  =>  $model->total_price,
             'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
@@ -163,5 +164,6 @@ class AbstractQuoteItemsPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 }

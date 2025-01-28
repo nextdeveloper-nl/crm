@@ -9,11 +9,14 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use NextDeveloper\Commons\Actions\AbstractAction;
+use NextDeveloper\Commons\Helpers\ExchangeRateHelper;
 use NextDeveloper\Commons\Services\CurrenciesService;
+use NextDeveloper\Commons\Services\ExchangeRatesService;
 use NextDeveloper\CRM\Database\Models\QuoteItems;
 use NextDeveloper\CRM\Database\Models\Quotes;
 use NextDeveloper\CRM\Database\Models\Users;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
+use NextDeveloper\IAM\Helpers\UserHelper;
 use NextDeveloper\Marketplace\Database\Models\ProductCatalogs;
 use NextDeveloper\Marketplace\Database\Models\ProductCatalogsPerspective;
 use NextDeveloper\Marketplace\Database\Models\ProductsPerspective;
@@ -43,7 +46,7 @@ class RecalculateQuote extends AbstractAction
 
         $items = QuoteItems::where('crm_quote_id', $this->model->id)->get();
 
-        $detailedAmount = $this->model->detailed_amount;
+        $detailedAmount = [];
 
         $itemCount = count($items);
         $step = floor(90 / $itemCount);
@@ -88,8 +91,8 @@ class RecalculateQuote extends AbstractAction
 
             //  Calculation
             $price = [
-                'avg_discount'  =>  $discountMultiplier,
-                'original_price'    =>  $item->unit_price,
+                'avg_discount'  =>  1 - $discountMultiplier,
+                'original_price'    =>  $item->unit_price * $item->quantity,
                 'price' =>  $item->unit_price * $discountMultiplier * $item->quantity,
                 'currency_code' =>  $currency->code
             ];
@@ -107,16 +110,11 @@ class RecalculateQuote extends AbstractAction
                 continue;
             }
 
-            //  Adding the price to the list here
-            if(array_key_exists($currency->code, $detailedAmount)) {
-                $detailedAmount[$currency->code]['original_price'] += $price['original_price'];
-                $detailedAmount[$currency->code]['price'] += $price['price'];
-                $detailedAmount[$currency->code]['avg_discount'] = 1 - ($detailedAmount[$currency->code]['original_price'] / $detailedAmount[$currency->code]['price']);
+            $detailedAmount[$currency->code]['original_price'] += $price['original_price'];
+            $detailedAmount[$currency->code]['price'] += $price['price'];
+            $detailedAmount[$currency->code]['avg_discount'] = round(1 - ($detailedAmount[$currency->code]['price'] / $detailedAmount[$currency->code]['original_price']), 2);
 
-                Log::info(__METHOD__ . '| Currency: ' . $currency->code . ' | ' . $detailedAmount[$currency->code]['price']);
-            } else {
-                $detailedAmount[$currency->code] = $price;
-            }
+            Log::info(__METHOD__ . '| Currency: ' . $currency->code . ' | ' . $detailedAmount[$currency->code]['price']);
 
             $i++;
         }
@@ -126,17 +124,27 @@ class RecalculateQuote extends AbstractAction
             'approval_level'    =>  'draft'
         ]);
 
-        if(count($detailedAmount) > 1) {
-            $this->model->update([
-                'total_amount'  =>  -1,
-                'common_currency_id'    =>  CurrenciesService::getDefaultCurrency()->id
-            ]);
-        } else {
-            $this->model->update([
-                'total_amount'  =>  $detailedAmount[CurrenciesService::getDefaultCurrency()->code]['price'],
-                'common_currency_id'    =>  CurrenciesService::getDefaultCurrency()->id
-            ]);
+        //  Saving the quote value with the given company currency code
+        $codes = array_keys($detailedAmount);
+
+        $totalAmount = 0;
+
+        $accountCurrency = CurrenciesService::getCurrencyOfAccount(
+            account: UserHelper::getAccountById($this->model->iam_account_id)
+        );
+
+        foreach ($codes as $code) {
+            $totalAmount += ExchangeRateHelper::convert(
+                fromCurrencyCode: $code,
+                toCurrencyCode: $accountCurrency->code,
+                amount: $detailedAmount[$code]['price']
+            );
         }
+
+        $this->model->update([
+            'total_amount'  =>  $totalAmount,
+            'common_currency_id'    =>  $accountCurrency->id
+        ]);
 
         $this->setFinished('Quote recalculation finished');
     }
