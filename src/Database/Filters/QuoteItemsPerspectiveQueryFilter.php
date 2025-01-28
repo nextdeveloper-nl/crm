@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                
+                    
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -161,6 +161,21 @@ class QuoteItemsPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->marketplaceProductCatalog($value);
     }
     
+    public function crmQuoteId($value)
+    {
+            $crmQuote = \NextDeveloper\CRM\Database\Models\Quotes::where('uuid', $value)->first();
+
+        if($crmQuote) {
+            return $this->builder->where('crm_quote_id', '=', $crmQuote->id);
+        }
+    }
+
+        //  This is an alias function of crmQuote
+    public function crm_quote_id($value)
+    {
+        return $this->crmQuote($value);
+    }
+    
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -182,6 +197,8 @@ class QuoteItemsPerspectiveQueryFilter extends AbstractQueryFilter
 
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 }

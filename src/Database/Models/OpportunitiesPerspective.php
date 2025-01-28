@@ -194,4 +194,6 @@ class OpportunitiesPerspective extends Model
 
 
 
+
+
 }
