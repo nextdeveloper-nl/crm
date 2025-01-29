@@ -77,10 +77,12 @@ class RecalculateQuote extends AbstractAction
             //  Updating item
             Log::info(__METHOD__ . '| Product catalog price: ' . $productCatalog->price);
 
-            //  Updating without triggering events
-            $item->updateQuietly([
-                'unit_price'    =>  $productCatalog->price
-            ]);
+            //  Trying to avoid unnecessary trigger of update events.
+            if($item->unit_price != $product->price) {
+                $item->update([
+                    'unit_price'    =>  $productCatalog->price
+                ]);
+            }
 
             $item = $item->fresh();
 
@@ -97,10 +99,12 @@ class RecalculateQuote extends AbstractAction
                 'currency_code' =>  $currency->code
             ];
 
-            //  Updating without triggering events
-            $item->updateQuietly([
-                'total_price'   =>  $price['price'],
-            ]);
+            //  Trying to avoid unnecessary trigger of update events.
+            if($item->total_price != $price['price']) {
+                $item->update([
+                    'total_price'   =>  $price['price'],
+                ]);
+            }
 
             Log::info(__METHOD__ . '| Price is: ' . $price['price']);
 
