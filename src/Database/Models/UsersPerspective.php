@@ -81,6 +81,7 @@ class UsersPerspective extends Model
             'education',
             'child_count',
             'iam_user_id',
+        'crm_account_id',
     ];
 
     /**
@@ -114,6 +115,7 @@ class UsersPerspective extends Model
     'nin' => 'string',
     'common_country_id' => 'integer',
     'common_language_id' => 'integer',
+    'crm_account_id' => 'integer',
     'iam_updated_at' => 'datetime',
     'position' => 'string',
     'job' => 'string',

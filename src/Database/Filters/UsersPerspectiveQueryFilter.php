@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-            
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,61 +17,61 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
         return $this->builder->where('name', 'like', '%' . $value . '%');
     }
 
-        
+
     public function surname($value)
     {
         return $this->builder->where('surname', 'like', '%' . $value . '%');
     }
 
-        
+
     public function fullname($value)
     {
         return $this->builder->where('fullname', 'like', '%' . $value . '%');
     }
 
-        
+
     public function email($value)
     {
         return $this->builder->where('email', 'like', '%' . $value . '%');
     }
 
-        
+
     public function about($value)
     {
         return $this->builder->where('about', 'like', '%' . $value . '%');
     }
 
-        
+
     public function pronoun($value)
     {
         return $this->builder->where('pronoun', 'like', '%' . $value . '%');
     }
 
-        
+
     public function nin($value)
     {
         return $this->builder->where('nin', 'like', '%' . $value . '%');
     }
 
-        
+
     public function position($value)
     {
         return $this->builder->where('position', 'like', '%' . $value . '%');
     }
 
-        
+
     public function job($value)
     {
         return $this->builder->where('job', 'like', '%' . $value . '%');
     }
 
-        
+
     public function jobDescription($value)
     {
         return $this->builder->where('job_description', 'like', '%' . $value . '%');
@@ -82,19 +82,19 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->jobDescription($value);
     }
-        
+
     public function hobbies($value)
     {
         return $this->builder->where('hobbies', 'like', '%' . $value . '%');
     }
 
-        
+
     public function city($value)
     {
         return $this->builder->where('city', 'like', '%' . $value . '%');
     }
 
-        
+
     public function relationshipStatus($value)
     {
         return $this->builder->where('relationship_status', 'like', '%' . $value . '%');
@@ -105,7 +105,7 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->relationshipStatus($value);
     }
-    
+
     public function childCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -124,7 +124,7 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->childCount($value);
     }
-    
+
     public function isEvangelist($value)
     {
         return $this->builder->where('is_evangelist', $value);
@@ -135,7 +135,7 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isEvangelist($value);
     }
-     
+
     public function isSingle($value)
     {
         return $this->builder->where('is_single', $value);
@@ -146,7 +146,7 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isSingle($value);
     }
-     
+
     public function birthdayStart($date)
     {
         return $this->builder->where('birthday', '>=', $date);
@@ -249,7 +249,7 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->commonCountry($value);
     }
-    
+
     public function commonLanguageId($value)
     {
             $commonLanguage = \NextDeveloper\Commons\Database\Models\Languages::where('uuid', $value)->first();
@@ -264,7 +264,7 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->commonLanguage($value);
     }
-    
+
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -274,51 +274,14 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+    public function crmAccountId($value)
+    {
+        $crmAccount = \NextDeveloper\CRM\Database\Models\Accounts::where('uuid', $value)->first();
+
+        if($crmAccount) {
+            return $this->builder->where('crm_account_id', $crmAccount->id);
+        }
+    }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
