@@ -8,6 +8,7 @@ use NextDeveloper\CRM\Database\Models\Accounts;
 use NextDeveloper\Events\Services\Events;
 use NextDeveloper\IAM\Database\Models\Accounts as IAMAccounts;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
+use NextDeveloper\IAM\Helpers\UserHelper;
 
 /**
  * Class DisableAccount
@@ -22,7 +23,7 @@ class DisableAccount extends AbstractAction
      * Events associated with this action.
      */
     public const EVENTS = [
-        'disabled:NextDeveloper\IAM\Accounts'
+        'disabled:NextDeveloper\CRM\Accounts'
     ];
 
     /**
@@ -65,13 +66,19 @@ class DisableAccount extends AbstractAction
 
         $this->setProgress(25, 'Disabling account');
 
-        // Disable the account
-        $iamAccount->update(['is_active' => false]);
+        //  Disabling CRM account
+        $this->model->update([
+            'is_disabled' =>  true,
+            'disabling_reason' => $this->model->disabling_reason . ' **Disabled by: ' . UserHelper::me()->fullname . '**'
+        ]);
+//
+//        // Disable the account
+//        $iamAccount->update(['is_active' => false]);
 
-        $this->setProgress(75, 'Account disabled successfully');
+        $this->setProgress(75, 'Crm account disabled successfully');
 
         // Fire the 'disabled' event
-        Events::fire('disabled', $iamAccount);
+        Events::fire('disabled:NextDeveloper\CRM\Accounts', $this->model);
 
         // Set the process as finished
         $this->setFinished();

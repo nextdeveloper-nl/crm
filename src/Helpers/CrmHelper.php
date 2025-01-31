@@ -2,6 +2,7 @@
 
 namespace Helpers;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 use NextDeveloper\CRM\Database\Models\AccountManagers;
 use NextDeveloper\IAM\Database\Models\Accounts;
@@ -12,6 +13,19 @@ use NextDeveloper\IAM\Helpers\UserHelper;
 
 class CrmHelper
 {
+    public static function getAccountManagers(\NextDeveloper\CRM\Database\Models\Accounts $account) : Collection
+    {
+        $managers = AccountManagers::withoutGlobalScope(AuthorizationScope::class)
+            ->where('crm_account_id', $account->id)
+            ->pluck('iam_user_id');
+
+        $users = Users::withoutGlobalScope(AuthorizationScope::class)
+            ->whereIn('id', $managers)
+            ->get();
+
+        return $users;
+    }
+
     public static function getUserOfObjectOwner($object)
     {
         return Users::withoutGlobalScope(AuthorizationScope::class)
