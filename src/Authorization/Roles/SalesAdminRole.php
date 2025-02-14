@@ -73,7 +73,7 @@ class SalesAdminRole extends AbstractRole implements IAuthorizationRole
             'crm_user_managers:read',
             'crm_user_managers:create',
             'crm_user_managers:delete',
-            'crm_user_perspectives:read',
+            'crm_users_perspective:read',
             'crm_quotes:read',
             'crm_quotes:create',
             'crm_quotes:update',

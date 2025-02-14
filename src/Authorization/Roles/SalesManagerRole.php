@@ -69,10 +69,6 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
         }
 
         if($model->getTable() == 'crm_users_perspective') {
-            $builder->whereRaw('where id in (
-                select cum.crm_user_id from crm_user_managers cum where (cum.iam_user_id = ' . UserHelper::currentAccount()->id . ')
-                )
-            )');
             return;
         }
 
@@ -108,7 +104,7 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
             'crm_account_managers:read',
             'crm_account_managers:create',
             'crm_account_managers:delete',
-            'crm_account_perspectives:read',
+            'crm_accounts_perspective:read',
             'crm_account_users_perspective:read',
             'crm_ideal_customer_profiles:read',
             'crm_ideal_customer_profiles:create',
@@ -121,7 +117,7 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
             'crm_user_managers:read',
             'crm_user_managers:create',
             'crm_user_managers:delete',
-            'crm_user_perspectives:read',
+            'crm_users_perspective:read',
             'crm_quotes:read',
             'crm_quotes:create',
             'crm_quotes:update',
