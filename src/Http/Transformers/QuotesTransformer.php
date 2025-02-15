@@ -33,7 +33,8 @@ class QuotesTransformer extends AbstractQuotesTransformer
 
         $transformed = parent::transform($model);
 
-        $transformed['description'] = \GrahamCampbell\Markdown\Facades\Markdown::convertToHtml($model->description);
+        $description = \GrahamCampbell\Markdown\Facades\Markdown::convertToHtml($model->description);
+        $transformed['description'] = $description->getContent();
 
         Cache::set(
             CacheHelper::getKey('Quotes', $model->uuid, 'Transformed'),
