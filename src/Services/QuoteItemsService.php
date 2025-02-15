@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\CRM\Services;
 
+use NextDeveloper\CRM\Actions\QuoteItems\ValidateQuoteItem;
 use NextDeveloper\CRM\Services\AbstractServices\AbstractQuoteItemsService;
 
 /**
@@ -19,6 +20,8 @@ class QuoteItemsService extends AbstractQuoteItemsService
     public static function create($data)
     {
         $line = parent::create($data);
+
+        dispatch(new ValidateQuoteItem($line));
 
         return $line;
     }

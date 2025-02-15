@@ -78,7 +78,7 @@ class RecalculateQuote extends AbstractAction
             Log::info(__METHOD__ . '| Product catalog price: ' . $productCatalog->price);
 
             //  Trying to avoid unnecessary trigger of update events.
-            if($item->unit_price != $product->price) {
+            if($item->unit_price != $productCatalog->price) {
                 $item->update([
                     'unit_price'    =>  $productCatalog->price
                 ]);
@@ -100,11 +100,9 @@ class RecalculateQuote extends AbstractAction
             ];
 
             //  Trying to avoid unnecessary trigger of update events.
-            if($item->total_price != $price['price']) {
-                $item->update([
-                    'total_price'   =>  $price['price'],
-                ]);
-            }
+            $item->update([
+                'total_price'   =>  $price['price'],
+            ]);
 
             Log::info(__METHOD__ . '| Price is: ' . $price['price']);
 
