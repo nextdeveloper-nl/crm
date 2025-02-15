@@ -33,6 +33,8 @@ class QuotesPerspectiveTransformer extends AbstractQuotesPerspectiveTransformer
 
         $transformed = parent::transform($model);
 
+        $transformed['description'] = \GrahamCampbell\Markdown\Facades\Markdown::convertToHtml($model->description);
+
         Cache::set(
             CacheHelper::getKey('QuotesPerspective', $model->uuid, 'Transformed'),
             $transformed
