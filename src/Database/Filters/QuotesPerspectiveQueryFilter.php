@@ -50,6 +50,39 @@ class QuotesPerspectiveQueryFilter extends AbstractQueryFilter
     }
 
         
+    public function sellerName($value)
+    {
+        return $this->builder->where('seller_name', 'like', '%' . $value . '%');
+    }
+
+        //  This is an alias function of sellerName
+    public function seller_name($value)
+    {
+        return $this->sellerName($value);
+    }
+        
+    public function representativeName($value)
+    {
+        return $this->builder->where('representative_name', 'like', '%' . $value . '%');
+    }
+
+        //  This is an alias function of representativeName
+    public function representative_name($value)
+    {
+        return $this->representativeName($value);
+    }
+        
+    public function buyerName($value)
+    {
+        return $this->builder->where('buyer_name', 'like', '%' . $value . '%');
+    }
+
+        //  This is an alias function of buyerName
+    public function buyer_name($value)
+    {
+        return $this->buyerName($value);
+    }
+        
     public function currencyCode($value)
     {
         return $this->builder->where('currency_code', 'like', '%' . $value . '%');
@@ -162,6 +195,7 @@ class QuotesPerspectiveQueryFilter extends AbstractQueryFilter
     }
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
