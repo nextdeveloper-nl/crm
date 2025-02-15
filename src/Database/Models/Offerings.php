@@ -135,4 +135,5 @@ class Offerings extends Model
 
 
 
+
 }

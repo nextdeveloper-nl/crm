@@ -88,6 +88,9 @@ class AbstractAccountsTransformer extends AbstractTransformer
             'services'  =>  $model->services,
             'is_suspended'  =>  $model->is_suspended,
             'is_service_enabled'  =>  $model->is_service_enabled,
+            'is_disabled'  =>  $model->is_disabled,
+            'disabling_reason'  =>  $model->disabling_reason,
+            'suspension_reason'  =>  $model->suspension_reason,
             ]
         );
     }
@@ -176,6 +179,7 @@ class AbstractAccountsTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

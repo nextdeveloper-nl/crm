@@ -46,6 +46,9 @@ use NextDeveloper\Commons\Database\Traits\HasStates;
  * @property array $services
  * @property boolean $is_suspended
  * @property boolean $is_service_enabled
+ * @property boolean $is_disabled
+ * @property string $disabling_reason
+ * @property string $suspension_reason
  */
 class Accounts extends Model
 {
@@ -87,10 +90,10 @@ class Accounts extends Model
             'partners_with',
             'services',
             'is_suspended',
+            'is_service_enabled',
             'is_disabled',
             'disabling_reason',
             'suspension_reason',
-            'is_service_enabled',
     ];
 
     /**
@@ -141,6 +144,9 @@ class Accounts extends Model
     'services' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'is_suspended' => 'boolean',
     'is_service_enabled' => 'boolean',
+    'is_disabled' => 'boolean',
+    'disabling_reason' => 'string',
+    'suspension_reason' => 'string',
     ];
 
     /**
@@ -210,12 +216,12 @@ class Accounts extends Model
     {
         return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Accounts::class);
     }
-
+    
     public function cities() : \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\NextDeveloper\Commons\Database\Models\Cities::class);
     }
-
+    
     public function opportunities() : \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\NextDeveloper\CRM\Database\Models\Opportunities::class);
@@ -227,6 +233,7 @@ class Accounts extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

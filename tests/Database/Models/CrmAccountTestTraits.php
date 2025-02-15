@@ -61,6 +61,8 @@ trait CrmAccountTestTraits
                 'position'  =>  'a',
                 'headquarter_city'  =>  'a',
                 'additional_information'  =>  'a',
+                'disabling_reason'  =>  'a',
+                'suspension_reason'  =>  'a',
                 'risk_level'  =>  '1',
                 'company_size'  =>  '1',
                 'employee_count'  =>  '1',
@@ -395,6 +397,44 @@ trait CrmAccountTestTraits
             $request = new Request(
                 [
                 'additional_information'  =>  'a'
+                ]
+            );
+
+            $filter = new CrmAccountQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmAccount::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_crmaccount_event_disabling_reason_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'disabling_reason'  =>  'a'
+                ]
+            );
+
+            $filter = new CrmAccountQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmAccount::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_crmaccount_event_suspension_reason_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'suspension_reason'  =>  'a'
                 ]
             );
 

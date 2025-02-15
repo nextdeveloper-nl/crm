@@ -65,6 +65,28 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->additionalInformation($value);
     }
+        
+    public function disablingReason($value)
+    {
+        return $this->builder->where('disabling_reason', 'like', '%' . $value . '%');
+    }
+
+        //  This is an alias function of disablingReason
+    public function disabling_reason($value)
+    {
+        return $this->disablingReason($value);
+    }
+        
+    public function suspensionReason($value)
+    {
+        return $this->builder->where('suspension_reason', 'like', '%' . $value . '%');
+    }
+
+        //  This is an alias function of suspensionReason
+    public function suspension_reason($value)
+    {
+        return $this->suspensionReason($value);
+    }
     
     public function riskLevel($value)
     {
@@ -262,6 +284,17 @@ class AccountsQueryFilter extends AbstractQueryFilter
         return $this->isServiceEnabled($value);
     }
      
+    public function isDisabled($value)
+    {
+        return $this->builder->where('is_disabled', $value);
+    }
+
+        //  This is an alias function of isDisabled
+    public function is_disabled($value)
+    {
+        return $this->isDisabled($value);
+    }
+     
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -354,6 +387,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     }
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 
