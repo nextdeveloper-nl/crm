@@ -32,6 +32,19 @@ class QuoteItemsService extends AbstractQuoteItemsService
         return $line;
     }
 
+    public static function update($id, $data)
+    {
+        $line = parent::update($id, $data);
+
+        (new ValidateQuoteItem($line))->handle();
+
+        $quote = Quotes::where('id', $line->crm_quote_id)->first();
+
+        (new RecalculateQuote($quote))->handle();
+
+        return $line;
+    }
+
     public static function delete($id)
     {
         $line = parent::delete($id);
