@@ -55,6 +55,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property integer $total_user_count
  * @property integer $registered_user_count
  * @property integer $ideal_customer_profile_count
+ * @property boolean $is_disabled
+ * @property string $disabling_reason
+ * @property boolean $is_suspended
+ * @property string $suspension_reason
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
@@ -112,6 +116,10 @@ class AccountsPerspective extends Model
             'total_user_count',
             'registered_user_count',
             'ideal_customer_profile_count',
+            'is_disabled',
+            'disabling_reason',
+            'is_suspended',
+            'suspension_reason',
     ];
 
     /**
@@ -170,6 +178,10 @@ class AccountsPerspective extends Model
     'total_user_count' => 'integer',
     'registered_user_count' => 'integer',
     'ideal_customer_profile_count' => 'integer',
+    'is_disabled' => 'boolean',
+    'disabling_reason' => 'string',
+    'is_suspended' => 'boolean',
+    'suspension_reason' => 'string',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
@@ -234,6 +246,7 @@ class AccountsPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

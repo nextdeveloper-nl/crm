@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-
+                    
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,61 +17,84 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-
+    
     public function name($value)
     {
         return $this->builder->where('name', 'like', '%' . $value . '%');
     }
 
-
+        
     public function surname($value)
     {
         return $this->builder->where('surname', 'like', '%' . $value . '%');
     }
 
-
+        
     public function fullname($value)
     {
         return $this->builder->where('fullname', 'like', '%' . $value . '%');
     }
 
-
+        
     public function email($value)
     {
         return $this->builder->where('email', 'like', '%' . $value . '%');
     }
 
-
+        
     public function about($value)
     {
         return $this->builder->where('about', 'like', '%' . $value . '%');
     }
 
-
+        
     public function pronoun($value)
     {
         return $this->builder->where('pronoun', 'like', '%' . $value . '%');
     }
 
-
+        
     public function nin($value)
     {
         return $this->builder->where('nin', 'like', '%' . $value . '%');
     }
 
+        
+    public function country($value)
+    {
+        return $this->builder->where('country', 'like', '%' . $value . '%');
+    }
 
+        
+    public function language($value)
+    {
+        return $this->builder->where('language', 'like', '%' . $value . '%');
+    }
+
+        
+    public function phoneNumber($value)
+    {
+        return $this->builder->where('phone_number', 'like', '%' . $value . '%');
+    }
+
+        //  This is an alias function of phoneNumber
+    public function phone_number($value)
+    {
+        return $this->phoneNumber($value);
+    }
+        
     public function position($value)
     {
         return $this->builder->where('position', 'like', '%' . $value . '%');
     }
 
-
+        
     public function job($value)
     {
         return $this->builder->where('job', 'like', '%' . $value . '%');
     }
 
-
+        
     public function jobDescription($value)
     {
         return $this->builder->where('job_description', 'like', '%' . $value . '%');
@@ -82,19 +105,19 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->jobDescription($value);
     }
-
+        
     public function hobbies($value)
     {
         return $this->builder->where('hobbies', 'like', '%' . $value . '%');
     }
 
-
+        
     public function city($value)
     {
         return $this->builder->where('city', 'like', '%' . $value . '%');
     }
 
-
+        
     public function relationshipStatus($value)
     {
         return $this->builder->where('relationship_status', 'like', '%' . $value . '%');
@@ -105,7 +128,7 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->relationshipStatus($value);
     }
-
+    
     public function childCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -124,7 +147,51 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->childCount($value);
     }
+    
+    public function isRegistered($value)
+    {
+        return $this->builder->where('is_registered', $value);
+    }
 
+        //  This is an alias function of isRegistered
+    public function is_registered($value)
+    {
+        return $this->isRegistered($value);
+    }
+     
+    public function isNinVerified($value)
+    {
+        return $this->builder->where('is_nin_verified', $value);
+    }
+
+        //  This is an alias function of isNinVerified
+    public function is_nin_verified($value)
+    {
+        return $this->isNinVerified($value);
+    }
+     
+    public function isEmailVerified($value)
+    {
+        return $this->builder->where('is_email_verified', $value);
+    }
+
+        //  This is an alias function of isEmailVerified
+    public function is_email_verified($value)
+    {
+        return $this->isEmailVerified($value);
+    }
+     
+    public function isPhoneNumberVerified($value)
+    {
+        return $this->builder->where('is_phone_number_verified', $value);
+    }
+
+        //  This is an alias function of isPhoneNumberVerified
+    public function is_phone_number_verified($value)
+    {
+        return $this->isPhoneNumberVerified($value);
+    }
+     
     public function isEvangelist($value)
     {
         return $this->builder->where('is_evangelist', $value);
@@ -135,7 +202,7 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isEvangelist($value);
     }
-
+     
     public function isSingle($value)
     {
         return $this->builder->where('is_single', $value);
@@ -146,7 +213,7 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isSingle($value);
     }
-
+     
     public function birthdayStart($date)
     {
         return $this->builder->where('birthday', '>=', $date);
@@ -249,7 +316,7 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->commonCountry($value);
     }
-
+    
     public function commonLanguageId($value)
     {
             $commonLanguage = \NextDeveloper\Commons\Database\Models\Languages::where('uuid', $value)->first();
@@ -264,7 +331,7 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->commonLanguage($value);
     }
-
+    
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -274,14 +341,33 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-    public function crmAccountId($value)
+    
+    public function iamAccountId($value)
     {
-        $crmAccount = \NextDeveloper\CRM\Database\Models\Accounts::where('uuid', $value)->first();
+            $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
 
-        if($crmAccount) {
-            return $this->builder->where('crm_account_id', $crmAccount->id);
+        if($iamAccount) {
+            return $this->builder->where('iam_account_id', '=', $iamAccount->id);
         }
     }
+
+    
+    public function crmAccountId($value)
+    {
+            $crmAccount = \NextDeveloper\CRM\Database\Models\Accounts::where('uuid', $value)->first();
+
+        if($crmAccount) {
+            return $this->builder->where('crm_account_id', '=', $crmAccount->id);
+        }
+    }
+
+        //  This is an alias function of crmAccount
+    public function crm_account_id($value)
+    {
+        return $this->crmAccount($value);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 }

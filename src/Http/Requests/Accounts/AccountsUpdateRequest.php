@@ -37,6 +37,9 @@ class AccountsUpdateRequest extends AbstractFormRequest
         'services' => 'nullable',
         'is_suspended' => 'boolean',
         'is_service_enabled' => 'boolean',
+        'is_disabled' => 'boolean',
+        'disabling_reason' => 'nullable|string',
+        'suspension_reason' => 'nullable|string',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

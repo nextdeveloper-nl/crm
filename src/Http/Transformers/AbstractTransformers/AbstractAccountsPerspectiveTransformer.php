@@ -101,6 +101,10 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
             'total_user_count'  =>  $model->total_user_count,
             'registered_user_count'  =>  $model->registered_user_count,
             'ideal_customer_profile_count'  =>  $model->ideal_customer_profile_count,
+            'is_disabled'  =>  $model->is_disabled,
+            'disabling_reason'  =>  $model->disabling_reason,
+            'is_suspended'  =>  $model->is_suspended,
+            'suspension_reason'  =>  $model->suspension_reason,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
@@ -192,6 +196,7 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
