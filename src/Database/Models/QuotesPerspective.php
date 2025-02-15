@@ -22,6 +22,9 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property string $description
  * @property $total_amount
  * @property $detailed_amount
+ * @property string $seller_name
+ * @property string $representative_name
+ * @property string $buyer_name
  * @property integer $common_currency_id
  * @property string $currency_code
  * @property $suggested_price
@@ -52,6 +55,9 @@ class QuotesPerspective extends Model
             'description',
             'total_amount',
             'detailed_amount',
+            'seller_name',
+            'representative_name',
+            'buyer_name',
             'common_currency_id',
             'currency_code',
             'suggested_price',
@@ -84,6 +90,9 @@ class QuotesPerspective extends Model
     'name' => 'string',
     'description' => 'string',
     'detailed_amount' => 'array',
+    'seller_name' => 'string',
+    'representative_name' => 'string',
+    'buyer_name' => 'string',
     'common_currency_id' => 'integer',
     'currency_code' => 'string',
     'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
@@ -152,6 +161,7 @@ class QuotesPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

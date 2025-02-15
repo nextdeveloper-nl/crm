@@ -401,27 +401,6 @@ Route::prefix('crm')->group(
             }
         );
 
-        Route::prefix('quotes-perspective')->group(
-            function () {
-                Route::get('/', 'QuotesPerspective\QuotesPerspectiveController@index');
-                Route::get('/actions', 'QuotesPerspective\QuotesPerspectiveController@getActions');
-
-                Route::get('{crm_quotes_perspective}/tags ', 'QuotesPerspective\QuotesPerspectiveController@tags');
-                Route::post('{crm_quotes_perspective}/tags ', 'QuotesPerspective\QuotesPerspectiveController@saveTags');
-                Route::get('{crm_quotes_perspective}/addresses ', 'QuotesPerspective\QuotesPerspectiveController@addresses');
-                Route::post('{crm_quotes_perspective}/addresses ', 'QuotesPerspective\QuotesPerspectiveController@saveAddresses');
-
-                Route::get('/{crm_quotes_perspective}/{subObjects}', 'QuotesPerspective\QuotesPerspectiveController@relatedObjects');
-                Route::get('/{crm_quotes_perspective}', 'QuotesPerspective\QuotesPerspectiveController@show');
-
-                Route::post('/', 'QuotesPerspective\QuotesPerspectiveController@store');
-                Route::post('/{crm_quotes_perspective}/do/{action}', 'QuotesPerspective\QuotesPerspectiveController@doAction');
-
-                Route::patch('/{crm_quotes_perspective}', 'QuotesPerspective\QuotesPerspectiveController@update');
-                Route::delete('/{crm_quotes_perspective}', 'QuotesPerspective\QuotesPerspectiveController@destroy');
-            }
-        );
-
         Route::prefix('accounts-perspective')->group(
             function () {
                 Route::get('/', 'AccountsPerspective\AccountsPerspectiveController@index');
@@ -464,7 +443,50 @@ Route::prefix('crm')->group(
             }
         );
 
+        Route::prefix('quotes-perspective')->group(
+            function () {
+                Route::get('/', 'QuotesPerspective\QuotesPerspectiveController@index');
+                Route::get('/actions', 'QuotesPerspective\QuotesPerspectiveController@getActions');
+
+                Route::get('{crm_quotes_perspective}/tags ', 'QuotesPerspective\QuotesPerspectiveController@tags');
+                Route::post('{crm_quotes_perspective}/tags ', 'QuotesPerspective\QuotesPerspectiveController@saveTags');
+                Route::get('{crm_quotes_perspective}/addresses ', 'QuotesPerspective\QuotesPerspectiveController@addresses');
+                Route::post('{crm_quotes_perspective}/addresses ', 'QuotesPerspective\QuotesPerspectiveController@saveAddresses');
+
+                Route::get('/{crm_quotes_perspective}/{subObjects}', 'QuotesPerspective\QuotesPerspectiveController@relatedObjects');
+                Route::get('/{crm_quotes_perspective}', 'QuotesPerspective\QuotesPerspectiveController@show');
+
+                Route::post('/', 'QuotesPerspective\QuotesPerspectiveController@store');
+                Route::post('/{crm_quotes_perspective}/do/{action}', 'QuotesPerspective\QuotesPerspectiveController@doAction');
+
+                Route::patch('/{crm_quotes_perspective}', 'QuotesPerspective\QuotesPerspectiveController@update');
+                Route::delete('/{crm_quotes_perspective}', 'QuotesPerspective\QuotesPerspectiveController@destroy');
+            }
+        );
+
         // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -489,6 +511,7 @@ Route::prefix('crm')->group(
 
     }
 );
+
 
 
 

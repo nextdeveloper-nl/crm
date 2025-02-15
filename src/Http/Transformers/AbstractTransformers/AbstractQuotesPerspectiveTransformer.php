@@ -63,6 +63,9 @@ class AbstractQuotesPerspectiveTransformer extends AbstractTransformer
             'description'  =>  $model->description,
             'total_amount'  =>  $model->total_amount,
             'detailed_amount'  =>  $model->detailed_amount,
+            'seller_name'  =>  $model->seller_name,
+            'representative_name'  =>  $model->representative_name,
+            'buyer_name'  =>  $model->buyer_name,
             'common_currency_id'  =>  $commonCurrencyId ? $commonCurrencyId->uuid : null,
             'currency_code'  =>  $model->currency_code,
             'suggested_price'  =>  $model->suggested_price,
@@ -160,6 +163,7 @@ class AbstractQuotesPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
