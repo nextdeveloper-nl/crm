@@ -11,5 +11,5 @@ return [
 
     'linked_actions'    =>  [
         'created:NextDeveloper\CRM\QuoteItems' => \NextDeveloper\CRM\Actions\QuoteItems\ValidateQuoteItem::class
-    ]
+    ],
 ];
