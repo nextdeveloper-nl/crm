@@ -114,6 +114,14 @@ class SalesAdminRole extends AbstractRole implements IAuthorizationRole
             'crm_meetings:create',
             'crm_meetings:update',
             'crm_meetings:delete',
+            'crm_campaigns:read',
+            'crm_campaigns:create',
+            'crm_campaigns:update',
+            'crm_campaigns:delete',
+            'crm_targets:read',
+            'crm_targets:create',
+            'crm_targets:update',
+            'crm_targets:delete',
         ];
     }
 
