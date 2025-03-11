@@ -34,22 +34,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property integer $common_city_id
  * @property string $position
  * @property integer $risk_level
- * @property integer $total_number_of_personel
- * @property array $sector_focus
- * @property array $industry
- * @property boolean $is_startup
- * @property array $regulatory_and_compliance
- * @property integer $employee_count
- * @property array $office_cities
- * @property string $headquarter_city
- * @property integer $production_people_count
- * @property integer $sales_people_count
- * @property integer $marketing_people_count
- * @property integer $support_people_count
- * @property integer $automation_count
- * @property string $additional_information
- * @property array $target_markets
- * @property array $partners_with
  * @property integer $iam_user_id
  * @property integer $iam_account_id
  * @property integer $total_user_count
@@ -65,10 +49,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class AccountsPerspective extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable, HasStates;
+    use Filterable, CleanCache, Taggable;
+    use UuidId;
     use SoftDeletes;
 
+
     public $timestamps = true;
+
+
+
 
     protected $table = 'crm_accounts_perspective';
 
@@ -95,22 +84,6 @@ class AccountsPerspective extends Model
             'common_city_id',
             'position',
             'risk_level',
-            'total_number_of_personel',
-            'sector_focus',
-            'industry',
-            'is_startup',
-            'regulatory_and_compliance',
-            'employee_count',
-            'office_cities',
-            'headquarter_city',
-            'production_people_count',
-            'sales_people_count',
-            'marketing_people_count',
-            'support_people_count',
-            'automation_count',
-            'additional_information',
-            'target_markets',
-            'partners_with',
             'iam_user_id',
             'iam_account_id',
             'total_user_count',
@@ -159,22 +132,6 @@ class AccountsPerspective extends Model
     'common_city_id' => 'integer',
     'position' => 'string',
     'risk_level' => 'integer',
-    'total_number_of_personel' => 'integer',
-    'sector_focus' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'industry' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'is_startup' => 'boolean',
-    'regulatory_and_compliance' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'employee_count' => 'integer',
-    'office_cities' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'headquarter_city' => 'string',
-    'production_people_count' => 'integer',
-    'sales_people_count' => 'integer',
-    'marketing_people_count' => 'integer',
-    'support_people_count' => 'integer',
-    'automation_count' => 'integer',
-    'additional_information' => 'string',
-    'target_markets' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'partners_with' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'total_user_count' => 'integer',
     'registered_user_count' => 'integer',
     'ideal_customer_profile_count' => 'integer',
@@ -246,6 +203,7 @@ class AccountsPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

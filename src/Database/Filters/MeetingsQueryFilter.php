@@ -22,36 +22,22 @@ class MeetingsQueryFilter extends AbstractQueryFilter
     {
         return $this->builder->where('meeting_note', 'like', '%' . $value . '%');
     }
-
-        //  This is an alias function of meetingNote
-    public function meeting_note($value)
-    {
-        return $this->meetingNote($value);
-    }
-        
+    
     public function outcome($value)
     {
         return $this->builder->where('outcome', 'like', '%' . $value . '%');
     }
-
-        
+    
     public function customerRequirements($value)
     {
         return $this->builder->where('customer_requirements', 'like', '%' . $value . '%');
     }
-
-        //  This is an alias function of customerRequirements
-    public function customer_requirements($value)
-    {
-        return $this->customerRequirements($value);
-    }
-        
+    
     public function suggestions($value)
     {
         return $this->builder->where('suggestions', 'like', '%' . $value . '%');
     }
 
-    
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -60,18 +46,6 @@ class MeetingsQueryFilter extends AbstractQueryFilter
     public function createdAtEnd($date)
     {
         return $this->builder->where('created_at', '<=', $date);
-    }
-
-    //  This is an alias function of createdAt
-    public function created_at_start($value)
-    {
-        return $this->createdAtStart($value);
-    }
-
-    //  This is an alias function of createdAt
-    public function created_at_end($value)
-    {
-        return $this->createdAtEnd($value);
     }
 
     public function updatedAtStart($date)
@@ -84,18 +58,6 @@ class MeetingsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('updated_at', '<=', $date);
     }
 
-    //  This is an alias function of updatedAt
-    public function updated_at_start($value)
-    {
-        return $this->updatedAtStart($value);
-    }
-
-    //  This is an alias function of updatedAt
-    public function updated_at_end($value)
-    {
-        return $this->updatedAtEnd($value);
-    }
-
     public function deletedAtStart($date)
     {
         return $this->builder->where('deleted_at', '>=', $date);
@@ -104,18 +66,6 @@ class MeetingsQueryFilter extends AbstractQueryFilter
     public function deletedAtEnd($date)
     {
         return $this->builder->where('deleted_at', '<=', $date);
-    }
-
-    //  This is an alias function of deletedAt
-    public function deleted_at_start($value)
-    {
-        return $this->deletedAtStart($value);
-    }
-
-    //  This is an alias function of deletedAt
-    public function deleted_at_end($value)
-    {
-        return $this->deletedAtEnd($value);
     }
 
     public function agendaCalendarItemId($value)
@@ -127,12 +77,6 @@ class MeetingsQueryFilter extends AbstractQueryFilter
         }
     }
 
-        //  This is an alias function of agendaCalendarItem
-    public function agenda_calendar_item_id($value)
-    {
-        return $this->agendaCalendarItem($value);
-    }
-    
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -142,7 +86,6 @@ class MeetingsQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
     public function iamAccountId($value)
     {
             $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -152,7 +95,6 @@ class MeetingsQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
     public function crmAccountId($value)
     {
             $crmAccount = \NextDeveloper\CRM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -162,12 +104,6 @@ class MeetingsQueryFilter extends AbstractQueryFilter
         }
     }
 
-        //  This is an alias function of crmAccount
-    public function crm_account_id($value)
-    {
-        return $this->crmAccount($value);
-    }
-    
     public function crmOpportunityId($value)
     {
             $crmOpportunity = \NextDeveloper\CRM\Database\Models\Opportunities::where('uuid', $value)->first();
@@ -177,13 +113,8 @@ class MeetingsQueryFilter extends AbstractQueryFilter
         }
     }
 
-        //  This is an alias function of crmOpportunity
-    public function crm_opportunity_id($value)
-    {
-        return $this->crmOpportunity($value);
-    }
-    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

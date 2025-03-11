@@ -59,18 +59,11 @@ trait CrmAccountTestTraits
             'POST', '/crm/crmaccount', [
             'form_params'   =>  [
                 'position'  =>  'a',
-                'headquarter_city'  =>  'a',
                 'additional_information'  =>  'a',
                 'disabling_reason'  =>  'a',
                 'suspension_reason'  =>  'a',
                 'risk_level'  =>  '1',
-                'company_size'  =>  '1',
-                'employee_count'  =>  '1',
-                'production_people_count'  =>  '1',
-                'sales_people_count'  =>  '1',
-                'marketing_people_count'  =>  '1',
-                'support_people_count'  =>  '1',
-                'automation_count'  =>  '1',
+                'technology_rank'  =>  '1',
                             ],
                 ['http_errors' => false]
             ]
@@ -372,25 +365,6 @@ trait CrmAccountTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmaccount_event_headquarter_city_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'headquarter_city'  =>  'a'
-                ]
-            );
-
-            $filter = new CrmAccountQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmAccount::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
     public function test_crmaccount_event_additional_information_filter()
     {
         try {
@@ -467,126 +441,12 @@ trait CrmAccountTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmaccount_event_company_size_filter()
+    public function test_crmaccount_event_technology_rank_filter()
     {
         try {
             $request = new Request(
                 [
-                'company_size'  =>  '1'
-                ]
-            );
-
-            $filter = new CrmAccountQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmAccount::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmaccount_event_employee_count_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'employee_count'  =>  '1'
-                ]
-            );
-
-            $filter = new CrmAccountQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmAccount::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmaccount_event_production_people_count_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'production_people_count'  =>  '1'
-                ]
-            );
-
-            $filter = new CrmAccountQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmAccount::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmaccount_event_sales_people_count_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'sales_people_count'  =>  '1'
-                ]
-            );
-
-            $filter = new CrmAccountQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmAccount::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmaccount_event_marketing_people_count_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'marketing_people_count'  =>  '1'
-                ]
-            );
-
-            $filter = new CrmAccountQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmAccount::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmaccount_event_support_people_count_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'support_people_count'  =>  '1'
-                ]
-            );
-
-            $filter = new CrmAccountQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmAccount::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmaccount_event_automation_count_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'automation_count'  =>  '1'
+                'technology_rank'  =>  '1'
                 ]
             );
 
