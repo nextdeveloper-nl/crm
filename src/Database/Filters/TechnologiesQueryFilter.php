@@ -58,4 +58,7 @@ class TechnologiesQueryFilter extends AbstractQueryFilter
 
 
 
+
+
+
 }

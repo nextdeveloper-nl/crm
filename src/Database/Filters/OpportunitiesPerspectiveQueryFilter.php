@@ -240,4 +240,7 @@ class OpportunitiesPerspectiveQueryFilter extends AbstractQueryFilter
 
 
 
+
+
+
 }

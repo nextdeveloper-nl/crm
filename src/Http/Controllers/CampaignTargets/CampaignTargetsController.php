@@ -31,6 +31,8 @@ class CampaignTargetsController extends AbstractController
     {
         $data = CampaignTargetsService::get($filter, $request->all());
 
+
+
         return ResponsableFactory::makeResponse($this, $data);
     }
 
@@ -42,7 +44,7 @@ class CampaignTargetsController extends AbstractController
     public function getActions()
     {
         $data = CampaignTargetsService::getActions();
-
+        dd($data);
         return ResponsableFactory::makeResponse($this, $data);
     }
 

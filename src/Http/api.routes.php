@@ -23,6 +23,27 @@ Route::prefix('crm')->group(
             }
         );
 
+        Route::prefix('email-templates')->group(
+            function () {
+                Route::get('/', 'EmailTemplates\EmailTemplatesController@index');
+                Route::get('/actions', 'EmailTemplates\EmailTemplatesController@getActions');
+
+                Route::get('{crm_email_templates}/tags ', 'EmailTemplates\EmailTemplatesController@tags');
+                Route::post('{crm_email_templates}/tags ', 'EmailTemplates\EmailTemplatesController@saveTags');
+                Route::get('{crm_email_templates}/addresses ', 'EmailTemplates\EmailTemplatesController@addresses');
+                Route::post('{crm_email_templates}/addresses ', 'EmailTemplates\EmailTemplatesController@saveAddresses');
+
+                Route::get('/{crm_email_templates}/{subObjects}', 'EmailTemplates\EmailTemplatesController@relatedObjects');
+                Route::get('/{crm_email_templates}', 'EmailTemplates\EmailTemplatesController@show');
+
+                Route::post('/', 'EmailTemplates\EmailTemplatesController@store');
+                Route::post('/{crm_email_templates}/do/{action}', 'EmailTemplates\EmailTemplatesController@doAction');
+
+                Route::patch('/{crm_email_templates}', 'EmailTemplates\EmailTemplatesController@update');
+                Route::delete('/{crm_email_templates}', 'EmailTemplates\EmailTemplatesController@destroy');
+            }
+        );
+
         Route::prefix('account-managers')->group(
             function () {
                 Route::get('/', 'AccountManagers\AccountManagersController@index');
@@ -83,27 +104,6 @@ Route::prefix('crm')->group(
 
                 Route::patch('/{crm_accounts}', 'Accounts\AccountsController@update');
                 Route::delete('/{crm_accounts}', 'Accounts\AccountsController@destroy');
-            }
-        );
-
-        Route::prefix('email-templates')->group(
-            function () {
-                Route::get('/', 'EmailTemplates\EmailTemplatesController@index');
-                Route::get('/actions', 'EmailTemplates\EmailTemplatesController@getActions');
-
-                Route::get('{crm_email_templates}/tags ', 'EmailTemplates\EmailTemplatesController@tags');
-                Route::post('{crm_email_templates}/tags ', 'EmailTemplates\EmailTemplatesController@saveTags');
-                Route::get('{crm_email_templates}/addresses ', 'EmailTemplates\EmailTemplatesController@addresses');
-                Route::post('{crm_email_templates}/addresses ', 'EmailTemplates\EmailTemplatesController@saveAddresses');
-
-                Route::get('/{crm_email_templates}/{subObjects}', 'EmailTemplates\EmailTemplatesController@relatedObjects');
-                Route::get('/{crm_email_templates}', 'EmailTemplates\EmailTemplatesController@show');
-
-                Route::post('/', 'EmailTemplates\EmailTemplatesController@store');
-                Route::post('/{crm_email_templates}/do/{action}', 'EmailTemplates\EmailTemplatesController@doAction');
-
-                Route::patch('/{crm_email_templates}', 'EmailTemplates\EmailTemplatesController@update');
-                Route::delete('/{crm_email_templates}', 'EmailTemplates\EmailTemplatesController@destroy');
             }
         );
 
@@ -749,8 +749,95 @@ Route::prefix('crm')->group(
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 );
+
+
+
+
 
 
 
