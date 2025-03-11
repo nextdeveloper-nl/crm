@@ -4,13 +4,13 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-        
+            
 
 /**
  * This class automatically puts where clause on database so that use can filter
  * data returned from the query.
  */
-class EmailsQueryFilter extends AbstractQueryFilter
+class EmailTemplatesQueryFilter extends AbstractQueryFilter
 {
 
     /**
@@ -31,11 +31,6 @@ class EmailsQueryFilter extends AbstractQueryFilter
     public function emailMeta($value)
     {
         return $this->builder->where('email_meta', 'like', '%' . $value . '%');
-    }
-    
-    public function from($value)
-    {
-        return $this->builder->where('from', 'like', '%' . $value . '%');
     }
 
     public function createdAtStart($date)
@@ -86,49 +81,16 @@ class EmailsQueryFilter extends AbstractQueryFilter
         }
     }
 
+    public function crmCampaignId($value)
+    {
+            $crmCampaign = \NextDeveloper\CRM\Database\Models\Campaigns::where('uuid', $value)->first();
+
+        if($crmCampaign) {
+            return $this->builder->where('crm_campaign_id', '=', $crmCampaign->id);
+        }
+    }
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

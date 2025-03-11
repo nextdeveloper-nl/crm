@@ -9,11 +9,11 @@ use NextDeveloper\IAM\Helpers\UserHelper;
 use NextDeveloper\Events\Services\Events;
 
 /**
- * Class EmailsObserver
+ * Class EmailTemplatesObserver
  *
  * @package NextDeveloper\CRM\Database\Observers
  */
-class EmailsObserver
+class EmailTemplatesObserver
 {
     /**
      * Triggered when a new record is retrieved.
@@ -37,7 +37,7 @@ class EmailsObserver
             new NotAllowedException('You are not allowed to create this record')
         );
 
-        Events::fire('creating:NextDeveloper\CRM\Emails', $model);
+        Events::fire('creating:NextDeveloper\CRM\EmailTemplates', $model);
     }
 
     /**
@@ -47,7 +47,7 @@ class EmailsObserver
      */
     public function created(Model $model)
     {
-        Events::fire('created:NextDeveloper\CRM\Emails', $model);
+        Events::fire('created:NextDeveloper\CRM\EmailTemplates', $model);
     }
 
     /**
@@ -62,7 +62,7 @@ class EmailsObserver
             new NotAllowedException('You are not allowed to save this record')
         );
 
-        Events::fire('saving:NextDeveloper\CRM\Emails', $model);
+        Events::fire('saving:NextDeveloper\CRM\EmailTemplates', $model);
     }
 
     /**
@@ -72,7 +72,7 @@ class EmailsObserver
      */
     public function saved(Model $model)
     {
-        Events::fire('saved:NextDeveloper\CRM\Emails', $model);
+        Events::fire('saved:NextDeveloper\CRM\EmailTemplates', $model);
     }
 
 
@@ -86,7 +86,7 @@ class EmailsObserver
             new NotAllowedException('You are not allowed to update this record')
         );
 
-        Events::fire('updating:NextDeveloper\CRM\Emails', $model);
+        Events::fire('updating:NextDeveloper\CRM\EmailTemplates', $model);
     }
 
     /**
@@ -96,7 +96,7 @@ class EmailsObserver
      */
     public function updated(Model $model)
     {
-        Events::fire('updated:NextDeveloper\CRM\Emails', $model);
+        Events::fire('updated:NextDeveloper\CRM\EmailTemplates', $model);
     }
 
 
@@ -110,7 +110,7 @@ class EmailsObserver
             new NotAllowedException('You are not allowed to delete this record')
         );
 
-        Events::fire('deleting:NextDeveloper\CRM\Emails', $model);
+        Events::fire('deleting:NextDeveloper\CRM\EmailTemplates', $model);
     }
 
     /**
@@ -120,7 +120,7 @@ class EmailsObserver
      */
     public function deleted(Model $model)
     {
-        Events::fire('deleted:NextDeveloper\CRM\Emails', $model);
+        Events::fire('deleted:NextDeveloper\CRM\EmailTemplates', $model);
     }
 
     /**
@@ -135,7 +135,7 @@ class EmailsObserver
             new NotAllowedException('You are not allowed to restore this record')
         );
 
-        Events::fire('restoring:NextDeveloper\CRM\Emails', $model);
+        Events::fire('restoring:NextDeveloper\CRM\EmailTemplates', $model);
     }
 
     /**
@@ -145,7 +145,7 @@ class EmailsObserver
      */
     public function restored(Model $model)
     {
-        Events::fire('restored:NextDeveloper\CRM\Emails', $model);
+        Events::fire('restored:NextDeveloper\CRM\EmailTemplates', $model);
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

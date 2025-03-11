@@ -86,24 +86,24 @@ Route::prefix('crm')->group(
             }
         );
 
-        Route::prefix('emails')->group(
+        Route::prefix('email-templates')->group(
             function () {
-                Route::get('/', 'Emails\EmailsController@index');
-                Route::get('/actions', 'Emails\EmailsController@getActions');
+                Route::get('/', 'EmailTemplates\EmailTemplatesController@index');
+                Route::get('/actions', 'EmailTemplates\EmailTemplatesController@getActions');
 
-                Route::get('{crm_emails}/tags ', 'Emails\EmailsController@tags');
-                Route::post('{crm_emails}/tags ', 'Emails\EmailsController@saveTags');
-                Route::get('{crm_emails}/addresses ', 'Emails\EmailsController@addresses');
-                Route::post('{crm_emails}/addresses ', 'Emails\EmailsController@saveAddresses');
+                Route::get('{crm_email_templates}/tags ', 'EmailTemplates\EmailTemplatesController@tags');
+                Route::post('{crm_email_templates}/tags ', 'EmailTemplates\EmailTemplatesController@saveTags');
+                Route::get('{crm_email_templates}/addresses ', 'EmailTemplates\EmailTemplatesController@addresses');
+                Route::post('{crm_email_templates}/addresses ', 'EmailTemplates\EmailTemplatesController@saveAddresses');
 
-                Route::get('/{crm_emails}/{subObjects}', 'Emails\EmailsController@relatedObjects');
-                Route::get('/{crm_emails}', 'Emails\EmailsController@show');
+                Route::get('/{crm_email_templates}/{subObjects}', 'EmailTemplates\EmailTemplatesController@relatedObjects');
+                Route::get('/{crm_email_templates}', 'EmailTemplates\EmailTemplatesController@show');
 
-                Route::post('/', 'Emails\EmailsController@store');
-                Route::post('/{crm_emails}/do/{action}', 'Emails\EmailsController@doAction');
+                Route::post('/', 'EmailTemplates\EmailTemplatesController@store');
+                Route::post('/{crm_email_templates}/do/{action}', 'EmailTemplates\EmailTemplatesController@doAction');
 
-                Route::patch('/{crm_emails}', 'Emails\EmailsController@update');
-                Route::delete('/{crm_emails}', 'Emails\EmailsController@destroy');
+                Route::patch('/{crm_email_templates}', 'EmailTemplates\EmailTemplatesController@update');
+                Route::delete('/{crm_email_templates}', 'EmailTemplates\EmailTemplatesController@destroy');
             }
         );
 
@@ -641,8 +641,120 @@ Route::prefix('crm')->group(
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 );
+
+
+
+
 
 
 

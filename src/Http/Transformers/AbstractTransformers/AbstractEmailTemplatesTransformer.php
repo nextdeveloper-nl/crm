@@ -20,16 +20,16 @@ use NextDeveloper\Commons\Http\Transformers\MetaTransformer;
 use NextDeveloper\Commons\Http\Transformers\VotesTransformer;
 use NextDeveloper\Commons\Http\Transformers\AddressesTransformer;
 use NextDeveloper\Commons\Http\Transformers\PhoneNumbersTransformer;
-use NextDeveloper\CRM\Database\Models\Emails;
+use NextDeveloper\CRM\Database\Models\EmailTemplates;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 
 /**
- * Class EmailsTransformer. This class is being used to manipulate the data we are serving to the customer
+ * Class EmailTemplatesTransformer. This class is being used to manipulate the data we are serving to the customer
  *
  * @package NextDeveloper\CRM\Http\Transformers
  */
-class AbstractEmailsTransformer extends AbstractTransformer
+class AbstractEmailTemplatesTransformer extends AbstractTransformer
 {
 
     /**
@@ -48,14 +48,15 @@ class AbstractEmailsTransformer extends AbstractTransformer
     ];
 
     /**
-     * @param Emails $model
+     * @param EmailTemplates $model
      *
      * @return array
      */
-    public function transform(Emails $model)
+    public function transform(EmailTemplates $model)
     {
                                                 $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
                                                             $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
+                                                            $crmCampaignId = \NextDeveloper\CRM\Database\Models\Campaigns::where('id', $model->crm_campaign_id)->first();
                         
         return $this->buildPayload(
             [
@@ -68,13 +69,12 @@ class AbstractEmailsTransformer extends AbstractTransformer
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
-            'from'  =>  $model->from,
-            'to'  =>  $model->to,
+            'crm_campaign_id'  =>  $crmCampaignId ? $crmCampaignId->uuid : null,
             ]
         );
     }
 
-    public function includeStates(Emails $model)
+    public function includeStates(EmailTemplates $model)
     {
         $states = States::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -83,7 +83,7 @@ class AbstractEmailsTransformer extends AbstractTransformer
         return $this->collection($states, new StatesTransformer());
     }
 
-    public function includeActions(Emails $model)
+    public function includeActions(EmailTemplates $model)
     {
         $input = get_class($model);
         $input = str_replace('\\Database\\Models', '', $input);
@@ -95,7 +95,7 @@ class AbstractEmailsTransformer extends AbstractTransformer
         return $this->collection($actions, new AvailableActionsTransformer());
     }
 
-    public function includeMedia(Emails $model)
+    public function includeMedia(EmailTemplates $model)
     {
         $media = Media::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -104,7 +104,7 @@ class AbstractEmailsTransformer extends AbstractTransformer
         return $this->collection($media, new MediaTransformer());
     }
 
-    public function includeSocialMedia(Emails $model)
+    public function includeSocialMedia(EmailTemplates $model)
     {
         $socialMedia = SocialMedia::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -113,7 +113,7 @@ class AbstractEmailsTransformer extends AbstractTransformer
         return $this->collection($socialMedia, new SocialMediaTransformer());
     }
 
-    public function includeComments(Emails $model)
+    public function includeComments(EmailTemplates $model)
     {
         $comments = Comments::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -122,7 +122,7 @@ class AbstractEmailsTransformer extends AbstractTransformer
         return $this->collection($comments, new CommentsTransformer());
     }
 
-    public function includeVotes(Emails $model)
+    public function includeVotes(EmailTemplates $model)
     {
         $votes = Votes::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -131,7 +131,7 @@ class AbstractEmailsTransformer extends AbstractTransformer
         return $this->collection($votes, new VotesTransformer());
     }
 
-    public function includeMeta(Emails $model)
+    public function includeMeta(EmailTemplates $model)
     {
         $meta = Meta::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -140,7 +140,7 @@ class AbstractEmailsTransformer extends AbstractTransformer
         return $this->collection($meta, new MetaTransformer());
     }
 
-    public function includePhoneNumbers(Emails $model)
+    public function includePhoneNumbers(EmailTemplates $model)
     {
         $phoneNumbers = PhoneNumbers::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -149,7 +149,7 @@ class AbstractEmailsTransformer extends AbstractTransformer
         return $this->collection($phoneNumbers, new PhoneNumbersTransformer());
     }
 
-    public function includeAddresses(Emails $model)
+    public function includeAddresses(EmailTemplates $model)
     {
         $addresses = Addresses::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -158,30 +158,6 @@ class AbstractEmailsTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

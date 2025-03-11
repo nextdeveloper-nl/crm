@@ -1,35 +1,35 @@
 <?php
 
-namespace NextDeveloper\CRM\Http\Controllers\Emails;
+namespace NextDeveloper\CRM\Http\Controllers\EmailTemplates;
 
 use Illuminate\Http\Request;
 use NextDeveloper\CRM\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\CRM\Http\Requests\Emails\EmailsUpdateRequest;
-use NextDeveloper\CRM\Database\Filters\EmailsQueryFilter;
-use NextDeveloper\CRM\Database\Models\Emails;
-use NextDeveloper\CRM\Services\EmailsService;
-use NextDeveloper\CRM\Http\Requests\Emails\EmailsCreateRequest;
+use NextDeveloper\CRM\Http\Requests\EmailTemplates\EmailTemplatesUpdateRequest;
+use NextDeveloper\CRM\Database\Filters\EmailTemplatesQueryFilter;
+use NextDeveloper\CRM\Database\Models\EmailTemplates;
+use NextDeveloper\CRM\Services\EmailTemplatesService;
+use NextDeveloper\CRM\Http\Requests\EmailTemplates\EmailTemplatesCreateRequest;
 use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
-class EmailsController extends AbstractController
+class EmailTemplatesController extends AbstractController
 {
-    private $model = Emails::class;
+    private $model = EmailTemplates::class;
 
     use Tags;
     use Addresses;
     /**
-     * This method returns the list of emails.
+     * This method returns the list of emailtemplates.
      *
      * optional http params:
      * - paginate: If you set paginate parameter, the result will be returned paginated.
      *
-     * @param  EmailsQueryFilter $filter  An object that builds search query
-     * @param  Request           $request Laravel request object, this holds all data about request. Automatically populated.
+     * @param  EmailTemplatesQueryFilter $filter  An object that builds search query
+     * @param  Request                   $request Laravel request object, this holds all data about request. Automatically populated.
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(EmailsQueryFilter $filter, Request $request)
+    public function index(EmailTemplatesQueryFilter $filter, Request $request)
     {
-        $data = EmailsService::get($filter, $request->all());
+        $data = EmailTemplatesService::get($filter, $request->all());
 
         return ResponsableFactory::makeResponse($this, $data);
     }
@@ -41,7 +41,7 @@ class EmailsController extends AbstractController
      */
     public function getActions()
     {
-        $data = EmailsService::getActions();
+        $data = EmailTemplatesService::getActions();
 
         return ResponsableFactory::makeResponse($this, $data);
     }
@@ -55,7 +55,7 @@ class EmailsController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = EmailsService::doAction($objectId, $action, request()->all());
+        $actionId = EmailTemplatesService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [
@@ -67,7 +67,7 @@ class EmailsController extends AbstractController
     /**
      * This method receives ID for the related model and returns the item to the client.
      *
-     * @param  $emailsId
+     * @param  $emailTemplatesId
      * @return mixed|null
      * @throws \Laravel\Octane\Exceptions\DdException
      */
@@ -75,7 +75,7 @@ class EmailsController extends AbstractController
     {
         //  Here we are not using Laravel Route Model Binding. Please check routeBinding.md file
         //  in NextDeveloper Platform Project
-        $model = EmailsService::getByRef($ref);
+        $model = EmailTemplatesService::getByRef($ref);
 
         return ResponsableFactory::makeResponse($this, $model);
     }
@@ -92,19 +92,19 @@ class EmailsController extends AbstractController
      */
     public function relatedObjects($ref, $subObject)
     {
-        $objects = EmailsService::relatedObjects($ref, $subObject);
+        $objects = EmailTemplatesService::relatedObjects($ref, $subObject);
 
         return ResponsableFactory::makeResponse($this, $objects);
     }
 
     /**
-     * This method created Emails object on database.
+     * This method created EmailTemplates object on database.
      *
-     * @param  EmailsCreateRequest $request
+     * @param  EmailTemplatesCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
-    public function store(EmailsCreateRequest $request)
+    public function store(EmailTemplatesCreateRequest $request)
     {
         if($request->has('validateOnly') && $request->get('validateOnly') == true) {
             return [
@@ -112,20 +112,20 @@ class EmailsController extends AbstractController
             ];
         }
 
-        $model = EmailsService::create($request->validated());
+        $model = EmailTemplatesService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
     }
 
     /**
-     * This method updates Emails object on database.
+     * This method updates EmailTemplates object on database.
      *
-     * @param  $emailsId
-     * @param  EmailsUpdateRequest $request
+     * @param  $emailTemplatesId
+     * @param  EmailTemplatesUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
-    public function update($emailsId, EmailsUpdateRequest $request)
+    public function update($emailTemplatesId, EmailTemplatesUpdateRequest $request)
     {
         if($request->has('validateOnly') && $request->get('validateOnly') == true) {
             return [
@@ -133,21 +133,21 @@ class EmailsController extends AbstractController
             ];
         }
 
-        $model = EmailsService::update($emailsId, $request->validated());
+        $model = EmailTemplatesService::update($emailTemplatesId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
     }
 
     /**
-     * This method updates Emails object on database.
+     * This method updates EmailTemplates object on database.
      *
-     * @param  $emailsId
+     * @param  $emailTemplatesId
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
-    public function destroy($emailsId)
+    public function destroy($emailTemplatesId)
     {
-        $model = EmailsService::delete($emailsId);
+        $model = EmailTemplatesService::delete($emailTemplatesId);
 
         return $this->noContent();
     }

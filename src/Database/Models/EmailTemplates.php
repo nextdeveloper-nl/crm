@@ -6,14 +6,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
-use NextDeveloper\CRM\Database\Observers\EmailsObserver;
+use NextDeveloper\CRM\Database\Observers\EmailTemplatesObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
-use NextDeveloper\Commons\Database\Traits\HasStates;
 
 /**
- * Emails model.
+ * EmailTemplates model.
  *
  * @package  NextDeveloper\CRM\Database\Models
  * @property integer $id
@@ -26,10 +25,9 @@ use NextDeveloper\Commons\Database\Traits\HasStates;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
- * @property string $from
- * @property array $to
+ * @property integer $crm_campaign_id
  */
-class Emails extends Model
+class EmailTemplates extends Model
 {
     use Filterable, CleanCache, Taggable;
     use UuidId;
@@ -41,7 +39,7 @@ class Emails extends Model
 
 
 
-    protected $table = 'crm_emails';
+    protected $table = 'crm_email_templates';
 
 
     /**
@@ -55,8 +53,7 @@ class Emails extends Model
             'iam_user_id',
             'iam_account_id',
             'email_meta',
-            'from',
-            'to',
+            'crm_campaign_id',
     ];
 
     /**
@@ -86,8 +83,7 @@ class Emails extends Model
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
-    'from' => 'string',
-    'to' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'crm_campaign_id' => 'integer',
     ];
 
     /**
@@ -121,7 +117,7 @@ class Emails extends Model
         parent::boot();
 
         //  We create and add Observer even if we wont use it.
-        parent::observe(EmailsObserver::class);
+        parent::observe(EmailTemplatesObserver::class);
 
         self::registerScopes();
     }
@@ -129,7 +125,7 @@ class Emails extends Model
     public static function registerScopes()
     {
         $globalScopes = config('crm.scopes.global');
-        $modelScopes = config('crm.scopes.crm_emails');
+        $modelScopes = config('crm.scopes.crm_email_templates');
 
         if(!$modelScopes) { $modelScopes = [];
         }
@@ -149,40 +145,6 @@ class Emails extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

@@ -128,4 +128,8 @@ class IdealCustomerProfilesPerspectiveQueryFilter extends AbstractQueryFilter
 
 
 
+
+
+
+
 }
