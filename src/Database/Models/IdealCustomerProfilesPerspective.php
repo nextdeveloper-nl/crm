@@ -187,4 +187,7 @@ class IdealCustomerProfilesPerspective extends Model
 
 
 
+
+
+
 }

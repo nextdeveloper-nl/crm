@@ -191,10 +191,10 @@ class AbstractEmailTemplatesService
         if(!array_key_exists('iam_account_id', $data)) {
             $data['iam_account_id'] = UserHelper::currentAccount()->id;
         }
-        if (array_key_exists('crm_compaign_id', $data)) {
-            $data['crm_compaign_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\CRM\Database\Models\Compaigns',
-                $data['crm_compaign_id']
+        if (array_key_exists('crm_campaign_id', $data)) {
+            $data['crm_campaign_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\CRM\Database\Models\Campaigns',
+                $data['crm_campaign_id']
             );
         }
                         
@@ -257,10 +257,10 @@ class AbstractEmailTemplatesService
                 $data['iam_account_id']
             );
         }
-        if (array_key_exists('crm_compaign_id', $data)) {
-            $data['crm_compaign_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\CRM\Database\Models\Compaigns',
-                $data['crm_compaign_id']
+        if (array_key_exists('crm_campaign_id', $data)) {
+            $data['crm_campaign_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\CRM\Database\Models\Campaigns',
+                $data['crm_campaign_id']
             );
         }
     
