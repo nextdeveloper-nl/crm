@@ -186,4 +186,8 @@ class AbstractOpportunitiesPerspectiveTransformer extends AbstractTransformer
 
 
 
+
+
+
+
 }

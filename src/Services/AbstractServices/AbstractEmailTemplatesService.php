@@ -10,22 +10,22 @@ use NextDeveloper\IAM\Helpers\UserHelper;
 use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\AvailableActions;
-use NextDeveloper\CRM\Database\Models\Emails;
-use NextDeveloper\CRM\Database\Filters\EmailsQueryFilter;
+use NextDeveloper\CRM\Database\Models\EmailTemplates;
+use NextDeveloper\CRM\Database\Filters\EmailTemplatesQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 use NextDeveloper\Events\Services\Events;
 use NextDeveloper\Commons\Exceptions\NotAllowedException;
 
 /**
- * This class is responsible from managing the data for Emails
+ * This class is responsible from managing the data for EmailTemplates
  *
- * Class EmailsService.
+ * Class EmailTemplatesService.
  *
  * @package NextDeveloper\CRM\Database\Models
  */
-class AbstractEmailsService
+class AbstractEmailTemplatesService
 {
-    public static function get(EmailsQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
+    public static function get(EmailTemplatesQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
     {
         $enablePaginate = array_key_exists('paginate', $params);
 
@@ -38,7 +38,7 @@ class AbstractEmailsService
         * Please let me know if you have any other idea about this; baris.bulut@nextdeveloper.com
         */
         if($filter == null) {
-            $filter = new EmailsQueryFilter($request);
+            $filter = new EmailTemplatesQueryFilter($request);
         }
 
         $perPage = config('commons.pagination.per_page');
@@ -59,20 +59,16 @@ class AbstractEmailsService
             $filter->orderBy($params['orderBy']);
         }
 
-        $model = Emails::filter($filter);
+        $model = EmailTemplates::filter($filter);
 
         if($enablePaginate) {
             //  We are using this because we have been experiencing huge security problem when we use the paginate method.
             //  The reason was, when the pagination method was using, somehow paginate was discarding all the filters.
-            $modelCount = $model->count();
-            $page = array_key_exists('page', $params) ? $params['page'] : 1;
-            $items = $model->skip(($page - 1) * $perPage)->take($perPage)->get();
-
             return new \Illuminate\Pagination\LengthAwarePaginator(
-                $items,
-                $modelCount,
+                $model->skip(($request->get('page', 1) - 1) * $perPage)->take($perPage)->get(),
+                $model->count(),
                 $perPage,
-                $page
+                $request->get('page', 1)
             );
         }
 
@@ -81,7 +77,7 @@ class AbstractEmailsService
 
     public static function getAll()
     {
-        return Emails::all();
+        return EmailTemplates::all();
     }
 
     /**
@@ -90,14 +86,14 @@ class AbstractEmailsService
      * @param  $ref
      * @return mixed
      */
-    public static function getByRef($ref) : ?Emails
+    public static function getByRef($ref) : ?EmailTemplates
     {
-        return Emails::findByRef($ref);
+        return EmailTemplates::findByRef($ref);
     }
 
     public static function getActions()
     {
-        $model = Emails::class;
+        $model = EmailTemplates::class;
 
         $model = Str::remove('Database\\Models\\', $model);
 
@@ -112,21 +108,16 @@ class AbstractEmailsService
      */
     public static function doAction($objectId, $action, ...$params)
     {
-        $object = Emails::where('uuid', $objectId)->first();
+        $object = EmailTemplates::where('uuid', $objectId)->first();
 
-        $action = AvailableActions::where('name', $action)
-            ->where('input', 'NextDeveloper\CRM\Emails')
-            ->first();
-
+        $action = AvailableActions::where('name', $action)->first();
         $class = $action->class;
 
         if(class_exists($class)) {
             $action = new $class($object, $params);
-            $actionId = $action->getActionId();
-
             dispatch($action);
 
-            return $actionId;
+            return $action->getActionId();
         }
 
         return null;
@@ -136,13 +127,14 @@ class AbstractEmailsService
      * This method returns the model by lookint at its id
      *
      * @param  $id
-     * @return Emails|null
+     * @return EmailTemplates|null
      */
-    public static function getById($id) : ?Emails
+    public static function getById($id) : ?EmailTemplates
     {
-        return Emails::where('id', $id)->first();
+        return EmailTemplates::where('id', $id)->first();
     }
 
+    
     /**
      * This method returns the sub objects of the related models
      *
@@ -154,7 +146,7 @@ class AbstractEmailsService
     public static function relatedObjects($uuid, $object)
     {
         try {
-            $obj = Emails::where('uuid', $uuid)->first();
+            $obj = EmailTemplates::where('uuid', $uuid)->first();
 
             if(!$obj) {
                 throw new ModelNotFoundException('Cannot find the related model');
@@ -185,7 +177,7 @@ class AbstractEmailsService
                 $data['iam_user_id']
             );
         }
-
+                    
         if(!array_key_exists('iam_user_id', $data)) {
             $data['iam_user_id']    = UserHelper::me()->id;
         }
@@ -195,16 +187,24 @@ class AbstractEmailsService
                 $data['iam_account_id']
             );
         }
-
+            
         if(!array_key_exists('iam_account_id', $data)) {
             $data['iam_account_id'] = UserHelper::currentAccount()->id;
         }
-
+        if (array_key_exists('crm_compaign_id', $data)) {
+            $data['crm_compaign_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\CRM\Database\Models\Compaigns',
+                $data['crm_compaign_id']
+            );
+        }
+                        
         try {
-            $model = Emails::create($data);
+            $model = EmailTemplates::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
+
+        Events::fire('created:NextDeveloper\CRM\EmailTemplates', $model);
 
         return $model->fresh();
     }
@@ -213,9 +213,9 @@ class AbstractEmailsService
      * This function expects the ID inside the object.
      *
      * @param  array $data
-     * @return Emails
+     * @return EmailTemplates
      */
-    public static function updateRaw(array $data) : ?Emails
+    public static function updateRaw(array $data) : ?EmailTemplates
     {
         if(array_key_exists('id', $data)) {
             return self::update($data['id'], $data);
@@ -236,7 +236,7 @@ class AbstractEmailsService
      */
     public static function update($id, array $data)
     {
-        $model = Emails::where('uuid', $id)->first();
+        $model = EmailTemplates::where('uuid', $id)->first();
 
         if(!$model) {
             throw new NotAllowedException(
@@ -257,6 +257,14 @@ class AbstractEmailsService
                 $data['iam_account_id']
             );
         }
+        if (array_key_exists('crm_compaign_id', $data)) {
+            $data['crm_compaign_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\CRM\Database\Models\Compaigns',
+                $data['crm_compaign_id']
+            );
+        }
+    
+        Events::fire('updating:NextDeveloper\CRM\EmailTemplates', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -264,6 +272,8 @@ class AbstractEmailsService
         } catch(\Exception $e) {
             throw $e;
         }
+
+        Events::fire('updated:NextDeveloper\CRM\EmailTemplates', $model);
 
         return $model->fresh();
     }
@@ -280,7 +290,7 @@ class AbstractEmailsService
      */
     public static function delete($id)
     {
-        $model = Emails::where('uuid', $id)->first();
+        $model = EmailTemplates::where('uuid', $id)->first();
 
         if(!$model) {
             throw new NotAllowedException(
@@ -288,6 +298,8 @@ class AbstractEmailsService
                 'Maybe you dont have the permission to update this object?'
             );
         }
+
+        Events::fire('deleted:NextDeveloper\CRM\EmailTemplates', $model);
 
         try {
             $model = $model->delete();
