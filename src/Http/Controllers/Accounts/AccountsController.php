@@ -59,8 +59,8 @@ class AccountsController extends AbstractController
 
         return $this->withArray(
             [
-            'action_id' =>  $actionId
-            ]
+            'action_id' =>  $actionId,
+            ],
         );
     }
 
@@ -108,7 +108,7 @@ class AccountsController extends AbstractController
     {
         if($request->has('validateOnly') && $request->get('validateOnly') == true) {
             return [
-                'validation'    =>  'success'
+                'validation'    =>  'success',
             ];
         }
 
@@ -129,7 +129,7 @@ class AccountsController extends AbstractController
     {
         if($request->has('validateOnly') && $request->get('validateOnly') == true) {
             return [
-                'validation'    =>  'success'
+                'validation'    =>  'success',
             ];
         }
 
@@ -153,5 +153,12 @@ class AccountsController extends AbstractController
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+    public function enable()
+    {
+        $response = AccountsService::enableService();
+        return $this->withArray($response);
+
+    }
 
 }

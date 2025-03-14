@@ -69,28 +69,13 @@ class AbstractAccountsTransformer extends AbstractTransformer
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
-            'company_size'  =>  $model->company_size,
-            'sector_focus'  =>  $model->sector_focus,
-            'industry'  =>  $model->industry,
-            'is_startup'  =>  $model->is_startup,
-            'regulatory_and_compliance'  =>  $model->regulatory_and_compliance,
-            'employee_count'  =>  $model->employee_count,
-            'office_cities'  =>  $model->office_cities,
-            'headquarter_city'  =>  $model->headquarter_city,
-            'production_people_count'  =>  $model->production_people_count,
-            'sales_people_count'  =>  $model->sales_people_count,
-            'marketing_people_count'  =>  $model->marketing_people_count,
-            'support_people_count'  =>  $model->support_people_count,
-            'automation_count'  =>  $model->automation_count,
             'additional_information'  =>  $model->additional_information,
-            'target_markets'  =>  $model->target_markets,
-            'partners_with'  =>  $model->partners_with,
-            'services'  =>  $model->services,
             'is_suspended'  =>  $model->is_suspended,
             'is_service_enabled'  =>  $model->is_service_enabled,
             'is_disabled'  =>  $model->is_disabled,
             'disabling_reason'  =>  $model->disabling_reason,
             'suspension_reason'  =>  $model->suspension_reason,
+            'technology_rank'  =>  $model->technology_rank,
             ]
         );
     }
@@ -179,6 +164,13 @@ class AbstractAccountsTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
+
+
+
+
 
 
 
