@@ -33,6 +33,9 @@ class UsersService extends AbstractUsersService
      * @throws \Exception
      */
     public static function create(array $data) : Users {
+        throw new \Exception('Cannot run this function because CRM cannot create any user. If you stumble ' .
+            'upon this error please fix this.');
+
         if(!array_key_exists('common_language_id', $data)) {
             $lang = Languages::withoutGlobalScopes()->where('code', App::currentLocale())->first();
 
