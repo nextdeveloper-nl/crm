@@ -14,10 +14,10 @@ class CampaignsCreateRequest extends AbstractFormRequest
     {
         return [
             'name' => 'required|string',
-        'description' => 'nullable|string',
-        'start_date' => 'required|date',
-        'end_date' => 'nullable|date',
-        'status' => 'required|string',
+            'description' => 'nullable|string',
+            'start_date' => 'date',
+            'end_date' => 'nullable|date',
+            'status' => 'string',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

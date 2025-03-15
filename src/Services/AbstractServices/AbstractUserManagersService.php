@@ -208,6 +208,8 @@ class AbstractUserManagersService
 
         try {
             $model = UserManagers::create($data);
+
+            Events::fire('created:NextDeveloper\CRM\UserManagers', $model);
         } catch(\Exception $e) {
             throw $e;
         }
