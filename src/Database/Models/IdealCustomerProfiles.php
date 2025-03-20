@@ -47,98 +47,75 @@ class IdealCustomerProfiles extends Model
     public $timestamps = true;
 
 
-
-
     protected $table = 'crm_ideal_customer_profiles';
 
 
     /**
-     @var array
+     * @var array
      */
     protected $guarded = [];
 
     protected $fillable = [
-            'crm_account_id',
-            'company_size',
-            'is_working_home_office',
-            'current_technology_stack',
-            'additional_notes',
-            'growth_stage',
-            'geographical_focus',
-            'business_model',
-            'verticals',
-            'technology_rank',
-            'keywords',
-            'name',
-            'description',
-            'iam_user_id',
-            'iam_account_id',
+        'crm_account_id',
+        'name',
+        'description',
+        'search_criteria',
+        'iam_user_id',
+        'iam_account_id',
     ];
 
     /**
-      Here we have the fulltext fields. We can use these for fulltext search if enabled.
+     * Here we have the fulltext fields. We can use these for fulltext search if enabled.
      */
     protected $fullTextFields = [
 
     ];
 
     /**
-     @var array
+     * @var array
      */
     protected $appends = [
 
     ];
 
     /**
-     We are casting fields to objects so that we can work on them better
+     * We are casting fields to objects so that we can work on them better
      *
-     @var array
+     * @var array
      */
     protected $casts = [
-    'id' => 'integer',
-    'crm_account_id' => 'integer',
-    'company_size' => 'string',
-    'is_working_home_office' => 'boolean',
-    'current_technology_stack' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'additional_notes' => 'string',
-    'created_at' => 'datetime',
-    'updated_at' => 'datetime',
-    'deleted_at' => 'datetime',
-    'growth_stage' => 'string',
-    'geographical_focus' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'business_model' => 'string',
-    'verticals' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'technology_rank' => 'integer',
-    'keywords' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'name' => 'string',
-    'description' => 'string',
+        'id' => 'integer',
+        'crm_account_id' => 'integer',
+        'search_criteria' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+        'name' => 'string',
+        'description' => 'string',
     ];
 
     /**
-     We are casting data fields.
+     * We are casting data fields.
      *
-     @var array
+     * @var array
      */
     protected $dates = [
-    'created_at',
-    'updated_at',
-    'deleted_at',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     /**
-     @var array
+     * @var array
      */
     protected $with = [
 
     ];
 
     /**
-     @var int
+     * @var int
      */
     protected $perPage = 20;
 
     /**
-     @return void
+     * @return void
      */
     public static function boot()
     {
@@ -155,9 +132,11 @@ class IdealCustomerProfiles extends Model
         $globalScopes = config('crm.scopes.global');
         $modelScopes = config('crm.scopes.crm_ideal_customer_profiles');
 
-        if(!$modelScopes) { $modelScopes = [];
+        if (!$modelScopes) {
+            $modelScopes = [];
         }
-        if (!$globalScopes) { $globalScopes = [];
+        if (!$globalScopes) {
+            $globalScopes = [];
         }
 
         $scopes = array_merge(
@@ -165,7 +144,7 @@ class IdealCustomerProfiles extends Model
             $modelScopes
         );
 
-        if($scopes) {
+        if ($scopes) {
             foreach ($scopes as $scope) {
                 static::addGlobalScope(app($scope));
             }
@@ -173,38 +152,6 @@ class IdealCustomerProfiles extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
