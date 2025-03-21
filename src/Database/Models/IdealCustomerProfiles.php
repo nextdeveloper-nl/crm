@@ -86,7 +86,7 @@ class IdealCustomerProfiles extends Model
     protected $casts = [
         'id' => 'integer',
         'crm_account_id' => 'integer',
-        'search_criteria' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+        'search_criteria' => 'array',
         'name' => 'string',
         'description' => 'string',
     ];

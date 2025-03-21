@@ -22,10 +22,21 @@ class IdealCustomerProfilesService extends AbstractIdealCustomerProfilesService
     {
         $crmAccount = Accounts::where('iam_account_id', UserHelper::currentAccount()->id)->first();
 
-        $data['search_criteria']    = $data['buyer_types'];
-        unset($data['buyer_types']);
+        $campaign = CampaignsService::create([
+            'name'  =>  $data['marketing_campaign_name']
+        ]);
 
-        dd($data);
+        $target = TargetsService::create([
+            'name'  =>  $data['lead_list_name']
+        ]);
+
+        unset($data['message']);
+        unset($data['question']);
+        unset($data['answer_options']);
+        unset($data['marketing_campaign_name']);
+        unset($data['lead_list_name']);
+
+        $data['search_criteria']    = $data;
 
         return parent::create($data);
     }
