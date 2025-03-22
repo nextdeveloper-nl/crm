@@ -30,13 +30,16 @@ class IdealCustomerProfilesService extends AbstractIdealCustomerProfilesService
             'name'  =>  $data['lead_list_name']
         ]);
 
+        $data['name']               = $data['marketing_campaign_name'];
+        $data['search_criteria']    = $data;
+        $data['crm_target_id']      = $target->id;
+        $data['crm_account_id']     = $crmAccount->id;
+
         unset($data['message']);
         unset($data['question']);
         unset($data['answer_options']);
         unset($data['marketing_campaign_name']);
         unset($data['lead_list_name']);
-
-        $data['search_criteria']    = $data;
 
         return parent::create($data);
     }

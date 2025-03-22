@@ -54,31 +54,22 @@ class AbstractIdealCustomerProfilesTransformer extends AbstractTransformer
      */
     public function transform(IdealCustomerProfiles $model)
     {
-                                                $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
-                                                            $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
-                                                            $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
-                        
+        $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
+        $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
+        $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
+
         return $this->buildPayload(
             [
-            'id'  =>  $model->uuid,
-            'crm_account_id'  =>  $crmAccountId ? $crmAccountId->uuid : null,
-            'company_size'  =>  $model->company_size,
-            'is_working_home_office'  =>  $model->is_working_home_office,
-            'current_technology_stack'  =>  $model->current_technology_stack,
-            'additional_notes'  =>  $model->additional_notes,
-            'created_at'  =>  $model->created_at,
-            'updated_at'  =>  $model->updated_at,
-            'deleted_at'  =>  $model->deleted_at,
-            'growth_stage'  =>  $model->growth_stage,
-            'geographical_focus'  =>  $model->geographical_focus,
-            'business_model'  =>  $model->business_model,
-            'verticals'  =>  $model->verticals,
-            'technology_rank'  =>  $model->technology_rank,
-            'keywords'  =>  $model->keywords,
-            'name'  =>  $model->name,
-            'description'  =>  $model->description,
-            'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
-            'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
+                'id' => $model->uuid,
+                'crm_account_id' => $crmAccountId ? $crmAccountId->uuid : null,
+                'name' => $model->name,
+                'description' => $model->description,
+                'search_criteria' => $model->search_criteria,
+                'iam_user_id' => $iamUserId ? $iamUserId->uuid : null,
+                'iam_account_id' => $iamAccountId ? $iamAccountId->uuid : null,
+                'created_at' => $model->created_at,
+                'updated_at' => $model->updated_at,
+                'deleted_at' => $model->deleted_at,
             ]
         );
     }
@@ -167,38 +158,6 @@ class AbstractIdealCustomerProfilesTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
