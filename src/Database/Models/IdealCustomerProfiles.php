@@ -62,6 +62,7 @@ class IdealCustomerProfiles extends Model
         'search_criteria',
         'iam_user_id',
         'iam_account_id',
+        'crm_target_id'
     ];
 
     /**
