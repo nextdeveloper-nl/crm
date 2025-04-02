@@ -54,28 +54,34 @@ class AbstractTargetUsersPerspectiveTransformer extends AbstractTransformer
      */
     public function transform(TargetUsersPerspective $model)
     {
-                                                $commonCountryId = \NextDeveloper\Commons\Database\Models\Countries::where('id', $model->common_country_id)->first();
-                                                            $commonLanguageId = \NextDeveloper\Commons\Database\Models\Languages::where('id', $model->common_language_id)->first();
-                        
+        $commonCountryId = \NextDeveloper\Commons\Database\Models\Countries::where('id', $model->common_country_id)->first();
+        $commonLanguageId = \NextDeveloper\Commons\Database\Models\Languages::where('id', $model->common_language_id)->first();
+        $crmTargetId = \NextDeveloper\CRM\Database\Models\Targets::where('id', $model->crm_target_id)->first();
+        $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
+        $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
+
         return $this->buildPayload(
             [
-            'id'  =>  $model->uuid,
-            'pronoun'  =>  $model->pronoun,
-            'name'  =>  $model->name,
-            'surname'  =>  $model->surname,
-            'fullname'  =>  $model->fullname,
-            'birthday'  =>  $model->birthday,
-            'email'  =>  $model->email,
-            'phone_number'  =>  $model->phone_number,
-            'common_country_id'  =>  $commonCountryId ? $commonCountryId->uuid : null,
-            'common_language_id'  =>  $commonLanguageId ? $commonLanguageId->uuid : null,
-            'tags'  =>  $model->tags,
-            'about'  =>  $model->about,
-            'created_at'  =>  $model->created_at,
-            'updated_at'  =>  $model->updated_at,
-            'deleted_at'  =>  $model->deleted_at,
-            'target_name'  =>  $model->target_name,
-            'target_description'  =>  $model->target_description,
+                'id' => $model->uuid,
+                'pronoun' => $model->pronoun,
+                'name' => $model->name,
+                'surname' => $model->surname,
+                'fullname' => $model->fullname,
+                'birthday' => $model->birthday,
+                'email' => $model->email,
+                'phone_number' => $model->phone_number,
+                'common_country_id' => $commonCountryId ? $commonCountryId->uuid : null,
+                'common_language_id' => $commonLanguageId ? $commonLanguageId->uuid : null,
+                'tags' => $model->tags,
+                'about' => $model->about,
+                'created_at' => $model->created_at,
+                'updated_at' => $model->updated_at,
+                'deleted_at' => $model->deleted_at,
+                'target_name' => $model->target_name,
+                'target_description' => $model->target_description,
+                'crm_target_id' => $crmTargetId ? $crmTargetId->uuid : null,
+                'iam_account_id' => $iamAccountId ? $iamAccountId->uuid : null,
+                'iam_user_id' => $iamUserId ? $iamUserId->uuid : null,
             ]
         );
     }
@@ -164,4 +170,5 @@ class AbstractTargetUsersPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

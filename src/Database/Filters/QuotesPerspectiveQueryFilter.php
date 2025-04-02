@@ -212,4 +212,5 @@ class QuotesPerspectiveQueryFilter extends AbstractQueryFilter
 
 
 
+
 }

@@ -35,6 +35,7 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property \Carbon\Carbon $deleted_at
  * @property string $target_name
  * @property string $target_description
+ * @property integer $crm_target_id
  * @property integer $iam_account_id
  * @property integer $iam_user_id
  */
@@ -49,95 +50,95 @@ class TargetUsersPerspective extends Model
 
 
     /**
-     * @var array
+     @var array
      */
     protected $guarded = [];
 
     protected $fillable = [
-        'pronoun',
-        'name',
-        'surname',
-        'fullname',
-        'birthday',
-        'email',
-        'phone_number',
-        'common_country_id',
-        'common_language_id',
-        'tags',
-        'about',
-        'target_name',
-        'target_description',
-        'iam_account_id',
-        'iam_user_id',
+            'pronoun',
+            'name',
+            'surname',
+            'fullname',
+            'birthday',
+            'email',
+            'phone_number',
+            'common_country_id',
+            'common_language_id',
+            'tags',
+            'about',
+            'target_name',
+            'target_description',
+            'crm_target_id',
+            'iam_account_id',
+            'iam_user_id',
     ];
 
     /**
-     * Here we have the fulltext fields. We can use these for fulltext search if enabled.
+      Here we have the fulltext fields. We can use these for fulltext search if enabled.
      */
     protected $fullTextFields = [
 
     ];
 
     /**
-     * @var array
+     @var array
      */
     protected $appends = [
 
     ];
 
     /**
-     * We are casting fields to objects so that we can work on them better
+     We are casting fields to objects so that we can work on them better
      *
-     * @var array
+     @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'pronoun' => 'string',
-        'name' => 'string',
-        'surname' => 'string',
-        'fullname' => 'string',
-        'birthday' => 'datetime',
-        'email' => 'string',
-        'phone_number' => 'string',
-        'common_country_id' => 'integer',
-        'common_language_id' => 'integer',
-        'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-        'about' => 'string',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-        'deleted_at' => 'datetime',
-        'target_name' => 'string',
-        'target_description' => 'string',
-        'iam_account_id'    =>  'integer',
-        'iam_user_id'   =>  'integer',
+    'id' => 'integer',
+    'pronoun' => 'string',
+    'name' => 'string',
+    'surname' => 'string',
+    'fullname' => 'string',
+    'birthday' => 'datetime',
+    'email' => 'string',
+    'phone_number' => 'string',
+    'common_country_id' => 'integer',
+    'common_language_id' => 'integer',
+    'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'about' => 'string',
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
+    'deleted_at' => 'datetime',
+    'target_name' => 'string',
+    'target_description' => 'string',
+    'crm_target_id' => 'integer',
     ];
 
     /**
-     * We are casting data fields.
+     We are casting data fields.
      *
-     * @var array
+     @var array
      */
     protected $dates = [
-        'birthday',
-        'created_at',
-        'updated_at',
-        'deleted_at',
+    'birthday',
+    'created_at',
+    'updated_at',
+    'deleted_at',
     ];
 
     /**
-     * @var array
+     @var array
      */
     protected $with = [
 
     ];
 
     /**
-     * @var int
+     @var int
      */
     protected $perPage = 20;
 
     /**
-     * @return void
+     @return void
      */
     public static function boot()
     {
@@ -154,11 +155,9 @@ class TargetUsersPerspective extends Model
         $globalScopes = config('crm.scopes.global');
         $modelScopes = config('crm.scopes.crm_target_users_perspective');
 
-        if (!$modelScopes) {
-            $modelScopes = [];
+        if(!$modelScopes) { $modelScopes = [];
         }
-        if (!$globalScopes) {
-            $globalScopes = [];
+        if (!$globalScopes) { $globalScopes = [];
         }
 
         $scopes = array_merge(
@@ -166,7 +165,7 @@ class TargetUsersPerspective extends Model
             $modelScopes
         );
 
-        if ($scopes) {
+        if($scopes) {
             foreach ($scopes as $scope) {
                 static::addGlobalScope(app($scope));
             }
@@ -174,4 +173,5 @@ class TargetUsersPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

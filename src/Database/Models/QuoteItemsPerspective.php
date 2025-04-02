@@ -172,4 +172,5 @@ class QuoteItemsPerspective extends Model
 
 
 
+
 }
