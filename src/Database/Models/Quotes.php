@@ -11,6 +11,7 @@ use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 use NextDeveloper\Commons\Database\Traits\HasStates;
+use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
 
 /**
  * Quotes model.
@@ -35,15 +36,10 @@ use NextDeveloper\Commons\Database\Traits\HasStates;
  */
 class Quotes extends Model
 {
-    use Filterable, CleanCache, Taggable;
-    use UuidId;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
     use SoftDeletes;
 
-
     public $timestamps = true;
-
-
-
 
     protected $table = 'crm_quotes';
 
@@ -157,7 +153,19 @@ class Quotes extends Model
         }
     }
 
+    public function accounts() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Accounts::class);
+    }
+    
+    public function users() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

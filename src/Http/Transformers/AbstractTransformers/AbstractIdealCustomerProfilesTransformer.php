@@ -54,22 +54,25 @@ class AbstractIdealCustomerProfilesTransformer extends AbstractTransformer
      */
     public function transform(IdealCustomerProfiles $model)
     {
-        $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
-        $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
-        $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
-
+                                                $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
+                                                            $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
+                                                            $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
+                                                            $crmTargetId = \NextDeveloper\CRM\Database\Models\Targets::where('id', $model->crm_target_id)->first();
+                        
         return $this->buildPayload(
             [
-                'id' => $model->uuid,
-                'crm_account_id' => $crmAccountId ? $crmAccountId->uuid : null,
-                'name' => $model->name,
-                'description' => $model->description,
-                'search_criteria' => $model->search_criteria,
-                'iam_user_id' => $iamUserId ? $iamUserId->uuid : null,
-                'iam_account_id' => $iamAccountId ? $iamAccountId->uuid : null,
-                'created_at' => $model->created_at,
-                'updated_at' => $model->updated_at,
-                'deleted_at' => $model->deleted_at,
+            'id'  =>  $model->uuid,
+            'crm_account_id'  =>  $crmAccountId ? $crmAccountId->uuid : null,
+            'created_at'  =>  $model->created_at,
+            'updated_at'  =>  $model->updated_at,
+            'deleted_at'  =>  $model->deleted_at,
+            'name'  =>  $model->name,
+            'description'  =>  $model->description,
+            'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
+            'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
+            'crm_target_id'  =>  $crmTargetId ? $crmTargetId->uuid : null,
+            'search_criteria'  =>  $model->search_criteria,
+            'search_engine'  =>  $model->search_engine,
             ]
         );
     }
@@ -158,6 +161,8 @@ class AbstractIdealCustomerProfilesTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 }

@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-            
+                
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -18,58 +18,18 @@ class IdealCustomerProfilesQueryFilter extends AbstractQueryFilter
      */
     protected $builder;
     
-    public function companySize($value)
-    {
-        return $this->builder->where('company_size', 'like', '%' . $value . '%');
-    }
-    
-    public function additionalNotes($value)
-    {
-        return $this->builder->where('additional_notes', 'like', '%' . $value . '%');
-    }
-    
-    public function growthStage($value)
-    {
-        return $this->builder->where('growth_stage', 'like', '%' . $value . '%');
-    }
-    
-    public function businessModel($value)
-    {
-        return $this->builder->where('business_model', 'like', '%' . $value . '%');
-    }
-    
     public function name($value)
     {
         return $this->builder->where('name', 'like', '%' . $value . '%');
     }
-    
+
+        
     public function description($value)
     {
         return $this->builder->where('description', 'like', '%' . $value . '%');
     }
 
-    public function technologyRank($value)
-    {
-        $operator = substr($value, 0, 1);
-
-        if ($operator != '<' || $operator != '>') {
-            $operator = '=';
-        } else {
-            $value = substr($value, 1);
-        }
-
-        return $this->builder->where('technology_rank', $operator, $value);
-    }
-
-    public function isWorkingHomeOffice($value)
-    {
-        if(!is_bool($value)) {
-            $value = false;
-        }
-
-        return $this->builder->where('is_working_home_office', $value);
-    }
-
+    
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -78,6 +38,18 @@ class IdealCustomerProfilesQueryFilter extends AbstractQueryFilter
     public function createdAtEnd($date)
     {
         return $this->builder->where('created_at', '<=', $date);
+    }
+
+    //  This is an alias function of createdAt
+    public function created_at_start($value)
+    {
+        return $this->createdAtStart($value);
+    }
+
+    //  This is an alias function of createdAt
+    public function created_at_end($value)
+    {
+        return $this->createdAtEnd($value);
     }
 
     public function updatedAtStart($date)
@@ -90,6 +62,18 @@ class IdealCustomerProfilesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('updated_at', '<=', $date);
     }
 
+    //  This is an alias function of updatedAt
+    public function updated_at_start($value)
+    {
+        return $this->updatedAtStart($value);
+    }
+
+    //  This is an alias function of updatedAt
+    public function updated_at_end($value)
+    {
+        return $this->updatedAtEnd($value);
+    }
+
     public function deletedAtStart($date)
     {
         return $this->builder->where('deleted_at', '>=', $date);
@@ -98,6 +82,18 @@ class IdealCustomerProfilesQueryFilter extends AbstractQueryFilter
     public function deletedAtEnd($date)
     {
         return $this->builder->where('deleted_at', '<=', $date);
+    }
+
+    //  This is an alias function of deletedAt
+    public function deleted_at_start($value)
+    {
+        return $this->deletedAtStart($value);
+    }
+
+    //  This is an alias function of deletedAt
+    public function deleted_at_end($value)
+    {
+        return $this->deletedAtEnd($value);
     }
 
     public function crmAccountId($value)
@@ -109,6 +105,12 @@ class IdealCustomerProfilesQueryFilter extends AbstractQueryFilter
         }
     }
 
+        //  This is an alias function of crmAccount
+    public function crm_account_id($value)
+    {
+        return $this->crmAccount($value);
+    }
+    
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -118,6 +120,7 @@ class IdealCustomerProfilesQueryFilter extends AbstractQueryFilter
         }
     }
 
+    
     public function iamAccountId($value)
     {
             $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -127,7 +130,25 @@ class IdealCustomerProfilesQueryFilter extends AbstractQueryFilter
         }
     }
 
+    
+    public function crmTargetId($value)
+    {
+            $crmTarget = \NextDeveloper\CRM\Database\Models\Targets::where('uuid', $value)->first();
+
+        if($crmTarget) {
+            return $this->builder->where('crm_target_id', '=', $crmTarget->id);
+        }
+    }
+
+        //  This is an alias function of crmTarget
+    public function crm_target_id($value)
+    {
+        return $this->crmTarget($value);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

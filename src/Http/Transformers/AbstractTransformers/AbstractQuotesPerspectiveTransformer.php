@@ -179,4 +179,6 @@ class AbstractQuotesPerspectiveTransformer extends AbstractTransformer
 
 
 
+
+
 }

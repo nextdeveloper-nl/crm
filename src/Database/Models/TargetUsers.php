@@ -9,6 +9,8 @@ use NextDeveloper\CRM\Database\Observers\TargetUsersObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
+use NextDeveloper\Commons\Database\Traits\HasStates;
+use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
 
 /**
  * TargetUsers model.
@@ -21,14 +23,9 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  */
 class TargetUsers extends Model
 {
-    use Filterable, CleanCache, Taggable;
-
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
 
     public $timestamps = true;
-
-    public $incrementing = false;
-
-
 
     protected $table = 'crm_target_users';
 
@@ -125,7 +122,19 @@ class TargetUsers extends Model
         }
     }
 
+    public function targets() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Targets::class);
+    }
+    
+    public function users() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

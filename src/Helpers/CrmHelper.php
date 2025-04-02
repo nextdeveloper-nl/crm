@@ -73,4 +73,17 @@ class CrmHelper
 
         return UserHelper::getAccountById($accountManager->iam_account_id);
     }
+
+    public static function getAccountOwner(Accounts|int $account) : Users
+    {
+        if(is_int($account)) {
+            $account = Accounts::withoutGlobalScope(AuthorizationScope::class)
+                ->where('id', $account)
+                ->first();
+        }
+
+        return Users::withoutGlobalScope(AuthorizationScope::class)
+            ->where('id', $account->iam_user_id)
+            ->first();
+    }
 }

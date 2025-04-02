@@ -60,6 +60,8 @@ trait CrmTargetTestTraits
             'form_params'   =>  [
                 'name'  =>  'a',
                 'description'  =>  'a',
+                'type'  =>  'a',
+                'list_user_count'  =>  '1',
                             ],
                 ['http_errors' => false]
             ]
@@ -367,6 +369,44 @@ trait CrmTargetTestTraits
             $request = new Request(
                 [
                 'description'  =>  'a'
+                ]
+            );
+
+            $filter = new CrmTargetQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmTarget::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_crmtarget_event_type_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'type'  =>  'a'
+                ]
+            );
+
+            $filter = new CrmTargetQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmTarget::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_crmtarget_event_list_user_count_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'list_user_count'  =>  '1'
                 ]
             );
 
