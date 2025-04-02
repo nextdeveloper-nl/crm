@@ -31,6 +31,7 @@ class QuoteItemsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('quantity', $operator, $value);
     }
 
+    
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -39,6 +40,18 @@ class QuoteItemsQueryFilter extends AbstractQueryFilter
     public function createdAtEnd($date)
     {
         return $this->builder->where('created_at', '<=', $date);
+    }
+
+    //  This is an alias function of createdAt
+    public function created_at_start($value)
+    {
+        return $this->createdAtStart($value);
+    }
+
+    //  This is an alias function of createdAt
+    public function created_at_end($value)
+    {
+        return $this->createdAtEnd($value);
     }
 
     public function updatedAtStart($date)
@@ -51,6 +64,18 @@ class QuoteItemsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('updated_at', '<=', $date);
     }
 
+    //  This is an alias function of updatedAt
+    public function updated_at_start($value)
+    {
+        return $this->updatedAtStart($value);
+    }
+
+    //  This is an alias function of updatedAt
+    public function updated_at_end($value)
+    {
+        return $this->updatedAtEnd($value);
+    }
+
     public function deletedAtStart($date)
     {
         return $this->builder->where('deleted_at', '>=', $date);
@@ -59,6 +84,18 @@ class QuoteItemsQueryFilter extends AbstractQueryFilter
     public function deletedAtEnd($date)
     {
         return $this->builder->where('deleted_at', '<=', $date);
+    }
+
+    //  This is an alias function of deletedAt
+    public function deleted_at_start($value)
+    {
+        return $this->deletedAtStart($value);
+    }
+
+    //  This is an alias function of deletedAt
+    public function deleted_at_end($value)
+    {
+        return $this->deletedAtEnd($value);
     }
 
     public function crmQuoteId($value)
@@ -70,6 +107,12 @@ class QuoteItemsQueryFilter extends AbstractQueryFilter
         }
     }
 
+        //  This is an alias function of crmQuote
+    public function crm_quote_id($value)
+    {
+        return $this->crmQuote($value);
+    }
+    
     public function marketplaceProductId($value)
     {
             $marketplaceProduct = \NextDeveloper\Marketplace\Database\Models\Products::where('uuid', $value)->first();
@@ -79,6 +122,12 @@ class QuoteItemsQueryFilter extends AbstractQueryFilter
         }
     }
 
+        //  This is an alias function of marketplaceProduct
+    public function marketplace_product_id($value)
+    {
+        return $this->marketplaceProduct($value);
+    }
+    
     public function marketplaceProductCatalogId($value)
     {
             $marketplaceProductCatalog = \NextDeveloper\Marketplace\Database\Models\ProductCatalogs::where('uuid', $value)->first();
@@ -88,6 +137,12 @@ class QuoteItemsQueryFilter extends AbstractQueryFilter
         }
     }
 
+        //  This is an alias function of marketplaceProductCatalog
+    public function marketplace_product_catalog_id($value)
+    {
+        return $this->marketplaceProductCatalog($value);
+    }
+    
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -97,6 +152,7 @@ class QuoteItemsQueryFilter extends AbstractQueryFilter
         }
     }
 
+    
     public function iamAccountId($value)
     {
             $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -106,7 +162,9 @@ class QuoteItemsQueryFilter extends AbstractQueryFilter
         }
     }
 
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

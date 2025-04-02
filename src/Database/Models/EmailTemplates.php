@@ -10,6 +10,8 @@ use NextDeveloper\CRM\Database\Observers\EmailTemplatesObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
+use NextDeveloper\Commons\Database\Traits\HasStates;
+use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
 
 /**
  * EmailTemplates model.
@@ -26,18 +28,14 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
  * @property integer $crm_campaign_id
+ * @property integer $communication_channel_id
  */
 class EmailTemplates extends Model
 {
-    use Filterable, CleanCache, Taggable;
-    use UuidId;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
     use SoftDeletes;
 
-
     public $timestamps = true;
-
-
-
 
     protected $table = 'crm_email_templates';
 
@@ -54,6 +52,7 @@ class EmailTemplates extends Model
             'iam_account_id',
             'email_meta',
             'crm_campaign_id',
+            'communication_channel_id',
     ];
 
     /**
@@ -84,6 +83,7 @@ class EmailTemplates extends Model
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
     'crm_campaign_id' => 'integer',
+    'communication_channel_id' => 'integer',
     ];
 
     /**
@@ -144,7 +144,18 @@ class EmailTemplates extends Model
         }
     }
 
+    public function channels() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\Communication\Database\Models\Channels::class);
+    }
+    
+    public function campaigns() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Campaigns::class);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

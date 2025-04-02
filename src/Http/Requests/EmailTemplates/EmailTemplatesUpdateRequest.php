@@ -17,6 +17,7 @@ class EmailTemplatesUpdateRequest extends AbstractFormRequest
         'content' => 'nullable|string',
         'email_meta' => 'nullable|string',
         'crm_campaign_id' => 'nullable|exists:crm_campaigns,uuid|uuid',
+        'communication_channel_id' => 'nullable|exists:communication_channels,uuid|uuid',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

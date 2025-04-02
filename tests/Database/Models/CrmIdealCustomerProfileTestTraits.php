@@ -58,13 +58,8 @@ trait CrmIdealCustomerProfileTestTraits
         $response = $this->http->request(
             'POST', '/crm/crmidealcustomerprofile', [
             'form_params'   =>  [
-                'company_size'  =>  'a',
-                'additional_notes'  =>  'a',
-                'growth_stage'  =>  'a',
-                'business_model'  =>  'a',
                 'name'  =>  'a',
                 'description'  =>  'a',
-                'technology_rank'  =>  '1',
                             ],
                 ['http_errors' => false]
             ]
@@ -347,82 +342,6 @@ trait CrmIdealCustomerProfileTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmidealcustomerprofile_event_company_size_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'company_size'  =>  'a'
-                ]
-            );
-
-            $filter = new CrmIdealCustomerProfileQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmIdealCustomerProfile::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmidealcustomerprofile_event_additional_notes_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'additional_notes'  =>  'a'
-                ]
-            );
-
-            $filter = new CrmIdealCustomerProfileQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmIdealCustomerProfile::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmidealcustomerprofile_event_growth_stage_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'growth_stage'  =>  'a'
-                ]
-            );
-
-            $filter = new CrmIdealCustomerProfileQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmIdealCustomerProfile::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmidealcustomerprofile_event_business_model_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'business_model'  =>  'a'
-                ]
-            );
-
-            $filter = new CrmIdealCustomerProfileQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmIdealCustomerProfile::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
     public function test_crmidealcustomerprofile_event_name_filter()
     {
         try {
@@ -448,25 +367,6 @@ trait CrmIdealCustomerProfileTestTraits
             $request = new Request(
                 [
                 'description'  =>  'a'
-                ]
-            );
-
-            $filter = new CrmIdealCustomerProfileQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmIdealCustomerProfile::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmidealcustomerprofile_event_technology_rank_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'technology_rank'  =>  '1'
                 ]
             );
 
