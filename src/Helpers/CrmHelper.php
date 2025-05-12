@@ -3,7 +3,9 @@
 namespace Helpers;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use NextDeveloper\Commons\Helpers\StateHelper;
 use NextDeveloper\CRM\Database\Models\AccountManagers;
 use NextDeveloper\IAM\Database\Models\Accounts;
 use NextDeveloper\IAM\Database\Models\Users;
@@ -74,12 +76,23 @@ class CrmHelper
         return UserHelper::getAccountById($accountManager->iam_account_id);
     }
 
-    public static function getAccountOwner(Accounts|int $account) : Users
+    public static function getAccountOwner(Accounts|int $account) : ?Users
     {
         if(is_int($account)) {
             $account = Accounts::withoutGlobalScope(AuthorizationScope::class)
                 ->where('id', $account)
                 ->first();
+        }
+
+        $user = Users::withoutGlobalScope(AuthorizationScope::class)
+            ->where('id', $account->iam_user_id)
+            ->first();
+
+        if(!$user) {
+            StateHelper::setState($account, 'user_not_found', true);
+            Log::error('' . __METHOD__ . ' | Cannot find the user for account: ' . $account->id);
+
+            return null;
         }
 
         return Users::withoutGlobalScope(AuthorizationScope::class)
