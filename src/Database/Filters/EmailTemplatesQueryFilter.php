@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,22 +17,22 @@ class EmailTemplatesQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function subject($value)
     {
-        return $this->builder->where('subject', 'like', '%' . $value . '%');
+        return $this->builder->where('subject', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function content($value)
     {
-        return $this->builder->where('content', 'like', '%' . $value . '%');
+        return $this->builder->where('content', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function emailMeta($value)
     {
-        return $this->builder->where('email_meta', 'like', '%' . $value . '%');
+        return $this->builder->where('email_meta', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of emailMeta
@@ -40,7 +40,7 @@ class EmailTemplatesQueryFilter extends AbstractQueryFilter
     {
         return $this->emailMeta($value);
     }
-    
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -116,7 +116,7 @@ class EmailTemplatesQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function iamAccountId($value)
     {
             $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -126,7 +126,7 @@ class EmailTemplatesQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function crmCampaignId($value)
     {
             $crmCampaign = \NextDeveloper\CRM\Database\Models\Campaigns::where('uuid', $value)->first();
@@ -141,7 +141,7 @@ class EmailTemplatesQueryFilter extends AbstractQueryFilter
     {
         return $this->crmCampaign($value);
     }
-    
+
     public function communicationChannelId($value)
     {
             $communicationChannel = \NextDeveloper\Communication\Database\Models\Channels::where('uuid', $value)->first();
@@ -156,7 +156,7 @@ class EmailTemplatesQueryFilter extends AbstractQueryFilter
     {
         return $this->communicationChannel($value);
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

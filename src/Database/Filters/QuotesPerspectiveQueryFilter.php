@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-    
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -37,22 +37,22 @@ class QuotesPerspectiveQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
-        return $this->builder->where('name', 'like', '%' . $value . '%');
+        return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function description($value)
     {
-        return $this->builder->where('description', 'like', '%' . $value . '%');
+        return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function sellerName($value)
     {
-        return $this->builder->where('seller_name', 'like', '%' . $value . '%');
+        return $this->builder->where('seller_name', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of sellerName
@@ -60,10 +60,10 @@ class QuotesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->sellerName($value);
     }
-        
+
     public function representativeName($value)
     {
-        return $this->builder->where('representative_name', 'like', '%' . $value . '%');
+        return $this->builder->where('representative_name', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of representativeName
@@ -71,10 +71,10 @@ class QuotesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->representativeName($value);
     }
-        
+
     public function buyerName($value)
     {
-        return $this->builder->where('buyer_name', 'like', '%' . $value . '%');
+        return $this->builder->where('buyer_name', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of buyerName
@@ -82,10 +82,10 @@ class QuotesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->buyerName($value);
     }
-        
+
     public function currencyCode($value)
     {
-        return $this->builder->where('currency_code', 'like', '%' . $value . '%');
+        return $this->builder->where('currency_code', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of currencyCode
@@ -93,7 +93,7 @@ class QuotesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->currencyCode($value);
     }
-    
+
     public function lineCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -112,7 +112,7 @@ class QuotesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->lineCount($value);
     }
-    
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -193,7 +193,7 @@ class QuotesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->commonCurrency($value);
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

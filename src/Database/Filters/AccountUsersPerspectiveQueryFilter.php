@@ -50,37 +50,37 @@ class AccountUsersPerspectiveQueryFilter extends AbstractQueryFilter
 
     public function nin($value)
     {
-        return $this->builder->where('nin', 'like', '%' . $value . '%');
+        return $this->builder->where('nin', 'ilike', '%' . $value . '%');
     }
 
     public function position($value)
     {
-        return $this->builder->where('position', 'like', '%' . $value . '%');
+        return $this->builder->where('position', 'ilike', '%' . $value . '%');
     }
 
     public function job($value)
     {
-        return $this->builder->where('job', 'like', '%' . $value . '%');
+        return $this->builder->where('job', 'ilike', '%' . $value . '%');
     }
 
     public function jobDescription($value)
     {
-        return $this->builder->where('job_description', 'like', '%' . $value . '%');
+        return $this->builder->where('job_description', 'ilike', '%' . $value . '%');
     }
 
     public function hobbies($value)
     {
-        return $this->builder->where('hobbies', 'like', '%' . $value . '%');
+        return $this->builder->where('hobbies', 'ilike', '%' . $value . '%');
     }
 
     public function city($value)
     {
-        return $this->builder->where('city', 'like', '%' . $value . '%');
+        return $this->builder->where('city', 'ilike', '%' . $value . '%');
     }
 
     public function relationshipStatus($value)
     {
-        return $this->builder->where('relationship_status', 'like', '%' . $value . '%');
+        return $this->builder->where('relationship_status', 'ilike', '%' . $value . '%');
     }
 
     public function childCount($value)

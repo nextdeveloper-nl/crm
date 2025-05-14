@@ -17,35 +17,35 @@ class IdealCustomerProfilesPerspectiveQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
-        return $this->builder->where('name', 'like', '%' . $value . '%');
+        return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
-    
+
     public function description($value)
     {
-        return $this->builder->where('description', 'like', '%' . $value . '%');
+        return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
-    
+
     public function companySize($value)
     {
-        return $this->builder->where('company_size', 'like', '%' . $value . '%');
+        return $this->builder->where('company_size', 'ilike', '%' . $value . '%');
     }
-    
+
     public function additionalNotes($value)
     {
-        return $this->builder->where('additional_notes', 'like', '%' . $value . '%');
+        return $this->builder->where('additional_notes', 'ilike', '%' . $value . '%');
     }
-    
+
     public function growthStage($value)
     {
-        return $this->builder->where('growth_stage', 'like', '%' . $value . '%');
+        return $this->builder->where('growth_stage', 'ilike', '%' . $value . '%');
     }
-    
+
     public function businessModel($value)
     {
-        return $this->builder->where('business_model', 'like', '%' . $value . '%');
+        return $this->builder->where('business_model', 'ilike', '%' . $value . '%');
     }
 
     public function technologyRank($value)

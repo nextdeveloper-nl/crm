@@ -5,7 +5,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
 use NextDeveloper\Accounts\Database\Models\User;
-    
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -38,22 +38,22 @@ class UsersQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function position($value)
     {
-        return $this->builder->where('position', 'like', '%' . $value . '%');
+        return $this->builder->where('position', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function job($value)
     {
-        return $this->builder->where('job', 'like', '%' . $value . '%');
+        return $this->builder->where('job', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function jobDescription($value)
     {
-        return $this->builder->where('job_description', 'like', '%' . $value . '%');
+        return $this->builder->where('job_description', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of jobDescription
@@ -61,22 +61,22 @@ class UsersQueryFilter extends AbstractQueryFilter
     {
         return $this->jobDescription($value);
     }
-        
+
     public function hobbies($value)
     {
-        return $this->builder->where('hobbies', 'like', '%' . $value . '%');
+        return $this->builder->where('hobbies', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function city($value)
     {
-        return $this->builder->where('city', 'like', '%' . $value . '%');
+        return $this->builder->where('city', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function relationshipStatus($value)
     {
-        return $this->builder->where('relationship_status', 'like', '%' . $value . '%');
+        return $this->builder->where('relationship_status', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of relationshipStatus
@@ -84,7 +84,7 @@ class UsersQueryFilter extends AbstractQueryFilter
     {
         return $this->relationshipStatus($value);
     }
-    
+
     public function childCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -103,7 +103,7 @@ class UsersQueryFilter extends AbstractQueryFilter
     {
         return $this->childCount($value);
     }
-    
+
     public function isEvangelist($value)
     {
         return $this->builder->where('is_evangelist', $value);
@@ -114,7 +114,7 @@ class UsersQueryFilter extends AbstractQueryFilter
     {
         return $this->isEvangelist($value);
     }
-     
+
     public function isSingle($value)
     {
         return $this->builder->where('is_single', $value);
@@ -125,7 +125,7 @@ class UsersQueryFilter extends AbstractQueryFilter
     {
         return $this->isSingle($value);
     }
-     
+
     public function isSuspended($value)
     {
         return $this->builder->where('is_suspended', $value);
@@ -136,7 +136,7 @@ class UsersQueryFilter extends AbstractQueryFilter
     {
         return $this->isSuspended($value);
     }
-     
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -212,7 +212,7 @@ class UsersQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 
 

@@ -40,25 +40,25 @@ class OpportunitiesPerspectiveQueryFilter extends AbstractQueryFilter
 
     public function name($value)
     {
-        return $this->builder->where('name', 'like', '%' . $value . '%');
+        return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
 
     public function description($value)
     {
-        return $this->builder->where('description', 'like', '%' . $value . '%');
+        return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
 
 
     public function source($value)
     {
-        return $this->builder->where('source', 'like', '%' . $value . '%');
+        return $this->builder->where('source', 'ilike', '%' . $value . '%');
     }
 
 
     public function accountName($value)
     {
-        return $this->builder->where('account_name', 'like', '%' . $value . '%');
+        return $this->builder->where('account_name', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of accountName
@@ -69,7 +69,7 @@ class OpportunitiesPerspectiveQueryFilter extends AbstractQueryFilter
 
     public function responsibleAccount($value)
     {
-        return $this->builder->where('responsible_account', 'like', '%' . $value . '%');
+        return $this->builder->where('responsible_account', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of responsibleAccount
@@ -80,7 +80,7 @@ class OpportunitiesPerspectiveQueryFilter extends AbstractQueryFilter
 
     public function responsibleName($value)
     {
-        return $this->builder->where('responsible_name', 'like', '%' . $value . '%');
+        return $this->builder->where('responsible_name', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of responsibleName
