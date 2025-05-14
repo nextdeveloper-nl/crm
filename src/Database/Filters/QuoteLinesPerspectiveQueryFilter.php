@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,10 +17,10 @@ class QuoteLinesPerspectiveQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function productName($value)
     {
-        return $this->builder->where('product_name', 'like', '%' . $value . '%');
+        return $this->builder->where('product_name', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of productName
@@ -28,10 +28,10 @@ class QuoteLinesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->productName($value);
     }
-        
+
     public function productCatatalogName($value)
     {
-        return $this->builder->where('product_catatalog_name', 'like', '%' . $value . '%');
+        return $this->builder->where('product_catatalog_name', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of productCatatalogName
@@ -39,10 +39,10 @@ class QuoteLinesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->productCatatalogName($value);
     }
-        
+
     public function currencyCode($value)
     {
-        return $this->builder->where('currency_code', 'like', '%' . $value . '%');
+        return $this->builder->where('currency_code', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of currencyCode
@@ -50,7 +50,7 @@ class QuoteLinesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->currencyCode($value);
     }
-    
+
     public function quantity($value)
     {
         $operator = substr($value, 0, 1);
@@ -64,7 +64,7 @@ class QuoteLinesPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('quantity', $operator, $value);
     }
 
-    
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -145,7 +145,7 @@ class QuoteLinesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->marketplaceProduct($value);
     }
-    
+
     public function marketplaceProductCatalogId($value)
     {
             $marketplaceProductCatalog = \NextDeveloper\Marketplace\Database\Models\ProductCatalogs::where('uuid', $value)->first();
@@ -160,7 +160,7 @@ class QuoteLinesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->marketplaceProductCatalog($value);
     }
-    
+
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -170,7 +170,7 @@ class QuoteLinesPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function iamAccountId($value)
     {
             $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -180,7 +180,7 @@ class QuoteLinesPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 }
