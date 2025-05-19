@@ -23,9 +23,14 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  */
 class CampaignTargets extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
+    use Filterable, CleanCache, Taggable;
+
 
     public $timestamps = true;
+
+    public $incrementing = false;
+
+
 
     protected $table = 'crm_campaign_targets';
 
@@ -123,17 +128,8 @@ class CampaignTargets extends Model
         }
     }
 
-    public function targets() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Targets::class);
-    }
-    
-    public function campaigns() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Campaigns::class);
-    }
-    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

@@ -32,10 +32,15 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  */
 class EmailTemplates extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
+    use Filterable, CleanCache, Taggable;
+    use UuidId;
     use SoftDeletes;
 
+
     public $timestamps = true;
+
+
+
 
     protected $table = 'crm_email_templates';
 
@@ -144,17 +149,8 @@ class EmailTemplates extends Model
         }
     }
 
-    public function channels() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\Communication\Database\Models\Channels::class);
-    }
-    
-    public function campaigns() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Campaigns::class);
-    }
-    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
