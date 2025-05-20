@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-
+                    
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -24,7 +24,7 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
 
         $search = '';
 
-        for ($i = 0; $i < count($tags); $i++) {
+        for($i = 0; $i < count($tags); $i++) {
             $search .= "'" . trim($tags[$i]) . "',";
         }
 
@@ -37,74 +37,50 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-
+    
     public function pronoun($value)
     {
-        return $this->builder->where('pronoun', 'ilike', '%' . $value . '%');
+        return $this->builder->where('pronoun', 'like', '%' . $value . '%');
     }
-
-
+    
     public function name($value)
     {
-        return $this->builder->where('name', 'ilike', '%' . $value . '%');
+        return $this->builder->where('name', 'like', '%' . $value . '%');
     }
-
-
+    
     public function surname($value)
     {
-        return $this->builder->where('surname', 'ilike', '%' . $value . '%');
+        return $this->builder->where('surname', 'like', '%' . $value . '%');
     }
-
-
+    
     public function fullname($value)
     {
-        return $this->builder->where('fullname', 'ilike', '%' . $value . '%');
+        return $this->builder->where('fullname', 'like', '%' . $value . '%');
     }
-
-
+    
     public function email($value)
     {
-        return $this->builder->where('email', 'ilike', '%' . $value . '%');
+        return $this->builder->where('email', 'like', '%' . $value . '%');
     }
-
-
+    
     public function phoneNumber($value)
     {
-        return $this->builder->where('phone_number', 'ilike', '%' . $value . '%');
+        return $this->builder->where('phone_number', 'like', '%' . $value . '%');
     }
-
-    //  This is an alias function of phoneNumber
-    public function phone_number($value)
-    {
-        return $this->phoneNumber($value);
-    }
-
+    
     public function about($value)
     {
-        return $this->builder->where('about', 'ilike', '%' . $value . '%');
+        return $this->builder->where('about', 'like', '%' . $value . '%');
     }
-
-
+    
     public function targetName($value)
     {
-        return $this->builder->where('target_name', 'ilike', '%' . $value . '%');
+        return $this->builder->where('target_name', 'like', '%' . $value . '%');
     }
-
-    //  This is an alias function of targetName
-    public function target_name($value)
-    {
-        return $this->targetName($value);
-    }
-
+    
     public function targetDescription($value)
     {
-        return $this->builder->where('target_description', 'ilike', '%' . $value . '%');
-    }
-
-    //  This is an alias function of targetDescription
-    public function target_description($value)
-    {
-        return $this->targetDescription($value);
+        return $this->builder->where('target_description', 'like', '%' . $value . '%');
     }
 
     public function birthdayStart($date)
@@ -117,18 +93,6 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('birthday', '<=', $date);
     }
 
-    //  This is an alias function of birthday
-    public function birthday_start($value)
-    {
-        return $this->birthdayStart($value);
-    }
-
-    //  This is an alias function of birthday
-    public function birthday_end($value)
-    {
-        return $this->birthdayEnd($value);
-    }
-
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -137,18 +101,6 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
     public function createdAtEnd($date)
     {
         return $this->builder->where('created_at', '<=', $date);
-    }
-
-    //  This is an alias function of createdAt
-    public function created_at_start($value)
-    {
-        return $this->createdAtStart($value);
-    }
-
-    //  This is an alias function of createdAt
-    public function created_at_end($value)
-    {
-        return $this->createdAtEnd($value);
     }
 
     public function updatedAtStart($date)
@@ -161,18 +113,6 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('updated_at', '<=', $date);
     }
 
-    //  This is an alias function of updatedAt
-    public function updated_at_start($value)
-    {
-        return $this->updatedAtStart($value);
-    }
-
-    //  This is an alias function of updatedAt
-    public function updated_at_end($value)
-    {
-        return $this->updatedAtEnd($value);
-    }
-
     public function deletedAtStart($date)
     {
         return $this->builder->where('deleted_at', '>=', $date);
@@ -183,83 +123,52 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('deleted_at', '<=', $date);
     }
 
-    //  This is an alias function of deletedAt
-    public function deleted_at_start($value)
-    {
-        return $this->deletedAtStart($value);
-    }
-
-    //  This is an alias function of deletedAt
-    public function deleted_at_end($value)
-    {
-        return $this->deletedAtEnd($value);
-    }
-
     public function commonCountryId($value)
     {
-        $commonCountry = \NextDeveloper\Commons\Database\Models\Countries::where('uuid', $value)->first();
+            $commonCountry = \NextDeveloper\Commons\Database\Models\Countries::where('uuid', $value)->first();
 
-        if ($commonCountry) {
+        if($commonCountry) {
             return $this->builder->where('common_country_id', '=', $commonCountry->id);
         }
     }
 
-    //  This is an alias function of commonCountry
-    public function common_country_id($value)
-    {
-        return $this->commonCountry($value);
-    }
-
     public function commonLanguageId($value)
     {
-        $commonLanguage = \NextDeveloper\Commons\Database\Models\Languages::where('uuid', $value)->first();
+            $commonLanguage = \NextDeveloper\Commons\Database\Models\Languages::where('uuid', $value)->first();
 
-        if ($commonLanguage) {
+        if($commonLanguage) {
             return $this->builder->where('common_language_id', '=', $commonLanguage->id);
         }
     }
 
-    //  This is an alias function of commonLanguage
-    public function common_language_id($value)
-    {
-        return $this->commonLanguage($value);
-    }
-
     public function crmTargetId($value)
     {
-        $crmTarget = \NextDeveloper\CRM\Database\Models\Targets::where('uuid', $value)->first();
+            $crmTarget = \NextDeveloper\CRM\Database\Models\Targets::where('uuid', $value)->first();
 
-        if ($crmTarget) {
+        if($crmTarget) {
             return $this->builder->where('crm_target_id', '=', $crmTarget->id);
         }
     }
 
-    //  This is an alias function of crmTarget
-    public function crm_target_id($value)
-    {
-        return $this->crmTarget($value);
-    }
-
     public function iamAccountId($value)
     {
-        $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
+            $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
 
-        if ($iamAccount) {
+        if($iamAccount) {
             return $this->builder->where('iam_account_id', '=', $iamAccount->id);
         }
     }
 
-
     public function iamUserId($value)
     {
-        $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
+            $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
 
-        if ($iamUser) {
+        if($iamUser) {
             return $this->builder->where('iam_user_id', '=', $iamUser->id);
         }
     }
 
-
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 }

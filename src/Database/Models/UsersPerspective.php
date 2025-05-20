@@ -55,9 +55,14 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  */
 class UsersPerspective extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
+    use Filterable, CleanCache, Taggable;
+    use UuidId;
+
 
     public $timestamps = true;
+
+
+
 
     protected $table = 'crm_users_perspective';
 
@@ -215,6 +220,7 @@ class UsersPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

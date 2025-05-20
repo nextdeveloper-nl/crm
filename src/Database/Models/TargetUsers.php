@@ -17,17 +17,20 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  *
  * @package  NextDeveloper\CRM\Database\Models
  * @property integer $crm_target_id
- * @property integer $iam_user_id
+ * @property integer $crm_user_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
 class TargetUsers extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
+    use Filterable, CleanCache, Taggable;
+
 
     public $timestamps = true;
 
     public $incrementing = false;
+
+
 
     protected $table = 'crm_target_users';
 
@@ -39,7 +42,7 @@ class TargetUsers extends Model
 
     protected $fillable = [
             'crm_target_id',
-            'iam_user_id',
+            'crm_user_id',
     ];
 
     /**
@@ -63,6 +66,7 @@ class TargetUsers extends Model
      */
     protected $casts = [
     'crm_target_id' => 'integer',
+    'crm_user_id' => 'integer',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     ];
@@ -131,9 +135,8 @@ class TargetUsers extends Model
 
     public function users() : \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
+        return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Users::class);
     }
-
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

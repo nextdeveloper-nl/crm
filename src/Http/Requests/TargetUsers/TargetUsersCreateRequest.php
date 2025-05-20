@@ -14,6 +14,7 @@ class TargetUsersCreateRequest extends AbstractFormRequest
     {
         return [
             'crm_target_id' => 'required|exists:crm_targets,uuid|uuid',
+        'crm_user_id' => 'required|exists:crm_users,uuid|uuid',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
