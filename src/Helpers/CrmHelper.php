@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use NextDeveloper\Commons\Helpers\StateHelper;
 use NextDeveloper\CRM\Database\Models\AccountManagers;
+use NextDeveloper\CRM\Services\UsersService;
 use NextDeveloper\IAM\Database\Models\Accounts;
 use NextDeveloper\IAM\Database\Models\Users;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
@@ -98,5 +99,22 @@ class CrmHelper
         return Users::withoutGlobalScope(AuthorizationScope::class)
             ->where('id', $account->iam_user_id)
             ->first();
+    }
+
+    public static function getCrmUserOfIamUser(Users|int $user)
+    {
+        if(is_int($user)) {
+            $user = Users::withoutGlobalScope(AuthorizationScope::class)
+                ->where('id', $user)
+                ->first();
+        }
+
+        $crmUser = \NextDeveloper\CRM\Database\Models\Users::withoutGlobalScope(AuthorizationScope::class)
+            ->where('iam_user_id', $user->id)
+            ->first();
+
+        if(!$crmUser) {
+            UsersService::createFromIamUser($crmUser);
+        }
     }
 }
