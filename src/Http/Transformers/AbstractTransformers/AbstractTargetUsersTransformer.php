@@ -55,13 +55,13 @@ class AbstractTargetUsersTransformer extends AbstractTransformer
     public function transform(TargetUsers $model)
     {
                                                 $crmTargetId = \NextDeveloper\CRM\Database\Models\Targets::where('id', $model->crm_target_id)->first();
-                                                            $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
+                                                            $crmUserId = \NextDeveloper\CRM\Database\Models\Users::where('id', $model->crm_user_id)->first();
                         
         return $this->buildPayload(
             [
             'id'  =>  $model->id,
             'crm_target_id'  =>  $crmTargetId ? $crmTargetId->uuid : null,
-            'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
+            'crm_user_id'  =>  $crmUserId ? $crmUserId->uuid : null,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             ]
@@ -152,6 +152,7 @@ class AbstractTargetUsersTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

@@ -13,6 +13,7 @@ use NextDeveloper\IAM\Database\Models\Users;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 use NextDeveloper\CRM\Database\Models\Accounts as CrmAccounts;
 use NextDeveloper\IAM\Helpers\UserHelper;
+use NextDeveloper\CRM\Database\Models\Users as CrmUsers;
 
 class CrmHelper
 {
@@ -101,7 +102,7 @@ class CrmHelper
             ->first();
     }
 
-    public static function getCrmUserOfIamUser(Users|int $user)
+    public static function getCrmUserOfIamUser(Users|int $user) : ?CrmUsers
     {
         if(is_int($user)) {
             $user = Users::withoutGlobalScope(AuthorizationScope::class)
@@ -109,12 +110,24 @@ class CrmHelper
                 ->first();
         }
 
-        $crmUser = \NextDeveloper\CRM\Database\Models\Users::withoutGlobalScope(AuthorizationScope::class)
-            ->where('iam_user_id', $user->id)
+        if(!$user) {
+            StateHelper::setState($user, 'iam_user_not_found', true);
+            Log::error('' . __METHOD__ . ' | Cannot find the user for user: ' . $user->id);
+
+            return null;
+        }
+
+        $crmUser = CrmUsers::withoutGlobalScope(AuthorizationScope::class)
+            ->where('id', $user->id)
             ->first();
 
         if(!$crmUser) {
-            UsersService::createFromIamUser($crmUser);
+            StateHelper::setState($user, 'crm_user_not_found', true);
+            Log::error('' . __METHOD__ . ' | Cannot find the crm user for user: ' . $user->id);
+
+            return null;
         }
+
+        return $crmUser;
     }
 }
