@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -37,17 +37,17 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
         return $this->builder->where('name', 'like', '%' . $value . '%');
     }
-    
+
     public function description($value)
     {
         return $this->builder->where('description', 'like', '%' . $value . '%');
     }
-    
+
     public function source($value)
     {
         return $this->builder->where('source', 'like', '%' . $value . '%');
@@ -135,7 +135,7 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
 
     public function crmIdealCustomerProfileId($value)
     {
-            $crmIdealCustomerProfile = \NextDeveloper\CRM\Database\Models\ealCustomerProfiles::where('uuid', $value)->first();
+            $crmIdealCustomerProfile = \NextDeveloper\CRM\Database\Models\IdealCustomerProfiles::where('uuid', $value)->first();
 
         if($crmIdealCustomerProfile) {
             return $this->builder->where('crm_ideal_customer_profile_id', '=', $crmIdealCustomerProfile->id);

@@ -124,6 +124,11 @@ class AbstractSectorFocusService
             $action = new $class($object, $params);
             $actionId = $action->getActionId();
 
+            if(request()->get('fg') == 'true') {
+                $action->handle();
+                return $actionId;
+            }
+
             dispatch($action);
 
             return $actionId;
@@ -179,7 +184,7 @@ class AbstractSectorFocusService
      */
     public static function create(array $data)
     {
-        
+
         try {
             $model = SectorFocus::create($data);
         } catch(\Exception $e) {
@@ -225,7 +230,7 @@ class AbstractSectorFocusService
             );
         }
 
-        
+
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();
