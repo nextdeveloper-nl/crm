@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                    
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,20 +17,20 @@ class QuoteItemsPerspectiveQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function productName($value)
     {
-        return $this->builder->where('product_name', 'like', '%' . $value . '%');
+        return $this->builder->where('product_name', 'ilike', '%' . $value . '%');
     }
-    
+
     public function productCatatalogName($value)
     {
-        return $this->builder->where('product_catatalog_name', 'like', '%' . $value . '%');
+        return $this->builder->where('product_catatalog_name', 'ilike', '%' . $value . '%');
     }
-    
+
     public function currencyCode($value)
     {
-        return $this->builder->where('currency_code', 'like', '%' . $value . '%');
+        return $this->builder->where('currency_code', 'ilike', '%' . $value . '%');
     }
 
     public function quantity($value)

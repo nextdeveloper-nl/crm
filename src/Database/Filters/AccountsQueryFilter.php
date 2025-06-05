@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-        
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -37,25 +37,25 @@ class AccountsQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function position($value)
     {
-        return $this->builder->where('position', 'like', '%' . $value . '%');
+        return $this->builder->where('position', 'ilike', '%' . $value . '%');
     }
-    
+
     public function additionalInformation($value)
     {
-        return $this->builder->where('additional_information', 'like', '%' . $value . '%');
+        return $this->builder->where('additional_information', 'ilike', '%' . $value . '%');
     }
-    
+
     public function disablingReason($value)
     {
-        return $this->builder->where('disabling_reason', 'like', '%' . $value . '%');
+        return $this->builder->where('disabling_reason', 'ilike', '%' . $value . '%');
     }
-    
+
     public function suspensionReason($value)
     {
-        return $this->builder->where('suspension_reason', 'like', '%' . $value . '%');
+        return $this->builder->where('suspension_reason', 'ilike', '%' . $value . '%');
     }
 
     public function riskLevel($value)

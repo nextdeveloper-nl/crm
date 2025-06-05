@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                        
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,65 +17,65 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
-        return $this->builder->where('name', 'like', '%' . $value . '%');
+        return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
-    
+
     public function accountOwnersFullname($value)
     {
-        return $this->builder->where('account_owners_fullname', 'like', '%' . $value . '%');
+        return $this->builder->where('account_owners_fullname', 'ilike', '%' . $value . '%');
     }
-    
+
     public function accountOwnersEmail($value)
     {
-        return $this->builder->where('account_owners_email', 'like', '%' . $value . '%');
+        return $this->builder->where('account_owners_email', 'ilike', '%' . $value . '%');
     }
-    
+
     public function accountOwnersPhoneNumber($value)
     {
-        return $this->builder->where('account_owners_phone_number', 'like', '%' . $value . '%');
+        return $this->builder->where('account_owners_phone_number', 'ilike', '%' . $value . '%');
     }
-    
+
     public function domainName($value)
     {
-        return $this->builder->where('domain_name', 'like', '%' . $value . '%');
+        return $this->builder->where('domain_name', 'ilike', '%' . $value . '%');
     }
-    
+
     public function countryName($value)
     {
-        return $this->builder->where('country_name', 'like', '%' . $value . '%');
+        return $this->builder->where('country_name', 'ilike', '%' . $value . '%');
     }
-    
+
     public function phoneNumber($value)
     {
-        return $this->builder->where('phone_number', 'like', '%' . $value . '%');
+        return $this->builder->where('phone_number', 'ilike', '%' . $value . '%');
     }
-    
+
     public function description($value)
     {
-        return $this->builder->where('description', 'like', '%' . $value . '%');
+        return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
-    
+
     public function accountType($value)
     {
-        return $this->builder->where('account_type', 'like', '%' . $value . '%');
+        return $this->builder->where('account_type', 'ilike', '%' . $value . '%');
     }
-    
+
     public function position($value)
     {
-        return $this->builder->where('position', 'like', '%' . $value . '%');
+        return $this->builder->where('position', 'ilike', '%' . $value . '%');
     }
-    
+
     public function disablingReason($value)
     {
-        return $this->builder->where('disabling_reason', 'like', '%' . $value . '%');
+        return $this->builder->where('disabling_reason', 'ilike', '%' . $value . '%');
     }
-    
+
     public function suspensionReason($value)
     {
-        return $this->builder->where('suspension_reason', 'like', '%' . $value . '%');
+        return $this->builder->where('suspension_reason', 'ilike', '%' . $value . '%');
     }
 
     public function riskLevel($value)

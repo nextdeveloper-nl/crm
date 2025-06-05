@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                    
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,25 +17,25 @@ class MeetingsQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function meetingNote($value)
     {
-        return $this->builder->where('meeting_note', 'like', '%' . $value . '%');
+        return $this->builder->where('meeting_note', 'ilike', '%' . $value . '%');
     }
-    
+
     public function outcome($value)
     {
-        return $this->builder->where('outcome', 'like', '%' . $value . '%');
+        return $this->builder->where('outcome', 'ilike', '%' . $value . '%');
     }
-    
+
     public function customerRequirements($value)
     {
-        return $this->builder->where('customer_requirements', 'like', '%' . $value . '%');
+        return $this->builder->where('customer_requirements', 'ilike', '%' . $value . '%');
     }
-    
+
     public function suggestions($value)
     {
-        return $this->builder->where('suggestions', 'like', '%' . $value . '%');
+        return $this->builder->where('suggestions', 'ilike', '%' . $value . '%');
     }
 
     public function createdAtStart($date)

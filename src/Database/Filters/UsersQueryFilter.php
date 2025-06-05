@@ -5,7 +5,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
 use NextDeveloper\Accounts\Database\Models\User;
-    
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -38,35 +38,35 @@ class UsersQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function position($value)
     {
-        return $this->builder->where('position', 'like', '%' . $value . '%');
+        return $this->builder->where('position', 'ilike', '%' . $value . '%');
     }
-    
+
     public function job($value)
     {
-        return $this->builder->where('job', 'like', '%' . $value . '%');
+        return $this->builder->where('job', 'ilike', '%' . $value . '%');
     }
-    
+
     public function jobDescription($value)
     {
-        return $this->builder->where('job_description', 'like', '%' . $value . '%');
+        return $this->builder->where('job_description', 'ilike', '%' . $value . '%');
     }
-    
+
     public function hobbies($value)
     {
-        return $this->builder->where('hobbies', 'like', '%' . $value . '%');
+        return $this->builder->where('hobbies', 'ilike', '%' . $value . '%');
     }
-    
+
     public function city($value)
     {
-        return $this->builder->where('city', 'like', '%' . $value . '%');
+        return $this->builder->where('city', 'ilike', '%' . $value . '%');
     }
-    
+
     public function relationshipStatus($value)
     {
-        return $this->builder->where('relationship_status', 'like', '%' . $value . '%');
+        return $this->builder->where('relationship_status', 'ilike', '%' . $value . '%');
     }
 
     public function childCount($value)
