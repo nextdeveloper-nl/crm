@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                    
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -37,50 +37,50 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function pronoun($value)
     {
-        return $this->builder->where('pronoun', 'like', '%' . $value . '%');
+        return $this->builder->where('pronoun', 'ilike', '%' . $value . '%');
     }
-    
+
     public function name($value)
     {
-        return $this->builder->where('name', 'like', '%' . $value . '%');
+        return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
-    
+
     public function surname($value)
     {
-        return $this->builder->where('surname', 'like', '%' . $value . '%');
+        return $this->builder->where('surname', 'ilike', '%' . $value . '%');
     }
-    
+
     public function fullname($value)
     {
-        return $this->builder->where('fullname', 'like', '%' . $value . '%');
+        return $this->builder->where('fullname', 'ilike', '%' . $value . '%');
     }
-    
+
     public function email($value)
     {
-        return $this->builder->where('email', 'like', '%' . $value . '%');
+        return $this->builder->where('email', 'ilike', '%' . $value . '%');
     }
-    
+
     public function phoneNumber($value)
     {
-        return $this->builder->where('phone_number', 'like', '%' . $value . '%');
+        return $this->builder->where('phone_number', 'ilike', '%' . $value . '%');
     }
-    
+
     public function about($value)
     {
-        return $this->builder->where('about', 'like', '%' . $value . '%');
+        return $this->builder->where('about', 'ilike', '%' . $value . '%');
     }
-    
+
     public function targetName($value)
     {
-        return $this->builder->where('target_name', 'like', '%' . $value . '%');
+        return $this->builder->where('target_name', 'ilike', '%' . $value . '%');
     }
-    
+
     public function targetDescription($value)
     {
-        return $this->builder->where('target_description', 'like', '%' . $value . '%');
+        return $this->builder->where('target_description', 'ilike', '%' . $value . '%');
     }
 
     public function birthdayStart($date)

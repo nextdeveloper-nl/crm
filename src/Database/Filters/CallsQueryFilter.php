@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-            
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,35 +17,35 @@ class CallsQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
-        return $this->builder->where('name', 'like', '%' . $value . '%');
+        return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
-    
+
     public function description($value)
     {
-        return $this->builder->where('description', 'like', '%' . $value . '%');
+        return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
-    
+
     public function disposition($value)
     {
-        return $this->builder->where('disposition', 'like', '%' . $value . '%');
+        return $this->builder->where('disposition', 'ilike', '%' . $value . '%');
     }
-    
+
     public function fromNumber($value)
     {
-        return $this->builder->where('from_number', 'like', '%' . $value . '%');
+        return $this->builder->where('from_number', 'ilike', '%' . $value . '%');
     }
-    
+
     public function toNumber($value)
     {
-        return $this->builder->where('to_number', 'like', '%' . $value . '%');
+        return $this->builder->where('to_number', 'ilike', '%' . $value . '%');
     }
-    
+
     public function callDirection($value)
     {
-        return $this->builder->where('call_direction', 'like', '%' . $value . '%');
+        return $this->builder->where('call_direction', 'ilike', '%' . $value . '%');
     }
 
     public function iamAccountIt($value)

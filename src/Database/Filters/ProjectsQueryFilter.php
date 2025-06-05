@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                    
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,25 +17,25 @@ class ProjectsQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
-        return $this->builder->where('name', 'like', '%' . $value . '%');
+        return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
-    
+
     public function url($value)
     {
-        return $this->builder->where('url', 'like', '%' . $value . '%');
+        return $this->builder->where('url', 'ilike', '%' . $value . '%');
     }
-    
+
     public function projectId($value)
     {
-        return $this->builder->where('project_id', 'like', '%' . $value . '%');
+        return $this->builder->where('project_id', 'ilike', '%' . $value . '%');
     }
-    
+
     public function token($value)
     {
-        return $this->builder->where('token', 'like', '%' . $value . '%');
+        return $this->builder->where('token', 'ilike', '%' . $value . '%');
     }
 
     public function createdAtStart($date)
