@@ -17,6 +17,28 @@ use NextDeveloper\CRM\Database\Models\Users as CrmUsers;
 
 class CrmHelper
 {
+    public static function addAccountManager(\NextDeveloper\CRM\Database\Models\Accounts $account, Accounts|int $iamAccount, Users|int $iamUser)
+    {
+        return AccountManagers::create([
+            'crm_account_id' => $account->id,
+            'iam_account_id' => is_int($iamAccount) ? $iamAccount : $iamAccount->id,
+            'iam_user_id' => is_int($iamUser) ? $iamUser : $iamUser->id
+        ]);
+    }
+
+    public static function getCrmAccount(Accounts|int $account)
+    {
+        if(is_int($account)) {
+            return \NextDeveloper\CRM\Database\Models\Accounts::withoutGlobalScope(AuthorizationScope::class)
+                ->where('iam_account_id', $account)
+                ->first();
+        }
+
+        return \NextDeveloper\CRM\Database\Models\Accounts::withoutGlobalScope(AuthorizationScope::class)
+            ->where('iam_account_id', $account->id)
+            ->first();
+    }
+
     public static function getAccountManagers(\NextDeveloper\CRM\Database\Models\Accounts $account) : Collection
     {
         $managers = AccountManagers::withoutGlobalScope(AuthorizationScope::class)
