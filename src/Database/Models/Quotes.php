@@ -30,6 +30,7 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property integer $common_currency_id
  * @property $approval_level
  * @property array $tags
+ * @property boolean $is_converted
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
@@ -66,6 +67,7 @@ class Quotes extends Model
             'common_currency_id',
             'approval_level',
             'tags',
+        'is_converted',
     ];
 
     /**
@@ -95,6 +97,7 @@ class Quotes extends Model
     'detailed_amount' => 'array',
     'common_currency_id' => 'integer',
     'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+     'is_converted' => 'boolean',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
