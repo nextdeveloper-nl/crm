@@ -3,6 +3,7 @@
 namespace NextDeveloper\CRM\Actions\Quotes;
 
 use Carbon\Carbon;
+use Helpers\InvoiceHelper;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use NextDeveloper\Accounting\Helpers\AccountingHelper;
@@ -138,6 +139,8 @@ class ConvertQuoteToInvoice extends AbstractAction
             $this->model->updateQuietly([
                 'is_converted' => true
             ]);
+
+            InvoiceHelper::updateInvoiceAmount($invoice);
 
             $this->setProgress(100, 'Quote successfully converted to invoice: ' . $invoice->uuid);
 
