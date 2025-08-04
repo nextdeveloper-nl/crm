@@ -5,9 +5,9 @@ namespace NextDeveloper\CRM\Actions\Quotes;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use NextDeveloper\Accounting\Helpers\AccountingHelper;
 use NextDeveloper\Accounting\Services\InvoicesService;
 use NextDeveloper\Accounting\Services\InvoiceItemsService;
-use Helpers\AccountingHelper;
 use NextDeveloper\Commons\Actions\AbstractAction;
 use NextDeveloper\Commons\Database\Models\Currencies;
 use NextDeveloper\Commons\Database\Models\ExchangeRates;
@@ -115,7 +115,8 @@ class ConvertQuoteToInvoice extends AbstractAction
                     'object_type' => 'NextDeveloper\Marketplace\Database\Models\ProductCatalogs',
                     'object_id' => $quoteItem->marketplace_product_catalog_id,
                     'quantity' => $quoteItem->quantity,
-                    'unit_price' => $quoteItem->unit_price,
+                    //  We are using the discounted price
+                    'unit_price' => ($quoteItem->total_price / $quoteItem->quantity),
                     'common_currency_id' => $this->model->common_currency_id,
                     'iam_account_id' => $this->model->iam_account_id,
                     'accounting_account_id' => $accountingAccount->id,
