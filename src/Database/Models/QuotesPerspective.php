@@ -31,6 +31,8 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property $suggested_price
  * @property $approval_level
  * @property array $tags
+ * @property integer $iam_account_id
+ * @property integer $iam_user_id
  * @property integer $line_count
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
@@ -38,15 +40,10 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  */
 class QuotesPerspective extends Model
 {
-    use Filterable, CleanCache, Taggable;
-    use UuidId;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
     use SoftDeletes;
 
-
     public $timestamps = true;
-
-
-
 
     protected $table = 'crm_quotes_perspective';
 
@@ -69,6 +66,8 @@ class QuotesPerspective extends Model
             'suggested_price',
             'approval_level',
             'tags',
+            'iam_account_id',
+            'iam_user_id',
             'line_count',
     ];
 
@@ -167,6 +166,7 @@ class QuotesPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

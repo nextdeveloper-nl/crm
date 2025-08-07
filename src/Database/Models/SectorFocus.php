@@ -22,14 +22,9 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  */
 class SectorFocus extends Model
 {
-    use Filterable, CleanCache, Taggable;
-    use UuidId;
-
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
 
     public $timestamps = false;
-
-
-
 
     protected $table = 'crm_sector_focus';
 
@@ -124,6 +119,7 @@ class SectorFocus extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 }

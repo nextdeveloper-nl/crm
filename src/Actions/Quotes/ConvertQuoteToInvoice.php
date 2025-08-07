@@ -15,6 +15,7 @@ use NextDeveloper\Commons\Database\Models\ExchangeRates;
 use NextDeveloper\Commons\Exceptions\NotAllowedException;
 use NextDeveloper\CRM\Database\Models\Quotes;
 use NextDeveloper\CRM\Database\Models\QuoteItems;
+use NextDeveloper\CRM\Exceptions\NotReadyException;
 
 /**
  * This action converts a quote to an invoice by creating an invoice record
@@ -43,7 +44,7 @@ class ConvertQuoteToInvoice extends AbstractAction
 
         // Validate that the quote can be converted
         if ($quote->approval_level !== 'approved' || $quote->is_converted) {
-            throw new NotAllowedException('Quote must be approved before converting to invoice.');
+            throw new NotReadyException('Quote must be approved before converting to invoice.');
         }
 
         parent::__construct($params, $previousAction);
@@ -82,7 +83,7 @@ class ConvertQuoteToInvoice extends AbstractAction
                 'is_paid' => false,
                 'is_refund' => false,
                 'is_payable' => true,
-                'is_sealed' => false,
+                'is_sealed' => true,
                 'due_date' => Carbon::now()->addDays(30), // 30 days payment term
                 'iam_account_id' => $this->model->iam_account_id,
                 'iam_user_id' => $this->model->iam_user_id,
