@@ -28,6 +28,18 @@ class CampaignTargetsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('created_at', '<=', $date);
     }
 
+    //  This is an alias function of createdAt
+    public function created_at_start($value)
+    {
+        return $this->createdAtStart($value);
+    }
+
+    //  This is an alias function of createdAt
+    public function created_at_end($value)
+    {
+        return $this->createdAtEnd($value);
+    }
+
     public function updatedAtStart($date)
     {
         return $this->builder->where('updated_at', '>=', $date);
@@ -36,6 +48,18 @@ class CampaignTargetsQueryFilter extends AbstractQueryFilter
     public function updatedAtEnd($date)
     {
         return $this->builder->where('updated_at', '<=', $date);
+    }
+
+    //  This is an alias function of updatedAt
+    public function updated_at_start($value)
+    {
+        return $this->updatedAtStart($value);
+    }
+
+    //  This is an alias function of updatedAt
+    public function updated_at_end($value)
+    {
+        return $this->updatedAtEnd($value);
     }
 
     public function crmTargetId($value)
@@ -47,6 +71,12 @@ class CampaignTargetsQueryFilter extends AbstractQueryFilter
         }
     }
 
+        //  This is an alias function of crmTarget
+    public function crm_target_id($value)
+    {
+        return $this->crmTarget($value);
+    }
+    
     public function crmCampaignId($value)
     {
             $crmCampaign = \NextDeveloper\CRM\Database\Models\Campaigns::where('uuid', $value)->first();
@@ -56,7 +86,14 @@ class CampaignTargetsQueryFilter extends AbstractQueryFilter
         }
     }
 
+        //  This is an alias function of crmCampaign
+    public function crm_campaign_id($value)
+    {
+        return $this->crmCampaign($value);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

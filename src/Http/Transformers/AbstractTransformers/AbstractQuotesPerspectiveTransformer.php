@@ -55,6 +55,8 @@ class AbstractQuotesPerspectiveTransformer extends AbstractTransformer
     public function transform(QuotesPerspective $model)
     {
                                                 $commonCurrencyId = \NextDeveloper\Commons\Database\Models\Currencies::where('id', $model->common_currency_id)->first();
+                                                            $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
+                                                            $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
                         
         return $this->buildPayload(
             [
@@ -71,6 +73,8 @@ class AbstractQuotesPerspectiveTransformer extends AbstractTransformer
             'suggested_price'  =>  $model->suggested_price,
             'approval_level'  =>  $model->approval_level,
             'tags'  =>  $model->tags,
+            'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
+            'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
             'line_count'  =>  $model->line_count,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
@@ -163,6 +167,7 @@ class AbstractQuotesPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

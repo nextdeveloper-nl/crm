@@ -30,22 +30,17 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property integer $common_currency_id
  * @property $approval_level
  * @property array $tags
- * @property boolean $is_converted
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
+ * @property boolean $is_converted
  */
 class Quotes extends Model
 {
-    use Filterable, CleanCache, Taggable;
-    use UuidId;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
     use SoftDeletes;
 
-
     public $timestamps = true;
-
-
-
 
     protected $table = 'crm_quotes';
 
@@ -67,7 +62,7 @@ class Quotes extends Model
             'common_currency_id',
             'approval_level',
             'tags',
-        'is_converted',
+            'is_converted',
     ];
 
     /**
@@ -97,10 +92,10 @@ class Quotes extends Model
     'detailed_amount' => 'array',
     'common_currency_id' => 'integer',
     'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-     'is_converted' => 'boolean',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
+    'is_converted' => 'boolean',
     ];
 
     /**
@@ -161,7 +156,18 @@ class Quotes extends Model
         }
     }
 
+    public function accounts() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Accounts::class);
+    }
+    
+    public function users() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

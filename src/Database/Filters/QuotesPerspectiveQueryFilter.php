@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-
+            
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -37,37 +37,63 @@ class QuotesPerspectiveQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-
+    
     public function name($value)
     {
         return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
+        
     public function description($value)
     {
         return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
 
+        
     public function sellerName($value)
     {
         return $this->builder->where('seller_name', 'ilike', '%' . $value . '%');
     }
 
+        //  This is an alias function of sellerName
+    public function seller_name($value)
+    {
+        return $this->sellerName($value);
+    }
+        
     public function representativeName($value)
     {
         return $this->builder->where('representative_name', 'ilike', '%' . $value . '%');
     }
 
+        //  This is an alias function of representativeName
+    public function representative_name($value)
+    {
+        return $this->representativeName($value);
+    }
+        
     public function buyerName($value)
     {
         return $this->builder->where('buyer_name', 'ilike', '%' . $value . '%');
     }
 
+        //  This is an alias function of buyerName
+    public function buyer_name($value)
+    {
+        return $this->buyerName($value);
+    }
+        
     public function currencyCode($value)
     {
         return $this->builder->where('currency_code', 'ilike', '%' . $value . '%');
     }
 
+        //  This is an alias function of currencyCode
+    public function currency_code($value)
+    {
+        return $this->currencyCode($value);
+    }
+    
     public function lineCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -81,6 +107,12 @@ class QuotesPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('line_count', $operator, $value);
     }
 
+        //  This is an alias function of lineCount
+    public function line_count($value)
+    {
+        return $this->lineCount($value);
+    }
+    
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -89,6 +121,18 @@ class QuotesPerspectiveQueryFilter extends AbstractQueryFilter
     public function createdAtEnd($date)
     {
         return $this->builder->where('created_at', '<=', $date);
+    }
+
+    //  This is an alias function of createdAt
+    public function created_at_start($value)
+    {
+        return $this->createdAtStart($value);
+    }
+
+    //  This is an alias function of createdAt
+    public function created_at_end($value)
+    {
+        return $this->createdAtEnd($value);
     }
 
     public function updatedAtStart($date)
@@ -101,6 +145,18 @@ class QuotesPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('updated_at', '<=', $date);
     }
 
+    //  This is an alias function of updatedAt
+    public function updated_at_start($value)
+    {
+        return $this->updatedAtStart($value);
+    }
+
+    //  This is an alias function of updatedAt
+    public function updated_at_end($value)
+    {
+        return $this->updatedAtEnd($value);
+    }
+
     public function deletedAtStart($date)
     {
         return $this->builder->where('deleted_at', '>=', $date);
@@ -109,6 +165,18 @@ class QuotesPerspectiveQueryFilter extends AbstractQueryFilter
     public function deletedAtEnd($date)
     {
         return $this->builder->where('deleted_at', '<=', $date);
+    }
+
+    //  This is an alias function of deletedAt
+    public function deleted_at_start($value)
+    {
+        return $this->deletedAtStart($value);
+    }
+
+    //  This is an alias function of deletedAt
+    public function deleted_at_end($value)
+    {
+        return $this->deletedAtEnd($value);
     }
 
     public function commonCurrencyId($value)
@@ -120,7 +188,34 @@ class QuotesPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
+        //  This is an alias function of commonCurrency
+    public function common_currency_id($value)
+    {
+        return $this->commonCurrency($value);
+    }
+    
+    public function iamAccountId($value)
+    {
+            $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
+
+        if($iamAccount) {
+            return $this->builder->where('iam_account_id', '=', $iamAccount->id);
+        }
+    }
+
+    
+    public function iamUserId($value)
+    {
+            $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
+
+        if($iamUser) {
+            return $this->builder->where('iam_user_id', '=', $iamUser->id);
+        }
+    }
+
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
