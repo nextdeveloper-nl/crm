@@ -20,6 +20,7 @@ class QuotesUpdateRequest extends AbstractFormRequest
         'common_currency_id' => 'nullable|exists:common_currencies,uuid|uuid',
         'approval_level' => '',
         'tags' => '',
+        'is_converted' => 'boolean',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

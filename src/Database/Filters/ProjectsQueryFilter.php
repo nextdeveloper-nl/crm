@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-
+                    
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,27 +17,36 @@ class ProjectsQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-
+    
     public function name($value)
     {
         return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
+        
     public function url($value)
     {
         return $this->builder->where('url', 'ilike', '%' . $value . '%');
     }
 
+        
     public function projectId($value)
     {
         return $this->builder->where('project_id', 'ilike', '%' . $value . '%');
     }
 
+        //  This is an alias function of projectId
+    public function project_id($value)
+    {
+        return $this->projectId($value);
+    }
+        
     public function token($value)
     {
         return $this->builder->where('token', 'ilike', '%' . $value . '%');
     }
 
+    
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -46,6 +55,18 @@ class ProjectsQueryFilter extends AbstractQueryFilter
     public function createdAtEnd($date)
     {
         return $this->builder->where('created_at', '<=', $date);
+    }
+
+    //  This is an alias function of createdAt
+    public function created_at_start($value)
+    {
+        return $this->createdAtStart($value);
+    }
+
+    //  This is an alias function of createdAt
+    public function created_at_end($value)
+    {
+        return $this->createdAtEnd($value);
     }
 
     public function updatedAtStart($date)
@@ -58,6 +79,18 @@ class ProjectsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('updated_at', '<=', $date);
     }
 
+    //  This is an alias function of updatedAt
+    public function updated_at_start($value)
+    {
+        return $this->updatedAtStart($value);
+    }
+
+    //  This is an alias function of updatedAt
+    public function updated_at_end($value)
+    {
+        return $this->updatedAtEnd($value);
+    }
+
     public function deletedAtStart($date)
     {
         return $this->builder->where('deleted_at', '>=', $date);
@@ -66,6 +99,18 @@ class ProjectsQueryFilter extends AbstractQueryFilter
     public function deletedAtEnd($date)
     {
         return $this->builder->where('deleted_at', '<=', $date);
+    }
+
+    //  This is an alias function of deletedAt
+    public function deleted_at_start($value)
+    {
+        return $this->deletedAtStart($value);
+    }
+
+    //  This is an alias function of deletedAt
+    public function deleted_at_end($value)
+    {
+        return $this->deletedAtEnd($value);
     }
 
     public function projectId($value)
@@ -77,6 +122,12 @@ class ProjectsQueryFilter extends AbstractQueryFilter
         }
     }
 
+        //  This is an alias function of project
+    public function project_id($value)
+    {
+        return $this->project($value);
+    }
+    
     public function crmAccountId($value)
     {
             $crmAccount = \NextDeveloper\CRM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -86,6 +137,12 @@ class ProjectsQueryFilter extends AbstractQueryFilter
         }
     }
 
+        //  This is an alias function of crmAccount
+    public function crm_account_id($value)
+    {
+        return $this->crmAccount($value);
+    }
+    
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -95,6 +152,7 @@ class ProjectsQueryFilter extends AbstractQueryFilter
         }
     }
 
+    
     public function iamAccountId($value)
     {
             $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -104,6 +162,7 @@ class ProjectsQueryFilter extends AbstractQueryFilter
         }
     }
 
+    
     public function crmOpportunityId($value)
     {
             $crmOpportunity = \NextDeveloper\CRM\Database\Models\Opportunities::where('uuid', $value)->first();
@@ -113,7 +172,14 @@ class ProjectsQueryFilter extends AbstractQueryFilter
         }
     }
 
+        //  This is an alias function of crmOpportunity
+    public function crm_opportunity_id($value)
+    {
+        return $this->crmOpportunity($value);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

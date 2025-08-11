@@ -22,6 +22,7 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property string $name
  * @property string $account_owners_fullname
  * @property string $account_owners_email
+ * @property string $email
  * @property string $account_owners_phone_number
  * @property integer $common_domain_id
  * @property string $domain_name
@@ -39,7 +40,6 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property integer $iam_account_id
  * @property integer $total_user_count
  * @property integer $registered_user_count
- * @property integer $ideal_customer_profile_count
  * @property boolean $is_disabled
  * @property string $disabling_reason
  * @property boolean $is_suspended
@@ -50,15 +50,10 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  */
 class AccountsPerspective extends Model
 {
-    use Filterable, CleanCache, Taggable;
-    use UuidId;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
     use SoftDeletes;
 
-
     public $timestamps = true;
-
-
-
 
     protected $table = 'crm_accounts_perspective';
 
@@ -72,6 +67,7 @@ class AccountsPerspective extends Model
             'name',
             'account_owners_fullname',
             'account_owners_email',
+            'email',
             'account_owners_phone_number',
             'common_domain_id',
             'domain_name',
@@ -89,7 +85,6 @@ class AccountsPerspective extends Model
             'iam_account_id',
             'total_user_count',
             'registered_user_count',
-            'ideal_customer_profile_count',
             'is_disabled',
             'disabling_reason',
             'is_suspended',
@@ -120,6 +115,7 @@ class AccountsPerspective extends Model
     'name' => 'string',
     'account_owners_fullname' => 'string',
     'account_owners_email' => 'string',
+    'email' => 'string',
     'account_owners_phone_number' => 'string',
     'common_domain_id' => 'integer',
     'domain_name' => 'string',
@@ -135,7 +131,6 @@ class AccountsPerspective extends Model
     'risk_level' => 'integer',
     'total_user_count' => 'integer',
     'registered_user_count' => 'integer',
-    'ideal_customer_profile_count' => 'integer',
     'is_disabled' => 'boolean',
     'disabling_reason' => 'string',
     'is_suspended' => 'boolean',
@@ -204,6 +199,7 @@ class AccountsPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

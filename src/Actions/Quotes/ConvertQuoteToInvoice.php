@@ -3,17 +3,19 @@
 namespace NextDeveloper\CRM\Actions\Quotes;
 
 use Carbon\Carbon;
+use Helpers\InvoiceHelper;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use NextDeveloper\Accounting\Helpers\AccountingHelper;
 use NextDeveloper\Accounting\Services\InvoicesService;
 use NextDeveloper\Accounting\Services\InvoiceItemsService;
-use Helpers\AccountingHelper;
 use NextDeveloper\Commons\Actions\AbstractAction;
 use NextDeveloper\Commons\Database\Models\Currencies;
 use NextDeveloper\Commons\Database\Models\ExchangeRates;
 use NextDeveloper\Commons\Exceptions\NotAllowedException;
 use NextDeveloper\CRM\Database\Models\Quotes;
 use NextDeveloper\CRM\Database\Models\QuoteItems;
+use NextDeveloper\CRM\Exceptions\NotReadyException;
 
 /**
  * This action converts a quote to an invoice by creating an invoice record
@@ -42,7 +44,7 @@ class ConvertQuoteToInvoice extends AbstractAction
 
         // Validate that the quote can be converted
         if ($quote->approval_level !== 'approved' || $quote->is_converted) {
-            throw new NotAllowedException('Quote must be approved before converting to invoice.');
+            throw new NotReadyException('Quote must be approved before converting to invoice.');
         }
 
         parent::__construct($params, $previousAction);
@@ -81,7 +83,7 @@ class ConvertQuoteToInvoice extends AbstractAction
                 'is_paid' => false,
                 'is_refund' => false,
                 'is_payable' => true,
-                'is_sealed' => false,
+                'is_sealed' => true,
                 'due_date' => Carbon::now()->addDays(30), // 30 days payment term
                 'iam_account_id' => $this->model->iam_account_id,
                 'iam_user_id' => $this->model->iam_user_id,
@@ -115,7 +117,8 @@ class ConvertQuoteToInvoice extends AbstractAction
                     'object_type' => 'NextDeveloper\Marketplace\Database\Models\ProductCatalogs',
                     'object_id' => $quoteItem->marketplace_product_catalog_id,
                     'quantity' => $quoteItem->quantity,
-                    'unit_price' => $quoteItem->unit_price,
+                    //  We are using the discounted price
+                    'unit_price' => ($quoteItem->total_price / $quoteItem->quantity),
                     'common_currency_id' => $this->model->common_currency_id,
                     'iam_account_id' => $this->model->iam_account_id,
                     'accounting_account_id' => $accountingAccount->id,
@@ -137,6 +140,8 @@ class ConvertQuoteToInvoice extends AbstractAction
             $this->model->updateQuietly([
                 'is_converted' => true
             ]);
+
+            InvoiceHelper::updateInvoiceAmount($invoice);
 
             $this->setProgress(100, 'Quote successfully converted to invoice: ' . $invoice->uuid);
 

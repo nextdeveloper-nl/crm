@@ -37,15 +37,10 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  */
 class QuoteItemsPerspective extends Model
 {
-    use Filterable, CleanCache, Taggable;
-    use UuidId;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
     use SoftDeletes;
 
-
     public $timestamps = true;
-
-
-
 
     protected $table = 'crm_quote_items_perspective';
 
@@ -162,6 +157,7 @@ class QuoteItemsPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
