@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                
+                    
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -177,7 +177,23 @@ class QuotesQueryFilter extends AbstractQueryFilter
         return $this->commonCurrency($value);
     }
     
+    public function accountingInvoiceId($value)
+    {
+            $accountingInvoice = \NextDeveloper\Accounting\Database\Models\Invoices::where('uuid', $value)->first();
+
+        if($accountingInvoice) {
+            return $this->builder->where('accounting_invoice_id', '=', $accountingInvoice->id);
+        }
+    }
+
+        //  This is an alias function of accountingInvoice
+    public function accounting_invoice_id($value)
+    {
+        return $this->accountingInvoice($value);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 

@@ -56,10 +56,10 @@ class AbstractOpportunitiesPerspectiveTransformer extends AbstractTransformer
     {
                                                 $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
                                                             $crmOpportunityId = \NextDeveloper\CRM\Database\Models\Opportunities::where('id', $model->crm_opportunity_id)->first();
-                                                            $crmIdealCustomerProfileId = \NextDeveloper\CRM\Database\Models\IdealCustomerProfiles::where('id', $model->crm_ideal_customer_profile_id)->first();
+                                                            $crmIdealCustomerProfileId = \NextDeveloper\CRM\Database\Models\ealCustomerProfiles::where('id', $model->crm_ideal_customer_profile_id)->first();
                                                             $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
                                                             $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
-
+                        
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
@@ -174,6 +174,7 @@ class AbstractOpportunitiesPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
