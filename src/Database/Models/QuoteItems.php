@@ -31,6 +31,7 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
+ * @property integer $common_currency_id
  */
 class QuoteItems extends Model
 {
@@ -57,6 +58,7 @@ class QuoteItems extends Model
             'total_price',
             'iam_user_id',
             'iam_account_id',
+            'common_currency_id',
     ];
 
     /**
@@ -87,6 +89,7 @@ class QuoteItems extends Model
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
+    'common_currency_id' => 'integer',
     ];
 
     /**
@@ -148,6 +151,7 @@ class QuoteItems extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

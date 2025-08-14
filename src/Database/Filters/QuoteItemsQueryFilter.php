@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                    
+                        
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -163,7 +163,23 @@ class QuoteItemsQueryFilter extends AbstractQueryFilter
     }
 
     
+    public function commonCurrencyId($value)
+    {
+            $commonCurrency = \NextDeveloper\Commons\Database\Models\Currencies::where('uuid', $value)->first();
+
+        if($commonCurrency) {
+            return $this->builder->where('common_currency_id', '=', $commonCurrency->id);
+        }
+    }
+
+        //  This is an alias function of commonCurrency
+    public function common_currency_id($value)
+    {
+        return $this->commonCurrency($value);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
