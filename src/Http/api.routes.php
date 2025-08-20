@@ -212,27 +212,6 @@ Route::prefix('crm')->group(
             }
         );
 
-        Route::prefix('industries')->group(
-            function () {
-                Route::get('/', 'Industries\IndustriesController@index');
-                Route::get('/actions', 'Industries\IndustriesController@getActions');
-
-                Route::get('{crm_industries}/tags ', 'Industries\IndustriesController@tags');
-                Route::post('{crm_industries}/tags ', 'Industries\IndustriesController@saveTags');
-                Route::get('{crm_industries}/addresses ', 'Industries\IndustriesController@addresses');
-                Route::post('{crm_industries}/addresses ', 'Industries\IndustriesController@saveAddresses');
-
-                Route::get('/{crm_industries}/{subObjects}', 'Industries\IndustriesController@relatedObjects');
-                Route::get('/{crm_industries}', 'Industries\IndustriesController@show');
-
-                Route::post('/', 'Industries\IndustriesController@store');
-                Route::post('/{crm_industries}/do/{action}', 'Industries\IndustriesController@doAction');
-
-                Route::patch('/{crm_industries}', 'Industries\IndustriesController@update');
-                Route::delete('/{crm_industries}', 'Industries\IndustriesController@destroy');
-            }
-        );
-
         Route::prefix('quotes')->group(
             function () {
                 Route::get('/', 'Quotes\QuotesController@index');
@@ -251,6 +230,27 @@ Route::prefix('crm')->group(
 
                 Route::patch('/{crm_quotes}', 'Quotes\QuotesController@update');
                 Route::delete('/{crm_quotes}', 'Quotes\QuotesController@destroy');
+            }
+        );
+
+        Route::prefix('industries')->group(
+            function () {
+                Route::get('/', 'Industries\IndustriesController@index');
+                Route::get('/actions', 'Industries\IndustriesController@getActions');
+
+                Route::get('{crm_industries}/tags ', 'Industries\IndustriesController@tags');
+                Route::post('{crm_industries}/tags ', 'Industries\IndustriesController@saveTags');
+                Route::get('{crm_industries}/addresses ', 'Industries\IndustriesController@addresses');
+                Route::post('{crm_industries}/addresses ', 'Industries\IndustriesController@saveAddresses');
+
+                Route::get('/{crm_industries}/{subObjects}', 'Industries\IndustriesController@relatedObjects');
+                Route::get('/{crm_industries}', 'Industries\IndustriesController@show');
+
+                Route::post('/', 'Industries\IndustriesController@store');
+                Route::post('/{crm_industries}/do/{action}', 'Industries\IndustriesController@doAction');
+
+                Route::patch('/{crm_industries}', 'Industries\IndustriesController@update');
+                Route::delete('/{crm_industries}', 'Industries\IndustriesController@destroy');
             }
         );
 
@@ -1034,8 +1034,40 @@ Route::prefix('crm')->group(
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 );
+
 
 
 
