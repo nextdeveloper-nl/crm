@@ -20,6 +20,7 @@ class QuoteItemsUpdateRequest extends AbstractFormRequest
         'unit_price' => 'nullable',
         'discount' => '',
         'total_price' => 'nullable',
+        'common_currency_id' => 'nullable|exists:common_currencies,uuid|uuid',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

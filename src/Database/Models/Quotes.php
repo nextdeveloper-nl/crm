@@ -34,6 +34,7 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
  * @property boolean $is_converted
+ * @property integer $accounting_invoice_id
  */
 class Quotes extends Model
 {
@@ -63,6 +64,7 @@ class Quotes extends Model
             'approval_level',
             'tags',
             'is_converted',
+            'accounting_invoice_id',
     ];
 
     /**
@@ -96,6 +98,7 @@ class Quotes extends Model
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
     'is_converted' => 'boolean',
+    'accounting_invoice_id' => 'integer',
     ];
 
     /**
@@ -166,7 +169,13 @@ class Quotes extends Model
         return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
     }
     
+    public function invoices() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\Accounting\Database\Models\Invoices::class);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
