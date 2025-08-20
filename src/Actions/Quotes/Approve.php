@@ -24,7 +24,7 @@ use NextDeveloper\Marketplace\Database\Models\ProductsPerspective;
 /**
  * This action, assigns an account manager to the given user
  */
-class RecalculateQuote extends AbstractAction
+class Approve extends AbstractAction
 {
     /**
      * This action takes a user object and assigns an Account Manager
@@ -49,7 +49,7 @@ class RecalculateQuote extends AbstractAction
                 'approval_level' => 'approved',
             ]);
         }
-        
+
         $this->setFinished('Quote approved');
     }
 }
