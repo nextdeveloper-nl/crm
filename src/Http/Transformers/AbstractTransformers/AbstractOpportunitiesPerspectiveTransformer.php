@@ -78,7 +78,6 @@ class AbstractOpportunitiesPerspectiveTransformer extends AbstractTransformer
             'call_count'  =>  $model->call_count,
             'project_count'  =>  $model->project_count,
             'crm_opportunity_id'  =>  $crmOpportunityId ? $crmOpportunityId->uuid : null,
-            'crm_ideal_customer_profile_id'  =>  $crmIdealCustomerProfileId ? $crmIdealCustomerProfileId->uuid : null,
             'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
             'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
             'tags'  =>  $model->tags,

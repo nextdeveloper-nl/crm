@@ -75,7 +75,6 @@ class AbstractOpportunitiesTransformer extends AbstractTransformer
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
-            'crm_ideal_customer_profile_id'  =>  $crmIdealCustomerProfileId ? $crmIdealCustomerProfileId->uuid : null,
             ]
         );
     }
