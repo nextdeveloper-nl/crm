@@ -46,12 +46,11 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
 
         if(
             $model->getTable() == 'crm_opportunities_perspective' ||
-            $model->getTable() == 'crm_opportunities'
+            $model->getTable() == 'crm_opportunities' ||
+            $model->getTable() == 'crm_quotes' ||
+            $model->getTable() == 'crm_quotes_perspective'
         ) {
-            $builder->whereRaw('crm_account_id IN (
-                    select crm_account_id from crm_account_managers cam where cam.iam_account_id = ' . UserHelper::currentAccount()->id . '
-                )');
-
+            $builder->where('iam_account_id', UserHelper::currentAccount()->id);
             return;
         }
 
