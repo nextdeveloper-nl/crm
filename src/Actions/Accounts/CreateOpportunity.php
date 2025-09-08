@@ -12,11 +12,7 @@ use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 use NextDeveloper\IAM\Helpers\UserHelper;
 
 /**
- * Class CreateOpportunity
- *
- * This action creates an opportunity for the related account.
- *
- * @package NextDeveloper\CRM\Actions\Accounts
+ * This action creates an opportunity with a default name 'Initial opportunity' for a given CRM account.
  */
 class CreateOpportunity extends AbstractAction
 {

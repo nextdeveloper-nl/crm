@@ -8,8 +8,6 @@ use NextDeveloper\CRM\Database\Models\Accounts;
 use NextDeveloper\Events\Services\Events;
 
 /**
- * Class UnsuspendAccount
- *
  * This action unsuspends an IAM account associated with a CRM account, marking the account as active.
  */
 class UnsuspendAccount extends AbstractAction
