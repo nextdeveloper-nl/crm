@@ -11,11 +11,7 @@ use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 use NextDeveloper\IAM\Helpers\UserHelper;
 
 /**
- * Class DisableAccount
- *
  * This action disables an IAM account associated with a CRM account, marking the account as inactive.
- *
- * @package NextDeveloper\CRM\Actions\Accounts
  */
 class DisableAccount extends AbstractAction
 {

@@ -10,11 +10,7 @@ use NextDeveloper\Events\Services\Events;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 
 /**
- * Class WatchAccount
- *
  * This class handles the action of adding the current user as an Account Manager for a specified account.
- *
- * @package NextDeveloper\CRM\Actions\Accounts
  */
 class WatchAccount extends AbstractAction
 {
