@@ -19,11 +19,13 @@ class CrmHelper
 {
     public static function addAccountManager(\NextDeveloper\CRM\Database\Models\Accounts $account, Accounts|int $iamAccount, Users|int $iamUser)
     {
-        return AccountManagers::create([
+        $accountManager = AccountManagers::create([
             'crm_account_id' => $account->id,
             'iam_account_id' => is_int($iamAccount) ? $iamAccount : $iamAccount->id,
             'iam_user_id' => is_int($iamUser) ? $iamUser : $iamUser->id
         ]);
+
+        return $accountManager;
     }
 
     public static function getCrmAccount(Accounts|int $account)
