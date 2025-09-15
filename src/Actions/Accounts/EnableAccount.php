@@ -10,11 +10,7 @@ use NextDeveloper\IAM\Database\Models\Accounts as IAMAccounts;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 
 /**
- * Class EnableAccount
- *
  * This action enables an IAM account associated with a CRM account, ensuring the account is active.
- *
- * @package NextDeveloper\CRM\Actions\Accounts
  */
 class EnableAccount extends AbstractAction
 {

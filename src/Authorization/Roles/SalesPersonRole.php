@@ -137,7 +137,9 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
             'crm_meetings:read',
             'crm_meetings:create',
             'crm_meetings:update',
-            'crm_meetings:delete'
+            'crm_meetings:delete',
+
+            'crm_accounts_perspective:read',
         ];
     }
 

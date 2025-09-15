@@ -8,11 +8,7 @@ use NextDeveloper\CRM\Database\Models\Accounts;
 use NextDeveloper\Events\Services\Events;
 
 /**
- * Class SuspendAccount
- *
  * This action disables an IAM account associated with a CRM account, marking the account as inactive.
- *
- * @package NextDeveloper\CRM\Actions\Accounts
  */
 class SuspendAccount extends AbstractAction
 {

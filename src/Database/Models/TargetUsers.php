@@ -27,8 +27,6 @@ class TargetUsers extends Model
 
     public $timestamps = true;
 
-    protected $primaryKey = null;
-
     protected $table = 'crm_target_users';
 
 
@@ -137,14 +135,8 @@ class TargetUsers extends Model
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
+    protected $primaryKey = null;
 
-
-
-
-
-
-
-
-
+    public $incrementing = false;
 
 }
