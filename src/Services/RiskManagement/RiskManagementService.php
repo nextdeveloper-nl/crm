@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\CRM\Services\RiskManagement;
 
+use Helpers\CrmHelper;
 use NextDeveloper\CRM\Database\Models\Accounts;
 use NextDeveloper\IAM\Helpers\UserHelper;
 
@@ -22,8 +23,10 @@ class RiskManagementService
          * Here you need to get the owner of the account from UserHelper. But this helper does not have the related
          * function, so you need to make the development there
          */
+        $iamAccount = CrmHelper::getCustomerByCrmAccount($account);
+
         $this->_account = $account;
-        $this->_user = UserHelper::getAccountOwner($account);
+        $this->_user = UserHelper::getAccountOwner($iamAccount);
     }
 
     /**

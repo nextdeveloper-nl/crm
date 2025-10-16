@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use NextDeveloper\Commons\Helpers\StateHelper;
 use NextDeveloper\CRM\Database\Models\AccountManagers;
-use NextDeveloper\CRM\Services\UsersService;
 use NextDeveloper\IAM\Database\Models\Accounts;
 use NextDeveloper\IAM\Database\Models\Users;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
@@ -28,6 +27,31 @@ class CrmHelper
         return $accountManager;
     }
 
+    /**
+     * This function returns the CRM Account by Crm Account ID or Crm Account UUID.
+     *
+     * @param $id
+     * @return CrmAccounts|null
+     */
+    public static function getCrmAccountById($id) : ?CrmAccounts
+    {
+        if(Str::isUuid($id)) {
+            return \NextDeveloper\CRM\Database\Models\Accounts::withoutGlobalScope(AuthorizationScope::class)
+                ->where('uuid', $id)
+                ->first();
+        } else {
+            return \NextDeveloper\CRM\Database\Models\Accounts::withoutGlobalScope(AuthorizationScope::class)
+                ->where('id', $id)
+                ->first();
+        }
+    }
+
+    /**
+     * This function returns the CRM Account by IAM Account or IAM Account ID.
+     *
+     * @param Accounts|int $account
+     * @return mixed
+     */
     public static function getCrmAccount(Accounts|int $account)
     {
         if(is_int($account)) {
@@ -68,6 +92,12 @@ class CrmHelper
             ->first();
     }
 
+    /**
+     * This returns the customer (IAM Account) by CRM Account ID.
+     *
+     * @param $id
+     * @return Accounts|null
+     */
     public static function getCustomerByCrmAccountId($id)
     {
         $crmAccount = null;
