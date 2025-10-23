@@ -177,15 +177,11 @@ class AbstractTargetUsersService
                 $data['crm_target_id']
             );
         }
-        if (array_key_exists('iam_user_id', $data)) {
-            $data['iam_user_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\IAM\Database\Models\Users',
-                $data['iam_user_id']
+        if (array_key_exists('crm_user_id', $data)) {
+            $data['crm_user_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\CRM\Database\Models\Users',
+                $data['crm_user_id']
             );
-        }
-                    
-        if(!array_key_exists('iam_user_id', $data)) {
-            $data['iam_user_id']    = UserHelper::me()->id;
         }
             
         try {
@@ -241,10 +237,10 @@ class AbstractTargetUsersService
                 $data['crm_target_id']
             );
         }
-        if (array_key_exists('iam_user_id', $data)) {
-            $data['iam_user_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\IAM\Database\Models\Users',
-                $data['iam_user_id']
+        if (array_key_exists('crm_user_id', $data)) {
+            $data['crm_user_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\CRM\Database\Models\Users',
+                $data['crm_user_id']
             );
         }
     
