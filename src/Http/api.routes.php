@@ -23,27 +23,6 @@ Route::prefix('crm')->group(
             }
         );
 
-        Route::prefix('ideal-customer-profiles')->group(
-            function () {
-                Route::get('/', 'IdealCustomerProfiles\IdealCustomerProfilesController@index');
-                Route::get('/actions', 'IdealCustomerProfiles\IdealCustomerProfilesController@getActions');
-
-                Route::get('{crm_ideal_customer_profiles}/tags ', 'IdealCustomerProfiles\IdealCustomerProfilesController@tags');
-                Route::post('{crm_ideal_customer_profiles}/tags ', 'IdealCustomerProfiles\IdealCustomerProfilesController@saveTags');
-                Route::get('{crm_ideal_customer_profiles}/addresses ', 'IdealCustomerProfiles\IdealCustomerProfilesController@addresses');
-                Route::post('{crm_ideal_customer_profiles}/addresses ', 'IdealCustomerProfiles\IdealCustomerProfilesController@saveAddresses');
-
-                Route::get('/{crm_ideal_customer_profiles}/{subObjects}', 'IdealCustomerProfiles\IdealCustomerProfilesController@relatedObjects');
-                Route::get('/{crm_ideal_customer_profiles}', 'IdealCustomerProfiles\IdealCustomerProfilesController@show');
-
-                Route::post('/', 'IdealCustomerProfiles\IdealCustomerProfilesController@store');
-                Route::post('/{crm_ideal_customer_profiles}/do/{action}', 'IdealCustomerProfiles\IdealCustomerProfilesController@doAction');
-
-                Route::patch('/{crm_ideal_customer_profiles}', 'IdealCustomerProfiles\IdealCustomerProfilesController@update');
-                Route::delete('/{crm_ideal_customer_profiles}', 'IdealCustomerProfiles\IdealCustomerProfilesController@destroy');
-            }
-        );
-
         Route::prefix('account-managers')->group(
             function () {
                 Route::get('/', 'AccountManagers\AccountManagersController@index');
@@ -317,27 +296,6 @@ Route::prefix('crm')->group(
             }
         );
 
-        Route::prefix('user-managers')->group(
-            function () {
-                Route::get('/', 'UserManagers\UserManagersController@index');
-                Route::get('/actions', 'UserManagers\UserManagersController@getActions');
-
-                Route::get('{crm_user_managers}/tags ', 'UserManagers\UserManagersController@tags');
-                Route::post('{crm_user_managers}/tags ', 'UserManagers\UserManagersController@saveTags');
-                Route::get('{crm_user_managers}/addresses ', 'UserManagers\UserManagersController@addresses');
-                Route::post('{crm_user_managers}/addresses ', 'UserManagers\UserManagersController@saveAddresses');
-
-                Route::get('/{crm_user_managers}/{subObjects}', 'UserManagers\UserManagersController@relatedObjects');
-                Route::get('/{crm_user_managers}', 'UserManagers\UserManagersController@show');
-
-                Route::post('/', 'UserManagers\UserManagersController@store');
-                Route::post('/{crm_user_managers}/do/{action}', 'UserManagers\UserManagersController@doAction');
-
-                Route::patch('/{crm_user_managers}', 'UserManagers\UserManagersController@update');
-                Route::delete('/{crm_user_managers}', 'UserManagers\UserManagersController@destroy');
-            }
-        );
-
         Route::prefix('campaigns')->group(
             function () {
                 Route::get('/', 'Campaigns\CampaignsController@index');
@@ -482,6 +440,27 @@ Route::prefix('crm')->group(
 
                 Route::patch('/{crm_targets}', 'Targets\TargetsController@update');
                 Route::delete('/{crm_targets}', 'Targets\TargetsController@destroy');
+            }
+        );
+
+        Route::prefix('user-managers')->group(
+            function () {
+                Route::get('/', 'UserManagers\UserManagersController@index');
+                Route::get('/actions', 'UserManagers\UserManagersController@getActions');
+
+                Route::get('{crm_user_managers}/tags ', 'UserManagers\UserManagersController@tags');
+                Route::post('{crm_user_managers}/tags ', 'UserManagers\UserManagersController@saveTags');
+                Route::get('{crm_user_managers}/addresses ', 'UserManagers\UserManagersController@addresses');
+                Route::post('{crm_user_managers}/addresses ', 'UserManagers\UserManagersController@saveAddresses');
+
+                Route::get('/{crm_user_managers}/{subObjects}', 'UserManagers\UserManagersController@relatedObjects');
+                Route::get('/{crm_user_managers}', 'UserManagers\UserManagersController@show');
+
+                Route::post('/', 'UserManagers\UserManagersController@store');
+                Route::post('/{crm_user_managers}/do/{action}', 'UserManagers\UserManagersController@doAction');
+
+                Route::patch('/{crm_user_managers}', 'UserManagers\UserManagersController@update');
+                Route::delete('/{crm_user_managers}', 'UserManagers\UserManagersController@destroy');
             }
         );
 
@@ -650,6 +629,27 @@ Route::prefix('crm')->group(
 
                 Route::patch('/{casp}', 'AccountsSummarizedPerspective\AccountsSummarizedPerspectiveController@update');
                 Route::delete('/{casp}', 'AccountsSummarizedPerspective\AccountsSummarizedPerspectiveController@destroy');
+            }
+        );
+
+        Route::prefix('opportunities-performance')->group(
+            function () {
+                Route::get('/', 'OpportunitiesPerformance\OpportunitiesPerformanceController@index');
+                Route::get('/actions', 'OpportunitiesPerformance\OpportunitiesPerformanceController@getActions');
+
+                Route::get('{crm_opportunities_performance}/tags ', 'OpportunitiesPerformance\OpportunitiesPerformanceController@tags');
+                Route::post('{crm_opportunities_performance}/tags ', 'OpportunitiesPerformance\OpportunitiesPerformanceController@saveTags');
+                Route::get('{crm_opportunities_performance}/addresses ', 'OpportunitiesPerformance\OpportunitiesPerformanceController@addresses');
+                Route::post('{crm_opportunities_performance}/addresses ', 'OpportunitiesPerformance\OpportunitiesPerformanceController@saveAddresses');
+
+                Route::get('/{crm_opportunities_performance}/{subObjects}', 'OpportunitiesPerformance\OpportunitiesPerformanceController@relatedObjects');
+                Route::get('/{crm_opportunities_performance}', 'OpportunitiesPerformance\OpportunitiesPerformanceController@show');
+
+                Route::post('/', 'OpportunitiesPerformance\OpportunitiesPerformanceController@store');
+                Route::post('/{crm_opportunities_performance}/do/{action}', 'OpportunitiesPerformance\OpportunitiesPerformanceController@doAction');
+
+                Route::patch('/{crm_opportunities_performance}', 'OpportunitiesPerformance\OpportunitiesPerformanceController@update');
+                Route::delete('/{crm_opportunities_performance}', 'OpportunitiesPerformance\OpportunitiesPerformanceController@destroy');
             }
         );
 
@@ -1065,8 +1065,40 @@ Route::prefix('crm')->group(
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 );
+
 
 
 

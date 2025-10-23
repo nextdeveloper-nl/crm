@@ -25,6 +25,8 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
  * @property integer $iam_account_id
+ * @property integer $relationship_rating
+ * @property string $notes
  */
 class UserManagers extends Model
 {
@@ -45,6 +47,8 @@ class UserManagers extends Model
             'crm_user_id',
             'iam_user_id',
             'iam_account_id',
+            'relationship_rating',
+            'notes',
     ];
 
     /**
@@ -72,6 +76,8 @@ class UserManagers extends Model
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
+    'relationship_rating' => 'integer',
+    'notes' => 'string',
     ];
 
     /**
@@ -138,6 +144,7 @@ class UserManagers extends Model
     }
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

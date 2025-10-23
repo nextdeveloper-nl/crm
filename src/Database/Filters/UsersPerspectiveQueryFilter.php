@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                    
+                        
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -128,6 +128,12 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->relationshipStatus($value);
     }
+        
+    public function notes($value)
+    {
+        return $this->builder->where('notes', 'ilike', '%' . $value . '%');
+    }
+
     
     public function childCount($value)
     {
@@ -146,6 +152,25 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
     public function child_count($value)
     {
         return $this->childCount($value);
+    }
+    
+    public function relationshipRating($value)
+    {
+        $operator = substr($value, 0, 1);
+
+        if ($operator != '<' || $operator != '>') {
+            $operator = '=';
+        } else {
+            $value = substr($value, 1);
+        }
+
+        return $this->builder->where('relationship_rating', $operator, $value);
+    }
+
+        //  This is an alias function of relationshipRating
+    public function relationship_rating($value)
+    {
+        return $this->relationshipRating($value);
     }
     
     public function isRegistered($value)
@@ -366,8 +391,16 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->crmAccount($value);
     }
+
+
+        //  This is an alias function of responsible
+    public function responsible_id($value)
+    {
+        return $this->responsible($value);
+    }
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

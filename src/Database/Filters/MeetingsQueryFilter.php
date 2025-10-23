@@ -240,4 +240,5 @@ class MeetingsQueryFilter extends AbstractQueryFilter
 
 
 
+
 }

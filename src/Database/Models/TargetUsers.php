@@ -127,16 +127,17 @@ class TargetUsers extends Model
     {
         return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Users::class);
     }
-
+    
     public function targets() : \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Targets::class);
     }
-
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
     protected $primaryKey = null;
 
     public $incrementing = false;
+
 
 }

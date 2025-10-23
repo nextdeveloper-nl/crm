@@ -52,6 +52,9 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property integer $crm_account_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property integer $responsible_id
+ * @property integer $relationship_rating
+ * @property string $notes
  */
 class UsersPerspective extends Model
 {
@@ -100,6 +103,9 @@ class UsersPerspective extends Model
             'iam_user_id',
             'iam_account_id',
             'crm_account_id',
+            'responsible_id',
+            'relationship_rating',
+            'notes',
     ];
 
     /**
@@ -153,6 +159,9 @@ class UsersPerspective extends Model
     'crm_account_id' => 'integer',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
+    'responsible_id' => 'integer',
+    'relationship_rating' => 'integer',
+    'notes' => 'string',
     ];
 
     /**
@@ -215,6 +224,7 @@ class UsersPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

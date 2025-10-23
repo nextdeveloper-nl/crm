@@ -2,42 +2,33 @@
 
 namespace NextDeveloper\CRM\Database\Models;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
+use NextDeveloper\Commons\Database\Traits\HasStates;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
-use NextDeveloper\CRM\Database\Observers\CampaignsObserver;
+use NextDeveloper\CRM\Database\Observers\OpportunitiesPerformancesObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
-use NextDeveloper\Commons\Database\Traits\HasStates;
 use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
 
 /**
- * Campaigns model.
+ * OpportunitiesPerformances model.
  *
  * @package  NextDeveloper\CRM\Database\Models
- * @property integer $id
- * @property string $uuid
- * @property string $name
- * @property string $description
- * @property \Carbon\Carbon $start_date
- * @property \Carbon\Carbon $end_date
- * @property string $status
- * @property integer $iam_account_id
+ * @property \Carbon\Carbon $day
  * @property integer $iam_user_id
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
+ * @property integer $iam_account_id
+ * @property $opportunity_stage
+ * @property $total_income
  */
-class Campaigns extends Model
+class OpportunitiesPerformances extends Model
 {
     use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
-    use SoftDeletes;
 
-    public $timestamps = true;
+    public $timestamps = false;
 
-    protected $table = 'crm_campaigns';
+    protected $table = 'crm_opportunities_performance';
 
 
     /**
@@ -46,13 +37,11 @@ class Campaigns extends Model
     protected $guarded = [];
 
     protected $fillable = [
-            'name',
-            'description',
-            'start_date',
-            'end_date',
-            'status',
-            'iam_account_id',
+            'day',
             'iam_user_id',
+            'iam_account_id',
+            'opportunity_stage',
+            'total_income',
     ];
 
     /**
@@ -75,15 +64,7 @@ class Campaigns extends Model
      @var array
      */
     protected $casts = [
-    'id' => 'integer',
-    'name' => 'string',
-    'description' => 'string',
-    'start_date' => 'datetime',
-    'end_date' => 'datetime',
-    'status' => 'string',
-    'created_at' => 'datetime',
-    'updated_at' => 'datetime',
-    'deleted_at' => 'datetime',
+    'day' => 'datetime',
     ];
 
     /**
@@ -92,11 +73,7 @@ class Campaigns extends Model
      @var array
      */
     protected $dates = [
-    'start_date',
-    'end_date',
-    'created_at',
-    'updated_at',
-    'deleted_at',
+    'day',
     ];
 
     /**
@@ -119,7 +96,7 @@ class Campaigns extends Model
         parent::boot();
 
         //  We create and add Observer even if we wont use it.
-        parent::observe(CampaignsObserver::class);
+        parent::observe(OpportunitiesPerformancesObserver::class);
 
         self::registerScopes();
     }
@@ -127,7 +104,7 @@ class Campaigns extends Model
     public static function registerScopes()
     {
         $globalScopes = config('crm.scopes.global');
-        $modelScopes = config('crm.scopes.crm_campaigns');
+        $modelScopes = config('crm.scopes.crm_opportunities_performance');
 
         if(!$modelScopes) { $modelScopes = [];
         }
@@ -146,38 +123,5 @@ class Campaigns extends Model
         }
     }
 
-    public function emailTemplates() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\CRM\Database\Models\EmailTemplates::class);
-    }
-
-    public function accounts() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Accounts::class);
-    }
-    
-    public function users() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
-    }
-    
-    public function campaignTargets() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\CRM\Database\Models\CampaignTargets::class);
-    }
-
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

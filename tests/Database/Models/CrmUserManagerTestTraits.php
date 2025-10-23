@@ -58,6 +58,8 @@ trait CrmUserManagerTestTraits
         $response = $this->http->request(
             'POST', '/crm/crmusermanager', [
             'form_params'   =>  [
+                'notes'  =>  'a',
+                'relationship_rating'  =>  '1',
                             ],
                 ['http_errors' => false]
             ]
@@ -333,6 +335,44 @@ trait CrmUserManagerTestTraits
             $model = \NextDeveloper\CRM\Database\Models\CrmUserManager::first();
 
             event(new \NextDeveloper\CRM\Events\CrmUserManager\CrmUserManagerRestoredEvent($model));
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_crmusermanager_event_notes_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'notes'  =>  'a'
+                ]
+            );
+
+            $filter = new CrmUserManagerQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmUserManager::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_crmusermanager_event_relationship_rating_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'relationship_rating'  =>  '1'
+                ]
+            );
+
+            $filter = new CrmUserManagerQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmUserManager::filter($filter)->first();
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
