@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-            
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -37,19 +37,19 @@ class QuotesPerspectiveQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
         return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function description($value)
     {
         return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function sellerName($value)
     {
         return $this->builder->where('seller_name', 'ilike', '%' . $value . '%');
@@ -60,7 +60,7 @@ class QuotesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->sellerName($value);
     }
-        
+
     public function representativeName($value)
     {
         return $this->builder->where('representative_name', 'ilike', '%' . $value . '%');
@@ -71,7 +71,7 @@ class QuotesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->representativeName($value);
     }
-        
+
     public function buyerName($value)
     {
         return $this->builder->where('buyer_name', 'ilike', '%' . $value . '%');
@@ -82,7 +82,7 @@ class QuotesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->buyerName($value);
     }
-        
+
     public function currencyCode($value)
     {
         return $this->builder->where('currency_code', 'ilike', '%' . $value . '%');
@@ -93,7 +93,7 @@ class QuotesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->currencyCode($value);
     }
-    
+
     public function lineCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -112,7 +112,7 @@ class QuotesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->lineCount($value);
     }
-    
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -193,7 +193,7 @@ class QuotesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->commonCurrency($value);
     }
-    
+
     public function iamAccountId($value)
     {
             $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -203,7 +203,7 @@ class QuotesPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -213,31 +213,21 @@ class QuotesPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+    public function crmOpportunityId($value)
+    {
+        $crmOpportunity = \NextDeveloper\CRM\Database\Models\Opportunities::where('uuid', $value)->first();
+
+        if($crmOpportunity) {
+            return $this->builder->where('crm_opportunity_id', '=', $crmOpportunity->id);
+        }
+    }
+
+    //  This is an alias function of crmOpportunity
+    public function crm_opportunity_id($value)
+    {
+        return $this->crmOpportunity($value);
+    }
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
