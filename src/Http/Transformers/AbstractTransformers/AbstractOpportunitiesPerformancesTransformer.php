@@ -20,16 +20,16 @@ use NextDeveloper\Commons\Http\Transformers\MetaTransformer;
 use NextDeveloper\Commons\Http\Transformers\VotesTransformer;
 use NextDeveloper\Commons\Http\Transformers\AddressesTransformer;
 use NextDeveloper\Commons\Http\Transformers\PhoneNumbersTransformer;
-use NextDeveloper\CRM\Database\Models\RegulatoryCompliances;
+use NextDeveloper\CRM\Database\Models\OpportunitiesPerformances;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 
 /**
- * Class RegulatoryCompliancesTransformer. This class is being used to manipulate the data we are serving to the customer
+ * Class OpportunitiesPerformancesTransformer. This class is being used to manipulate the data we are serving to the customer
  *
  * @package NextDeveloper\CRM\Http\Transformers
  */
-class AbstractRegulatoryCompliancesTransformer extends AbstractTransformer
+class AbstractOpportunitiesPerformancesTransformer extends AbstractTransformer
 {
 
     /**
@@ -48,22 +48,28 @@ class AbstractRegulatoryCompliancesTransformer extends AbstractTransformer
     ];
 
     /**
-     * @param RegulatoryCompliances $model
+     * @param OpportunitiesPerformances $model
      *
      * @return array
      */
-    public function transform(RegulatoryCompliances $model)
+    public function transform(OpportunitiesPerformances $model)
     {
-            
+                                                $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
+                                                            $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
+                        
         return $this->buildPayload(
             [
-            'id'  =>  $model->uuid,
-            'name'  =>  $model->name,
+            'id'  =>  $model->id,
+            'day'  =>  $model->day,
+            'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
+            'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
+            'opportunity_stage'  =>  $model->opportunity_stage,
+            'total_income'  =>  $model->total_income,
             ]
         );
     }
 
-    public function includeStates(RegulatoryCompliances $model)
+    public function includeStates(OpportunitiesPerformances $model)
     {
         $states = States::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -72,7 +78,7 @@ class AbstractRegulatoryCompliancesTransformer extends AbstractTransformer
         return $this->collection($states, new StatesTransformer());
     }
 
-    public function includeActions(RegulatoryCompliances $model)
+    public function includeActions(OpportunitiesPerformances $model)
     {
         $input = get_class($model);
         $input = str_replace('\\Database\\Models', '', $input);
@@ -84,7 +90,7 @@ class AbstractRegulatoryCompliancesTransformer extends AbstractTransformer
         return $this->collection($actions, new AvailableActionsTransformer());
     }
 
-    public function includeMedia(RegulatoryCompliances $model)
+    public function includeMedia(OpportunitiesPerformances $model)
     {
         $media = Media::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -93,7 +99,7 @@ class AbstractRegulatoryCompliancesTransformer extends AbstractTransformer
         return $this->collection($media, new MediaTransformer());
     }
 
-    public function includeSocialMedia(RegulatoryCompliances $model)
+    public function includeSocialMedia(OpportunitiesPerformances $model)
     {
         $socialMedia = SocialMedia::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -102,7 +108,7 @@ class AbstractRegulatoryCompliancesTransformer extends AbstractTransformer
         return $this->collection($socialMedia, new SocialMediaTransformer());
     }
 
-    public function includeComments(RegulatoryCompliances $model)
+    public function includeComments(OpportunitiesPerformances $model)
     {
         $comments = Comments::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -111,7 +117,7 @@ class AbstractRegulatoryCompliancesTransformer extends AbstractTransformer
         return $this->collection($comments, new CommentsTransformer());
     }
 
-    public function includeVotes(RegulatoryCompliances $model)
+    public function includeVotes(OpportunitiesPerformances $model)
     {
         $votes = Votes::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -120,7 +126,7 @@ class AbstractRegulatoryCompliancesTransformer extends AbstractTransformer
         return $this->collection($votes, new VotesTransformer());
     }
 
-    public function includeMeta(RegulatoryCompliances $model)
+    public function includeMeta(OpportunitiesPerformances $model)
     {
         $meta = Meta::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -129,7 +135,7 @@ class AbstractRegulatoryCompliancesTransformer extends AbstractTransformer
         return $this->collection($meta, new MetaTransformer());
     }
 
-    public function includePhoneNumbers(RegulatoryCompliances $model)
+    public function includePhoneNumbers(OpportunitiesPerformances $model)
     {
         $phoneNumbers = PhoneNumbers::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -138,7 +144,7 @@ class AbstractRegulatoryCompliancesTransformer extends AbstractTransformer
         return $this->collection($phoneNumbers, new PhoneNumbersTransformer());
     }
 
-    public function includeAddresses(RegulatoryCompliances $model)
+    public function includeAddresses(OpportunitiesPerformances $model)
     {
         $addresses = Addresses::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -147,9 +153,4 @@ class AbstractRegulatoryCompliancesTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
 }

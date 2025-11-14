@@ -254,4 +254,5 @@ class QuotesQueryFilter extends AbstractQueryFilter
 
 
 
+
 }

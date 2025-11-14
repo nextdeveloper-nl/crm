@@ -33,7 +33,6 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
- * @property integer $crm_ideal_customer_profile_id
  */
 class Opportunities extends Model
 {
@@ -62,7 +61,6 @@ class Opportunities extends Model
             'iam_user_id',
             'crm_account_id',
             'tags',
-            'crm_ideal_customer_profile_id',
     ];
 
     /**
@@ -96,7 +94,6 @@ class Opportunities extends Model
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
-    'crm_ideal_customer_profile_id' => 'integer',
     ];
 
     /**
@@ -184,6 +181,7 @@ class Opportunities extends Model
     }
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

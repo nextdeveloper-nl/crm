@@ -17,7 +17,32 @@ class UserManagersQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
+    
+    public function notes($value)
+    {
+        return $this->builder->where('notes', 'ilike', '%' . $value . '%');
+    }
 
+    
+    public function relationshipRating($value)
+    {
+        $operator = substr($value, 0, 1);
+
+        if ($operator != '<' || $operator != '>') {
+            $operator = '=';
+        } else {
+            $value = substr($value, 1);
+        }
+
+        return $this->builder->where('relationship_rating', $operator, $value);
+    }
+
+        //  This is an alias function of relationshipRating
+    public function relationship_rating($value)
+    {
+        return $this->relationshipRating($value);
+    }
+    
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -120,6 +145,7 @@ class UserManagersQueryFilter extends AbstractQueryFilter
 
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 

@@ -67,6 +67,8 @@ class AbstractUserManagersTransformer extends AbstractTransformer
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
             'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
+            'relationship_rating'  =>  $model->relationship_rating,
+            'notes'  =>  $model->notes,
             ]
         );
     }
@@ -155,6 +157,7 @@ class AbstractUserManagersTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

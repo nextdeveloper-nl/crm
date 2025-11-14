@@ -97,6 +97,9 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
             'crm_account_id'  =>  $crmAccountId ? $crmAccountId->uuid : null,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
+            'responsible_id'  => $model->responsible_id,
+            'relationship_rating'  =>  $model->relationship_rating,
+            'notes'  =>  $model->notes,
             ]
         );
     }
@@ -185,6 +188,7 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

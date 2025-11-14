@@ -14,6 +14,8 @@ class UserManagersCreateRequest extends AbstractFormRequest
     {
         return [
             'crm_user_id' => 'required|exists:crm_users,uuid|uuid',
+        'relationship_rating' => 'integer',
+        'notes' => 'nullable|string',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
