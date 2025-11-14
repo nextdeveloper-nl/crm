@@ -171,6 +171,7 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
             'crm_meetings:create',
             'crm_meetings:update',
             'crm_meetings:delete',
+
         ];
     }
 
