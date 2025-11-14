@@ -2,51 +2,64 @@
 
 namespace NextDeveloper\CRM\Database\Models;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
 use NextDeveloper\Commons\Database\Traits\HasStates;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
-use NextDeveloper\CRM\Database\Observers\TargetUsersPerspectiveObserver;
+use NextDeveloper\CRM\Database\Observers\SalesPeoplePerspectiveObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
 
 /**
- * TargetUsersPerspective model.
+ * SalesPeoplePerspective model.
  *
  * @package  NextDeveloper\CRM\Database\Models
  * @property integer $id
  * @property string $uuid
- * @property string $pronoun
  * @property string $name
  * @property string $surname
  * @property string $fullname
- * @property \Carbon\Carbon $birthday
  * @property string $email
- * @property string $phone_number
- * @property integer $common_country_id
- * @property integer $common_language_id
- * @property array $tags
  * @property string $about
+ * @property string $pronoun
+ * @property \Carbon\Carbon $birthday
+ * @property string $nin
+ * @property integer $common_country_id
+ * @property string $country
+ * @property integer $common_language_id
+ * @property string $language
+ * @property \Carbon\Carbon $iam_updated_at
+ * @property string $phone_number
+ * @property boolean $is_registered
+ * @property boolean $is_nin_verified
+ * @property boolean $is_email_verified
+ * @property boolean $is_phone_number_verified
+ * @property integer $profile_picture_identity
+ * @property string $position
+ * @property string $job
+ * @property string $job_description
+ * @property string $hobbies
+ * @property string $city
+ * @property $email_risk
+ * @property string $relationship_status
+ * @property boolean $is_evangelist
+ * @property boolean $is_single
+ * @property $education
+ * @property integer $child_count
+ * @property integer $iam_user_id
+ * @property integer $iam_account_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
- * @property string $target_name
- * @property string $target_description
- * @property integer $crm_target_id
- * @property integer $iam_account_id
- * @property integer $iam_user_id
  */
-class TargetUsersPerspective extends Model
+class SalesPeoplePerspective extends Model
 {
     use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
-    use SoftDeletes;
 
     public $timestamps = true;
 
-    protected $table = 'crm_target_users_perspective';
+    protected $table = 'crm_sales_people_perspective';
 
 
     /**
@@ -55,22 +68,38 @@ class TargetUsersPerspective extends Model
     protected $guarded = [];
 
     protected $fillable = [
-            'pronoun',
             'name',
             'surname',
             'fullname',
-            'birthday',
             'email',
-            'phone_number',
-            'common_country_id',
-            'common_language_id',
-            'tags',
             'about',
-            'target_name',
-            'target_description',
-            'crm_target_id',
-            'iam_account_id',
+            'pronoun',
+            'birthday',
+            'nin',
+            'common_country_id',
+            'country',
+            'common_language_id',
+            'language',
+            'iam_updated_at',
+            'phone_number',
+            'is_registered',
+            'is_nin_verified',
+            'is_email_verified',
+            'is_phone_number_verified',
+            'profile_picture_identity',
+            'position',
+            'job',
+            'job_description',
+            'hobbies',
+            'city',
+            'email_risk',
+            'relationship_status',
+            'is_evangelist',
+            'is_single',
+            'education',
+            'child_count',
             'iam_user_id',
+            'iam_account_id',
     ];
 
     /**
@@ -94,23 +123,36 @@ class TargetUsersPerspective extends Model
      */
     protected $casts = [
     'id' => 'integer',
-    'pronoun' => 'string',
     'name' => 'string',
     'surname' => 'string',
     'fullname' => 'string',
-    'birthday' => 'datetime',
     'email' => 'string',
-    'phone_number' => 'string',
-    'common_country_id' => 'integer',
-    'common_language_id' => 'integer',
-    'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'about' => 'string',
+    'pronoun' => 'string',
+    'birthday' => 'datetime',
+    'nin' => 'string',
+    'common_country_id' => 'integer',
+    'country' => 'string',
+    'common_language_id' => 'integer',
+    'language' => 'string',
+    'iam_updated_at' => 'datetime',
+    'phone_number' => 'string',
+    'is_registered' => 'boolean',
+    'is_nin_verified' => 'boolean',
+    'is_email_verified' => 'boolean',
+    'is_phone_number_verified' => 'boolean',
+    'profile_picture_identity' => 'integer',
+    'position' => 'string',
+    'job' => 'string',
+    'job_description' => 'string',
+    'hobbies' => 'string',
+    'city' => 'string',
+    'relationship_status' => 'string',
+    'is_evangelist' => 'boolean',
+    'is_single' => 'boolean',
+    'child_count' => 'integer',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
-    'deleted_at' => 'datetime',
-    'target_name' => 'string',
-    'target_description' => 'string',
-    'crm_target_id' => 'integer',
     ];
 
     /**
@@ -120,9 +162,9 @@ class TargetUsersPerspective extends Model
      */
     protected $dates = [
     'birthday',
+    'iam_updated_at',
     'created_at',
     'updated_at',
-    'deleted_at',
     ];
 
     /**
@@ -145,7 +187,7 @@ class TargetUsersPerspective extends Model
         parent::boot();
 
         //  We create and add Observer even if we wont use it.
-        parent::observe(TargetUsersPerspectiveObserver::class);
+        parent::observe(SalesPeoplePerspectiveObserver::class);
 
         self::registerScopes();
     }
@@ -153,7 +195,7 @@ class TargetUsersPerspective extends Model
     public static function registerScopes()
     {
         $globalScopes = config('crm.scopes.global');
-        $modelScopes = config('crm.scopes.crm_target_users_perspective');
+        $modelScopes = config('crm.scopes.crm_sales_people_perspective');
 
         if(!$modelScopes) { $modelScopes = [];
         }
@@ -173,12 +215,6 @@ class TargetUsersPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
 
 
 }

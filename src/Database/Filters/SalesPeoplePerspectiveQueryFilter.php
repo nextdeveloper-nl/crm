@@ -4,13 +4,13 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                        
+                
 
 /**
  * This class automatically puts where clause on database so that use can filter
  * data returned from the query.
  */
-class UsersPerspectiveQueryFilter extends AbstractQueryFilter
+class SalesPeoplePerspectiveQueryFilter extends AbstractQueryFilter
 {
 
     /**
@@ -128,12 +128,6 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->relationshipStatus($value);
     }
-        
-    public function notes($value)
-    {
-        return $this->builder->where('notes', 'ilike', '%' . $value . '%');
-    }
-
     
     public function profilePictureIdentity($value)
     {
@@ -171,25 +165,6 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
     public function child_count($value)
     {
         return $this->childCount($value);
-    }
-    
-    public function relationshipRating($value)
-    {
-        $operator = substr($value, 0, 1);
-
-        if ($operator != '<' || $operator != '>') {
-            $operator = '=';
-        } else {
-            $value = substr($value, 1);
-        }
-
-        return $this->builder->where('relationship_rating', $operator, $value);
-    }
-
-        //  This is an alias function of relationshipRating
-    public function relationship_rating($value)
-    {
-        return $this->relationshipRating($value);
     }
     
     public function isRegistered($value)
@@ -396,55 +371,7 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
     }
 
     
-    public function crmAccountId($value)
-    {
-            $crmAccount = \NextDeveloper\CRM\Database\Models\Accounts::where('uuid', $value)->first();
-
-        if($crmAccount) {
-            return $this->builder->where('crm_account_id', '=', $crmAccount->id);
-        }
-    }
-
-        //  This is an alias function of crmAccount
-    public function crm_account_id($value)
-    {
-        return $this->crmAccount($value);
-    }
-    
-    public function responsibleId($value)
-    {
-            $responsible = \NextDeveloper\\Database\Models\Responsibles::where('uuid', $value)->first();
-
-        if($responsible) {
-            return $this->builder->where('responsible_id', '=', $responsible->id);
-        }
-    }
-
-        //  This is an alias function of responsible
-    public function responsible_id($value)
-    {
-        return $this->responsible($value);
-    }
-    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

@@ -548,27 +548,6 @@ Route::prefix('crm')->group(
             }
         );
 
-        Route::prefix('account-managers-performances-perspective')->group(
-            function () {
-                Route::get('/', 'AccountManagersPerformancesPerspective\AccountManagersPerformancesPerspectiveController@index');
-                Route::get('/actions', 'AccountManagersPerformancesPerspective\AccountManagersPerformancesPerspectiveController@getActions');
-
-                Route::get('{campp}/tags ', 'AccountManagersPerformancesPerspective\AccountManagersPerformancesPerspectiveController@tags');
-                Route::post('{campp}/tags ', 'AccountManagersPerformancesPerspective\AccountManagersPerformancesPerspectiveController@saveTags');
-                Route::get('{campp}/addresses ', 'AccountManagersPerformancesPerspective\AccountManagersPerformancesPerspectiveController@addresses');
-                Route::post('{campp}/addresses ', 'AccountManagersPerformancesPerspective\AccountManagersPerformancesPerspectiveController@saveAddresses');
-
-                Route::get('/{campp}/{subObjects}', 'AccountManagersPerformancesPerspective\AccountManagersPerformancesPerspectiveController@relatedObjects');
-                Route::get('/{campp}', 'AccountManagersPerformancesPerspective\AccountManagersPerformancesPerspectiveController@show');
-
-                Route::post('/', 'AccountManagersPerformancesPerspective\AccountManagersPerformancesPerspectiveController@store');
-                Route::post('/{campp}/do/{action}', 'AccountManagersPerformancesPerspective\AccountManagersPerformancesPerspectiveController@doAction');
-
-                Route::patch('/{campp}', 'AccountManagersPerformancesPerspective\AccountManagersPerformancesPerspectiveController@update');
-                Route::delete('/{campp}', 'AccountManagersPerformancesPerspective\AccountManagersPerformancesPerspectiveController@destroy');
-            }
-        );
-
         Route::prefix('quote-items-perspective')->group(
             function () {
                 Route::get('/', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@index');
@@ -611,45 +590,24 @@ Route::prefix('crm')->group(
             }
         );
 
-        Route::prefix('accounts-summarized-perspective')->group(
+        Route::prefix('sales-people-perspective')->group(
             function () {
-                Route::get('/', 'AccountsSummarizedPerspective\AccountsSummarizedPerspectiveController@index');
-                Route::get('/actions', 'AccountsSummarizedPerspective\AccountsSummarizedPerspectiveController@getActions');
+                Route::get('/', 'SalesPeoplePerspective\SalesPeoplePerspectiveController@index');
+                Route::get('/actions', 'SalesPeoplePerspective\SalesPeoplePerspectiveController@getActions');
 
-                Route::get('{casp}/tags ', 'AccountsSummarizedPerspective\AccountsSummarizedPerspectiveController@tags');
-                Route::post('{casp}/tags ', 'AccountsSummarizedPerspective\AccountsSummarizedPerspectiveController@saveTags');
-                Route::get('{casp}/addresses ', 'AccountsSummarizedPerspective\AccountsSummarizedPerspectiveController@addresses');
-                Route::post('{casp}/addresses ', 'AccountsSummarizedPerspective\AccountsSummarizedPerspectiveController@saveAddresses');
+                Route::get('{crm_sales_people_perspective}/tags ', 'SalesPeoplePerspective\SalesPeoplePerspectiveController@tags');
+                Route::post('{crm_sales_people_perspective}/tags ', 'SalesPeoplePerspective\SalesPeoplePerspectiveController@saveTags');
+                Route::get('{crm_sales_people_perspective}/addresses ', 'SalesPeoplePerspective\SalesPeoplePerspectiveController@addresses');
+                Route::post('{crm_sales_people_perspective}/addresses ', 'SalesPeoplePerspective\SalesPeoplePerspectiveController@saveAddresses');
 
-                Route::get('/{casp}/{subObjects}', 'AccountsSummarizedPerspective\AccountsSummarizedPerspectiveController@relatedObjects');
-                Route::get('/{casp}', 'AccountsSummarizedPerspective\AccountsSummarizedPerspectiveController@show');
+                Route::get('/{crm_sales_people_perspective}/{subObjects}', 'SalesPeoplePerspective\SalesPeoplePerspectiveController@relatedObjects');
+                Route::get('/{crm_sales_people_perspective}', 'SalesPeoplePerspective\SalesPeoplePerspectiveController@show');
 
-                Route::post('/', 'AccountsSummarizedPerspective\AccountsSummarizedPerspectiveController@store');
-                Route::post('/{casp}/do/{action}', 'AccountsSummarizedPerspective\AccountsSummarizedPerspectiveController@doAction');
+                Route::post('/', 'SalesPeoplePerspective\SalesPeoplePerspectiveController@store');
+                Route::post('/{crm_sales_people_perspective}/do/{action}', 'SalesPeoplePerspective\SalesPeoplePerspectiveController@doAction');
 
-                Route::patch('/{casp}', 'AccountsSummarizedPerspective\AccountsSummarizedPerspectiveController@update');
-                Route::delete('/{casp}', 'AccountsSummarizedPerspective\AccountsSummarizedPerspectiveController@destroy');
-            }
-        );
-
-        Route::prefix('opportunities-performance')->group(
-            function () {
-                Route::get('/', 'OpportunitiesPerformance\OpportunitiesPerformanceController@index');
-                Route::get('/actions', 'OpportunitiesPerformance\OpportunitiesPerformanceController@getActions');
-
-                Route::get('{crm_opportunities_performance}/tags ', 'OpportunitiesPerformance\OpportunitiesPerformanceController@tags');
-                Route::post('{crm_opportunities_performance}/tags ', 'OpportunitiesPerformance\OpportunitiesPerformanceController@saveTags');
-                Route::get('{crm_opportunities_performance}/addresses ', 'OpportunitiesPerformance\OpportunitiesPerformanceController@addresses');
-                Route::post('{crm_opportunities_performance}/addresses ', 'OpportunitiesPerformance\OpportunitiesPerformanceController@saveAddresses');
-
-                Route::get('/{crm_opportunities_performance}/{subObjects}', 'OpportunitiesPerformance\OpportunitiesPerformanceController@relatedObjects');
-                Route::get('/{crm_opportunities_performance}', 'OpportunitiesPerformance\OpportunitiesPerformanceController@show');
-
-                Route::post('/', 'OpportunitiesPerformance\OpportunitiesPerformanceController@store');
-                Route::post('/{crm_opportunities_performance}/do/{action}', 'OpportunitiesPerformance\OpportunitiesPerformanceController@doAction');
-
-                Route::patch('/{crm_opportunities_performance}', 'OpportunitiesPerformance\OpportunitiesPerformanceController@update');
-                Route::delete('/{crm_opportunities_performance}', 'OpportunitiesPerformance\OpportunitiesPerformanceController@destroy');
+                Route::patch('/{crm_sales_people_perspective}', 'SalesPeoplePerspective\SalesPeoplePerspectiveController@update');
+                Route::delete('/{crm_sales_people_perspective}', 'SalesPeoplePerspective\SalesPeoplePerspectiveController@destroy');
             }
         );
 
@@ -1096,8 +1054,102 @@ Route::prefix('crm')->group(
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 );
+
+
+
+
 
 
 

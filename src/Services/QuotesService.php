@@ -115,15 +115,14 @@ class QuotesService extends AbstractQuotesService
             // Create invoice items from quote items
             $quoteItems = QuoteItems::where('crm_quote_id', $quote->id)->get();
             foreach ($quoteItems as $quoteItem) {
-                $itemCurrencyId = self::resolveItemCurrency($quoteItem) ?? $quote->common_currency_id;
-
+                $itemCurrencyId = self::resolveItemCurrency($quoteItem);
 
                 $invoiceItemData = [
                     'accounting_invoice_id' => $invoice->id,
                     'object_type' => 'NextDeveloper\\Marketplace\\Database\\Models\\ProductCatalogs',
                     'object_id' => $quoteItem->marketplace_product_catalog_id,
                     'quantity' => $quoteItem->quantity,
-                    'unit_price' => ($quoteItem->unit_price * $quoteItem->quantity),
+                    'unit_price' => $quoteItem->unit_price * $quoteItem->quantity,
                     'common_currency_id' => $itemCurrencyId,
                     'iam_account_id' => $quote->iam_account_id,
                     'accounting_account_id' => $accountingAccount->id,
@@ -151,23 +150,6 @@ class QuotesService extends AbstractQuotesService
             InvoiceHelper::updateInvoiceAmount($invoice);
 
             DB::commit();
-
-            // Notify accounting admins
-            try {
-                $admins = UserHelper::getUsersWithRole('accounting-admin');
-                foreach ($admins as $admin) {
-                    (new Communicate($admin))->sendEnvelope(
-                        new QuoteConvertedToInvoiceEnvelope(
-                            $quote->name,
-                            $invoice->uuid
-                        )
-                    );
-                }
-            } catch (\Throwable $ex) {
-                Log::error('Failed to notify accounting admins: ' . $ex->getMessage());
-            }
-
-            return $invoice;
         } catch (\Throwable $e) {
             DB::rollBack();
             Log::error('Error converting quote to invoice', [
@@ -177,27 +159,47 @@ class QuotesService extends AbstractQuotesService
             ]);
             throw $e;
         }
-    }
 
-    private static function resolveItemCurrency($item): ?int
-    {
-        $currencyId = $item->common_currency_id ?? null;
-        if ($currencyId) {
-            return $currencyId;
+        // Notify accounting admins (outside transaction)
+        try {
+            $admins = UserHelper::getUsersWithRole('accounting-admin');
+            foreach ($admins as $admin) {
+                (new Communicate($admin))->sendEnvelope(
+                    new QuoteConvertedToInvoiceEnvelope(
+                        $quote->name,
+                        $invoice->uuid
+                    )
+                );
+            }
+        } catch (\Throwable $ex) {
+            Log::error('Failed to notify accounting admins: ' . $ex->getMessage());
         }
 
+        return $invoice;
+    }
+
+    private static function resolveItemCurrency($item): int
+    {
         $catalogue = ProductCatalogs::withoutGlobalScopes()
             ->where('id', $item->marketplace_product_catalog_id)
             ->first();
 
-        return $catalogue?->common_currency_id;
+        if (!$catalogue) {
+            throw new \RuntimeException('Product catalog not found for quote item ID: ' . $item->id);
+        }
+
+        if (!$catalogue->common_currency_id) {
+            throw new \RuntimeException('Product catalog (ID: ' . $catalogue->id . ') does not have a currency set.');
+        }
+
+        return $catalogue->common_currency_id;
     }
 
     private static function defaultCurrencyId(): int
     {
         return Currencies::withoutGlobalScopes()
-        ->where('code', 'USD')
-        ->first()?->id;
+            ->where('code', 'USD')
+            ->first()?->id;
     }
 
 }

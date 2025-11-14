@@ -36,6 +36,7 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property boolean $is_nin_verified
  * @property boolean $is_email_verified
  * @property boolean $is_phone_number_verified
+ * @property integer $profile_picture_identity
  * @property string $position
  * @property string $job
  * @property string $job_description
@@ -89,6 +90,7 @@ class UsersPerspective extends Model
             'is_nin_verified',
             'is_email_verified',
             'is_phone_number_verified',
+            'profile_picture_identity',
             'position',
             'job',
             'job_description',
@@ -147,6 +149,7 @@ class UsersPerspective extends Model
     'is_nin_verified' => 'boolean',
     'is_email_verified' => 'boolean',
     'is_phone_number_verified' => 'boolean',
+    'profile_picture_identity' => 'integer',
     'position' => 'string',
     'job' => 'string',
     'job_description' => 'string',
@@ -224,6 +227,9 @@ class UsersPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
 
 
 

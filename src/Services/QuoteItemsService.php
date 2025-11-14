@@ -6,6 +6,7 @@ use NextDeveloper\CRM\Actions\QuoteItems\ValidateQuoteItem;
 use NextDeveloper\CRM\Actions\Quotes\RecalculateQuote;
 use NextDeveloper\CRM\Database\Models\Quotes;
 use NextDeveloper\CRM\Services\AbstractServices\AbstractQuoteItemsService;
+use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 
 /**
  * This class is responsible from managing the data for QuoteItems
@@ -22,15 +23,27 @@ class QuoteItemsService extends AbstractQuoteItemsService
     public static function create($data)
     {
         // If currency not provided, inherit from parent quote
-        if (!array_key_exists('common_currency_id', $data) && array_key_exists('crm_quote_id', $data)) {
+        if (array_key_exists('crm_quote_id', $data)) {
             $quoteId = $data['crm_quote_id'];
             $quote = Quotes::where('id', is_numeric($quoteId) ? $quoteId : null)
                 ->when(!is_numeric($quoteId), fn($q) => $q->orWhere('uuid', $quoteId))
                 ->first();
+        }
 
-            if ($quote && $quote->common_currency_id) {
-                $data['common_currency_id'] = $quote->common_currency_id;
+        if (!array_key_exists('common_currency_id', $data) && array_key_exists('marketplace_product_catalog_id', $data)) {
+            $productCatalogId = $data['marketplace_product_catalog_id'];
+            $productCatalog = \NextDeveloper\Marketplace\Database\Models\ProductCatalogs::withoutGlobalScope(AuthorizationScope::class)
+                ->where('id', is_numeric($productCatalogId) ? $productCatalogId : null)
+                ->when(!is_numeric($productCatalogId), fn($q) => $q->orWhere('uuid', $productCatalogId))
+                ->first();
+
+            if ($productCatalog && $productCatalog->common_currency_id) {
+                $data['common_currency_id'] = $productCatalog->common_currency_id;
             }
+        }
+
+        if (!array_key_exists('common_currency_id', $data)) {
+            throw new \RuntimeException('Product catalog currency not found.');
         }
 
         $line = parent::create($data);
