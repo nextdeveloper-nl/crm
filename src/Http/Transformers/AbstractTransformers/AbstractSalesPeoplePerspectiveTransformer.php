@@ -20,16 +20,16 @@ use NextDeveloper\Commons\Http\Transformers\MetaTransformer;
 use NextDeveloper\Commons\Http\Transformers\VotesTransformer;
 use NextDeveloper\Commons\Http\Transformers\AddressesTransformer;
 use NextDeveloper\Commons\Http\Transformers\PhoneNumbersTransformer;
-use NextDeveloper\CRM\Database\Models\SectorFocus;
+use NextDeveloper\CRM\Database\Models\SalesPeoplePerspective;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 
 /**
- * Class SectorFocusTransformer. This class is being used to manipulate the data we are serving to the customer
+ * Class SalesPeoplePerspectiveTransformer. This class is being used to manipulate the data we are serving to the customer
  *
  * @package NextDeveloper\CRM\Http\Transformers
  */
-class AbstractSectorFocusTransformer extends AbstractTransformer
+class AbstractSalesPeoplePerspectiveTransformer extends AbstractTransformer
 {
 
     /**
@@ -48,22 +48,59 @@ class AbstractSectorFocusTransformer extends AbstractTransformer
     ];
 
     /**
-     * @param SectorFocus $model
+     * @param SalesPeoplePerspective $model
      *
      * @return array
      */
-    public function transform(SectorFocus $model)
+    public function transform(SalesPeoplePerspective $model)
     {
-            
+                                                $commonCountryId = \NextDeveloper\Commons\Database\Models\Countries::where('id', $model->common_country_id)->first();
+                                                            $commonLanguageId = \NextDeveloper\Commons\Database\Models\Languages::where('id', $model->common_language_id)->first();
+                                                            $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
+                                                            $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
+                        
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
             'name'  =>  $model->name,
+            'surname'  =>  $model->surname,
+            'fullname'  =>  $model->fullname,
+            'email'  =>  $model->email,
+            'about'  =>  $model->about,
+            'pronoun'  =>  $model->pronoun,
+            'birthday'  =>  $model->birthday,
+            'nin'  =>  $model->nin,
+            'common_country_id'  =>  $commonCountryId ? $commonCountryId->uuid : null,
+            'country'  =>  $model->country,
+            'common_language_id'  =>  $commonLanguageId ? $commonLanguageId->uuid : null,
+            'language'  =>  $model->language,
+            'iam_updated_at'  =>  $model->iam_updated_at,
+            'phone_number'  =>  $model->phone_number,
+            'is_registered'  =>  $model->is_registered,
+            'is_nin_verified'  =>  $model->is_nin_verified,
+            'is_email_verified'  =>  $model->is_email_verified,
+            'is_phone_number_verified'  =>  $model->is_phone_number_verified,
+            'profile_picture_identity'  =>  $model->profile_picture_identity,
+            'position'  =>  $model->position,
+            'job'  =>  $model->job,
+            'job_description'  =>  $model->job_description,
+            'hobbies'  =>  $model->hobbies,
+            'city'  =>  $model->city,
+            'email_risk'  =>  $model->email_risk,
+            'relationship_status'  =>  $model->relationship_status,
+            'is_evangelist'  =>  $model->is_evangelist,
+            'is_single'  =>  $model->is_single,
+            'education'  =>  $model->education,
+            'child_count'  =>  $model->child_count,
+            'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
+            'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
+            'created_at'  =>  $model->created_at,
+            'updated_at'  =>  $model->updated_at,
             ]
         );
     }
 
-    public function includeStates(SectorFocus $model)
+    public function includeStates(SalesPeoplePerspective $model)
     {
         $states = States::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -72,7 +109,7 @@ class AbstractSectorFocusTransformer extends AbstractTransformer
         return $this->collection($states, new StatesTransformer());
     }
 
-    public function includeActions(SectorFocus $model)
+    public function includeActions(SalesPeoplePerspective $model)
     {
         $input = get_class($model);
         $input = str_replace('\\Database\\Models', '', $input);
@@ -84,7 +121,7 @@ class AbstractSectorFocusTransformer extends AbstractTransformer
         return $this->collection($actions, new AvailableActionsTransformer());
     }
 
-    public function includeMedia(SectorFocus $model)
+    public function includeMedia(SalesPeoplePerspective $model)
     {
         $media = Media::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -93,7 +130,7 @@ class AbstractSectorFocusTransformer extends AbstractTransformer
         return $this->collection($media, new MediaTransformer());
     }
 
-    public function includeSocialMedia(SectorFocus $model)
+    public function includeSocialMedia(SalesPeoplePerspective $model)
     {
         $socialMedia = SocialMedia::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -102,7 +139,7 @@ class AbstractSectorFocusTransformer extends AbstractTransformer
         return $this->collection($socialMedia, new SocialMediaTransformer());
     }
 
-    public function includeComments(SectorFocus $model)
+    public function includeComments(SalesPeoplePerspective $model)
     {
         $comments = Comments::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -111,7 +148,7 @@ class AbstractSectorFocusTransformer extends AbstractTransformer
         return $this->collection($comments, new CommentsTransformer());
     }
 
-    public function includeVotes(SectorFocus $model)
+    public function includeVotes(SalesPeoplePerspective $model)
     {
         $votes = Votes::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -120,7 +157,7 @@ class AbstractSectorFocusTransformer extends AbstractTransformer
         return $this->collection($votes, new VotesTransformer());
     }
 
-    public function includeMeta(SectorFocus $model)
+    public function includeMeta(SalesPeoplePerspective $model)
     {
         $meta = Meta::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -129,7 +166,7 @@ class AbstractSectorFocusTransformer extends AbstractTransformer
         return $this->collection($meta, new MetaTransformer());
     }
 
-    public function includePhoneNumbers(SectorFocus $model)
+    public function includePhoneNumbers(SalesPeoplePerspective $model)
     {
         $phoneNumbers = PhoneNumbers::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -138,7 +175,7 @@ class AbstractSectorFocusTransformer extends AbstractTransformer
         return $this->collection($phoneNumbers, new PhoneNumbersTransformer());
     }
 
-    public function includeAddresses(SectorFocus $model)
+    public function includeAddresses(SalesPeoplePerspective $model)
     {
         $addresses = Addresses::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -147,12 +184,6 @@ class AbstractSectorFocusTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
 
 
 }
