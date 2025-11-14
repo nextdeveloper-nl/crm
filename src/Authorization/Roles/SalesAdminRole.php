@@ -130,6 +130,8 @@ class SalesAdminRole extends AbstractRole implements IAuthorizationRole
             'crm_email_templates:create',
             'crm_email_templates:update',
             'crm_email_templates:delete',
+
+            'crm_sales_people_perspective:read'
         ];
     }
 

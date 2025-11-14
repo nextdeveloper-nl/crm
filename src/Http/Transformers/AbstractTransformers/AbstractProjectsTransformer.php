@@ -54,7 +54,7 @@ class AbstractProjectsTransformer extends AbstractTransformer
      */
     public function transform(Projects $model)
     {
-                                                $projectId = \NextDeveloper\Database\Models\Projects::where('id', $model->project_id)->first();
+                                                $projectId = \NextDeveloper\\Database\Models\Projects::where('id', $model->project_id)->first();
                                                             $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
                                                             $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
                                                             $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
@@ -162,6 +162,9 @@ class AbstractProjectsTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
 
 
 
