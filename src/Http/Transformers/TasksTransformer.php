@@ -33,6 +33,13 @@ class TasksTransformer extends AbstractTasksTransformer
 
         $transformed = parent::transform($model);
 
+        if($model->object_Type) {
+            $object = $model->getObject();
+
+            $transformed['object_type'] = $model->object_type;
+            $transformed['object_id'] = $object ? $object->uuid : null;
+        }
+
         Cache::set(
             CacheHelper::getKey('Tasks', $model->uuid, 'Transformed'),
             $transformed

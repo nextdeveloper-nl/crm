@@ -12,6 +12,7 @@ use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
+use NextDeveloper\Commons\Database\Traits\HasObject;
 
 /**
  * QuotesPerspective model.
@@ -31,6 +32,7 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property $suggested_price
  * @property $approval_level
  * @property array $tags
+ * @property integer $crm_opportunity_id
  * @property integer $iam_account_id
  * @property integer $iam_user_id
  * @property integer $line_count
@@ -40,7 +42,7 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  */
 class QuotesPerspective extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator, HasObject;
     use SoftDeletes;
 
     public $timestamps = true;
@@ -66,6 +68,7 @@ class QuotesPerspective extends Model
             'suggested_price',
             'approval_level',
             'tags',
+            'crm_opportunity_id',
             'iam_account_id',
             'iam_user_id',
             'line_count',
@@ -101,6 +104,7 @@ class QuotesPerspective extends Model
     'common_currency_id' => 'integer',
     'currency_code' => 'string',
     'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'crm_opportunity_id' => 'integer',
     'line_count' => 'integer',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
@@ -166,6 +170,7 @@ class QuotesPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

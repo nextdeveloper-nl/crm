@@ -60,8 +60,10 @@ trait CrmTaskTestTraits
             'form_params'   =>  [
                 'name'  =>  'a',
                 'description'  =>  'a',
+                'object_type'  =>  'a',
                 'priority'  =>  '1',
-                            ],
+                                'due_date'  =>  now(),
+                ],
                 ['http_errors' => false]
             ]
         );
@@ -381,6 +383,25 @@ trait CrmTaskTestTraits
         $this->assertTrue(true);
     }
 
+    public function test_crmtask_event_object_type_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'object_type'  =>  'a'
+                ]
+            );
+
+            $filter = new CrmTaskQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmTask::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
     public function test_crmtask_event_priority_filter()
     {
         try {
@@ -457,6 +478,25 @@ trait CrmTaskTestTraits
         $this->assertTrue(true);
     }
 
+    public function test_crmtask_event_due_date_filter_start()
+    {
+        try {
+            $request = new Request(
+                [
+                'due_dateStart'  =>  now()
+                ]
+            );
+
+            $filter = new CrmTaskQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmTask::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
     public function test_crmtask_event_created_at_filter_end()
     {
         try {
@@ -501,6 +541,25 @@ trait CrmTaskTestTraits
             $request = new Request(
                 [
                 'deleted_atEnd'  =>  now()
+                ]
+            );
+
+            $filter = new CrmTaskQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmTask::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_crmtask_event_due_date_filter_end()
+    {
+        try {
+            $request = new Request(
+                [
+                'due_dateEnd'  =>  now()
                 ]
             );
 
@@ -561,6 +620,26 @@ trait CrmTaskTestTraits
                 [
                 'deleted_atStart'  =>  now(),
                 'deleted_atEnd'  =>  now()
+                ]
+            );
+
+            $filter = new CrmTaskQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmTask::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_crmtask_event_due_date_filter_start_and_end()
+    {
+        try {
+            $request = new Request(
+                [
+                'due_dateStart'  =>  now(),
+                'due_dateEnd'  =>  now()
                 ]
             );
 
