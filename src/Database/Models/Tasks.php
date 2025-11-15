@@ -2,10 +2,12 @@
 
 namespace NextDeveloper\CRM\Database\Models;
 
+use Carbon\Traits\ObjectInitialisation;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
+use NextDeveloper\Commons\Database\Traits\HasObject;
 use NextDeveloper\CRM\Database\Observers\TasksObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
@@ -30,10 +32,13 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
+ * @property string $object_type
+ * @property integer $object_id
+ * @property \Carbon\Carbon $due_date
  */
 class Tasks extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator, HasObject;
     use SoftDeletes;
 
     public $timestamps = true;
@@ -55,6 +60,9 @@ class Tasks extends Model
             'priority',
             'is_finished',
             'is_delayed',
+            'object_type',
+            'object_id',
+            'due_date',
     ];
 
     /**
@@ -87,6 +95,9 @@ class Tasks extends Model
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
+    'object_type' => 'string',
+    'object_id' => 'integer',
+    'due_date' => 'datetime',
     ];
 
     /**
@@ -98,6 +109,7 @@ class Tasks extends Model
     'created_at',
     'updated_at',
     'deleted_at',
+    'due_date',
     ];
 
     /**
@@ -148,56 +160,5 @@ class Tasks extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

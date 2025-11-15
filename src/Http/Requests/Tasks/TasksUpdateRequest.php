@@ -19,6 +19,9 @@ class TasksUpdateRequest extends AbstractFormRequest
         'priority' => 'integer',
         'is_finished' => 'boolean',
         'is_delayed' => 'boolean',
+        'object_type' => 'nullable|string',
+        'object_id' => 'nullable',
+        'due_date' => 'nullable|date',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

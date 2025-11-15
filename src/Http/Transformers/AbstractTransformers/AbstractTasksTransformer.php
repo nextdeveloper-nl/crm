@@ -72,6 +72,9 @@ class AbstractTasksTransformer extends AbstractTransformer
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
+            'object_type'  =>  $model->object_type,
+            'object_id'  =>  $model->object_id,
+            'due_date'  =>  $model->due_date,
             ]
         );
     }
@@ -160,46 +163,6 @@ class AbstractTasksTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

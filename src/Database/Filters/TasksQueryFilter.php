@@ -29,6 +29,17 @@ class TasksQueryFilter extends AbstractQueryFilter
         return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
 
+        
+    public function objectType($value)
+    {
+        return $this->builder->where('object_type', 'ilike', '%' . $value . '%');
+    }
+
+        //  This is an alias function of objectType
+    public function object_type($value)
+    {
+        return $this->objectType($value);
+    }
     
     public function priority($value)
     {
@@ -132,6 +143,28 @@ class TasksQueryFilter extends AbstractQueryFilter
         return $this->deletedAtEnd($value);
     }
 
+    public function dueDateStart($date)
+    {
+        return $this->builder->where('due_date', '>=', $date);
+    }
+
+    public function dueDateEnd($date)
+    {
+        return $this->builder->where('due_date', '<=', $date);
+    }
+
+    //  This is an alias function of dueDate
+    public function due_date_start($value)
+    {
+        return $this->dueDateStart($value);
+    }
+
+    //  This is an alias function of dueDate
+    public function due_date_end($value)
+    {
+        return $this->dueDateEnd($value);
+    }
+
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -168,6 +201,7 @@ class TasksQueryFilter extends AbstractQueryFilter
     }
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
