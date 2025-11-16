@@ -411,21 +411,6 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->crmAccount($value);
     }
     
-    public function responsibleId($value)
-    {
-            $responsible = \NextDeveloper\\Database\Models\Responsibles::where('uuid', $value)->first();
-
-        if($responsible) {
-            return $this->builder->where('responsible_id', '=', $responsible->id);
-        }
-    }
-
-        //  This is an alias function of responsible
-    public function responsible_id($value)
-    {
-        return $this->responsible($value);
-    }
-    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 
