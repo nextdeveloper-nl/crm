@@ -59,7 +59,6 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
                                                             $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
                                                             $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
                                                             $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
-                                                            $responsibleId = \NextDeveloper\\Database\Models\Responsibles::where('id', $model->responsible_id)->first();
                         
         return $this->buildPayload(
             [
@@ -99,7 +98,6 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
             'crm_account_id'  =>  $crmAccountId ? $crmAccountId->uuid : null,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
-            'responsible_id'  =>  $responsibleId ? $responsibleId->uuid : null,
             'relationship_rating'  =>  $model->relationship_rating,
             'notes'  =>  $model->notes,
             ]
