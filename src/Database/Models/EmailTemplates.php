@@ -145,17 +145,18 @@ class EmailTemplates extends Model
         }
     }
 
-    public function channels() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\Communication\Database\Models\Channels::class);
-    }
-    
     public function campaigns() : \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Campaigns::class);
     }
     
+    public function channels() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\Communication\Database\Models\Channels::class);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

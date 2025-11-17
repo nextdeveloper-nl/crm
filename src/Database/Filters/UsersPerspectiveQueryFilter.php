@@ -36,6 +36,28 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
     }
 
         
+    public function iamAccountName($value)
+    {
+        return $this->builder->where('iam_account_name', 'ilike', '%' . $value . '%');
+    }
+
+        //  This is an alias function of iamAccountName
+    public function iam_account_name($value)
+    {
+        return $this->iamAccountName($value);
+    }
+        
+    public function iamAccountType($value)
+    {
+        return $this->builder->where('iam_account_type', 'ilike', '%' . $value . '%');
+    }
+
+        //  This is an alias function of iamAccountType
+    public function iam_account_type($value)
+    {
+        return $this->iamAccountType($value);
+    }
+        
     public function email($value)
     {
         return $this->builder->where('email', 'ilike', '%' . $value . '%');
@@ -128,31 +150,6 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->relationshipStatus($value);
     }
-        
-    public function notes($value)
-    {
-        return $this->builder->where('notes', 'ilike', '%' . $value . '%');
-    }
-
-    
-    public function profilePictureIdentity($value)
-    {
-        $operator = substr($value, 0, 1);
-
-        if ($operator != '<' || $operator != '>') {
-            $operator = '=';
-        } else {
-            $value = substr($value, 1);
-        }
-
-        return $this->builder->where('profile_picture_identity', $operator, $value);
-    }
-
-        //  This is an alias function of profilePictureIdentity
-    public function profile_picture_identity($value)
-    {
-        return $this->profilePictureIdentity($value);
-    }
     
     public function childCount($value)
     {
@@ -171,25 +168,6 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
     public function child_count($value)
     {
         return $this->childCount($value);
-    }
-    
-    public function relationshipRating($value)
-    {
-        $operator = substr($value, 0, 1);
-
-        if ($operator != '<' || $operator != '>') {
-            $operator = '=';
-        } else {
-            $value = substr($value, 1);
-        }
-
-        return $this->builder->where('relationship_rating', $operator, $value);
-    }
-
-        //  This is an alias function of relationshipRating
-    public function relationship_rating($value)
-    {
-        return $this->relationshipRating($value);
     }
     
     public function isRegistered($value)
@@ -346,6 +324,21 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->updatedAtEnd($value);
     }
 
+    public function iamAccountTypeId($value)
+    {
+            $iamAccountType = \NextDeveloper\IAM\Database\Models\AccountTypes::where('uuid', $value)->first();
+
+        if($iamAccountType) {
+            return $this->builder->where('iam_account_type_id', '=', $iamAccountType->id);
+        }
+    }
+
+        //  This is an alias function of iamAccountType
+    public function iam_account_type_id($value)
+    {
+        return $this->iamAccountType($value);
+    }
+    
     public function commonCountryId($value)
     {
             $commonCountry = \NextDeveloper\Commons\Database\Models\Countries::where('uuid', $value)->first();
@@ -412,6 +405,7 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
     }
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

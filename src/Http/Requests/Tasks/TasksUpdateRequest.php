@@ -13,12 +13,12 @@ class TasksUpdateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'name' => 'nullable|string',
-        'description' => 'nullable|string',
+            'description' => 'nullable|string',
         'crm_account_id' => 'nullable|exists:crm_accounts,uuid|uuid',
         'priority' => 'integer',
         'is_finished' => 'boolean',
         'is_delayed' => 'boolean',
+        'name' => 'nullable|string',
         'object_type' => 'nullable|string',
         'object_id' => 'nullable',
         'due_date' => 'nullable|date',

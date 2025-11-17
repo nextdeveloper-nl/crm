@@ -55,7 +55,6 @@ class AbstractAccountManagersPerformancesPerspectiveTransformer extends Abstract
     public function transform(AccountManagersPerformancesPerspective $model)
     {
                                                 $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
-                                                            $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
                         
         return $this->buildPayload(
             [
@@ -63,7 +62,6 @@ class AbstractAccountManagersPerformancesPerspectiveTransformer extends Abstract
             'creation_date'  =>  $model->creation_date,
             'account_manager'  =>  $model->account_manager,
             'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
-            'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
             'total_accounts'  =>  $model->total_accounts,
             ]
         );
@@ -153,6 +151,7 @@ class AbstractAccountManagersPerformancesPerspectiveTransformer extends Abstract
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 }

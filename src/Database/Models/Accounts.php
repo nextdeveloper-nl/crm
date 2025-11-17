@@ -36,6 +36,12 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property string $disabling_reason
  * @property string $suspension_reason
  * @property integer $technology_rank
+ * @property boolean $is_sdr_qualified
+ * @property boolean $is_sdr_qualification_required
+ * @property string $disqualification_reason
+ * @property string $office_phone_number
+ * @property string $office_phone_extension
+ * @property $sdr_questionaire
  */
 class Accounts extends Model
 {
@@ -66,6 +72,12 @@ class Accounts extends Model
             'disabling_reason',
             'suspension_reason',
             'technology_rank',
+            'is_sdr_qualified',
+            'is_sdr_qualification_required',
+            'disqualification_reason',
+            'office_phone_number',
+            'office_phone_extension',
+            'sdr_questionaire',
     ];
 
     /**
@@ -104,6 +116,12 @@ class Accounts extends Model
     'disabling_reason' => 'string',
     'suspension_reason' => 'string',
     'technology_rank' => 'integer',
+    'is_sdr_qualified' => 'boolean',
+    'is_sdr_qualification_required' => 'boolean',
+    'disqualification_reason' => 'string',
+    'office_phone_number' => 'string',
+    'office_phone_extension' => 'string',
+    'sdr_questionaire' => 'array',
     ];
 
     /**
@@ -164,11 +182,6 @@ class Accounts extends Model
         }
     }
 
-    public function accountManagers() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\CRM\Database\Models\AccountManagers::class);
-    }
-
     public function cities() : \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\NextDeveloper\Commons\Database\Models\Cities::class);
@@ -179,6 +192,11 @@ class Accounts extends Model
         return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Accounts::class);
     }
     
+    public function accountManagers() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\CRM\Database\Models\AccountManagers::class);
+    }
+
     public function projects() : \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\NextDeveloper\CRM\Database\Models\Projects::class);
@@ -190,6 +208,7 @@ class Accounts extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

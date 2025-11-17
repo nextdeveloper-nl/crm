@@ -16,12 +16,12 @@ class OpportunitiesCreateRequest extends AbstractFormRequest
             'name' => 'required|string',
         'description' => 'nullable|string',
         'probability' => 'integer',
-        'opportunity_stage' => '',
         'source' => 'nullable|string',
         'income' => '',
         'deadline' => 'nullable|date',
         'crm_account_id' => 'required|exists:crm_accounts,uuid|uuid',
         'tags' => '',
+        'opportunity_stage' => '',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

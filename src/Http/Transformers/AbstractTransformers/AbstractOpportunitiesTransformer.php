@@ -64,7 +64,6 @@ class AbstractOpportunitiesTransformer extends AbstractTransformer
             'name'  =>  $model->name,
             'description'  =>  $model->description,
             'probability'  =>  $model->probability,
-            'opportunity_stage'  =>  $model->opportunity_stage,
             'source'  =>  $model->source,
             'income'  =>  $model->income,
             'deadline'  =>  $model->deadline,
@@ -75,6 +74,7 @@ class AbstractOpportunitiesTransformer extends AbstractTransformer
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
+            'opportunity_stage'  =>  $model->opportunity_stage,
             ]
         );
     }
@@ -163,6 +163,7 @@ class AbstractOpportunitiesTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

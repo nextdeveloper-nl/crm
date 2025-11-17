@@ -29,11 +29,11 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property $detailed_amount
  * @property $suggested_price
  * @property integer $common_currency_id
- * @property $approval_level
  * @property array $tags
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
+ * @property $approval_level
  * @property boolean $is_converted
  * @property integer $accounting_invoice_id
  */
@@ -62,8 +62,8 @@ class Quotes extends Model
             'detailed_amount',
             'suggested_price',
             'common_currency_id',
-            'approval_level',
             'tags',
+            'approval_level',
             'is_converted',
             'accounting_invoice_id',
     ];
@@ -176,6 +176,7 @@ class Quotes extends Model
     }
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

@@ -58,8 +58,8 @@ trait CrmTaskTestTraits
         $response = $this->http->request(
             'POST', '/crm/crmtask', [
             'form_params'   =>  [
-                'name'  =>  'a',
                 'description'  =>  'a',
+                'name'  =>  'a',
                 'object_type'  =>  'a',
                 'priority'  =>  '1',
                                 'due_date'  =>  now(),
@@ -345,12 +345,12 @@ trait CrmTaskTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmtask_event_name_filter()
+    public function test_crmtask_event_description_filter()
     {
         try {
             $request = new Request(
                 [
-                'name'  =>  'a'
+                'description'  =>  'a'
                 ]
             );
 
@@ -364,12 +364,12 @@ trait CrmTaskTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmtask_event_description_filter()
+    public function test_crmtask_event_name_filter()
     {
         try {
             $request = new Request(
                 [
-                'description'  =>  'a'
+                'name'  =>  'a'
                 ]
             );
 

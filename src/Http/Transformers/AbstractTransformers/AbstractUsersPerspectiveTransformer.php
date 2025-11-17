@@ -54,7 +54,8 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
      */
     public function transform(UsersPerspective $model)
     {
-                                                $commonCountryId = \NextDeveloper\Commons\Database\Models\Countries::where('id', $model->common_country_id)->first();
+                                                $iamAccountTypeId = \NextDeveloper\IAM\Database\Models\AccountTypes::where('id', $model->iam_account_type_id)->first();
+                                                            $commonCountryId = \NextDeveloper\Commons\Database\Models\Countries::where('id', $model->common_country_id)->first();
                                                             $commonLanguageId = \NextDeveloper\Commons\Database\Models\Languages::where('id', $model->common_language_id)->first();
                                                             $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
                                                             $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
@@ -66,6 +67,9 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
             'name'  =>  $model->name,
             'surname'  =>  $model->surname,
             'fullname'  =>  $model->fullname,
+            'iam_account_name'  =>  $model->iam_account_name,
+            'iam_account_type_id'  =>  $iamAccountTypeId ? $iamAccountTypeId->uuid : null,
+            'iam_account_type'  =>  $model->iam_account_type,
             'email'  =>  $model->email,
             'about'  =>  $model->about,
             'pronoun'  =>  $model->pronoun,
@@ -81,7 +85,6 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
             'is_nin_verified'  =>  $model->is_nin_verified,
             'is_email_verified'  =>  $model->is_email_verified,
             'is_phone_number_verified'  =>  $model->is_phone_number_verified,
-            'profile_picture_identity'  =>  $model->profile_picture_identity,
             'position'  =>  $model->position,
             'job'  =>  $model->job,
             'job_description'  =>  $model->job_description,
@@ -98,8 +101,6 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
             'crm_account_id'  =>  $crmAccountId ? $crmAccountId->uuid : null,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
-            'relationship_rating'  =>  $model->relationship_rating,
-            'notes'  =>  $model->notes,
             ]
         );
     }
@@ -188,6 +189,7 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
