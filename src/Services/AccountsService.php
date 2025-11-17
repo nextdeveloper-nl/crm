@@ -34,6 +34,23 @@ class AccountsService extends AbstractAccountsService
 
     private ?Accounts $crmAccount = null;
 
+    public static function update($id, $data) {
+        if(array_key_exists('sdr_questionaire', $data)) {
+            if(array_key_exists('isGoodFit', $data['sdr_questionaire'])) {
+                if($data['sdr_questionaire']['isGoodFit']) {
+                    $data['is_sdr_qualified'] = true;
+                    $data['is_sdr_qualification_required'] = false;
+                }
+                else {
+                    $data['is_sdr_qualified'] = false;
+                    $data['is_sdr_qualification_required'] = false;
+                }
+            }
+        }
+
+        return parent::update($id, $data);
+    }
+
     /**
      * Enables service for the current user after performing necessary validations
      *
