@@ -25,12 +25,6 @@ class AccountsCreateRequest extends AbstractFormRequest
         'disabling_reason' => 'nullable|string',
         'suspension_reason' => 'nullable|string',
         'technology_rank' => 'nullable|integer',
-        'is_sdr_qualified' => 'boolean',
-        'is_sdr_qualification_required' => 'boolean',
-        'disqualification_reason' => 'nullable|string',
-        'office_phone_number' => 'nullable|string',
-        'office_phone_extension' => 'nullable|string',
-        'sdr_questionaire' => 'nullable',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

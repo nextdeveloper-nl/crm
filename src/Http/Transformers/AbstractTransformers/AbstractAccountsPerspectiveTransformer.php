@@ -67,6 +67,7 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
             'name'  =>  $model->name,
             'account_owners_fullname'  =>  $model->account_owners_fullname,
             'account_owners_email'  =>  $model->account_owners_email,
+            'email'  =>  $model->email,
             'account_owners_phone_number'  =>  $model->account_owners_phone_number,
             'common_domain_id'  =>  $commonDomainId ? $commonDomainId->uuid : null,
             'domain_name'  =>  $model->domain_name,
@@ -84,11 +85,6 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
             'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
             'total_user_count'  =>  $model->total_user_count,
             'registered_user_count'  =>  $model->registered_user_count,
-            'is_sdr_qualified'  =>  $model->is_sdr_qualified,
-            'is_sdr_qualification_required'  =>  $model->is_sdr_qualification_required,
-            'disqualification_reason'  =>  $model->disqualification_reason,
-            'office_phone_number'  =>  $model->office_phone_number,
-            'office_phone_extension'  =>  $model->office_phone_extension,
             'is_disabled'  =>  $model->is_disabled,
             'disabling_reason'  =>  $model->disabling_reason,
             'is_suspended'  =>  $model->is_suspended,
@@ -184,6 +180,7 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
