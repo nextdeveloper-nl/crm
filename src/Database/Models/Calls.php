@@ -20,6 +20,7 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @package  NextDeveloper\CRM\Database\Models
  * @property integer $id
  * @property string $uuid
+ * @property string $name
  * @property string $description
  * @property integer $iam_user_id
  * @property integer $iam_account_it
@@ -32,12 +33,11 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
- * @property string $name
  * @property integer $crm_opportunity_id
  */
 class Calls extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator, HasObject;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
     use SoftDeletes;
 
     public $timestamps = true;
@@ -51,6 +51,7 @@ class Calls extends Model
     protected $guarded = [];
 
     protected $fillable = [
+            'name',
             'description',
             'iam_user_id',
             'iam_account_it',
@@ -60,7 +61,6 @@ class Calls extends Model
             'from_number',
             'to_number',
             'call_direction',
-            'name',
             'crm_opportunity_id',
     ];
 
@@ -85,6 +85,7 @@ class Calls extends Model
      */
     protected $casts = [
     'id' => 'integer',
+    'name' => 'string',
     'description' => 'string',
     'iam_account_it' => 'integer',
     'crm_account_id' => 'integer',
@@ -96,7 +97,6 @@ class Calls extends Model
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
-    'name' => 'string',
     'crm_opportunity_id' => 'integer',
     ];
 
@@ -164,6 +164,7 @@ class Calls extends Model
     }
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

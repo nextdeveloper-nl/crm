@@ -26,21 +26,21 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property string $job_description
  * @property string $hobbies
  * @property string $city
+ * @property $risk
  * @property string $relationship_status
  * @property boolean $is_evangelist
  * @property boolean $is_single
+ * @property $education_level
  * @property integer $child_count
  * @property array $tags
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
- * @property $risk
- * @property $education_level
  * @property boolean $is_suspended
  */
 class Users extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator, HasObject;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
     use SoftDeletes;
 
     public $timestamps = true;
@@ -60,13 +60,13 @@ class Users extends Model
             'job_description',
             'hobbies',
             'city',
+            'risk',
             'relationship_status',
             'is_evangelist',
             'is_single',
+            'education_level',
             'child_count',
             'tags',
-            'risk',
-            'education_level',
             'is_suspended',
     ];
 
@@ -170,12 +170,18 @@ class Users extends Model
         return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
     }
     
+    public function targetUsers() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\CRM\Database\Models\TargetUsers::class);
+    }
+
     public function userManagers() : \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\NextDeveloper\CRM\Database\Models\UserManagers::class);
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

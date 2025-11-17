@@ -23,6 +23,7 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property string $name
  * @property string $description
  * @property integer $probability
+ * @property $opportunity_stage
  * @property string $source
  * @property $income
  * @property \Carbon\Carbon $deadline
@@ -33,11 +34,11 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
- * @property $opportunity_stage
+ * @property integer $common_currency_id
  */
 class Opportunities extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator, HasObject;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
     use SoftDeletes;
 
     public $timestamps = true;
@@ -54,6 +55,7 @@ class Opportunities extends Model
             'name',
             'description',
             'probability',
+            'opportunity_stage',
             'source',
             'income',
             'deadline',
@@ -61,7 +63,7 @@ class Opportunities extends Model
             'iam_user_id',
             'crm_account_id',
             'tags',
-            'opportunity_stage',
+            'common_currency_id',
     ];
 
     /**
@@ -95,6 +97,7 @@ class Opportunities extends Model
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
+    'common_currency_id' => 'integer',
     ];
 
     /**
@@ -156,9 +159,9 @@ class Opportunities extends Model
         }
     }
 
-    public function projects() : \Illuminate\Database\Eloquent\Relations\HasMany
+    public function calls() : \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\NextDeveloper\CRM\Database\Models\Projects::class);
+        return $this->hasMany(\NextDeveloper\CRM\Database\Models\Calls::class);
     }
 
     public function meetings() : \Illuminate\Database\Eloquent\Relations\HasMany
@@ -166,11 +169,16 @@ class Opportunities extends Model
         return $this->hasMany(\NextDeveloper\CRM\Database\Models\Meetings::class);
     }
 
-    public function calls() : \Illuminate\Database\Eloquent\Relations\HasMany
+    public function projects() : \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\NextDeveloper\CRM\Database\Models\Calls::class);
+        return $this->hasMany(\NextDeveloper\CRM\Database\Models\Projects::class);
     }
 
+    public function currencies() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\Commons\Database\Models\Currencies::class);
+    }
+    
     public function accounts() : \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Accounts::class);
@@ -182,6 +190,7 @@ class Opportunities extends Model
     }
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

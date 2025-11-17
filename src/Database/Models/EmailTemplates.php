@@ -33,7 +33,7 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  */
 class EmailTemplates extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator, HasObject;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
     use SoftDeletes;
 
     public $timestamps = true;
@@ -145,17 +145,18 @@ class EmailTemplates extends Model
         }
     }
 
-    public function campaigns() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Campaigns::class);
-    }
-    
     public function channels() : \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\NextDeveloper\Communication\Database\Models\Channels::class);
     }
     
+    public function campaigns() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Campaigns::class);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

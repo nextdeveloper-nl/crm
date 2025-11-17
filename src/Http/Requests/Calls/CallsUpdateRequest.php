@@ -13,7 +13,8 @@ class CallsUpdateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'description' => 'nullable|string',
+            'name' => 'nullable|string',
+        'description' => 'nullable|string',
         'iam_account_it' => 'nullable|integer',
         'crm_account_id' => 'nullable|exists:crm_accounts,uuid|uuid',
         'disposition' => 'nullable|string',
@@ -21,7 +22,6 @@ class CallsUpdateRequest extends AbstractFormRequest
         'from_number' => 'nullable|string',
         'to_number' => 'nullable|string',
         'call_direction' => 'nullable|string',
-        'name' => 'nullable|string',
         'crm_opportunity_id' => 'nullable|exists:crm_opportunities,uuid|uuid',
         ];
     }

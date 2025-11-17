@@ -18,13 +18,13 @@ class UsersUpdateRequest extends AbstractFormRequest
         'job_description' => 'nullable|string',
         'hobbies' => 'nullable|string',
         'city' => 'nullable|string',
+        'risk' => 'nullable',
         'relationship_status' => 'nullable|string',
         'is_evangelist' => 'boolean',
         'is_single' => 'nullable|boolean',
+        'education_level' => 'nullable',
         'child_count' => 'nullable|integer',
         'tags' => '',
-        'risk' => 'nullable',
-        'education_level' => 'nullable',
         'is_suspended' => 'nullable|boolean',
         ];
     }

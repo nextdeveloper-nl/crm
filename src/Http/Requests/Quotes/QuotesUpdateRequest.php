@@ -18,8 +18,8 @@ class QuotesUpdateRequest extends AbstractFormRequest
         'description' => 'nullable|string',
         'suggested_price' => 'nullable',
         'common_currency_id' => 'nullable|exists:common_currencies,uuid|uuid',
-        'tags' => '',
         'approval_level' => '',
+        'tags' => '',
         'is_converted' => 'boolean',
         'accounting_invoice_id' => 'nullable|exists:accounting_invoices,uuid|uuid',
         ];

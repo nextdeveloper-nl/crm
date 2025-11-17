@@ -62,9 +62,6 @@ trait CrmAccountTestTraits
                 'additional_information'  =>  'a',
                 'disabling_reason'  =>  'a',
                 'suspension_reason'  =>  'a',
-                'disqualification_reason'  =>  'a',
-                'office_phone_number'  =>  'a',
-                'office_phone_extension'  =>  'a',
                 'risk_level'  =>  '1',
                 'technology_rank'  =>  '1',
                             ],
@@ -412,63 +409,6 @@ trait CrmAccountTestTraits
             $request = new Request(
                 [
                 'suspension_reason'  =>  'a'
-                ]
-            );
-
-            $filter = new CrmAccountQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmAccount::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmaccount_event_disqualification_reason_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'disqualification_reason'  =>  'a'
-                ]
-            );
-
-            $filter = new CrmAccountQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmAccount::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmaccount_event_office_phone_number_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'office_phone_number'  =>  'a'
-                ]
-            );
-
-            $filter = new CrmAccountQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmAccount::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmaccount_event_office_phone_extension_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'office_phone_extension'  =>  'a'
                 ]
             );
 

@@ -76,39 +76,6 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->suspensionReason($value);
     }
-        
-    public function disqualificationReason($value)
-    {
-        return $this->builder->where('disqualification_reason', 'ilike', '%' . $value . '%');
-    }
-
-        //  This is an alias function of disqualificationReason
-    public function disqualification_reason($value)
-    {
-        return $this->disqualificationReason($value);
-    }
-        
-    public function officePhoneNumber($value)
-    {
-        return $this->builder->where('office_phone_number', 'ilike', '%' . $value . '%');
-    }
-
-        //  This is an alias function of officePhoneNumber
-    public function office_phone_number($value)
-    {
-        return $this->officePhoneNumber($value);
-    }
-        
-    public function officePhoneExtension($value)
-    {
-        return $this->builder->where('office_phone_extension', 'ilike', '%' . $value . '%');
-    }
-
-        //  This is an alias function of officePhoneExtension
-    public function office_phone_extension($value)
-    {
-        return $this->officePhoneExtension($value);
-    }
     
     public function riskLevel($value)
     {
@@ -190,28 +157,6 @@ class AccountsQueryFilter extends AbstractQueryFilter
     public function is_disabled($value)
     {
         return $this->isDisabled($value);
-    }
-     
-    public function isSdrQualified($value)
-    {
-        return $this->builder->where('is_sdr_qualified', $value);
-    }
-
-        //  This is an alias function of isSdrQualified
-    public function is_sdr_qualified($value)
-    {
-        return $this->isSdrQualified($value);
-    }
-     
-    public function isSdrQualificationRequired($value)
-    {
-        return $this->builder->where('is_sdr_qualification_required', $value);
-    }
-
-        //  This is an alias function of isSdrQualificationRequired
-    public function is_sdr_qualification_required($value)
-    {
-        return $this->isSdrQualificationRequired($value);
     }
      
     public function createdAtStart($date)
@@ -306,6 +251,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     }
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 
