@@ -58,12 +58,12 @@ trait CrmCallTestTraits
         $response = $this->http->request(
             'POST', '/crm/crmcall', [
             'form_params'   =>  [
+                'name'  =>  'a',
                 'description'  =>  'a',
                 'disposition'  =>  'a',
                 'from_number'  =>  'a',
                 'to_number'  =>  'a',
                 'call_direction'  =>  'a',
-                'name'  =>  'a',
                 'iam_account_it'  =>  '1',
                 'duration'  =>  '1',
                             ],
@@ -348,6 +348,25 @@ trait CrmCallTestTraits
         $this->assertTrue(true);
     }
 
+    public function test_crmcall_event_name_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'name'  =>  'a'
+                ]
+            );
+
+            $filter = new CrmCallQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmCall::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
     public function test_crmcall_event_description_filter()
     {
         try {
@@ -430,25 +449,6 @@ trait CrmCallTestTraits
             $request = new Request(
                 [
                 'call_direction'  =>  'a'
-                ]
-            );
-
-            $filter = new CrmCallQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmCall::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmcall_event_name_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'name'  =>  'a'
                 ]
             );
 

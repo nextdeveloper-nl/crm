@@ -34,7 +34,7 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  */
 class Projects extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator, HasObject;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
     use SoftDeletes;
 
     public $timestamps = true;
@@ -153,17 +153,18 @@ class Projects extends Model
         return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Accounts::class);
     }
     
-    public function users() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
-    }
-    
     public function opportunities() : \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Opportunities::class);
     }
     
+    public function users() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

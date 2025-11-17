@@ -22,9 +22,6 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property string $name
  * @property string $surname
  * @property string $fullname
- * @property string $iam_account_name
- * @property integer $iam_account_type_id
- * @property string $iam_account_type
  * @property string $email
  * @property string $about
  * @property string $pronoun
@@ -40,6 +37,7 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property boolean $is_nin_verified
  * @property boolean $is_email_verified
  * @property boolean $is_phone_number_verified
+ * @property integer $profile_picture_identity
  * @property string $position
  * @property string $job
  * @property string $job_description
@@ -56,10 +54,13 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property integer $crm_account_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property integer $responsible_id
+ * @property integer $relationship_rating
+ * @property string $notes
  */
 class UsersPerspective extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator, HasObject;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
 
     public $timestamps = true;
 
@@ -75,9 +76,6 @@ class UsersPerspective extends Model
             'name',
             'surname',
             'fullname',
-            'iam_account_name',
-            'iam_account_type_id',
-            'iam_account_type',
             'email',
             'about',
             'pronoun',
@@ -93,6 +91,7 @@ class UsersPerspective extends Model
             'is_nin_verified',
             'is_email_verified',
             'is_phone_number_verified',
+            'profile_picture_identity',
             'position',
             'job',
             'job_description',
@@ -107,6 +106,9 @@ class UsersPerspective extends Model
             'iam_user_id',
             'iam_account_id',
             'crm_account_id',
+            'responsible_id',
+            'relationship_rating',
+            'notes',
     ];
 
     /**
@@ -133,9 +135,6 @@ class UsersPerspective extends Model
     'name' => 'string',
     'surname' => 'string',
     'fullname' => 'string',
-    'iam_account_name' => 'string',
-    'iam_account_type_id' => 'integer',
-    'iam_account_type' => 'string',
     'email' => 'string',
     'about' => 'string',
     'pronoun' => 'string',
@@ -151,6 +150,7 @@ class UsersPerspective extends Model
     'is_nin_verified' => 'boolean',
     'is_email_verified' => 'boolean',
     'is_phone_number_verified' => 'boolean',
+    'profile_picture_identity' => 'integer',
     'position' => 'string',
     'job' => 'string',
     'job_description' => 'string',
@@ -163,6 +163,9 @@ class UsersPerspective extends Model
     'crm_account_id' => 'integer',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
+    'responsible_id' => 'integer',
+    'relationship_rating' => 'integer',
+    'notes' => 'string',
     ];
 
     /**
@@ -225,6 +228,7 @@ class UsersPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

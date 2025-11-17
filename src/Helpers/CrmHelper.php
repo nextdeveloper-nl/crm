@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use NextDeveloper\Commons\Helpers\StateHelper;
 use NextDeveloper\CRM\Database\Models\AccountManagers;
+use NextDeveloper\CRM\Database\Models\Quotes;
 use NextDeveloper\IAM\Database\Models\Accounts;
 use NextDeveloper\IAM\Database\Models\Users;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
@@ -184,4 +185,12 @@ class CrmHelper
 
         return $crmUser;
     }
+
+    public static function getQuoteOpportunity(Quotes $quote): ?\NextDeveloper\CRM\Database\Models\Opportunities
+    {
+        return \NextDeveloper\CRM\Database\Models\Opportunities::withoutGlobalScope(AuthorizationScope::class)
+            ->where('id', $quote->crm_opportunity_id)
+            ->first();
+    }
+
 }

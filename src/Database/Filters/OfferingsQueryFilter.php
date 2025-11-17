@@ -119,4 +119,5 @@ class OfferingsQueryFilter extends AbstractQueryFilter
 
 
 
+
 }

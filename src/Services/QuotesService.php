@@ -17,6 +17,7 @@ use NextDeveloper\CRM\Database\Models\Accounts;
 use NextDeveloper\CRM\Database\Models\Opportunities;
 use NextDeveloper\CRM\Database\Models\QuoteItems;
 use NextDeveloper\CRM\Database\Models\Quotes;
+use NextDeveloper\Events\Services\Events;
 use NextDeveloper\IAM\Helpers\UserHelper;
 use NextDeveloper\Marketplace\Database\Models\ProductCatalogs;
 
@@ -150,6 +151,8 @@ class QuotesService extends AbstractQuotesService
             InvoiceHelper::updateInvoiceAmount($invoice);
 
             DB::commit();
+
+            Events::fire('converted:NextDeveloper\CRM\Quotes', $quote);
         } catch (\Throwable $e) {
             DB::rollBack();
             Log::error('Error converting quote to invoice', [
