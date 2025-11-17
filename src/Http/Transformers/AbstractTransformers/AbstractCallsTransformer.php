@@ -61,7 +61,6 @@ class AbstractCallsTransformer extends AbstractTransformer
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
-            'name'  =>  $model->name,
             'description'  =>  $model->description,
             'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
             'iam_account_it'  =>  $model->iam_account_it,
@@ -74,6 +73,7 @@ class AbstractCallsTransformer extends AbstractTransformer
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
+            'name'  =>  $model->name,
             'crm_opportunity_id'  =>  $crmOpportunityId ? $crmOpportunityId->uuid : null,
             ]
         );
@@ -163,6 +163,7 @@ class AbstractCallsTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

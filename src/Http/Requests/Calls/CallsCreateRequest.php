@@ -13,8 +13,7 @@ class CallsCreateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
-        'description' => 'required|string',
+            'description' => 'required|string',
         'iam_account_it' => 'required|integer',
         'crm_account_id' => 'required|exists:crm_accounts,uuid|uuid',
         'disposition' => 'nullable|string',
@@ -22,6 +21,7 @@ class CallsCreateRequest extends AbstractFormRequest
         'from_number' => 'nullable|string',
         'to_number' => 'nullable|string',
         'call_direction' => 'nullable|string',
+        'name' => 'required|string',
         'crm_opportunity_id' => 'nullable|exists:crm_opportunities,uuid|uuid',
         ];
     }

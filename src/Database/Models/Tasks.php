@@ -21,10 +21,8 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @package  NextDeveloper\CRM\Database\Models
  * @property integer $id
  * @property string $uuid
- * @property string $name
  * @property string $description
  * @property integer $iam_user_id
- * @property integer $iam_account_id
  * @property integer $crm_account_id
  * @property integer $priority
  * @property boolean $is_finished
@@ -32,6 +30,8 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
+ * @property string $name
+ * @property integer $iam_account_id
  * @property string $object_type
  * @property integer $object_id
  * @property \Carbon\Carbon $due_date
@@ -52,14 +52,14 @@ class Tasks extends Model
     protected $guarded = [];
 
     protected $fillable = [
-            'name',
             'description',
             'iam_user_id',
-            'iam_account_id',
             'crm_account_id',
             'priority',
             'is_finished',
             'is_delayed',
+            'name',
+            'iam_account_id',
             'object_type',
             'object_id',
             'due_date',
@@ -86,7 +86,6 @@ class Tasks extends Model
      */
     protected $casts = [
     'id' => 'integer',
-    'name' => 'string',
     'description' => 'string',
     'crm_account_id' => 'integer',
     'priority' => 'integer',
@@ -95,6 +94,7 @@ class Tasks extends Model
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
+    'name' => 'string',
     'object_type' => 'string',
     'object_id' => 'integer',
     'due_date' => 'datetime',
@@ -160,5 +160,6 @@ class Tasks extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 }
