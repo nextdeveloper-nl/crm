@@ -4,6 +4,7 @@ namespace NextDeveloper\CRM\Services;
 
 use NextDeveloper\CRM\Actions\QuoteItems\ValidateQuoteItem;
 use NextDeveloper\CRM\Actions\Quotes\RecalculateQuote;
+use NextDeveloper\CRM\Database\Models\QuoteItems;
 use NextDeveloper\CRM\Database\Models\Quotes;
 use NextDeveloper\CRM\Services\AbstractServices\AbstractQuoteItemsService;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
@@ -72,11 +73,15 @@ class QuoteItemsService extends AbstractQuoteItemsService
 
     public static function delete($id)
     {
+        $quoteItem = QuoteItems::withoutGlobalScope(AuthorizationScope::class)
+            ->where('uuid', $id)
+            ->first();
+
+        $quote = Quotes::where('id', $quoteItem->crm_quote_id)->first();
+
         $line = parent::delete($id);
 
-        $quote = Quotes::where('id', $line->crm_quote_id)->first();
-
-        (new RecalculateQuote($quote))->handle();
+        dispatch(new RecalculateQuote($quote));
 
         return $line;
     }
