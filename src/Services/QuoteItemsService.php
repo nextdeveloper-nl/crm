@@ -3,7 +3,7 @@
 namespace NextDeveloper\CRM\Services;
 
 use NextDeveloper\CRM\Actions\QuoteItems\ValidateQuoteItem;
-use NextDeveloper\CRM\Actions\Quotes\RecalculateQuote;
+use NextDeveloper\CRM\Jobs\Quotes\RecalculateQuote;
 use NextDeveloper\CRM\Database\Models\Quotes;
 use NextDeveloper\CRM\Services\AbstractServices\AbstractQuoteItemsService;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
