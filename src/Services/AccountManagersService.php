@@ -25,7 +25,7 @@ class AccountManagersService extends AbstractAccountManagersService
     public static function create($data) {
         $user = UserHelper::getUserWithId($data['iam_user_id']);
         $account = UserHelper::getAccountById($data['iam_account_id']);
-        $crmAccount = Accounts::where('uuid', $data['crm_account_id'])->first();
+        $crmAccount = Accounts::where('id', $data['crm_account_id'])->first();
 
         //  Checking if we have a duplicate
         $duplicate = AccountManagers::withoutGlobalScope(AuthorizationScope::class)
