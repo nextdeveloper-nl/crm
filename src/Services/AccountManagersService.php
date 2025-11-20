@@ -4,6 +4,7 @@ namespace NextDeveloper\CRM\Services;
 
 use NextDeveloper\Communication\Helpers\Communicate;
 use NextDeveloper\CRM\Database\Models\AccountManagers;
+use NextDeveloper\CRM\Database\Models\Accounts;
 use NextDeveloper\CRM\Services\AbstractServices\AbstractAccountManagersService;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 use NextDeveloper\IAM\Helpers\UserHelper;
@@ -22,12 +23,16 @@ class AccountManagersService extends AbstractAccountManagersService
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
     public static function create($data) {
+        $user = UserHelper::getUserWithId($data['iam_user_id']);
+        $account = UserHelper::getAccountById($data['iam_account_id']);
+        $crmAccount = Accounts::where('uuid', $data['crm_account_id'])->first();
+
         //  Checking if we have a duplicate
         $duplicate = AccountManagers::withoutGlobalScope(AuthorizationScope::class)
             ->where([
-                'crm_account_id' => $data['crm_account_id'],
-                'iam_account_id' => $data['iam_account_id'],
-                'iam_user_id' => $data['iam_user_id'],
+                'crm_account_id' => $crmAccount->id,
+                'iam_account_id' => $account->id,
+                'iam_user_id' => $user->id,
             ])
             ->first();
 
