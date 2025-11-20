@@ -1,6 +1,6 @@
 <?php
 
-namespace NextDeveloper\CRM\Actions\Quotes;
+namespace NextDeveloper\CRM\Jobs\Quotes;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -8,53 +8,49 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
-use NextDeveloper\Commons\Actions\AbstractAction;
 use NextDeveloper\Commons\Helpers\ExchangeRateHelper;
 use NextDeveloper\Commons\Services\CurrenciesService;
-use NextDeveloper\Commons\Services\ExchangeRatesService;
 use NextDeveloper\CRM\Database\Models\QuoteItems;
 use NextDeveloper\CRM\Database\Models\Quotes;
-use NextDeveloper\CRM\Database\Models\Users;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 use NextDeveloper\IAM\Helpers\UserHelper;
-use NextDeveloper\Marketplace\Database\Models\ProductCatalogs;
 use NextDeveloper\Marketplace\Database\Models\ProductCatalogsPerspective;
 use NextDeveloper\Marketplace\Database\Models\ProductsPerspective;
 
 /**
- * This action, assigns an account manager to the given user
+ * This Job, recalculates quote totals based on its items.
  */
-class RecalculateQuote extends AbstractAction
+class RecalculateQuote Implements ShouldQueue
 {
+
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
     /**
-     * This action takes a user object and assigns an Account Manager
-     *
-     * @param Users $users
+     * @var Quotes
      */
-    public function __construct(Quotes $quote, $params = null, $previousAction = null)
+    private $model;
+
+    /**
+     * This Job takes a quote object and recalculates its totals based on its items.
+     *
+     * @param Quotes $quote
+     */
+    public function __construct(Quotes $quote)
     {
         $this->model = $quote;
-
-        $this->queue = 'crm';
-
-        parent::__construct($params, $previousAction);
     }
 
     public function handle()
     {
-        $this->setProgress(0, 'Starting to recalculate quote');
+
+        UserHelper::setAdminAsCurrentUser();
+
 
         $items = QuoteItems::where('crm_quote_id', $this->model->id)->get();
 
         $detailedAmount = [];
 
-        $itemCount = count($items);
-        $step = floor(90 / $itemCount);
-        $i = 1;
-
         foreach ($items as $item) {
-            $progress = 10 + ($step * $i);
-            $this->setProgress($progress, 'Calculating the item number: ' . $i);
 
             $productCatalog = ProductCatalogsPerspective::withoutGlobalScope(AuthorizationScope::class)
                 ->where('id', $item->marketplace_product_catalog_id)
@@ -70,12 +66,16 @@ class RecalculateQuote extends AbstractAction
                 $item->delete();
             }
 
-            Log::info(__METHOD__ . '| Calculating item id: ' . $item->id);
+            if (config('leo.debug.crm.quotes', false))
+            {
 
-            Log::info(__METHOD__ . '| Price of product is: ' . $productCatalog->price . $currency->code);
+                Log::info(__METHOD__ . '| Calculating item id: ' . $item->id);
 
-            //  Updating item
-            Log::info(__METHOD__ . '| Product catalog price: ' . $productCatalog->price);
+                Log::info(__METHOD__ . '| Price of product is: ' . $productCatalog->price . $currency->code);
+
+                //  Updating item
+                Log::info(__METHOD__ . '| Product catalog price: ' . $productCatalog->price);
+            }
 
             //  Trying to avoid unnecessary trigger of update events.
             if($item->unit_price != $productCatalog->price) {
@@ -88,8 +88,12 @@ class RecalculateQuote extends AbstractAction
 
             $discountMultiplier = 1 - ($item->discount / 100);
 
-            Log::info(__METHOD__ . '| Discount multiplier is: ' . $discountMultiplier);
-            Log::info(__METHOD__ . '| Unit price is: ' . $item->unit_price);
+            if (config('leo.debug.crm.quotes', false))
+            {
+                Log::info(__METHOD__ . '| Discount multiplier is: ' . $discountMultiplier);
+                Log::info(__METHOD__ . '| Unit price is: ' . $item->unit_price);
+            }
+
 
             //  Calculation
             $price = [
@@ -104,7 +108,9 @@ class RecalculateQuote extends AbstractAction
                 'total_price'   =>  $price['price'],
             ]);
 
-            Log::info(__METHOD__ . '| Price is: ' . $price['price']);
+            if (config('leo.debug.crm.quotes', false)) {
+                Log::info(__METHOD__ . '| Price is: ' . $price['price']);
+            }
 
             //  If this is null, then we add and continue
             if(!$detailedAmount) {
@@ -116,9 +122,10 @@ class RecalculateQuote extends AbstractAction
             $detailedAmount[$currency->code]['price'] += $price['price'];
             $detailedAmount[$currency->code]['avg_discount'] = round(1 - ($detailedAmount[$currency->code]['price'] / $detailedAmount[$currency->code]['original_price']), 2);
 
-            Log::info(__METHOD__ . '| Currency: ' . $currency->code . ' | ' . $detailedAmount[$currency->code]['price']);
+            if (config('leo.debug.crm.quotes', false)) {
+                Log::info(__METHOD__ . '| Currency: ' . $currency->code . ' | ' . $detailedAmount[$currency->code]['price']);
+            }
 
-            $i++;
         }
 
         $this->model->update([
@@ -148,6 +155,5 @@ class RecalculateQuote extends AbstractAction
             'common_currency_id'    =>  $accountCurrency->id
         ]);
 
-        $this->setFinished('Quote recalculation finished');
     }
 }
