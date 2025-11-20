@@ -55,14 +55,11 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
         }
 
         if($model->getTable() == 'crm_accounts') {
-            /**
-             * Here user will be able to list all models, because by default, sales manager can see everybody.
-             */
-            $ids = AccountManagers::withoutGlobalScopes()
-                ->where('iam_account_id', UserHelper::currentAccount()->id)
-                ->pluck('crm_account_id');
-
-            $builder->whereIn('id', $ids);
+            $builder->whereRaw('iam_account_id IN       (
+                select iam_account_id from crm_accounts_perspective where id in (
+                    select crm_account_id from crm_account_managers cam where cam.iam_account_id = ' . UserHelper::currentAccount()->id . '
+                )
+            )');
 
             return;
         }
