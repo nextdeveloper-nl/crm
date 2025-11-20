@@ -2,8 +2,17 @@
 
 namespace NextDeveloper\CRM\Actions\Quotes;
 
-
 use App\Envelopes\CRM\Quotes\QuoteApprovedNotification;
+use App\Envelopes\CRM\Quotes\QuoteApproveRequestNotification;
+use App\Jobs\CRM\Quotes\SendQuoteApprovalRequestNotice;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\Jobs\Job;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
+
 use NextDeveloper\Commons\Actions\AbstractAction;
 use NextDeveloper\Commons\Exceptions\NotAllowedException;
 use NextDeveloper\Communication\Helpers\Communicate;
@@ -57,6 +66,7 @@ class Approve extends AbstractAction
             $envelope = new QuoteApprovedNotification($this->model, $user);
             (new Communicate($user))->sendEnvelope($envelope);
         }
+
         $this->setFinished('Quote approved');
     }
 }
