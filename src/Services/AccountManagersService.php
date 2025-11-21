@@ -25,7 +25,9 @@ class AccountManagersService extends AbstractAccountManagersService
     public static function create($data) {
         $user = UserHelper::getUserWithId($data['iam_user_id']);
         $account = UserHelper::getAccountById($data['iam_account_id']);
-        $crmAccount = Accounts::where('id', $data['crm_account_id'])->first();
+
+        //  Here we are taking without authorization because just below we need to create the auth rule. And the auth rule is not created yet.
+        $crmAccount = Accounts::withoutGlobalScope(AuthorizationScope::class)->where('id', $data['crm_account_id'])->first();
 
         //  Checking if we have a duplicate
         $duplicate = AccountManagers::withoutGlobalScope(AuthorizationScope::class)
@@ -42,7 +44,7 @@ class AccountManagersService extends AbstractAccountManagersService
 
         $user = UserHelper::getUserWithId($data['iam_user_id']);
 
-        $crmAccount = AccountsPerspective::where('id', $data['crm_account_id'])->first();
+        $crmAccount = AccountsPerspective::withoutGlobalScope(AuthorizationScope::class)->where('id', $data['crm_account_id'])->first();
 
         (new Communicate($user))->sendNotification(
             subject: 'Assigned as account manager',
