@@ -24,7 +24,7 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  */
 class TargetUsers extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator, HasObject;
 
     public $timestamps = true;
 
@@ -139,6 +139,7 @@ class TargetUsers extends Model
     protected $primaryKey = null;
 
     public $incrementing = false;
+
 
 
 

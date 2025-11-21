@@ -186,4 +186,5 @@ class CampaignsQueryFilter extends AbstractQueryFilter
 
 
 
+
 }
