@@ -76,6 +76,12 @@ class AbstractAccountsTransformer extends AbstractTransformer
             'disabling_reason'  =>  $model->disabling_reason,
             'suspension_reason'  =>  $model->suspension_reason,
             'technology_rank'  =>  $model->technology_rank,
+            'is_sdr_qualified'  =>  $model->is_sdr_qualified,
+            'is_sdr_qualification_required'  =>  $model->is_sdr_qualification_required,
+            'disqualification_reason'  =>  $model->disqualification_reason,
+            'office_phone_number'  =>  $model->office_phone_number,
+            'office_phone_extension'  =>  $model->office_phone_extension,
+            'sdr_questionaire'  =>  $model->sdr_questionaire,
             ]
         );
     }
@@ -164,6 +170,7 @@ class AbstractAccountsTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

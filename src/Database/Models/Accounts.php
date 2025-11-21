@@ -36,10 +36,16 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property string $disabling_reason
  * @property string $suspension_reason
  * @property integer $technology_rank
+ * @property boolean $is_sdr_qualified
+ * @property boolean $is_sdr_qualification_required
+ * @property string $disqualification_reason
+ * @property string $office_phone_number
+ * @property string $office_phone_extension
+ * @property $sdr_questionaire
  */
 class Accounts extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator, HasObject;
     use SoftDeletes;
 
     public $timestamps = true;
@@ -66,6 +72,12 @@ class Accounts extends Model
             'disabling_reason',
             'suspension_reason',
             'technology_rank',
+            'is_sdr_qualified',
+            'is_sdr_qualification_required',
+            'disqualification_reason',
+            'office_phone_number',
+            'office_phone_extension',
+            'sdr_questionaire',
     ];
 
     /**
@@ -104,6 +116,12 @@ class Accounts extends Model
     'disabling_reason' => 'string',
     'suspension_reason' => 'string',
     'technology_rank' => 'integer',
+    'is_sdr_qualified' => 'boolean',
+    'is_sdr_qualification_required' => 'boolean',
+    'disqualification_reason' => 'string',
+    'office_phone_number' => 'string',
+    'office_phone_extension' => 'string',
+    'sdr_questionaire' => 'array',
     ];
 
     /**
@@ -190,6 +208,7 @@ class Accounts extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
