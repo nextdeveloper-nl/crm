@@ -46,6 +46,14 @@ class AccountsService extends AbstractAccountsService
                     $data['is_sdr_qualification_required'] = false;
                 }
             }
+
+            if (array_key_exists('phoneNumber', $data['sdr_questionaire'])) {
+                $data['office_phone_number'] = $data['sdr_questionaire']['phoneNumber'];
+            }
+
+            if (array_key_exists('phoneNumberExtention', $data['sdr_questionaire'])) {
+                $data['office_phone_extension'] = $data['sdr_questionaire']['phoneNumberExtention'];
+            }
         }
 
         return parent::update($id, $data);
@@ -166,6 +174,6 @@ class AccountsService extends AbstractAccountsService
     {
         return $this->lastError;
     }
-    
-    
+
+
 }
