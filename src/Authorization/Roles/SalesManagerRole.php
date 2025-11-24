@@ -32,13 +32,9 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
      */
     public function apply(Builder $builder, Model $model)
     {
-        if(
-            $model->getTable() == 'crm_accounts_perspective'
-        ) {
-            $builder->whereRaw('iam_account_id IN       (
-                select iam_account_id from crm_accounts_perspective where id in (
-                    select crm_account_id from crm_account_managers cam where cam.iam_account_id = ' . UserHelper::currentAccount()->id . '
-                )
+        if($model->getTable() == 'crm_accounts_perspective' || $model->getTable() == 'crm_accounts') {
+            $builder->whereRaw('id IN       (
+                select distinct crm_account_id from crm_account_managers cam where cam.iam_account_id = ' . UserHelper::currentAccount()->id . '
             )');
 
             return;
@@ -64,16 +60,10 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
             return;
         }
 
-        if($model->getTable() == 'crm_users_perspective') {
-            return;
-        }
-
-        if($model->getTable() == 'crm_users') {
-            $ids = UserManagers::withoutGlobalScopes()
-                ->where('iam_account_id', UserHelper::currentAccount()->id)
-                ->pluck('crm_user_id');
-
-            $builder->whereIn('id', $ids);
+        if($model->getTable() == 'crm_users_perspective' || $model->getTable() == 'crm_users') {
+            $builder->whereRaw('id in (
+                select cum.crm_user_id from crm_user_managers cum where (cam.iam_account_id = ' . UserHelper::currentAccount()->id . ')
+                )');
             return;
         }
 

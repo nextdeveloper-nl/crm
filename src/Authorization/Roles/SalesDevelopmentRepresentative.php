@@ -15,7 +15,7 @@ class SalesDevelopmentRepresentative extends AbstractRole implements IAuthorizat
 {
     public const NAME = 'sales-development-representative';
 
-    public const LEVEL = 150;
+    public const LEVEL = 130;
 
     public const DESCRIPTION = 'Sales Development Representative, SDR';
 
@@ -30,11 +30,9 @@ class SalesDevelopmentRepresentative extends AbstractRole implements IAuthorizat
      */
     public function apply(Builder $builder, Model $model)
     {
-        if($model->getTable() == 'crm_accounts_perspective') {
-            $builder->whereRaw('iam_account_id IN       (
-                select distinct iam_account_id from crm_accounts_perspective where id in (
-                    select distinct crm_account_id from crm_account_managers cam where cam.iam_user_id = ' . UserHelper::me()->id . '
-                )
+        if($model->getTable() == 'crm_accounts_perspective' || $model->getTable() == 'crm_accounts') {
+            $builder->whereRaw('id IN       (
+                select distinct crm_account_id from crm_account_managers cam where cam.iam_account_id = ' . UserHelper::currentAccount()->id . '
             )');
 
             return;
@@ -42,7 +40,7 @@ class SalesDevelopmentRepresentative extends AbstractRole implements IAuthorizat
 
         if($model->getTable() == 'crm_users_perspective') {
             $builder->whereRaw('id in (
-                select cum.crm_user_id from crm_user_managers cum where (cum.iam_user_id = ' . UserHelper::me()->id . ')
+                select cum.crm_user_id from crm_user_managers cum where (cam.iam_account_id = ' . UserHelper::currentAccount()->id . ')
                 )');
             return;
         }

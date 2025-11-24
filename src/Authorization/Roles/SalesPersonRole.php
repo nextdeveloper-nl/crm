@@ -31,10 +31,8 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
     public function apply(Builder $builder, Model $model)
     {
         if($model->getTable() == 'crm_accounts_perspective' || $model->getTable() == 'crm_accounts') {
-            $builder->whereRaw('iam_account_id IN       (
-                select distinct iam_account_id from crm_accounts_perspective where id in (
-                    select distinct crm_account_id from crm_account_managers cam where cam.iam_user_id = ' . UserHelper::me()->id . '
-                )
+            $builder->whereRaw('id IN       (
+                select distinct crm_account_id from crm_account_managers cam where cam.iam_user_id = ' . UserHelper::me()->id . ' and cam.iam_account_id = ' . UserHelper::currentAccount()->id . '
             )');
 
             return;
@@ -42,7 +40,7 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
 
         if($model->getTable() == 'crm_users_perspective') {
             $builder->whereRaw('id in (
-                select cum.crm_user_id from crm_user_managers cum where (cum.iam_user_id = ' . UserHelper::me()->id . ')
+                select cum.crm_user_id from crm_user_managers cum where (cum.iam_user_id = ' . UserHelper::me()->id . ' and cam.iam_account_id = ' . UserHelper::currentAccount()->id . ')
                 )');
             return;
         }
