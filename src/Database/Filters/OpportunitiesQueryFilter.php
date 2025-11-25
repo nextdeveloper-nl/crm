@@ -55,6 +55,23 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('source', 'ilike', '%' . $value . '%');
     }
 
+        
+    public function type($value)
+    {
+        return $this->builder->where('type', 'ilike', '%' . $value . '%');
+    }
+
+        
+    public function opportunityType($value)
+    {
+        return $this->builder->where('opportunity_type', 'ilike', '%' . $value . '%');
+    }
+
+        //  This is an alias function of opportunityType
+    public function opportunity_type($value)
+    {
+        return $this->opportunityType($value);
+    }
     
     public function probability($value)
     {
@@ -209,6 +226,7 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
     }
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 

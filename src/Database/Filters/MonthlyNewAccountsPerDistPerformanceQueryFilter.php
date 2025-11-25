@@ -4,13 +4,13 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-
+    
 
 /**
  * This class automatically puts where clause on database so that use can filter
  * data returned from the query.
  */
-class MonthlyPayingCustomersPerformanceQueryFilter extends AbstractQueryFilter
+class MonthlyNewAccountsPerDistPerformanceQueryFilter extends AbstractQueryFilter
 {
 
     /**
@@ -98,6 +98,20 @@ class MonthlyPayingCustomersPerformanceQueryFilter extends AbstractQueryFilter
         return $this->monthEndEnd($value);
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+    public function distributorId($value)
+    {
+            $distributor = \NextDeveloper\\Database\Models\Distributors::where('uuid', $value)->first();
 
+        if($distributor) {
+            return $this->builder->where('distributor_id', '=', $distributor->id);
+        }
+    }
+
+        //  This is an alias function of distributor
+    public function distributor_id($value)
+    {
+        return $this->distributor($value);
+    }
+    
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

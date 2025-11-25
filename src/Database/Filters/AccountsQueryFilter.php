@@ -109,6 +109,17 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->officePhoneExtension($value);
     }
+        
+    public function officeEmail($value)
+    {
+        return $this->builder->where('office_email', 'ilike', '%' . $value . '%');
+    }
+
+        //  This is an alias function of officeEmail
+    public function office_email($value)
+    {
+        return $this->officeEmail($value);
+    }
     
     public function riskLevel($value)
     {
@@ -306,6 +317,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     }
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 
