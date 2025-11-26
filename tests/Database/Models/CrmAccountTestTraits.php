@@ -65,6 +65,7 @@ trait CrmAccountTestTraits
                 'disqualification_reason'  =>  'a',
                 'office_phone_number'  =>  'a',
                 'office_phone_extension'  =>  'a',
+                'office_email'  =>  'a',
                 'risk_level'  =>  '1',
                 'technology_rank'  =>  '1',
                             ],
@@ -469,6 +470,25 @@ trait CrmAccountTestTraits
             $request = new Request(
                 [
                 'office_phone_extension'  =>  'a'
+                ]
+            );
+
+            $filter = new CrmAccountQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmAccount::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_crmaccount_event_office_email_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'office_email'  =>  'a'
                 ]
             );
 

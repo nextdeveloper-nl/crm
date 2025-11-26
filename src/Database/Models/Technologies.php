@@ -150,4 +150,5 @@ class Technologies extends Model
 
 
 
+
 }

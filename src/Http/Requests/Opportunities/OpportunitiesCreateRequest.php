@@ -23,6 +23,8 @@ class OpportunitiesCreateRequest extends AbstractFormRequest
         'crm_account_id' => 'required|exists:crm_accounts,uuid|uuid',
         'tags' => '',
         'common_currency_id' => 'nullable|exists:common_currencies,uuid|uuid',
+        'type' => 'string',
+        'opportunity_type' => 'nullable|string',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

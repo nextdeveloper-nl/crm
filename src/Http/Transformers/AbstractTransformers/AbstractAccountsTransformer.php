@@ -82,6 +82,7 @@ class AbstractAccountsTransformer extends AbstractTransformer
             'office_phone_number'  =>  $model->office_phone_number,
             'office_phone_extension'  =>  $model->office_phone_extension,
             'sdr_questionaire'  =>  $model->sdr_questionaire,
+            'office_email'  =>  $model->office_email,
             ]
         );
     }
@@ -170,6 +171,7 @@ class AbstractAccountsTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
