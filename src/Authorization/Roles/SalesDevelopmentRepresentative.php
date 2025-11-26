@@ -40,7 +40,7 @@ class SalesDevelopmentRepresentative extends AbstractRole implements IAuthorizat
 
         if($model->getTable() == 'crm_users_perspective') {
             $builder->whereRaw('id in (
-                select cum.crm_user_id from crm_user_managers cum where (cam.iam_account_id = ' . UserHelper::currentAccount()->id . ')
+                select cum.crm_user_id from crm_user_managers cum where (cum.iam_account_id = ' . UserHelper::currentAccount()->id . ')
                 )');
             return;
         }
