@@ -35,6 +35,8 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
  * @property integer $common_currency_id
+ * @property string $type
+ * @property string $opportunity_type
  */
 class Opportunities extends Model
 {
@@ -64,6 +66,8 @@ class Opportunities extends Model
             'crm_account_id',
             'tags',
             'common_currency_id',
+            'type',
+            'opportunity_type',
     ];
 
     /**
@@ -98,6 +102,8 @@ class Opportunities extends Model
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
     'common_currency_id' => 'integer',
+    'type' => 'string',
+    'opportunity_type' => 'string',
     ];
 
     /**
@@ -190,6 +196,7 @@ class Opportunities extends Model
     }
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

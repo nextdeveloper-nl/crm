@@ -6,7 +6,7 @@ use NextDeveloper\Commons\Database\Traits\HasStates;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
-use NextDeveloper\CRM\Database\Observers\StatsPerformancesPerspectiveObserver;
+use NextDeveloper\CRM\Database\Observers\MonthlyNewAccountsPerDistPerformanceObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Database\Traits\HasObject;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
@@ -14,21 +14,23 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
 use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
 
 /**
- * StatsPerformancesPerspective model.
+ * MonthlyNewAccountsPerDistPerformance model.
  *
  * @package  NextDeveloper\CRM\Database\Models
- * @property \Carbon\Carbon $stat_date
- * @property integer $new_accounts
- * @property integer $paid_invoices
- * @property integer $active_customers
+ * @property \Carbon\Carbon $month_start
+ * @property \Carbon\Carbon $month_end
+ * @property string $month_name
+ * @property string $month_code
+ * @property integer $count
+ * @property integer $distributor_id
  */
-class StatsPerformancesPerspective extends Model
+class MonthlyNewAccountsPerDistPerformance extends Model
 {
     use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator, HasObject;
 
     public $timestamps = false;
 
-    protected $table = 'crm_stats_performances_perspective';
+    protected $table = 'crm_monthly_new_accounts_per_dist_performance';
 
 
     /**
@@ -37,10 +39,12 @@ class StatsPerformancesPerspective extends Model
     protected $guarded = [];
 
     protected $fillable = [
-            'stat_date',
-            'new_accounts',
-            'paid_invoices',
-            'active_customers',
+            'month_start',
+            'month_end',
+            'month_name',
+            'month_code',
+            'count',
+            'distributor_id',
     ];
 
     /**
@@ -63,10 +67,12 @@ class StatsPerformancesPerspective extends Model
      @var array
      */
     protected $casts = [
-    'stat_date' => 'datetime',
-    'new_accounts' => 'integer',
-    'paid_invoices' => 'integer',
-    'active_customers' => 'integer',
+    'month_start' => 'datetime',
+    'month_end' => 'datetime',
+    'month_name' => 'string',
+    'month_code' => 'string',
+    'count' => 'integer',
+    'distributor_id' => 'integer',
     ];
 
     /**
@@ -75,7 +81,8 @@ class StatsPerformancesPerspective extends Model
      @var array
      */
     protected $dates = [
-    'stat_date',
+    'month_start',
+    'month_end',
     ];
 
     /**
@@ -98,7 +105,7 @@ class StatsPerformancesPerspective extends Model
         parent::boot();
 
         //  We create and add Observer even if we wont use it.
-        parent::observe(StatsPerformancesPerspectiveObserver::class);
+        parent::observe(MonthlyNewAccountsPerDistPerformanceObserver::class);
 
         self::registerScopes();
     }
@@ -106,7 +113,7 @@ class StatsPerformancesPerspective extends Model
     public static function registerScopes()
     {
         $globalScopes = config('crm.scopes.global');
-        $modelScopes = config('crm.scopes.crm_stats_performances_perspective');
+        $modelScopes = config('crm.scopes.crm_monthly_new_accounts_per_dist_performance');
 
         if(!$modelScopes) { $modelScopes = [];
         }
@@ -126,5 +133,4 @@ class StatsPerformancesPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
 }

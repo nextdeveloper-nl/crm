@@ -20,16 +20,16 @@ use NextDeveloper\Commons\Http\Transformers\MetaTransformer;
 use NextDeveloper\Commons\Http\Transformers\VotesTransformer;
 use NextDeveloper\Commons\Http\Transformers\AddressesTransformer;
 use NextDeveloper\Commons\Http\Transformers\PhoneNumbersTransformer;
-use NextDeveloper\CRM\Database\Models\Notes;
+use NextDeveloper\CRM\Database\Models\MonthlyNewAccountsPerDistPerformance;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 
 /**
- * Class NotesTransformer. This class is being used to manipulate the data we are serving to the customer
+ * Class MonthlyNewAccountsPerDistPerformanceTransformer. This class is being used to manipulate the data we are serving to the customer
  *
  * @package NextDeveloper\CRM\Http\Transformers
  */
-class AbstractNotesTransformer extends AbstractTransformer
+class AbstractMonthlyNewAccountsPerDistPerformanceTransformer extends AbstractTransformer
 {
 
     /**
@@ -48,31 +48,28 @@ class AbstractNotesTransformer extends AbstractTransformer
     ];
 
     /**
-     * @param Notes $model
+     * @param MonthlyNewAccountsPerDistPerformance $model
      *
      * @return array
      */
-    public function transform(Notes $model)
+    public function transform(MonthlyNewAccountsPerDistPerformance $model)
     {
-                                                $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
-                                                            $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
-                                                            $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
+                                                $distributorId = \NextDeveloper\\Database\Models\Distributors::where('id', $model->distributor_id)->first();
                         
         return $this->buildPayload(
             [
-            'id'  =>  $model->uuid,
-            'crm_account_id'  =>  $crmAccountId ? $crmAccountId->uuid : null,
-            'note'  =>  $model->note,
-            'created_at'  =>  $model->created_at,
-            'updated_at'  =>  $model->updated_at,
-            'deleted_at'  =>  $model->deleted_at,
-            'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
-            'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
+            'id'  =>  $model->id,
+            'month_start'  =>  $model->month_start,
+            'month_end'  =>  $model->month_end,
+            'month_name'  =>  $model->month_name,
+            'month_code'  =>  $model->month_code,
+            'count'  =>  $model->count,
+            'distributor_id'  =>  $distributorId ? $distributorId->uuid : null,
             ]
         );
     }
 
-    public function includeStates(Notes $model)
+    public function includeStates(MonthlyNewAccountsPerDistPerformance $model)
     {
         $states = States::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -81,7 +78,7 @@ class AbstractNotesTransformer extends AbstractTransformer
         return $this->collection($states, new StatesTransformer());
     }
 
-    public function includeActions(Notes $model)
+    public function includeActions(MonthlyNewAccountsPerDistPerformance $model)
     {
         $input = get_class($model);
         $input = str_replace('\\Database\\Models', '', $input);
@@ -93,7 +90,7 @@ class AbstractNotesTransformer extends AbstractTransformer
         return $this->collection($actions, new AvailableActionsTransformer());
     }
 
-    public function includeMedia(Notes $model)
+    public function includeMedia(MonthlyNewAccountsPerDistPerformance $model)
     {
         $media = Media::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -102,7 +99,7 @@ class AbstractNotesTransformer extends AbstractTransformer
         return $this->collection($media, new MediaTransformer());
     }
 
-    public function includeSocialMedia(Notes $model)
+    public function includeSocialMedia(MonthlyNewAccountsPerDistPerformance $model)
     {
         $socialMedia = SocialMedia::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -111,7 +108,7 @@ class AbstractNotesTransformer extends AbstractTransformer
         return $this->collection($socialMedia, new SocialMediaTransformer());
     }
 
-    public function includeComments(Notes $model)
+    public function includeComments(MonthlyNewAccountsPerDistPerformance $model)
     {
         $comments = Comments::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -120,7 +117,7 @@ class AbstractNotesTransformer extends AbstractTransformer
         return $this->collection($comments, new CommentsTransformer());
     }
 
-    public function includeVotes(Notes $model)
+    public function includeVotes(MonthlyNewAccountsPerDistPerformance $model)
     {
         $votes = Votes::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -129,7 +126,7 @@ class AbstractNotesTransformer extends AbstractTransformer
         return $this->collection($votes, new VotesTransformer());
     }
 
-    public function includeMeta(Notes $model)
+    public function includeMeta(MonthlyNewAccountsPerDistPerformance $model)
     {
         $meta = Meta::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -138,7 +135,7 @@ class AbstractNotesTransformer extends AbstractTransformer
         return $this->collection($meta, new MetaTransformer());
     }
 
-    public function includePhoneNumbers(Notes $model)
+    public function includePhoneNumbers(MonthlyNewAccountsPerDistPerformance $model)
     {
         $phoneNumbers = PhoneNumbers::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -147,7 +144,7 @@ class AbstractNotesTransformer extends AbstractTransformer
         return $this->collection($phoneNumbers, new PhoneNumbersTransformer());
     }
 
-    public function includeAddresses(Notes $model)
+    public function includeAddresses(MonthlyNewAccountsPerDistPerformance $model)
     {
         $addresses = Addresses::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -156,52 +153,4 @@ class AbstractNotesTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

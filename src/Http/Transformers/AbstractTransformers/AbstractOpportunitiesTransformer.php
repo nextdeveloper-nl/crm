@@ -77,6 +77,8 @@ class AbstractOpportunitiesTransformer extends AbstractTransformer
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
             'common_currency_id'  =>  $commonCurrencyId ? $commonCurrencyId->uuid : null,
+            'type'  =>  $model->type,
+            'opportunity_type'  =>  $model->opportunity_type,
             ]
         );
     }
@@ -165,6 +167,7 @@ class AbstractOpportunitiesTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

@@ -31,6 +31,7 @@ class AccountsUpdateRequest extends AbstractFormRequest
         'office_phone_number' => 'nullable|string',
         'office_phone_extension' => 'nullable|string',
         'sdr_questionaire' => 'nullable',
+        'office_email' => 'nullable|string',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
