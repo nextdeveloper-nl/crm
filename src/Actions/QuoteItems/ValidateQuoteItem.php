@@ -2,16 +2,11 @@
 
 namespace NextDeveloper\CRM\Actions\QuoteItems;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 use NextDeveloper\Commons\Actions\AbstractAction;
-use NextDeveloper\CRM\Actions\Quotes\RecalculateQuote;
 use NextDeveloper\CRM\Database\Models\QuoteItems;
 use NextDeveloper\CRM\Database\Models\Quotes;
 use NextDeveloper\CRM\Database\Models\Users;
+use NextDeveloper\CRM\Jobs\Quotes\RecalculateQuote;
 
 /**
  * This action, assigns an account manager to the given user
