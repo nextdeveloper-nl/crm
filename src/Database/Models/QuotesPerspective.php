@@ -51,91 +51,93 @@ class QuotesPerspective extends Model
 
 
     /**
-     @var array
+     * @var array
      */
     protected $guarded = [];
 
     protected $fillable = [
-            'name',
-            'description',
-            'total_amount',
-            'detailed_amount',
-            'seller_name',
-            'representative_name',
-            'buyer_name',
-            'common_currency_id',
-            'currency_code',
-            'suggested_price',
-            'approval_level',
-            'tags',
-            'crm_opportunity_id',
-            'iam_account_id',
-            'iam_user_id',
-            'line_count',
+        'name',
+        'description',
+        'total_amount',
+        'detailed_amount',
+        'seller_name',
+        'representative_name',
+        'buyer_name',
+        'common_currency_id',
+        'currency_code',
+        'suggested_price',
+        'approval_level',
+        'tags',
+        'type',
+        'crm_opportunity_id',
+        'iam_account_id',
+        'iam_user_id',
+        'line_count',
     ];
 
     /**
-      Here we have the fulltext fields. We can use these for fulltext search if enabled.
+     * Here we have the fulltext fields. We can use these for fulltext search if enabled.
      */
     protected $fullTextFields = [
 
     ];
 
     /**
-     @var array
+     * @var array
      */
     protected $appends = [
 
     ];
 
     /**
-     We are casting fields to objects so that we can work on them better
+     * We are casting fields to objects so that we can work on them better
      *
-     @var array
+     * @var array
      */
     protected $casts = [
-    'id' => 'integer',
-    'name' => 'string',
-    'description' => 'string',
-    'detailed_amount' => 'array',
-    'seller_name' => 'string',
-    'representative_name' => 'string',
-    'buyer_name' => 'string',
-    'common_currency_id' => 'integer',
-    'currency_code' => 'string',
-    'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'crm_opportunity_id' => 'integer',
-    'line_count' => 'integer',
-    'created_at' => 'datetime',
-    'updated_at' => 'datetime',
-    'deleted_at' => 'datetime',
+        'id' => 'integer',
+        'name' => 'string',
+        'description' => 'string',
+        'detailed_amount' => 'array',
+        'seller_name' => 'string',
+        'representative_name' => 'string',
+        'buyer_name' => 'string',
+        'common_currency_id' => 'integer',
+        'currency_code' => 'string',
+        'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+        'type' => 'string',
+        'crm_opportunity_id' => 'integer',
+        'line_count' => 'integer',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
 
     /**
-     We are casting data fields.
+     * We are casting data fields.
      *
-     @var array
+     * @var array
      */
     protected $dates = [
-    'created_at',
-    'updated_at',
-    'deleted_at',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     /**
-     @var array
+     * @var array
      */
     protected $with = [
 
     ];
 
     /**
-     @var int
+     * @var int
      */
     protected $perPage = 20;
 
     /**
-     @return void
+     * @return void
      */
     public static function boot()
     {
@@ -152,9 +154,11 @@ class QuotesPerspective extends Model
         $globalScopes = config('crm.scopes.global');
         $modelScopes = config('crm.scopes.crm_quotes_perspective');
 
-        if(!$modelScopes) { $modelScopes = [];
+        if (!$modelScopes) {
+            $modelScopes = [];
         }
-        if (!$globalScopes) { $globalScopes = [];
+        if (!$globalScopes) {
+            $globalScopes = [];
         }
 
         $scopes = array_merge(
@@ -162,7 +166,7 @@ class QuotesPerspective extends Model
             $modelScopes
         );
 
-        if($scopes) {
+        if ($scopes) {
             foreach ($scopes as $scope) {
                 static::addGlobalScope(app($scope));
             }
@@ -170,34 +174,6 @@ class QuotesPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
