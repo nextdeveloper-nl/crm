@@ -53,4 +53,14 @@ class AccountManagersService extends AbstractAccountManagersService
 
         return parent::create($data);
     }
+
+    public static function assignAccountManagerToCrmAccount($crmAccount, $iamAccountId, $iamUserId) {
+        $data = [
+            'crm_account_id' => $crmAccount->id,
+            'iam_account_id' => $iamAccountId,
+            'iam_user_id' => $iamUserId
+        ];
+
+        return self::create($data);
+    }
 }
