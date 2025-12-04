@@ -8,6 +8,7 @@ use NextDeveloper\CRM\Database\Models\Opportunities;
 use NextDeveloper\CRM\Database\Models\Quotes;
 use NextDeveloper\CRM\Services\AbstractServices\AbstractOpportunitiesService;
 use NextDeveloper\Events\Services\Events;
+use NextDeveloper\IAM\Database\Models\Users;
 use NextDeveloper\IAM\Helpers\UserHelper;
 
 /**
@@ -24,43 +25,14 @@ class OpportunitiesService extends AbstractOpportunitiesService
 
     public static function create($data)
     {
-        $responsible = null;
-
-        if (
-            strtolower($data['type']) == 'business development' ||
-            strtolower($data['type']) == 'partnership' ||
-            strtolower($data['type']) == 'business-development'
-        ) {
-            $data['type'] = 'business-development';
-
-            $businessDevelopers = UserHelper::getUsersWithRole('business-development-representative');
-
-            //  Assigning a random business developer
-            if (count($businessDevelopers) > 0) {
-                $businessDevelopers = $businessDevelopers->toArray();
-                $randomIndex = array_rand($businessDevelopers);
-                $data['iam_user_id'] = $businessDevelopers[$randomIndex]['id'];
-
-                $responsible = $businessDevelopers[$randomIndex];
-            } else {
-                $admins = UserHelper::getUsersWithRole('sales-admin');
-
-                if (count($admins) > 0) {
-                    $admins = $admins->toArray();
-                    $randomIndex = array_rand($admins);
-                    $data['iam_user_id'] = $admins[$randomIndex]['id'];
-
-                    $responsible = $admins[$randomIndex];
-                }
-            }
-        }
+        $responsible = self::getNaturalResponsibleForOpportunityType($data['type']);
 
         $opportunity = parent::create($data);
         $opportunity = $opportunity->refresh();
 
         if($responsible) {
             $opportunity->update([
-                'iam_user_id' => $responsible['id'],
+                'iam_user_id' => $responsible->id,
             ]);
 
             $crmAccount = AccountsService::getById($opportunity->crm_account_id);
@@ -68,18 +40,20 @@ class OpportunitiesService extends AbstractOpportunitiesService
             AccountManagersService::assignAccountManagerToCrmAccount(
                 $crmAccount,
                 $opportunity->iam_account_id,
-                $responsible['id']
+                $responsible->id
             );
 
-            $user = UserHelper::getUserWithId($responsible['id'], true);
-
-            (new Communicate($user))->sendNotification(
-                subject: 'New Business Development Opportunity Assigned',
-                message: 'A new business development opportunity "' . $data['name'] . '" has been assigned to you.'
+            (new Communicate($responsible))->sendNotification(
+                subject: 'New ' . $data['type'] . ' opportunity assigned',
+                message: 'A new ' . $data['type'] . ' opportunity "' . $data['name'] . '" has been assigned to you.'
                 . ' Please review it at your earliest convenience. ' . PHP_EOL . PHP_EOL
                 . 'You can reach the opportunity details here: '
                 . config('leo.panel_url') . '/crm/opportunities/' . $opportunity->uuid
             );
+        }
+
+        if($data['type'] == 'business development') {
+            $data['type'] = 'business-development';
         }
 
         return $opportunity->fresh();
@@ -113,5 +87,46 @@ class OpportunitiesService extends AbstractOpportunitiesService
             return self::getQuote($opportunity);
 
         return null;
+    }
+
+    public static function getNaturalResponsibleForOpportunityType($type) : ?Users
+    {
+        $responsible = null;
+
+        if($type == null) {
+            return $responsible;
+        }
+
+        if (
+            strtolower($type) == 'business development' ||
+            strtolower($type) == 'partnership' ||
+            strtolower($type) == 'business-development'
+        ) {
+            $businessDevelopers = UserHelper::getUsersWithRole('business-development-representative', UserHelper::currentAccount());
+
+            //  Assigning a random business developer
+            if (count($businessDevelopers) > 0) {
+                $responsible = $businessDevelopers->random();
+            }
+        }
+
+        if(strtolower($type) == 'sales') {
+            $accountManagers = UserHelper::getUsersWithRole('sales-person', UserHelper::currentAccount());
+
+            //  Assigning a random account manager
+            if(count($accountManagers) > 0) {
+                $responsible = $accountManagers->random();
+            }
+        }
+
+        if(!$responsible) {
+            $admins = UserHelper::getUsersWithRole('sales-admin', UserHelper::currentAccount());
+
+            if (count($admins) > 0) {
+                $responsible = $admins->random();
+            }
+        }
+
+        return $responsible;
     }
 }
