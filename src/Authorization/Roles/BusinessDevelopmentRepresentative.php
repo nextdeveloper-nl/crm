@@ -52,6 +52,14 @@ class BusinessDevelopmentRepresentative extends AbstractRole implements IAuthori
         $builder->where('iam_user_id', UserHelper::me()->id);
     }
 
+    public function allowedOperations() :array
+    {
+        return array_merge(
+            (new SalesPersonRole())->allowedOperations(),
+            []
+        );
+    }
+
     public function getLevel(): int
     {
         return self::LEVEL;
@@ -81,13 +89,6 @@ class BusinessDevelopmentRepresentative extends AbstractRole implements IAuthori
     public function getModule()
     {
         return 'crm';
-    }
-
-    public function allowedOperations() :array
-    {
-        return array_merge((new SalesPersonRole())->allowedOperations(), [
-
-        ]);
     }
 
     public function canBeApplied($column)
