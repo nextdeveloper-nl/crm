@@ -27,6 +27,10 @@ class OpportunitiesService extends AbstractOpportunitiesService
     {
         $responsible = self::getNaturalResponsibleForOpportunityType($data['type']);
 
+        if($data['type'] == 'business development') {
+            $data['type'] = 'business-development';
+        }
+
         $opportunity = parent::create($data);
         $opportunity = $opportunity->refresh();
 
@@ -50,10 +54,6 @@ class OpportunitiesService extends AbstractOpportunitiesService
                 . 'You can reach the opportunity details here: '
                 . config('leo.panel_url') . '/crm/opportunities/' . $opportunity->uuid
             );
-        }
-
-        if($data['type'] == 'business development') {
-            $data['type'] = 'business-development';
         }
 
         return $opportunity->fresh();
