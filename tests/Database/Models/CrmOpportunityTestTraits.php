@@ -62,7 +62,6 @@ trait CrmOpportunityTestTraits
                 'description'  =>  'a',
                 'source'  =>  'a',
                 'type'  =>  'a',
-                'opportunity_type'  =>  'a',
                 'probability'  =>  '1',
                     'deadline'  =>  now(),
                             ],
@@ -410,25 +409,6 @@ trait CrmOpportunityTestTraits
             $request = new Request(
                 [
                 'type'  =>  'a'
-                ]
-            );
-
-            $filter = new CrmOpportunityQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmOpportunity::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_crmopportunity_event_opportunity_type_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'opportunity_type'  =>  'a'
                 ]
             );
 

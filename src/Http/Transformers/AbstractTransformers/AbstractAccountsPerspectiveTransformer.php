@@ -89,6 +89,7 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
             'disqualification_reason'  =>  $model->disqualification_reason,
             'office_phone_number'  =>  $model->office_phone_number,
             'office_phone_extension'  =>  $model->office_phone_extension,
+            'office_email'  =>  $model->office_email,
             'is_disabled'  =>  $model->is_disabled,
             'disabling_reason'  =>  $model->disabling_reason,
             'is_suspended'  =>  $model->is_suspended,
@@ -184,6 +185,9 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
 
 
 

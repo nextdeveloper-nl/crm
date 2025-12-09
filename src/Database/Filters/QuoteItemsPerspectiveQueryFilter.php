@@ -225,4 +225,7 @@ class QuoteItemsPerspectiveQueryFilter extends AbstractQueryFilter
 
 
 
+
+
+
 }

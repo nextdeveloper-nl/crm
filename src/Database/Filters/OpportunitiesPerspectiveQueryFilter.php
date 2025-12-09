@@ -88,6 +88,12 @@ class OpportunitiesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->responsibleName($value);
     }
+        
+    public function type($value)
+    {
+        return $this->builder->where('type', 'ilike', '%' . $value . '%');
+    }
+
     
     public function probability($value)
     {
@@ -282,19 +288,19 @@ class OpportunitiesPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->crmAccount($value);
     }
     
-    public function crmOpportunityId($value)
+    public function lastQuoteId($value)
     {
-            $crmOpportunity = \NextDeveloper\CRM\Database\Models\Opportunities::where('uuid', $value)->first();
+            $lastQuote = \NextDeveloper\\Database\Models\LastQuotes::where('uuid', $value)->first();
 
-        if($crmOpportunity) {
-            return $this->builder->where('crm_opportunity_id', '=', $crmOpportunity->id);
+        if($lastQuote) {
+            return $this->builder->where('last_quote_id', '=', $lastQuote->id);
         }
     }
 
-        //  This is an alias function of crmOpportunity
-    public function crm_opportunity_id($value)
+        //  This is an alias function of lastQuote
+    public function last_quote_id($value)
     {
-        return $this->crmOpportunity($value);
+        return $this->lastQuote($value);
     }
     
     public function iamUserId($value)
@@ -318,6 +324,9 @@ class OpportunitiesPerspectiveQueryFilter extends AbstractQueryFilter
 
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
 
 
 

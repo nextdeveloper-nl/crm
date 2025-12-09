@@ -65,16 +65,16 @@ class AbstractUsersTransformer extends AbstractTransformer
             'job_description'  =>  $model->job_description,
             'hobbies'  =>  $model->hobbies,
             'city'  =>  $model->city,
-            'risk'  =>  $model->risk,
             'relationship_status'  =>  $model->relationship_status,
             'is_evangelist'  =>  $model->is_evangelist,
             'is_single'  =>  $model->is_single,
-            'education_level'  =>  $model->education_level,
             'child_count'  =>  $model->child_count,
             'tags'  =>  $model->tags,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
+            'risk'  =>  $model->risk,
+            'education_level'  =>  $model->education_level,
             'is_suspended'  =>  $model->is_suspended,
             ]
         );
@@ -164,6 +164,9 @@ class AbstractUsersTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
 
 
 

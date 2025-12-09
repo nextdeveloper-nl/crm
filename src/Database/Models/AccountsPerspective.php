@@ -45,6 +45,7 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property string $disqualification_reason
  * @property string $office_phone_number
  * @property string $office_phone_extension
+ * @property string $office_email
  * @property boolean $is_disabled
  * @property string $disabling_reason
  * @property boolean $is_suspended
@@ -94,6 +95,7 @@ class AccountsPerspective extends Model
             'disqualification_reason',
             'office_phone_number',
             'office_phone_extension',
+            'office_email',
             'is_disabled',
             'disabling_reason',
             'is_suspended',
@@ -144,6 +146,7 @@ class AccountsPerspective extends Model
     'disqualification_reason' => 'string',
     'office_phone_number' => 'string',
     'office_phone_extension' => 'string',
+    'office_email' => 'string',
     'is_disabled' => 'boolean',
     'disabling_reason' => 'string',
     'is_suspended' => 'boolean',
@@ -212,6 +215,9 @@ class AccountsPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
 
 
 

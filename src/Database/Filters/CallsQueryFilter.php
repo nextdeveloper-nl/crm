@@ -18,12 +18,6 @@ class CallsQueryFilter extends AbstractQueryFilter
      */
     protected $builder;
     
-    public function name($value)
-    {
-        return $this->builder->where('name', 'ilike', '%' . $value . '%');
-    }
-
-        
     public function description($value)
     {
         return $this->builder->where('description', 'ilike', '%' . $value . '%');
@@ -68,6 +62,12 @@ class CallsQueryFilter extends AbstractQueryFilter
     {
         return $this->callDirection($value);
     }
+        
+    public function name($value)
+    {
+        return $this->builder->where('name', 'ilike', '%' . $value . '%');
+    }
+
     
     public function iamAccountIt($value)
     {
@@ -209,6 +209,9 @@ class CallsQueryFilter extends AbstractQueryFilter
     }
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
 
 
 

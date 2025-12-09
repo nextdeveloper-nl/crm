@@ -72,11 +72,11 @@ class AbstractQuotesTransformer extends AbstractTransformer
             'detailed_amount'  =>  $model->detailed_amount,
             'suggested_price'  =>  $model->suggested_price,
             'common_currency_id'  =>  $commonCurrencyId ? $commonCurrencyId->uuid : null,
-            'approval_level'  =>  $model->approval_level,
             'tags'  =>  $model->tags,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
+            'approval_level'  =>  $model->approval_level,
             'is_converted'  =>  $model->is_converted,
             'accounting_invoice_id'  =>  $accountingInvoiceId ? $accountingInvoiceId->uuid : null,
             ]
@@ -167,6 +167,9 @@ class AbstractQuotesTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
 
 
 

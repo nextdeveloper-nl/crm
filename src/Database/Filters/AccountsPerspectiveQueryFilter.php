@@ -146,6 +146,17 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->officePhoneExtension($value);
     }
         
+    public function officeEmail($value)
+    {
+        return $this->builder->where('office_email', 'ilike', '%' . $value . '%');
+    }
+
+        //  This is an alias function of officeEmail
+    public function office_email($value)
+    {
+        return $this->officeEmail($value);
+    }
+        
     public function disablingReason($value)
     {
         return $this->builder->where('disabling_reason', 'ilike', '%' . $value . '%');
@@ -427,6 +438,9 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
 
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
 
 
 
