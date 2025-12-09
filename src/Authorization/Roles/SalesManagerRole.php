@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\CRM\Database\Models\AccountManagers;
 use NextDeveloper\CRM\Database\Models\UserManagers;
 use NextDeveloper\IAM\Authorization\Roles\AbstractRole;
@@ -57,11 +58,13 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
             return;
         }
 
+        $isUserIdExists =  DatabaseHelper::isColumnExists($model->getTable(), 'iam_user_id');
+
         /**
          * Here the user will only be able to run this query only if the table name starts with 'crm_*' and
          * the owner of the model is the user itself.
          */
-        $builder->where('iam_user_id', UserHelper::me()->id);
+        if($isUserIdExists) $builder->where('iam_user_id', UserHelper::me()->id);
     }
 
     public function checkPrivileges(Users $users = null)

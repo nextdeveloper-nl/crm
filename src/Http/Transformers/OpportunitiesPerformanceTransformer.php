@@ -23,20 +23,11 @@ class OpportunitiesPerformanceTransformer extends AbstractOpportunitiesPerforman
      */
     public function transform(OpportunitiesPerformance $model)
     {
-//        $transformed = Cache::get(
-//            CacheHelper::getKey('OpportunitiesPerformance', $model->uuid, 'Transformed')
-//        );
-//
-//        if($transformed) {
-//            return $transformed;
-//        }
+        $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::withoutGlobalScopes()->where('id', $model->iam_account_id)->first();
 
         $transformed = parent::transform($model);
 
-//        Cache::set(
-//            CacheHelper::getKey('OpportunitiesPerformance', $model->uuid, 'Transformed'),
-//            $transformed
-//        );
+        $transformed['iam_account_id'] = $iamAccountId ? $iamAccountId->uuid : null;
 
         return $transformed;
     }
