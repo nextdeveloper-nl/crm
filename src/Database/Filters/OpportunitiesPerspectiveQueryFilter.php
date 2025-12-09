@@ -287,7 +287,7 @@ class OpportunitiesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->crmAccount($value);
     }
-    
+
 
     public function iamUserId($value)
     {
