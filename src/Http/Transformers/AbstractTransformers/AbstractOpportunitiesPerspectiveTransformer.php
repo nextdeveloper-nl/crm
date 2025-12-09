@@ -55,10 +55,9 @@ class AbstractOpportunitiesPerspectiveTransformer extends AbstractTransformer
     public function transform(OpportunitiesPerspective $model)
     {
                                                 $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
-                                                            $lastQuoteId = \NextDeveloper\\Database\Models\LastQuotes::where('id', $model->last_quote_id)->first();
                                                             $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
                                                             $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
-                        
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
@@ -77,7 +76,6 @@ class AbstractOpportunitiesPerspectiveTransformer extends AbstractTransformer
             'meeting_count'  =>  $model->meeting_count,
             'call_count'  =>  $model->call_count,
             'project_count'  =>  $model->project_count,
-            'last_quote_id'  =>  $lastQuoteId ? $lastQuoteId->uuid : null,
             'type'  =>  $model->type,
             'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
             'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
