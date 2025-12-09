@@ -19,15 +19,15 @@ class TasksQueryFilter extends AbstractQueryFilter
      */
     protected $builder;
     
-    public function name($value)
-    {
-        return $this->builder->where('name', 'ilike', '%' . $value . '%');
-    }
-
-        
     public function description($value)
     {
         return $this->builder->where('description', 'ilike', '%' . $value . '%');
+    }
+
+        
+    public function name($value)
+    {
+        return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
         
@@ -176,16 +176,6 @@ class TasksQueryFilter extends AbstractQueryFilter
     }
 
     
-    public function iamAccountId($value)
-    {
-            $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
-
-        if($iamAccount) {
-            return $this->builder->where('iam_account_id', '=', $iamAccount->id);
-        }
-    }
-
-    
     public function crmAccountId($value)
     {
             $crmAccount = \NextDeveloper\CRM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -201,7 +191,20 @@ class TasksQueryFilter extends AbstractQueryFilter
         return $this->crmAccount($value);
     }
     
+    public function iamAccountId($value)
+    {
+            $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
+
+        if($iamAccount) {
+            return $this->builder->where('iam_account_id', '=', $iamAccount->id);
+        }
+    }
+
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
 
 
 

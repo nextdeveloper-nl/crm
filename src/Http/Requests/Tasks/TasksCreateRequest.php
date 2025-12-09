@@ -13,12 +13,12 @@ class TasksCreateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
-        'description' => 'required|string',
+            'description' => 'required|string',
         'crm_account_id' => 'nullable|exists:crm_accounts,uuid|uuid',
         'priority' => 'integer',
         'is_finished' => 'boolean',
         'is_delayed' => 'boolean',
+        'name' => 'required|string',
         'object_type' => 'nullable|string',
         'object_id' => 'nullable',
         'due_date' => 'nullable|date',

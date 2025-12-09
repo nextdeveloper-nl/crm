@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                
+            
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -61,17 +61,6 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('type', 'ilike', '%' . $value . '%');
     }
 
-        
-    public function opportunityType($value)
-    {
-        return $this->builder->where('opportunity_type', 'ilike', '%' . $value . '%');
-    }
-
-        //  This is an alias function of opportunityType
-    public function opportunity_type($value)
-    {
-        return $this->opportunityType($value);
-    }
     
     public function probability($value)
     {
@@ -210,22 +199,10 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
         return $this->crmAccount($value);
     }
     
-    public function commonCurrencyId($value)
-    {
-            $commonCurrency = \NextDeveloper\Commons\Database\Models\Currencies::where('uuid', $value)->first();
-
-        if($commonCurrency) {
-            return $this->builder->where('common_currency_id', '=', $commonCurrency->id);
-        }
-    }
-
-        //  This is an alias function of commonCurrency
-    public function common_currency_id($value)
-    {
-        return $this->commonCurrency($value);
-    }
-    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
 
 
 

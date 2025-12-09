@@ -57,7 +57,6 @@ class AbstractOpportunitiesTransformer extends AbstractTransformer
                                                 $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
                                                             $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
                                                             $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
-                                                            $commonCurrencyId = \NextDeveloper\Commons\Database\Models\Currencies::where('id', $model->common_currency_id)->first();
                         
         return $this->buildPayload(
             [
@@ -65,7 +64,6 @@ class AbstractOpportunitiesTransformer extends AbstractTransformer
             'name'  =>  $model->name,
             'description'  =>  $model->description,
             'probability'  =>  $model->probability,
-            'opportunity_stage'  =>  $model->opportunity_stage,
             'source'  =>  $model->source,
             'income'  =>  $model->income,
             'deadline'  =>  $model->deadline,
@@ -76,9 +74,8 @@ class AbstractOpportunitiesTransformer extends AbstractTransformer
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
-            'common_currency_id'  =>  $commonCurrencyId ? $commonCurrencyId->uuid : null,
+            'opportunity_stage'  =>  $model->opportunity_stage,
             'type'  =>  $model->type,
-            'opportunity_type'  =>  $model->opportunity_type,
             ]
         );
     }
@@ -167,6 +164,9 @@ class AbstractOpportunitiesTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
 
 
 
