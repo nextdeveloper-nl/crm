@@ -35,7 +35,6 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property integer $meeting_count
  * @property integer $call_count
  * @property integer $project_count
- * @property integer $last_quote_id
  * @property string $type
  * @property integer $iam_user_id
  * @property integer $iam_account_id
@@ -75,7 +74,6 @@ class OpportunitiesPerspective extends Model
             'meeting_count',
             'call_count',
             'project_count',
-            'last_quote_id',
             'type',
             'iam_user_id',
             'iam_account_id',
@@ -116,7 +114,6 @@ class OpportunitiesPerspective extends Model
     'meeting_count' => 'integer',
     'call_count' => 'integer',
     'project_count' => 'integer',
-    'last_quote_id' => 'integer',
     'type' => 'string',
     'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'created_at' => 'datetime',
@@ -184,6 +181,7 @@ class OpportunitiesPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

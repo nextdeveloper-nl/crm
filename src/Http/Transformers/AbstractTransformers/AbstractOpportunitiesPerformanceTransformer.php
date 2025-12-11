@@ -54,17 +54,28 @@ class AbstractOpportunitiesPerformanceTransformer extends AbstractTransformer
      */
     public function transform(OpportunitiesPerformance $model)
     {
-        $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
-
+                                                $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
+                        
         return $this->buildPayload(
             [
-                'id' => $model->id,
-                'iam_account_id' => $iamAccountId ? $iamAccountId->uuid : null,
-                'leads_count' => $model->leads_count,
-                'qualification_count' => $model->qualification_count,
-                'value_proposition_count' => $model->value_proposition_count,
-                'proposal_count' => $model->proposal_count,
-                'won_count' => $model->won_count,
+            'id'  =>  $model->id,
+            'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
+            'leads_count'  =>  $model->leads_count,
+            'prospect_count'  =>  $model->prospect_count,
+            'qualification_count'  =>  $model->qualification_count,
+            'research_count'  =>  $model->research_count,
+            'need_analysis_count'  =>  $model->need_analysis_count,
+            'approach_count'  =>  $model->approach_count,
+            'value_proposition_count'  =>  $model->value_proposition_count,
+            'identifying_decision_makers_count'  =>  $model->identifying_decision_makers_count,
+            'proposal_count'  =>  $model->proposal_count,
+            'negotiation_count'  =>  $model->negotiation_count,
+            'won_count'  =>  $model->won_count,
+            'lost_count'  =>  $model->lost_count,
+            'cancelled_count'  =>  $model->cancelled_count,
+            'perception_analysis_count'  =>  $model->perception_analysis_count,
+            'renewal_count'  =>  $model->renewal_count,
+            'type'  =>  $model->type,
             ]
         );
     }
@@ -153,5 +164,6 @@ class AbstractOpportunitiesPerformanceTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 }

@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-
+            
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -37,25 +37,25 @@ class OpportunitiesPerspectiveQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-
+    
     public function name($value)
     {
         return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-
+        
     public function description($value)
     {
         return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
 
-
+        
     public function source($value)
     {
         return $this->builder->where('source', 'ilike', '%' . $value . '%');
     }
 
-
+        
     public function accountName($value)
     {
         return $this->builder->where('account_name', 'ilike', '%' . $value . '%');
@@ -66,7 +66,7 @@ class OpportunitiesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->accountName($value);
     }
-
+        
     public function responsibleAccount($value)
     {
         return $this->builder->where('responsible_account', 'ilike', '%' . $value . '%');
@@ -77,7 +77,7 @@ class OpportunitiesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->responsibleAccount($value);
     }
-
+        
     public function responsibleName($value)
     {
         return $this->builder->where('responsible_name', 'ilike', '%' . $value . '%');
@@ -88,13 +88,13 @@ class OpportunitiesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->responsibleName($value);
     }
-
+        
     public function type($value)
     {
         return $this->builder->where('type', 'ilike', '%' . $value . '%');
     }
 
-
+    
     public function probability($value)
     {
         $operator = substr($value, 0, 1);
@@ -108,7 +108,7 @@ class OpportunitiesPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('probability', $operator, $value);
     }
 
-
+    
     public function quoteCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -127,7 +127,7 @@ class OpportunitiesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->quoteCount($value);
     }
-
+    
     public function meetingCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -146,7 +146,7 @@ class OpportunitiesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->meetingCount($value);
     }
-
+    
     public function callCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -165,7 +165,7 @@ class OpportunitiesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->callCount($value);
     }
-
+    
     public function projectCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -184,7 +184,7 @@ class OpportunitiesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->projectCount($value);
     }
-
+    
     public function deadlineStart($date)
     {
         return $this->builder->where('deadline', '>=', $date);
@@ -287,8 +287,7 @@ class OpportunitiesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->crmAccount($value);
     }
-
-
+    
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -298,7 +297,7 @@ class OpportunitiesPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-
+    
     public function iamAccountId($value)
     {
             $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -308,8 +307,9 @@ class OpportunitiesPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
