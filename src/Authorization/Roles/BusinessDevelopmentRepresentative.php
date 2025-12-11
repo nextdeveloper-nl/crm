@@ -46,6 +46,11 @@ class BusinessDevelopmentRepresentative extends AbstractRole implements IAuthori
             return;
         }
 
+        if($model->getTable() == 'crm_opportunities') {
+            $builder->where('iam_account_id', UserHelper::currentAccount()->id);
+            return;
+        }
+
         $isUserIdExists =  DatabaseHelper::isColumnExists($model->getTable(), 'iam_user_id');
 
         /**
@@ -80,6 +85,10 @@ class BusinessDevelopmentRepresentative extends AbstractRole implements IAuthori
 
     public function checkUpdatePolicy(Model $model, Users $users) : bool
     {
+        if($model->getTable() == 'crm_opportunities') {
+            return true;
+        }
+
         $amIManager = AccountManagers::withoutGlobalScopes()
             ->where('iam_user_id', UserHelper::currentUser()->id)
             ->where('iam_account_id', UserHelper::currentAccount()->id)

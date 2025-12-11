@@ -54,35 +54,35 @@ class AbstractOpportunitiesPerspectiveTransformer extends AbstractTransformer
      */
     public function transform(OpportunitiesPerspective $model)
     {
-        $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
-        $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
-        $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
-
+                                                $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
+                                                            $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
+                                                            $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
+                        
         return $this->buildPayload(
             [
-                'id' => $model->uuid,
-                'name' => $model->name,
-                'description' => $model->description,
-                'probability' => $model->probability,
-                'opportunity_stage' => $model->opportunity_stage,
-                'source' => $model->source,
-                'income' => $model->income,
-                'deadline' => $model->deadline,
-                'account_name' => $model->account_name,
-                'crm_account_id' => $crmAccountId ? $crmAccountId->uuid : null,
-                'responsible_account' => $model->responsible_account,
-                'responsible_name' => $model->responsible_name,
-                'quote_count' => $model->quote_count,
-                'meeting_count' => $model->meeting_count,
-                'call_count' => $model->call_count,
-                'project_count' => $model->project_count,
-                'type' => $model->type,
-                'iam_user_id' => $iamUserId ? $iamUserId->uuid : null,
-                'iam_account_id' => $iamAccountId ? $iamAccountId->uuid : null,
-                'tags' => $model->tags,
-                'created_at' => $model->created_at,
-                'updated_at' => $model->updated_at,
-                'deleted_at' => $model->deleted_at,
+            'id'  =>  $model->uuid,
+            'name'  =>  $model->name,
+            'description'  =>  $model->description,
+            'probability'  =>  $model->probability,
+            'opportunity_stage'  =>  $model->opportunity_stage,
+            'source'  =>  $model->source,
+            'income'  =>  $model->income,
+            'deadline'  =>  $model->deadline,
+            'account_name'  =>  $model->account_name,
+            'crm_account_id'  =>  $crmAccountId ? $crmAccountId->uuid : null,
+            'responsible_account'  =>  $model->responsible_account,
+            'responsible_name'  =>  $model->responsible_name,
+            'quote_count'  =>  $model->quote_count,
+            'meeting_count'  =>  $model->meeting_count,
+            'call_count'  =>  $model->call_count,
+            'project_count'  =>  $model->project_count,
+            'type'  =>  $model->type,
+            'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
+            'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
+            'tags'  =>  $model->tags,
+            'created_at'  =>  $model->created_at,
+            'updated_at'  =>  $model->updated_at,
+            'deleted_at'  =>  $model->deleted_at,
             ]
         );
     }
@@ -171,6 +171,7 @@ class AbstractOpportunitiesPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 }

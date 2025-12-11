@@ -19,10 +19,21 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @package  NextDeveloper\CRM\Database\Models
  * @property integer $iam_account_id
  * @property integer $leads_count
+ * @property integer $prospect_count
  * @property integer $qualification_count
+ * @property integer $research_count
+ * @property integer $need_analysis_count
+ * @property integer $approach_count
  * @property integer $value_proposition_count
+ * @property integer $identifying_decision_makers_count
  * @property integer $proposal_count
+ * @property integer $negotiation_count
  * @property integer $won_count
+ * @property integer $lost_count
+ * @property integer $cancelled_count
+ * @property integer $perception_analysis_count
+ * @property integer $renewal_count
+ * @property string $type
  */
 class OpportunitiesPerformance extends Model
 {
@@ -41,10 +52,21 @@ class OpportunitiesPerformance extends Model
     protected $fillable = [
             'iam_account_id',
             'leads_count',
+            'prospect_count',
             'qualification_count',
+            'research_count',
+            'need_analysis_count',
+            'approach_count',
             'value_proposition_count',
+            'identifying_decision_makers_count',
             'proposal_count',
+            'negotiation_count',
             'won_count',
+            'lost_count',
+            'cancelled_count',
+            'perception_analysis_count',
+            'renewal_count',
+            'type',
     ];
 
     /**
@@ -68,10 +90,21 @@ class OpportunitiesPerformance extends Model
      */
     protected $casts = [
     'leads_count' => 'integer',
+    'prospect_count' => 'integer',
     'qualification_count' => 'integer',
+    'research_count' => 'integer',
+    'need_analysis_count' => 'integer',
+    'approach_count' => 'integer',
     'value_proposition_count' => 'integer',
+    'identifying_decision_makers_count' => 'integer',
     'proposal_count' => 'integer',
+    'negotiation_count' => 'integer',
     'won_count' => 'integer',
+    'lost_count' => 'integer',
+    'cancelled_count' => 'integer',
+    'perception_analysis_count' => 'integer',
+    'renewal_count' => 'integer',
+    'type' => 'string',
     ];
 
     /**
@@ -131,5 +164,6 @@ class OpportunitiesPerformance extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 }
