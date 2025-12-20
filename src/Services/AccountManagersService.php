@@ -48,7 +48,7 @@ class AccountManagersService extends AbstractAccountManagersService
 
         (new Communicate($user))->sendNotification(
             subject: 'Assigned as account manager',
-            message: 'You are assigned as an account manager to the account namely:' . $crmAccount->name
+            message: 'You are assigned as an account manager to the account namely:' . $account->name
         );
 
         return parent::create($data);
