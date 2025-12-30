@@ -54,53 +54,54 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
      */
     public function transform(UsersPerspective $model)
     {
-                                                $iamAccountTypeId = \NextDeveloper\IAM\Database\Models\AccountTypes::where('id', $model->iam_account_type_id)->first();
-                                                            $commonCountryId = \NextDeveloper\Commons\Database\Models\Countries::where('id', $model->common_country_id)->first();
-                                                            $commonLanguageId = \NextDeveloper\Commons\Database\Models\Languages::where('id', $model->common_language_id)->first();
-                                                            $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
-                                                            $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
-                                                            $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
-                        
+        $iamAccountTypeId = \NextDeveloper\IAM\Database\Models\AccountTypes::where('id', $model->iam_account_type_id)->first();
+        $commonCountryId = \NextDeveloper\Commons\Database\Models\Countries::where('id', $model->common_country_id)->first();
+        $commonLanguageId = \NextDeveloper\Commons\Database\Models\Languages::where('id', $model->common_language_id)->first();
+        $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
+        $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
+        $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
+
         return $this->buildPayload(
             [
-            'id'  =>  $model->uuid,
-            'name'  =>  $model->name,
-            'surname'  =>  $model->surname,
-            'fullname'  =>  $model->fullname,
-            'iam_account_name'  =>  $model->iam_account_name,
-            'iam_account_type_id'  =>  $iamAccountTypeId ? $iamAccountTypeId->uuid : null,
-            'iam_account_type'  =>  $model->iam_account_type,
-            'email'  =>  $model->email,
-            'about'  =>  $model->about,
-            'pronoun'  =>  $model->pronoun,
-            'birthday'  =>  $model->birthday,
-            'nin'  =>  $model->nin,
-            'common_country_id'  =>  $commonCountryId ? $commonCountryId->uuid : null,
-            'country'  =>  $model->country,
-            'common_language_id'  =>  $commonLanguageId ? $commonLanguageId->uuid : null,
-            'language'  =>  $model->language,
-            'iam_updated_at'  =>  $model->iam_updated_at,
-            'phone_number'  =>  $model->phone_number,
-            'is_registered'  =>  $model->is_registered,
-            'is_nin_verified'  =>  $model->is_nin_verified,
-            'is_email_verified'  =>  $model->is_email_verified,
-            'is_phone_number_verified'  =>  $model->is_phone_number_verified,
-            'position'  =>  $model->position,
-            'job'  =>  $model->job,
-            'job_description'  =>  $model->job_description,
-            'hobbies'  =>  $model->hobbies,
-            'city'  =>  $model->city,
-            'email_risk'  =>  $model->email_risk,
-            'relationship_status'  =>  $model->relationship_status,
-            'is_evangelist'  =>  $model->is_evangelist,
-            'is_single'  =>  $model->is_single,
-            'education'  =>  $model->education,
-            'child_count'  =>  $model->child_count,
-            'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
-            'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
-            'crm_account_id'  =>  $crmAccountId ? $crmAccountId->uuid : null,
-            'created_at'  =>  $model->created_at,
-            'updated_at'  =>  $model->updated_at,
+                'id' => $model->uuid,
+                'name' => $model->name,
+                'surname' => $model->surname,
+                'fullname' => $model->fullname,
+                'iam_account_name' => $model->iam_account_name,
+                'iam_account_type_id' => $iamAccountTypeId ? $iamAccountTypeId->uuid : null,
+                'iam_account_type' => $model->iam_account_type,
+                'email' => $model->email,
+                'about' => $model->about,
+                'pronoun' => $model->pronoun,
+                'birthday' => $model->birthday,
+                'nin' => $model->nin,
+                'common_country_id' => $commonCountryId ? $commonCountryId->uuid : null,
+                'country' => $model->country,
+                'common_language_id' => $commonLanguageId ? $commonLanguageId->uuid : null,
+                'language' => $model->language,
+                'iam_updated_at' => $model->iam_updated_at,
+                'phone_number' => $model->phone_number,
+                'is_registered' => $model->is_registered,
+                'is_nin_verified' => $model->is_nin_verified,
+                'is_email_verified' => $model->is_email_verified,
+                'is_phone_number_verified' => $model->is_phone_number_verified,
+                'is_profile_verified'   =>  $model->is_profile_verified,
+                'position' => $model->position,
+                'job' => $model->job,
+                'job_description' => $model->job_description,
+                'hobbies' => $model->hobbies,
+                'city' => $model->city,
+                'email_risk' => $model->email_risk,
+                'relationship_status' => $model->relationship_status,
+                'is_evangelist' => $model->is_evangelist,
+                'is_single' => $model->is_single,
+                'education' => $model->education,
+                'child_count' => $model->child_count,
+                'iam_user_id' => $iamUserId ? $iamUserId->uuid : null,
+                'iam_account_id' => $iamAccountId ? $iamAccountId->uuid : null,
+                'crm_account_id' => $crmAccountId ? $crmAccountId->uuid : null,
+                'created_at' => $model->created_at,
+                'updated_at' => $model->updated_at,
             ]
         );
     }
@@ -189,50 +190,6 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
