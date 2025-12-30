@@ -97,7 +97,7 @@ class WatchAccount extends AbstractAction
         }
 
         // Fire event indicating the account is being watched
-        Events::fire('watching', $accountManager);
+        Events::fire('watching:NextDeveloper\CRM\Accounts', $accountManager);
 
         // Set the process as finished
         $this->setFinished();

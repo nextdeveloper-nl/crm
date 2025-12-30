@@ -143,6 +143,7 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
 
             'crm_accounts_perspective:read',
             'crm_opportunities_performance:read',
+            'crm_sales_people_perspective:read'
         ];
     }
 
