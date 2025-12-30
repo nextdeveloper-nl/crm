@@ -46,6 +46,10 @@ class SalesDevelopmentRepresentative extends AbstractRole implements IAuthorizat
             return;
         }
 
+        if($model->getTable() == 'crm_sales_people_perspective') {
+            return;
+        }
+
         $isUserIdExists =  DatabaseHelper::isColumnExists($model->getTable(), 'iam_user_id');
 
         /**
