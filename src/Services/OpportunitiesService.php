@@ -25,7 +25,14 @@ class OpportunitiesService extends AbstractOpportunitiesService
 
     public static function create($data)
     {
-        $responsible = self::getNaturalResponsibleForOpportunityType($data['type']);
+        /**
+         * Here we should look for responsible, only if we dont have a user, or the creator is not a sales-person
+         */
+        $responsible = UserHelper::me();
+
+        if(!UserHelper::has('sales-person')) {
+            $responsible = self::getNaturalResponsibleForOpportunityType($data['type']);
+        }
 
         if($data['type'] == 'business development') {
             $data['type'] = 'business-development';
