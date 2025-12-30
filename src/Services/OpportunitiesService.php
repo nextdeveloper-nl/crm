@@ -42,9 +42,11 @@ class OpportunitiesService extends AbstractOpportunitiesService
         $opportunity = $opportunity->refresh();
 
         if($responsible) {
-            $opportunity->update([
-                'iam_user_id' => $responsible->id,
-            ]);
+            UserHelper::runAsAdmin(function () use ($opportunity, $responsible) {
+                $opportunity->update([
+                    'iam_user_id' => $responsible->id,
+                ]);
+            });
 
             $crmAccount = AccountsService::getById($opportunity->crm_account_id);
 
@@ -118,6 +120,9 @@ class OpportunitiesService extends AbstractOpportunitiesService
         }
 
         if(strtolower($type) == 'sales') {
+            if(UserHelper::has('sales-person'))
+                return UserHelper::me();
+
             $accountManagers = UserHelper::getUsersWithRole('sales-person', UserHelper::currentAccount());
 
             //  Assigning a random account manager
