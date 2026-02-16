@@ -14,7 +14,7 @@ class CallsCreateRequest extends AbstractFormRequest
     {
         return [
             'description' => 'required|string',
-        'iam_account_it' => 'required|integer',
+        'iam_account_id' => 'required|integer',
         'crm_account_id' => 'required|exists:crm_accounts,uuid|uuid',
         'disposition' => 'nullable|string',
         'duration' => 'nullable|integer',

@@ -64,7 +64,7 @@ trait CrmCallTestTraits
                 'to_number'  =>  'a',
                 'call_direction'  =>  'a',
                 'name'  =>  'a',
-                'iam_account_it'  =>  '1',
+                'iam_account_id'  =>  '1',
                 'duration'  =>  '1',
                             ],
                 ['http_errors' => false]
@@ -462,12 +462,12 @@ trait CrmCallTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmcall_event_iam_account_it_filter()
+    public function test_crmcall_event_iam_account_id_filter()
     {
         try {
             $request = new Request(
                 [
-                'iam_account_it'  =>  '1'
+                'iam_account_id'  =>  '1'
                 ]
             );
 

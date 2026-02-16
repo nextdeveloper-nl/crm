@@ -14,7 +14,7 @@ class CallsUpdateRequest extends AbstractFormRequest
     {
         return [
             'description' => 'nullable|string',
-        'iam_account_it' => 'nullable|integer',
+        'iam_account_id' => 'nullable|integer',
         'crm_account_id' => 'nullable|exists:crm_accounts,uuid|uuid',
         'disposition' => 'nullable|string',
         'duration' => 'nullable|integer',
