@@ -23,6 +23,7 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property integer $iam_account_id
  * @property integer $iam_user_id
  * @property integer $crm_opportunity_id
+ * @property integer $crm_account_id
  * @property string $name
  * @property string $description
  * @property $total_amount
@@ -48,85 +49,87 @@ class Quotes extends Model
 
 
     /**
-     @var array
+     * @var array
      */
     protected $guarded = [];
 
     protected $fillable = [
-            'iam_account_id',
-            'iam_user_id',
-            'crm_opportunity_id',
-            'name',
-            'description',
-            'total_amount',
-            'detailed_amount',
-            'suggested_price',
-            'common_currency_id',
-            'tags',
-            'approval_level',
-            'is_converted',
-            'accounting_invoice_id',
+        'iam_account_id',
+        'iam_user_id',
+        'crm_opportunity_id',
+        'name',
+        'description',
+        'total_amount',
+        'detailed_amount',
+        'suggested_price',
+        'common_currency_id',
+        'crm_account_id',
+        'tags',
+        'approval_level',
+        'is_converted',
+        'accounting_invoice_id',
     ];
 
     /**
-      Here we have the fulltext fields. We can use these for fulltext search if enabled.
+     * Here we have the fulltext fields. We can use these for fulltext search if enabled.
      */
     protected $fullTextFields = [
 
     ];
 
     /**
-     @var array
+     * @var array
      */
     protected $appends = [
 
     ];
 
     /**
-     We are casting fields to objects so that we can work on them better
+     * We are casting fields to objects so that we can work on them better
      *
-     @var array
+     * @var array
      */
     protected $casts = [
-    'id' => 'integer',
-    'crm_opportunity_id' => 'integer',
-    'name' => 'string',
-    'description' => 'string',
-    'detailed_amount' => 'array',
-    'common_currency_id' => 'integer',
-    'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'created_at' => 'datetime',
-    'updated_at' => 'datetime',
-    'deleted_at' => 'datetime',
-    'is_converted' => 'boolean',
-    'accounting_invoice_id' => 'integer',
+        'id' => 'integer',
+        'crm_opportunity_id' => 'integer',
+        'name' => 'string',
+        'description' => 'string',
+        'detailed_amount' => 'array',
+        'common_currency_id' => 'integer',
+        'crm_account_id' => 'integer',
+        'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
+        'is_converted' => 'boolean',
+        'accounting_invoice_id' => 'integer',
     ];
 
     /**
-     We are casting data fields.
+     * We are casting data fields.
      *
-     @var array
+     * @var array
      */
     protected $dates = [
-    'created_at',
-    'updated_at',
-    'deleted_at',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     /**
-     @var array
+     * @var array
      */
     protected $with = [
 
     ];
 
     /**
-     @var int
+     * @var int
      */
     protected $perPage = 20;
 
     /**
-     @return void
+     * @return void
      */
     public static function boot()
     {
@@ -143,9 +146,11 @@ class Quotes extends Model
         $globalScopes = config('crm.scopes.global');
         $modelScopes = config('crm.scopes.crm_quotes');
 
-        if(!$modelScopes) { $modelScopes = [];
+        if (!$modelScopes) {
+            $modelScopes = [];
         }
-        if (!$globalScopes) { $globalScopes = [];
+        if (!$globalScopes) {
+            $globalScopes = [];
         }
 
         $scopes = array_merge(
@@ -153,88 +158,29 @@ class Quotes extends Model
             $modelScopes
         );
 
-        if($scopes) {
+        if ($scopes) {
             foreach ($scopes as $scope) {
                 static::addGlobalScope(app($scope));
             }
         }
     }
 
-    public function accounts() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function accounts(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Accounts::class);
     }
-    
-    public function users() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+
+    public function users(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
     }
-    
-    public function invoices() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+
+    public function invoices(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\NextDeveloper\Accounting\Database\Models\Invoices::class);
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

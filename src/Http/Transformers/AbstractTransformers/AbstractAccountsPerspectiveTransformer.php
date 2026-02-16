@@ -54,49 +54,49 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
      */
     public function transform(AccountsPerspective $model)
     {
-                                                $commonDomainId = \NextDeveloper\Commons\Database\Models\Domains::where('id', $model->common_domain_id)->first();
-                                                            $commonCountryId = \NextDeveloper\Commons\Database\Models\Countries::where('id', $model->common_country_id)->first();
-                                                            $iamAccountTypeId = \NextDeveloper\IAM\Database\Models\AccountTypes::where('id', $model->iam_account_type_id)->first();
-                                                            $commonCityId = \NextDeveloper\Commons\Database\Models\Cities::where('id', $model->common_city_id)->first();
-                                                            $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
-                                                            $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
-                        
+        $commonDomainId = \NextDeveloper\Commons\Database\Models\Domains::where('id', $model->common_domain_id)->first();
+        $commonCountryId = \NextDeveloper\Commons\Database\Models\Countries::where('id', $model->common_country_id)->first();
+        $iamAccountTypeId = \NextDeveloper\IAM\Database\Models\AccountTypes::where('id', $model->iam_account_type_id)->first();
+        $commonCityId = \NextDeveloper\Commons\Database\Models\Cities::where('id', $model->common_city_id)->first();
+        $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
+        $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
+
         return $this->buildPayload(
             [
-            'id'  =>  $model->uuid,
-            'name'  =>  $model->name,
-            'account_owners_fullname'  =>  $model->account_owners_fullname,
-            'account_owners_email'  =>  $model->account_owners_email,
-            'account_owners_phone_number'  =>  $model->account_owners_phone_number,
-            'common_domain_id'  =>  $commonDomainId ? $commonDomainId->uuid : null,
-            'domain_name'  =>  $model->domain_name,
-            'common_country_id'  =>  $commonCountryId ? $commonCountryId->uuid : null,
-            'country_name'  =>  $model->country_name,
-            'phone_number'  =>  $model->phone_number,
-            'description'  =>  $model->description,
-            'iam_account_type_id'  =>  $iamAccountTypeId ? $iamAccountTypeId->uuid : null,
-            'account_type'  =>  $model->account_type,
-            'is_paying_customer'  =>  $model->is_paying_customer,
-            'common_city_id'  =>  $commonCityId ? $commonCityId->uuid : null,
-            'position'  =>  $model->position,
-            'risk_level'  =>  $model->risk_level,
-            'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
-            'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
-            'total_user_count'  =>  $model->total_user_count,
-            'registered_user_count'  =>  $model->registered_user_count,
-            'is_sdr_qualified'  =>  $model->is_sdr_qualified,
-            'is_sdr_qualification_required'  =>  $model->is_sdr_qualification_required,
-            'disqualification_reason'  =>  $model->disqualification_reason,
-            'office_phone_number'  =>  $model->office_phone_number,
-            'office_phone_extension'  =>  $model->office_phone_extension,
-            'office_email'  =>  $model->office_email,
-            'is_disabled'  =>  $model->is_disabled,
-            'disabling_reason'  =>  $model->disabling_reason,
-            'is_suspended'  =>  $model->is_suspended,
-            'suspension_reason'  =>  $model->suspension_reason,
-            'created_at'  =>  $model->created_at,
-            'updated_at'  =>  $model->updated_at,
-            'deleted_at'  =>  $model->deleted_at,
+                'id' => $model->uuid,
+                'name' => $model->name,
+                'account_owners_fullname' => $model->account_owners_fullname,
+                'account_owners_email' => $model->account_owners_email,
+                'account_owners_phone_number' => $model->account_owners_phone_number,
+                'common_domain_id' => $commonDomainId ? $commonDomainId->uuid : null,
+                'domain_name' => $model->domain_name,
+                'common_country_id' => $commonCountryId ? $commonCountryId->uuid : null,
+                'country_name' => $model->country_name,
+                'phone_number' => $model->phone_number,
+                'description' => $model->description,
+                'iam_account_type_id' => $iamAccountTypeId ? $iamAccountTypeId->uuid : null,
+                'account_type' => $model->account_type,
+                'is_paying_customer' => $model->is_paying_customer,
+                'common_city_id' => $commonCityId ? $commonCityId->uuid : null,
+                'position' => $model->position,
+                'risk_level' => $model->risk_level,
+                'iam_user_id' => $iamUserId ? $iamUserId->uuid : null,
+                'iam_account_id' => $iamAccountId ? $iamAccountId->uuid : null,
+                'total_user_count' => $model->total_user_count,
+                'registered_user_count' => $model->registered_user_count,
+                'is_sdr_qualified' => $model->is_sdr_qualified,
+                'is_sdr_qualification_required' => $model->is_sdr_qualification_required,
+                'disqualification_reason' => $model->disqualification_reason,
+                'office_phone_number' => $model->office_phone_number,
+                'office_phone_extension' => $model->office_phone_extension,
+                'office_email' => $model->office_email,
+                'is_disabled' => $model->is_disabled,
+                'disabling_reason' => $model->disabling_reason,
+                'is_suspended' => $model->is_suspended,
+                'suspension_reason' => $model->suspension_reason,
+                'created_at' => $model->created_at,
+                'updated_at' => $model->updated_at,
+                'deleted_at' => $model->deleted_at,
             ]
         );
     }
@@ -185,40 +185,6 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
