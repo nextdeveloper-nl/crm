@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                    
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -37,19 +37,19 @@ class QuotesQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
         return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function description($value)
     {
         return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
 
-    
+
     public function isConverted($value)
     {
         return $this->builder->where('is_converted', $value);
@@ -60,7 +60,7 @@ class QuotesQueryFilter extends AbstractQueryFilter
     {
         return $this->isConverted($value);
     }
-     
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -136,7 +136,7 @@ class QuotesQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -146,7 +146,7 @@ class QuotesQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function crmOpportunityId($value)
     {
             $crmOpportunity = \NextDeveloper\CRM\Database\Models\Opportunities::where('uuid', $value)->first();
@@ -161,7 +161,22 @@ class QuotesQueryFilter extends AbstractQueryFilter
     {
         return $this->crmOpportunity($value);
     }
-    
+
+    public function crmAccountId($value)
+    {
+        $crmAccount = \NextDeveloper\CRM\Database\Models\Accounts::where('uuid', $value)->first();
+
+        if($crmAccount) {
+            return $this->builder->where('crm_account_id', '=', $crmAccount->id);
+        }
+    }
+
+    //  This is an alias function of crmOpportunity
+    public function crm_account_id($value)
+    {
+        return $this->crmAccountId($value);
+    }
+
     public function commonCurrencyId($value)
     {
             $commonCurrency = \NextDeveloper\Commons\Database\Models\Currencies::where('uuid', $value)->first();
@@ -176,7 +191,7 @@ class QuotesQueryFilter extends AbstractQueryFilter
     {
         return $this->commonCurrency($value);
     }
-    
+
     public function accountingInvoiceId($value)
     {
             $accountingInvoice = \NextDeveloper\Accounting\Database\Models\Invoices::where('uuid', $value)->first();
@@ -191,7 +206,7 @@ class QuotesQueryFilter extends AbstractQueryFilter
     {
         return $this->accountingInvoice($value);
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 
 
