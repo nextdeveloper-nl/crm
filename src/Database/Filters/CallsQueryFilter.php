@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-            
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,19 +17,19 @@ class CallsQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function description($value)
     {
         return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function disposition($value)
     {
         return $this->builder->where('disposition', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function fromNumber($value)
     {
         return $this->builder->where('from_number', 'ilike', '%' . $value . '%');
@@ -40,7 +40,7 @@ class CallsQueryFilter extends AbstractQueryFilter
     {
         return $this->fromNumber($value);
     }
-        
+
     public function toNumber($value)
     {
         return $this->builder->where('to_number', 'ilike', '%' . $value . '%');
@@ -51,7 +51,7 @@ class CallsQueryFilter extends AbstractQueryFilter
     {
         return $this->toNumber($value);
     }
-        
+
     public function callDirection($value)
     {
         return $this->builder->where('call_direction', 'ilike', '%' . $value . '%');
@@ -62,13 +62,13 @@ class CallsQueryFilter extends AbstractQueryFilter
     {
         return $this->callDirection($value);
     }
-        
+
     public function name($value)
     {
         return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-    
+
     public function iamAccountIt($value)
     {
         $operator = substr($value, 0, 1);
@@ -79,15 +79,15 @@ class CallsQueryFilter extends AbstractQueryFilter
             $value = substr($value, 1);
         }
 
-        return $this->builder->where('iam_account_it', $operator, $value);
+        return $this->builder->where('iam_account_id', $operator, $value);
     }
 
         //  This is an alias function of iamAccountIt
-    public function iam_account_it($value)
+    public function iam_account_id($value)
     {
         return $this->iamAccountIt($value);
     }
-    
+
     public function duration($value)
     {
         $operator = substr($value, 0, 1);
@@ -101,7 +101,7 @@ class CallsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('duration', $operator, $value);
     }
 
-    
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -177,7 +177,7 @@ class CallsQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function crmAccountId($value)
     {
             $crmAccount = \NextDeveloper\CRM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -192,7 +192,7 @@ class CallsQueryFilter extends AbstractQueryFilter
     {
         return $this->crmAccount($value);
     }
-    
+
     public function crmOpportunityId($value)
     {
             $crmOpportunity = \NextDeveloper\CRM\Database\Models\Opportunities::where('uuid', $value)->first();
@@ -207,7 +207,7 @@ class CallsQueryFilter extends AbstractQueryFilter
     {
         return $this->crmOpportunity($value);
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

@@ -22,7 +22,7 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property string $uuid
  * @property string $description
  * @property integer $iam_user_id
- * @property integer $iam_account_it
+ * @property integer $iam_account_id
  * @property integer $crm_account_id
  * @property string $disposition
  * @property integer $duration
@@ -53,7 +53,7 @@ class Calls extends Model
     protected $fillable = [
             'description',
             'iam_user_id',
-            'iam_account_it',
+            'iam_account_id',
             'crm_account_id',
             'disposition',
             'duration',
@@ -86,7 +86,7 @@ class Calls extends Model
     protected $casts = [
     'id' => 'integer',
     'description' => 'string',
-    'iam_account_it' => 'integer',
+    'iam_account_id' => 'integer',
     'crm_account_id' => 'integer',
     'disposition' => 'string',
     'duration' => 'integer',
@@ -162,7 +162,7 @@ class Calls extends Model
     {
         return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Opportunities::class);
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 
