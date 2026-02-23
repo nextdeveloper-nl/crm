@@ -47,85 +47,87 @@ class Opportunities extends Model
 
 
     /**
-     @var array
+     * @var array
      */
     protected $guarded = [];
 
     protected $fillable = [
-            'name',
-            'description',
-            'probability',
-            'source',
-            'income',
-            'deadline',
-            'iam_account_id',
-            'iam_user_id',
-            'crm_account_id',
-            'tags',
-            'opportunity_stage',
-            'type',
+        'name',
+        'description',
+        'probability',
+        'source',
+        'income',
+        'deadline',
+        'iam_account_id',
+        'iam_user_id',
+        'crm_account_id',
+        'tags',
+        'opportunity_stage',
+        'type',
+        'reason_lost',
+        'common_currency_id'
     ];
 
     /**
-      Here we have the fulltext fields. We can use these for fulltext search if enabled.
+     * Here we have the fulltext fields. We can use these for fulltext search if enabled.
      */
     protected $fullTextFields = [
 
     ];
 
     /**
-     @var array
+     * @var array
      */
     protected $appends = [
 
     ];
 
     /**
-     We are casting fields to objects so that we can work on them better
+     * We are casting fields to objects so that we can work on them better
      *
-     @var array
+     * @var array
      */
     protected $casts = [
-    'id' => 'integer',
-    'name' => 'string',
-    'description' => 'string',
-    'probability' => 'integer',
-    'source' => 'string',
-    'deadline' => 'datetime',
-    'crm_account_id' => 'integer',
-    'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'created_at' => 'datetime',
-    'updated_at' => 'datetime',
-    'deleted_at' => 'datetime',
-    'type' => 'string',
+        'id' => 'integer',
+        'name' => 'string',
+        'description' => 'string',
+        'probability' => 'integer',
+        'source' => 'string',
+        'deadline' => 'datetime',
+        'crm_account_id' => 'integer',
+        'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
+        'type' => 'string',
     ];
 
     /**
-     We are casting data fields.
+     * We are casting data fields.
      *
-     @var array
+     * @var array
      */
     protected $dates = [
-    'deadline',
-    'created_at',
-    'updated_at',
-    'deleted_at',
+        'deadline',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     /**
-     @var array
+     * @var array
      */
     protected $with = [
 
     ];
 
     /**
-     @var int
+     * @var int
      */
     protected $perPage = 20;
 
     /**
-     @return void
+     * @return void
      */
     public static function boot()
     {
@@ -142,9 +144,11 @@ class Opportunities extends Model
         $globalScopes = config('crm.scopes.global');
         $modelScopes = config('crm.scopes.crm_opportunities');
 
-        if(!$modelScopes) { $modelScopes = [];
+        if (!$modelScopes) {
+            $modelScopes = [];
         }
-        if (!$globalScopes) { $globalScopes = [];
+        if (!$globalScopes) {
+            $globalScopes = [];
         }
 
         $scopes = array_merge(
@@ -152,98 +156,39 @@ class Opportunities extends Model
             $modelScopes
         );
 
-        if($scopes) {
+        if ($scopes) {
             foreach ($scopes as $scope) {
                 static::addGlobalScope(app($scope));
             }
         }
     }
 
-    public function projects() : \Illuminate\Database\Eloquent\Relations\HasMany
+    public function projects(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\NextDeveloper\CRM\Database\Models\Projects::class);
     }
 
-    public function meetings() : \Illuminate\Database\Eloquent\Relations\HasMany
+    public function meetings(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\NextDeveloper\CRM\Database\Models\Meetings::class);
     }
 
-    public function calls() : \Illuminate\Database\Eloquent\Relations\HasMany
+    public function calls(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\NextDeveloper\CRM\Database\Models\Calls::class);
     }
 
-    public function accounts() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function accounts(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Accounts::class);
     }
-    
-    public function users() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+
+    public function users(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
