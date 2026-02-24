@@ -24,7 +24,7 @@ class OpportunitiesUpdateRequest extends AbstractFormRequest
             'opportunity_stage' => '',
             'type' => 'string',
             'reason_lost' => 'nullable|string',
-            'common_currency_id' => 'required|exists:currencies,uuid|uuid',
+            'common_currency_id' => 'exists:currencies,uuid|uuid',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

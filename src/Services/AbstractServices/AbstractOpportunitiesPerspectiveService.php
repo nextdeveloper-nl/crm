@@ -185,12 +185,13 @@ class AbstractOpportunitiesPerspectiveService
                 $data['crm_account_id']
             );
         }
-        if (array_key_exists('crm_ideal_customer_profile_id', $data)) {
-            $data['crm_ideal_customer_profile_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\CRM\Database\Models\IdealCustomerProfiles',
-                $data['crm_ideal_customer_profile_id']
+        if (array_key_exists('common_currency_id', $data)) {
+            $data['common_currency_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\Commons\Database\Models\Currencies',
+                $data['common_currency_id']
             );
         }
+        
         if (array_key_exists('iam_user_id', $data)) {
             $data['iam_user_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\IAM\Database\Models\Users',
