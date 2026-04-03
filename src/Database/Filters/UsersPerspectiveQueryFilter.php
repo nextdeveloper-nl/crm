@@ -214,6 +214,17 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->isPhoneNumberVerified($value);
     }
      
+    public function isProfileVerified($value)
+    {
+        return $this->builder->where('is_profile_verified', $value);
+    }
+
+        //  This is an alias function of isProfileVerified
+    public function is_profile_verified($value)
+    {
+        return $this->isProfileVerified($value);
+    }
+     
     public function isEvangelist($value)
     {
         return $this->builder->where('is_evangelist', $value);
@@ -405,6 +416,7 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
     }
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

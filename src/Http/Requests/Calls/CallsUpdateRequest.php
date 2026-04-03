@@ -14,7 +14,6 @@ class CallsUpdateRequest extends AbstractFormRequest
     {
         return [
             'description' => 'nullable|string',
-        'iam_account_id' => 'nullable|integer',
         'crm_account_id' => 'nullable|exists:crm_accounts,uuid|uuid',
         'disposition' => 'nullable|string',
         'duration' => 'nullable|integer',
@@ -26,4 +25,5 @@ class CallsUpdateRequest extends AbstractFormRequest
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }
