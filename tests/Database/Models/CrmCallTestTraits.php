@@ -64,7 +64,6 @@ trait CrmCallTestTraits
                 'to_number'  =>  'a',
                 'call_direction'  =>  'a',
                 'name'  =>  'a',
-                'iam_account_id'  =>  '1',
                 'duration'  =>  '1',
                             ],
                 ['http_errors' => false]
@@ -462,25 +461,6 @@ trait CrmCallTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_crmcall_event_iam_account_id_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'iam_account_id'  =>  '1'
-                ]
-            );
-
-            $filter = new CrmCallQueryFilter($request);
-
-            $model = \NextDeveloper\CRM\Database\Models\CrmCall::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
     public function test_crmcall_event_duration_filter()
     {
         try {
@@ -674,4 +654,5 @@ trait CrmCallTestTraits
         $this->assertTrue(true);
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

@@ -67,8 +67,7 @@ class CallsQueryFilter extends AbstractQueryFilter
     {
         return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
-
-
+    
     public function iamAccountId($value)
     {
         $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -77,7 +76,7 @@ class CallsQueryFilter extends AbstractQueryFilter
             return $this->builder->where('iam_account_id', '=', $iamAccount->id);
         }
     }
-    
+
         //  This is an alias function of iamAccountIt
     public function iam_account_id($value)
     {
@@ -174,6 +173,16 @@ class CallsQueryFilter extends AbstractQueryFilter
     }
 
 
+    public function iamAccountId($value)
+    {
+            $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
+
+        if($iamAccount) {
+            return $this->builder->where('iam_account_id', '=', $iamAccount->id);
+        }
+    }
+
+
     public function crmAccountId($value)
     {
             $crmAccount = \NextDeveloper\CRM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -205,6 +214,7 @@ class CallsQueryFilter extends AbstractQueryFilter
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
