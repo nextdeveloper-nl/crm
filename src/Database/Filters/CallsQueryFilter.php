@@ -67,25 +67,20 @@ class CallsQueryFilter extends AbstractQueryFilter
     {
         return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
-
-
-    public function iamAccountIt($value)
+    
+    public function iamAccountId($value)
     {
-        $operator = substr($value, 0, 1);
+        $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
 
-        if ($operator != '<' || $operator != '>') {
-            $operator = '=';
-        } else {
-            $value = substr($value, 1);
+        if($iamAccount) {
+            return $this->builder->where('iam_account_id', '=', $iamAccount->id);
         }
-
-        return $this->builder->where('iam_account_id', $operator, $value);
     }
 
         //  This is an alias function of iamAccountIt
     public function iam_account_id($value)
     {
-        return $this->iamAccountIt($value);
+        return $this->iamAccountId($value);
     }
 
     public function duration($value)
@@ -178,6 +173,16 @@ class CallsQueryFilter extends AbstractQueryFilter
     }
 
 
+    public function iamAccountId($value)
+    {
+            $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
+
+        if($iamAccount) {
+            return $this->builder->where('iam_account_id', '=', $iamAccount->id);
+        }
+    }
+
+
     public function crmAccountId($value)
     {
             $crmAccount = \NextDeveloper\CRM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -209,6 +214,7 @@ class CallsQueryFilter extends AbstractQueryFilter
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

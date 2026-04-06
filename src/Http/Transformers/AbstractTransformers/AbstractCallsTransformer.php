@@ -55,15 +55,16 @@ class AbstractCallsTransformer extends AbstractTransformer
     public function transform(Calls $model)
     {
                                                 $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
+                                                            $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
                                                             $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
                                                             $crmOpportunityId = \NextDeveloper\CRM\Database\Models\Opportunities::where('id', $model->crm_opportunity_id)->first();
-
+                        
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
             'description'  =>  $model->description,
             'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
-            'iam_account_id'  =>  $model->iam_account_id,
+            'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
             'crm_account_id'  =>  $crmAccountId ? $crmAccountId->uuid : null,
             'disposition'  =>  $model->disposition,
             'duration'  =>  $model->duration,
@@ -163,6 +164,7 @@ class AbstractCallsTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

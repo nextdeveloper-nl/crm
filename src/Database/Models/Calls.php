@@ -86,7 +86,6 @@ class Calls extends Model
     protected $casts = [
     'id' => 'integer',
     'description' => 'string',
-    'iam_account_id' => 'integer',
     'crm_account_id' => 'integer',
     'disposition' => 'string',
     'duration' => 'integer',
@@ -162,8 +161,9 @@ class Calls extends Model
     {
         return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Opportunities::class);
     }
-
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

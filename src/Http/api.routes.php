@@ -464,27 +464,6 @@ Route::prefix('crm')->group(
             }
         );
 
-        Route::prefix('opportunities-perspective')->group(
-            function () {
-                Route::get('/', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@index');
-                Route::get('/actions', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@getActions');
-
-                Route::get('{crm_opportunities_perspective}/tags ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@tags');
-                Route::post('{crm_opportunities_perspective}/tags ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@saveTags');
-                Route::get('{crm_opportunities_perspective}/addresses ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@addresses');
-                Route::post('{crm_opportunities_perspective}/addresses ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@saveAddresses');
-
-                Route::get('/{crm_opportunities_perspective}/{subObjects}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@relatedObjects');
-                Route::get('/{crm_opportunities_perspective}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@show');
-
-                Route::post('/', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@store');
-                Route::post('/{crm_opportunities_perspective}/do/{action}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@doAction');
-
-                Route::patch('/{crm_opportunities_perspective}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@update');
-                Route::delete('/{crm_opportunities_perspective}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@destroy');
-            }
-        );
-
         Route::prefix('opportunities-performance')->group(
             function () {
                 Route::get('/', 'OpportunitiesPerformance\OpportunitiesPerformanceController@index');
@@ -503,6 +482,27 @@ Route::prefix('crm')->group(
 
                 Route::patch('/{crm_opportunities_performance}', 'OpportunitiesPerformance\OpportunitiesPerformanceController@update');
                 Route::delete('/{crm_opportunities_performance}', 'OpportunitiesPerformance\OpportunitiesPerformanceController@destroy');
+            }
+        );
+
+        Route::prefix('users-perspective')->group(
+            function () {
+                Route::get('/', 'UsersPerspective\UsersPerspectiveController@index');
+                Route::get('/actions', 'UsersPerspective\UsersPerspectiveController@getActions');
+
+                Route::get('{crm_users_perspective}/tags ', 'UsersPerspective\UsersPerspectiveController@tags');
+                Route::post('{crm_users_perspective}/tags ', 'UsersPerspective\UsersPerspectiveController@saveTags');
+                Route::get('{crm_users_perspective}/addresses ', 'UsersPerspective\UsersPerspectiveController@addresses');
+                Route::post('{crm_users_perspective}/addresses ', 'UsersPerspective\UsersPerspectiveController@saveAddresses');
+
+                Route::get('/{crm_users_perspective}/{subObjects}', 'UsersPerspective\UsersPerspectiveController@relatedObjects');
+                Route::get('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@show');
+
+                Route::post('/', 'UsersPerspective\UsersPerspectiveController@store');
+                Route::post('/{crm_users_perspective}/do/{action}', 'UsersPerspective\UsersPerspectiveController@doAction');
+
+                Route::patch('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@update');
+                Route::delete('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@destroy');
             }
         );
 
@@ -608,27 +608,6 @@ Route::prefix('crm')->group(
 
                 Route::patch('/{cmnap}', 'MonthlyNewAccountsPerformance\MonthlyNewAccountsPerformanceController@update');
                 Route::delete('/{cmnap}', 'MonthlyNewAccountsPerformance\MonthlyNewAccountsPerformanceController@destroy');
-            }
-        );
-
-        Route::prefix('users-perspective')->group(
-            function () {
-                Route::get('/', 'UsersPerspective\UsersPerspectiveController@index');
-                Route::get('/actions', 'UsersPerspective\UsersPerspectiveController@getActions');
-
-                Route::get('{crm_users_perspective}/tags ', 'UsersPerspective\UsersPerspectiveController@tags');
-                Route::post('{crm_users_perspective}/tags ', 'UsersPerspective\UsersPerspectiveController@saveTags');
-                Route::get('{crm_users_perspective}/addresses ', 'UsersPerspective\UsersPerspectiveController@addresses');
-                Route::post('{crm_users_perspective}/addresses ', 'UsersPerspective\UsersPerspectiveController@saveAddresses');
-
-                Route::get('/{crm_users_perspective}/{subObjects}', 'UsersPerspective\UsersPerspectiveController@relatedObjects');
-                Route::get('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@show');
-
-                Route::post('/', 'UsersPerspective\UsersPerspectiveController@store');
-                Route::post('/{crm_users_perspective}/do/{action}', 'UsersPerspective\UsersPerspectiveController@doAction');
-
-                Route::patch('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@update');
-                Route::delete('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@destroy');
             }
         );
 
@@ -755,6 +734,48 @@ Route::prefix('crm')->group(
 
                 Route::patch('/{cwnap}', 'WeeklyNewAccountsPerformance\WeeklyNewAccountsPerformanceController@update');
                 Route::delete('/{cwnap}', 'WeeklyNewAccountsPerformance\WeeklyNewAccountsPerformanceController@destroy');
+            }
+        );
+
+        Route::prefix('opportunities-perspective')->group(
+            function () {
+                Route::get('/', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@index');
+                Route::get('/actions', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@getActions');
+
+                Route::get('{crm_opportunities_perspective}/tags ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@tags');
+                Route::post('{crm_opportunities_perspective}/tags ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@saveTags');
+                Route::get('{crm_opportunities_perspective}/addresses ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@addresses');
+                Route::post('{crm_opportunities_perspective}/addresses ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@saveAddresses');
+
+                Route::get('/{crm_opportunities_perspective}/{subObjects}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@relatedObjects');
+                Route::get('/{crm_opportunities_perspective}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@show');
+
+                Route::post('/', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@store');
+                Route::post('/{crm_opportunities_perspective}/do/{action}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@doAction');
+
+                Route::patch('/{crm_opportunities_perspective}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@update');
+                Route::delete('/{crm_opportunities_perspective}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@destroy');
+            }
+        );
+
+        Route::prefix('leo-active-customers-perspective')->group(
+            function () {
+                Route::get('/', 'LeoActiveCustomersPerspective\LeoActiveCustomersPerspectiveController@index');
+                Route::get('/actions', 'LeoActiveCustomersPerspective\LeoActiveCustomersPerspectiveController@getActions');
+
+                Route::get('{clacp}/tags ', 'LeoActiveCustomersPerspective\LeoActiveCustomersPerspectiveController@tags');
+                Route::post('{clacp}/tags ', 'LeoActiveCustomersPerspective\LeoActiveCustomersPerspectiveController@saveTags');
+                Route::get('{clacp}/addresses ', 'LeoActiveCustomersPerspective\LeoActiveCustomersPerspectiveController@addresses');
+                Route::post('{clacp}/addresses ', 'LeoActiveCustomersPerspective\LeoActiveCustomersPerspectiveController@saveAddresses');
+
+                Route::get('/{clacp}/{subObjects}', 'LeoActiveCustomersPerspective\LeoActiveCustomersPerspectiveController@relatedObjects');
+                Route::get('/{clacp}', 'LeoActiveCustomersPerspective\LeoActiveCustomersPerspectiveController@show');
+
+                Route::post('/', 'LeoActiveCustomersPerspective\LeoActiveCustomersPerspectiveController@store');
+                Route::post('/{clacp}/do/{action}', 'LeoActiveCustomersPerspective\LeoActiveCustomersPerspectiveController@doAction');
+
+                Route::patch('/{clacp}', 'LeoActiveCustomersPerspective\LeoActiveCustomersPerspectiveController@update');
+                Route::delete('/{clacp}', 'LeoActiveCustomersPerspective\LeoActiveCustomersPerspectiveController@destroy');
             }
         );
 
@@ -1061,8 +1082,46 @@ Route::prefix('crm')->group(
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 );
+
 
 
 

@@ -165,4 +165,5 @@ class Industries extends Model
 
 
 
+
 }

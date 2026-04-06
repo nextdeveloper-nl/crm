@@ -14,18 +14,19 @@ class OpportunitiesUpdateRequest extends AbstractFormRequest
     {
         return [
             'name' => 'nullable|string',
-            'description' => 'nullable|string',
-            'probability' => 'integer',
-            'source' => 'nullable|string',
-            'income' => '',
-            'deadline' => 'nullable|date',
-            'crm_account_id' => 'nullable|exists:crm_accounts,uuid|uuid',
-            'tags' => '',
-            'opportunity_stage' => '',
-            'type' => 'string',
-            'reason_lost' => 'nullable|string',
-            'common_currency_id' => 'exists:currencies,uuid|uuid',
+        'description' => 'nullable|string',
+        'probability' => 'integer',
+        'source' => 'nullable|string',
+        'income' => '',
+        'deadline' => 'nullable|date',
+        'crm_account_id' => 'nullable|exists:crm_accounts,uuid|uuid',
+        'tags' => '',
+        'opportunity_stage' => '',
+        'type' => 'string',
+        'reason_lost' => 'nullable|string',
+        'common_currency_id' => 'nullable|exists:common_currencies,uuid|uuid',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }
