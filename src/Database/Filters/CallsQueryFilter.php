@@ -69,23 +69,19 @@ class CallsQueryFilter extends AbstractQueryFilter
     }
 
 
-    public function iamAccountIt($value)
+    public function iamAccountId($value)
     {
-        $operator = substr($value, 0, 1);
+        $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
 
-        if ($operator != '<' || $operator != '>') {
-            $operator = '=';
-        } else {
-            $value = substr($value, 1);
+        if($iamAccount) {
+            return $this->builder->where('iam_account_id', '=', $iamAccount->id);
         }
-
-        return $this->builder->where('iam_account_id', $operator, $value);
     }
-
+    
         //  This is an alias function of iamAccountIt
     public function iam_account_id($value)
     {
-        return $this->iamAccountIt($value);
+        return $this->iamAccountId($value);
     }
 
     public function duration($value)
