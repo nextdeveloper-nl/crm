@@ -162,11 +162,9 @@ class OpportunitiesService extends AbstractOpportunitiesService
                 //  1) Get user with uuid
                 $user = UserHelper::getWithId($iamUserId);
                 //  2) Update opportunity with that iam_user_id
-                UserHelper::runAsAdmin(function () use ($opportunity, $user) {
-                    $opportunity->update([
-                        'iam_user_id' => $user->id,
-                    ]);
-                });
+                $opportunity->update([
+                    'iam_user_id' => $user->id,
+                ]);
             });
         }
 
