@@ -2,12 +2,12 @@
 
 namespace NextDeveloper\CRM\Services;
 
+use NextDeveloper\Commons\Exceptions\NotAllowedException;
 use NextDeveloper\Commons\Services\CurrenciesService;
 use NextDeveloper\Communication\Helpers\Communicate;
 use NextDeveloper\CRM\Database\Models\Opportunities;
 use NextDeveloper\CRM\Database\Models\Quotes;
 use NextDeveloper\CRM\Services\AbstractServices\AbstractOpportunitiesService;
-use NextDeveloper\Events\Services\Events;
 use NextDeveloper\IAM\Database\Models\Users;
 use NextDeveloper\IAM\Helpers\UserHelper;
 
@@ -157,5 +157,36 @@ class OpportunitiesService extends AbstractOpportunitiesService
         }
 
         return $responsible;
+    }
+
+    /**
+     * @throws NotAllowedException
+     */
+    public static function update($id, array $data)
+    {
+        $opportunity = parent::update($id, $data);
+
+        if (array_key_exists('iamUserId', $data) &&
+            (
+                UserHelper::hasRole('sales-manager') ||
+                UserHelper::hasRole('sales-admin')
+            )
+        ) {
+
+            $iamUserId = $data['iamUserId'];
+
+            UserHelper::runAsAdmin(function () use ($opportunity, $iamUserId) {
+                //  1) Get user with uuid
+                $user = UserHelper::getWithId($iamUserId);
+                //  2) Update opportunity with that iam_user_id
+                UserHelper::runAsAdmin(function () use ($opportunity, $user) {
+                    $opportunity->update([
+                        'iam_user_id' => $user->id,
+                    ]);
+                });
+            });
+        }
+
+        return $opportunity->fresh();
     }
 }
