@@ -191,7 +191,7 @@ class AbstractOpportunitiesPerspectiveService
                 $data['common_currency_id']
             );
         }
-        
+
         if (array_key_exists('iam_user_id', $data)) {
             $data['iam_user_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\IAM\Database\Models\Users',
