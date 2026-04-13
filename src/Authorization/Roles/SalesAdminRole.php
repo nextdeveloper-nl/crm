@@ -133,6 +133,7 @@ class SalesAdminRole extends AbstractRole implements IAuthorizationRole
 
             'crm_sales_people_perspective:read',
             'crm_opportunities_performance:read',
+            'crm_leo_active_customers_perspective:read',
         ];
     }
 
