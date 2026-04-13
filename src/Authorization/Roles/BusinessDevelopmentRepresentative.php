@@ -16,7 +16,8 @@ class BusinessDevelopmentRepresentative extends AbstractRole implements IAuthori
 {
     public const NAME = 'business-development-representative';
 
-    public const LEVEL = 130;
+    //  BDR has slightly more control against SDR.
+    public const LEVEL = 125;
 
     public const DESCRIPTION = 'Business Development Representative, BDR';
 
