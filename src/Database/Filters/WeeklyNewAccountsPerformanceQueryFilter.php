@@ -94,4 +94,6 @@ class WeeklyNewAccountsPerformanceQueryFilter extends AbstractQueryFilter
 
 
 
+
+
 }

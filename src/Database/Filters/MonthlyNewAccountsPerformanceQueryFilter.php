@@ -105,4 +105,6 @@ class MonthlyNewAccountsPerformanceQueryFilter extends AbstractQueryFilter
 
 
 
+
+
 }

@@ -105,4 +105,6 @@ class MonthlyPayingCustomersPerformanceQueryFilter extends AbstractQueryFilter
 
 
 
+
+
 }
