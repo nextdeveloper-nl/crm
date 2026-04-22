@@ -37,6 +37,6 @@ class CampaignTargetsService extends AbstractCampaignTargetsService
 
         Events::fire('created:NextDeveloper\CRM\CampaignTargets', $model);
 
-        return $model->fresh();
+        return $model;
     }
 }
