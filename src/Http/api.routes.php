@@ -779,7 +779,66 @@ Route::prefix('crm')->group(
             }
         );
 
+        Route::prefix('campaign-target-users-perspective')->group(
+            function () {
+                Route::get('/', 'CampaignTargetUsersPerspective\CampaignTargetUsersPerspectiveController@index');
+                Route::get('/actions', 'CampaignTargetUsersPerspective\CampaignTargetUsersPerspectiveController@getActions');
+
+                Route::get('{cctup}/tags ', 'CampaignTargetUsersPerspective\CampaignTargetUsersPerspectiveController@tags');
+                Route::post('{cctup}/tags ', 'CampaignTargetUsersPerspective\CampaignTargetUsersPerspectiveController@saveTags');
+                Route::get('{cctup}/addresses ', 'CampaignTargetUsersPerspective\CampaignTargetUsersPerspectiveController@addresses');
+                Route::post('{cctup}/addresses ', 'CampaignTargetUsersPerspective\CampaignTargetUsersPerspectiveController@saveAddresses');
+
+                Route::get('/{cctup}/{subObjects}', 'CampaignTargetUsersPerspective\CampaignTargetUsersPerspectiveController@relatedObjects');
+                Route::get('/{cctup}', 'CampaignTargetUsersPerspective\CampaignTargetUsersPerspectiveController@show');
+
+                Route::post('/', 'CampaignTargetUsersPerspective\CampaignTargetUsersPerspectiveController@store');
+                Route::post('/{cctup}/do/{action}', 'CampaignTargetUsersPerspective\CampaignTargetUsersPerspectiveController@doAction');
+
+                Route::patch('/{cctup}', 'CampaignTargetUsersPerspective\CampaignTargetUsersPerspectiveController@update');
+                Route::delete('/{cctup}', 'CampaignTargetUsersPerspective\CampaignTargetUsersPerspectiveController@destroy');
+            }
+        );
+
         // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1305,6 +1364,7 @@ Route::prefix('crm')->group(
 
     }
 );
+
 
 
 
