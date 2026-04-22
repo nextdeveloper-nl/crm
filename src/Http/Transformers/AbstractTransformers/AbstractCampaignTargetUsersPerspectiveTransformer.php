@@ -57,8 +57,8 @@ class AbstractCampaignTargetUsersPerspectiveTransformer extends AbstractTransfor
                                                 $crmTargetId = \NextDeveloper\CRM\Database\Models\Targets::where('id', $model->crm_target_id)->first();
                                                             $crmUserId = \NextDeveloper\CRM\Database\Models\Users::where('id', $model->crm_user_id)->first();
                                                             $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
-                                                            $responsibleAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->responsible_account_id)->first();
-
+                                                            $responsibleAccountId = \NextDeveloper\\Database\Models\ResponsibleAccounts::where('id', $model->responsible_account_id)->first();
+                        
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
@@ -165,5 +165,6 @@ class AbstractCampaignTargetUsersPerspectiveTransformer extends AbstractTransfor
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 }

@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-
+                
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,7 +17,7 @@ class CampaignTargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-
+    
     public function campaignName($value)
     {
         return $this->builder->where('campaign_name', 'ilike', '%' . $value . '%');
@@ -28,7 +28,7 @@ class CampaignTargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->campaignName($value);
     }
-
+        
     public function campaignStatus($value)
     {
         return $this->builder->where('campaign_status', 'ilike', '%' . $value . '%');
@@ -39,7 +39,7 @@ class CampaignTargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->campaignStatus($value);
     }
-
+        
     public function targetName($value)
     {
         return $this->builder->where('target_name', 'ilike', '%' . $value . '%');
@@ -50,19 +50,19 @@ class CampaignTargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->targetName($value);
     }
-
+        
     public function fullname($value)
     {
         return $this->builder->where('fullname', 'ilike', '%' . $value . '%');
     }
 
-
+        
     public function email($value)
     {
         return $this->builder->where('email', 'ilike', '%' . $value . '%');
     }
 
-
+        
     public function phoneNumber($value)
     {
         return $this->builder->where('phone_number', 'ilike', '%' . $value . '%');
@@ -73,7 +73,7 @@ class CampaignTargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->phoneNumber($value);
     }
-
+        
     public function accountName($value)
     {
         return $this->builder->where('account_name', 'ilike', '%' . $value . '%');
@@ -84,7 +84,7 @@ class CampaignTargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->accountName($value);
     }
-
+        
     public function responsibleAccount($value)
     {
         return $this->builder->where('responsible_account', 'ilike', '%' . $value . '%');
@@ -95,7 +95,7 @@ class CampaignTargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->responsibleAccount($value);
     }
-
+    
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -176,7 +176,7 @@ class CampaignTargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->crmTarget($value);
     }
-
+    
     public function crmUserId($value)
     {
             $crmUser = \NextDeveloper\CRM\Database\Models\Users::where('uuid', $value)->first();
@@ -191,7 +191,7 @@ class CampaignTargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->crmUser($value);
     }
-
+    
     public function iamAccountId($value)
     {
             $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -201,10 +201,10 @@ class CampaignTargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-
+    
     public function responsibleAccountId($value)
     {
-            $responsibleAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
+            $responsibleAccount = \NextDeveloper\\Database\Models\ResponsibleAccounts::where('uuid', $value)->first();
 
         if($responsibleAccount) {
             return $this->builder->where('responsible_account_id', '=', $responsibleAccount->id);
@@ -216,7 +216,8 @@ class CampaignTargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->responsibleAccount($value);
     }
-
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 }

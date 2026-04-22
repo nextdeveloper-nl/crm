@@ -192,4 +192,5 @@ class QuoteItems extends Model
 
 
 
+
 }

@@ -190,4 +190,5 @@ class EmailTemplatesQueryFilter extends AbstractQueryFilter
 
 
 
+
 }
