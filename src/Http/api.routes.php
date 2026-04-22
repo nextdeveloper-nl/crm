@@ -800,7 +800,67 @@ Route::prefix('crm')->group(
             }
         );
 
+        Route::prefix('user-emails-perspective')->group(
+            function () {
+                Route::get('/', 'UserEmailsPerspective\UserEmailsPerspectiveController@index');
+                Route::get('/actions', 'UserEmailsPerspective\UserEmailsPerspectiveController@getActions');
+
+                Route::get('{crm_user_emails_perspective}/tags ', 'UserEmailsPerspective\UserEmailsPerspectiveController@tags');
+                Route::post('{crm_user_emails_perspective}/tags ', 'UserEmailsPerspective\UserEmailsPerspectiveController@saveTags');
+                Route::get('{crm_user_emails_perspective}/addresses ', 'UserEmailsPerspective\UserEmailsPerspectiveController@addresses');
+                Route::post('{crm_user_emails_perspective}/addresses ', 'UserEmailsPerspective\UserEmailsPerspectiveController@saveAddresses');
+
+                Route::get('/{crm_user_emails_perspective}/{subObjects}', 'UserEmailsPerspective\UserEmailsPerspectiveController@relatedObjects');
+                Route::get('/{crm_user_emails_perspective}', 'UserEmailsPerspective\UserEmailsPerspectiveController@show');
+
+                Route::post('/', 'UserEmailsPerspective\UserEmailsPerspectiveController@store');
+                Route::post('/{crm_user_emails_perspective}/do/{action}', 'UserEmailsPerspective\UserEmailsPerspectiveController@doAction');
+
+                Route::patch('/{crm_user_emails_perspective}', 'UserEmailsPerspective\UserEmailsPerspectiveController@update');
+                Route::delete('/{crm_user_emails_perspective}', 'UserEmailsPerspective\UserEmailsPerspectiveController@destroy');
+            }
+        );
+
         // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1402,6 +1462,7 @@ Route::prefix('crm')->group(
 
     }
 );
+
 
 
 

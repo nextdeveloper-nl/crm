@@ -84,19 +84,9 @@ class MarketingManagerRole extends AbstractRole implements IAuthorizationRole
             'crm_targets:delete',
 
             'crm_campaign_target_users_perspective:read',
-            'crm_campaign_target_users_perspective:create',
-            'crm_campaign_target_users_perspective:update',
-            'crm_campaign_target_users_perspective:delete',
-
             'crm_campaign_targets_perspective:read',
-            'crm_campaign_targets_perspective:create',
-            'crm_campaign_targets_perspective:update',
-            'crm_campaign_targets_perspective:delete',
-
             'crm_target_users_perspective:read',
-            'crm_target_users_perspective:create',
-            'crm_target_users_perspective:update',
-            'crm_target_users_perspective:delete'
+            'crm_user_emails_perspective:read',
         ]);
     }
 
