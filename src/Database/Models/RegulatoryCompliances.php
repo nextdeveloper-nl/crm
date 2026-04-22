@@ -144,4 +144,5 @@ class RegulatoryCompliances extends Model
 
 
 
+
 }

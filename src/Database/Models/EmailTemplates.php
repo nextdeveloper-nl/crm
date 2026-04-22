@@ -176,4 +176,5 @@ class EmailTemplates extends Model
 
 
 
+
 }
