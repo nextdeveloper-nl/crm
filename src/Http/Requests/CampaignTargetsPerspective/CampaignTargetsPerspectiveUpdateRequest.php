@@ -14,7 +14,6 @@ class CampaignTargetsPerspectiveUpdateRequest extends AbstractFormRequest
     {
         return [
             'crm_campaign_id' => 'nullable|exists:crm_campaigns,uuid|uuid',
-        'crm_target_id' => 'nullable|exists:crm_targets,uuid|uuid',
         'name' => 'nullable|string',
         'description' => 'nullable|string',
         'start_date' => 'nullable|date',

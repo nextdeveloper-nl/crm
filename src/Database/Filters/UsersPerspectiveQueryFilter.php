@@ -447,4 +447,5 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
 
 
 
+
 }

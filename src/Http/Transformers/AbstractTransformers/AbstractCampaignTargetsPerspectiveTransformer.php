@@ -55,7 +55,6 @@ class AbstractCampaignTargetsPerspectiveTransformer extends AbstractTransformer
     public function transform(CampaignTargetsPerspective $model)
     {
                                                 $crmCampaignId = \NextDeveloper\CRM\Database\Models\Campaigns::where('id', $model->crm_campaign_id)->first();
-                                                            $crmTargetId = \NextDeveloper\CRM\Database\Models\Targets::where('id', $model->crm_target_id)->first();
                                                             $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
                                                             $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
                         
@@ -63,7 +62,6 @@ class AbstractCampaignTargetsPerspectiveTransformer extends AbstractTransformer
             [
             'id'  =>  $model->uuid,
             'crm_campaign_id'  =>  $crmCampaignId ? $crmCampaignId->uuid : null,
-            'crm_target_id'  =>  $crmTargetId ? $crmTargetId->uuid : null,
             'name'  =>  $model->name,
             'description'  =>  $model->description,
             'start_date'  =>  $model->start_date,
@@ -165,4 +163,5 @@ class AbstractCampaignTargetsPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

@@ -20,7 +20,6 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property integer $id
  * @property string $uuid
  * @property integer $crm_campaign_id
- * @property integer $crm_target_id
  * @property string $name
  * @property string $description
  * @property \Carbon\Carbon $start_date
@@ -51,7 +50,6 @@ class CampaignTargetsPerspective extends Model
 
     protected $fillable = [
             'crm_campaign_id',
-            'crm_target_id',
             'name',
             'description',
             'start_date',
@@ -87,7 +85,6 @@ class CampaignTargetsPerspective extends Model
     protected $casts = [
     'id' => 'integer',
     'crm_campaign_id' => 'integer',
-    'crm_target_id' => 'integer',
     'name' => 'string',
     'description' => 'string',
     'start_date' => 'datetime',
@@ -161,4 +158,5 @@ class CampaignTargetsPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

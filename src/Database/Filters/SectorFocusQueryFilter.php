@@ -45,4 +45,5 @@ class SectorFocusQueryFilter extends AbstractQueryFilter
 
 
 
+
 }
