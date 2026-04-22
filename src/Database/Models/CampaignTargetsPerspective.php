@@ -31,6 +31,7 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property integer $iam_user_id
  * @property string $responsible_account
  * @property string $responsible_name
+ * @property integer $target_user_count
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
@@ -61,6 +62,7 @@ class CampaignTargetsPerspective extends Model
             'iam_user_id',
             'responsible_account',
             'responsible_name',
+            'target_user_count',
     ];
 
     /**
@@ -94,6 +96,7 @@ class CampaignTargetsPerspective extends Model
     'target_description' => 'string',
     'responsible_account' => 'string',
     'responsible_name' => 'string',
+    'target_user_count' => 'integer',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     ];
@@ -158,5 +161,7 @@ class CampaignTargetsPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 }

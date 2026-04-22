@@ -80,6 +80,25 @@ class CampaignTargetsPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->responsibleName($value);
     }
     
+    public function targetUserCount($value)
+    {
+        $operator = substr($value, 0, 1);
+
+        if ($operator != '<' || $operator != '>') {
+            $operator = '=';
+        } else {
+            $value = substr($value, 1);
+        }
+
+        return $this->builder->where('target_user_count', $operator, $value);
+    }
+
+        //  This is an alias function of targetUserCount
+    public function target_user_count($value)
+    {
+        return $this->targetUserCount($value);
+    }
+    
     public function startDateStart($date)
     {
         return $this->builder->where('start_date', '>=', $date);
@@ -204,5 +223,7 @@ class CampaignTargetsPerspectiveQueryFilter extends AbstractQueryFilter
 
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 }

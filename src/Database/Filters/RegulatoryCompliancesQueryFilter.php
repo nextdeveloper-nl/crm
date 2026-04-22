@@ -47,4 +47,6 @@ class RegulatoryCompliancesQueryFilter extends AbstractQueryFilter
 
 
 
+
+
 }

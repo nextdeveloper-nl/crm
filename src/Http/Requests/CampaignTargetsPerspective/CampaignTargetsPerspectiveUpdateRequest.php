@@ -23,6 +23,7 @@ class CampaignTargetsPerspectiveUpdateRequest extends AbstractFormRequest
         'target_description' => 'nullable|string',
         'responsible_account' => 'nullable|string',
         'responsible_name' => 'nullable|string',
+        'target_user_count' => 'nullable|integer',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
