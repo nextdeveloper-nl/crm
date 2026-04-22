@@ -29,21 +29,32 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property string $phone_number
  * @property integer $common_country_id
  * @property integer $common_language_id
- * @property array $tags
+ * @property array $user_tags
  * @property string $about
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
+ * @property integer $crm_user_id
+ * @property string $position
+ * @property string $job
+ * @property string $job_description
+ * @property string $hobbies
+ * @property string $city
+ * @property string $relationship_status
+ * @property boolean $is_evangelist
+ * @property boolean $is_single
+ * @property $education_level
+ * @property integer $child_count
+ * @property array $crm_tags
+ * @property boolean $is_suspended
+ * @property integer $crm_target_id
  * @property string $target_name
  * @property string $target_description
- * @property integer $crm_target_id
  * @property integer $iam_account_id
  * @property integer $iam_user_id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
  */
 class TargetUsersPerspective extends Model
 {
     use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator, HasObject;
-    use SoftDeletes;
 
     public $timestamps = true;
 
@@ -65,11 +76,24 @@ class TargetUsersPerspective extends Model
             'phone_number',
             'common_country_id',
             'common_language_id',
-            'tags',
+            'user_tags',
             'about',
+            'crm_user_id',
+            'position',
+            'job',
+            'job_description',
+            'hobbies',
+            'city',
+            'relationship_status',
+            'is_evangelist',
+            'is_single',
+            'education_level',
+            'child_count',
+            'crm_tags',
+            'is_suspended',
+            'crm_target_id',
             'target_name',
             'target_description',
-            'crm_target_id',
             'iam_account_id',
             'iam_user_id',
     ];
@@ -104,14 +128,25 @@ class TargetUsersPerspective extends Model
     'phone_number' => 'string',
     'common_country_id' => 'integer',
     'common_language_id' => 'integer',
-    'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'user_tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'about' => 'string',
-    'created_at' => 'datetime',
-    'updated_at' => 'datetime',
-    'deleted_at' => 'datetime',
+    'crm_user_id' => 'integer',
+    'position' => 'string',
+    'job' => 'string',
+    'job_description' => 'string',
+    'hobbies' => 'string',
+    'city' => 'string',
+    'relationship_status' => 'string',
+    'is_evangelist' => 'boolean',
+    'is_single' => 'boolean',
+    'child_count' => 'integer',
+    'crm_tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'is_suspended' => 'boolean',
+    'crm_target_id' => 'integer',
     'target_name' => 'string',
     'target_description' => 'string',
-    'crm_target_id' => 'integer',
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
     ];
 
     /**
@@ -123,7 +158,6 @@ class TargetUsersPerspective extends Model
     'birthday',
     'created_at',
     'updated_at',
-    'deleted_at',
     ];
 
     /**
@@ -174,6 +208,9 @@ class TargetUsersPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
 
 
 

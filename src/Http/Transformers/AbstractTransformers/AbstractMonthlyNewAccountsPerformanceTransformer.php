@@ -157,4 +157,7 @@ class AbstractMonthlyNewAccountsPerformanceTransformer extends AbstractTransform
 
 
 
+
+
+
 }

@@ -129,17 +129,10 @@ class Offerings extends Model
         }
     }
 
-    public function domainsOfferingsProvideds() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\Intelligence\Database\Models\DomainsOfferingsProvideds::class);
-    }
-
-    public function domainsOfferingsRequireds() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\Intelligence\Database\Models\DomainsOfferingsRequireds::class);
-    }
-
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
 
 
 

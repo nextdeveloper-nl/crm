@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                    
+                        
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -12,26 +12,6 @@ use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
  */
 class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
 {
-    /**
-     * Filter by tags
-     *
-     * @param  $values
-     * @return Builder
-     */
-    public function tags($values)
-    {
-        $tags = explode(',', $values);
-
-        $search = '';
-
-        for($i = 0; $i < count($tags); $i++) {
-            $search .= "'" . trim($tags[$i]) . "',";
-        }
-
-        $search = substr($search, 0, -1);
-
-        return $this->builder->whereRaw('tags @> ARRAY[' . $search . ']');
-    }
 
     /**
      * @var Builder
@@ -85,6 +65,52 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
     }
 
         
+    public function position($value)
+    {
+        return $this->builder->where('position', 'ilike', '%' . $value . '%');
+    }
+
+        
+    public function job($value)
+    {
+        return $this->builder->where('job', 'ilike', '%' . $value . '%');
+    }
+
+        
+    public function jobDescription($value)
+    {
+        return $this->builder->where('job_description', 'ilike', '%' . $value . '%');
+    }
+
+        //  This is an alias function of jobDescription
+    public function job_description($value)
+    {
+        return $this->jobDescription($value);
+    }
+        
+    public function hobbies($value)
+    {
+        return $this->builder->where('hobbies', 'ilike', '%' . $value . '%');
+    }
+
+        
+    public function city($value)
+    {
+        return $this->builder->where('city', 'ilike', '%' . $value . '%');
+    }
+
+        
+    public function relationshipStatus($value)
+    {
+        return $this->builder->where('relationship_status', 'ilike', '%' . $value . '%');
+    }
+
+        //  This is an alias function of relationshipStatus
+    public function relationship_status($value)
+    {
+        return $this->relationshipStatus($value);
+    }
+        
     public function targetName($value)
     {
         return $this->builder->where('target_name', 'ilike', '%' . $value . '%');
@@ -107,6 +133,58 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->targetDescription($value);
     }
     
+    public function childCount($value)
+    {
+        $operator = substr($value, 0, 1);
+
+        if ($operator != '<' || $operator != '>') {
+            $operator = '=';
+        } else {
+            $value = substr($value, 1);
+        }
+
+        return $this->builder->where('child_count', $operator, $value);
+    }
+
+        //  This is an alias function of childCount
+    public function child_count($value)
+    {
+        return $this->childCount($value);
+    }
+    
+    public function isEvangelist($value)
+    {
+        return $this->builder->where('is_evangelist', $value);
+    }
+
+        //  This is an alias function of isEvangelist
+    public function is_evangelist($value)
+    {
+        return $this->isEvangelist($value);
+    }
+     
+    public function isSingle($value)
+    {
+        return $this->builder->where('is_single', $value);
+    }
+
+        //  This is an alias function of isSingle
+    public function is_single($value)
+    {
+        return $this->isSingle($value);
+    }
+     
+    public function isSuspended($value)
+    {
+        return $this->builder->where('is_suspended', $value);
+    }
+
+        //  This is an alias function of isSuspended
+    public function is_suspended($value)
+    {
+        return $this->isSuspended($value);
+    }
+     
     public function birthdayStart($date)
     {
         return $this->builder->where('birthday', '>=', $date);
@@ -173,28 +251,6 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->updatedAtEnd($value);
     }
 
-    public function deletedAtStart($date)
-    {
-        return $this->builder->where('deleted_at', '>=', $date);
-    }
-
-    public function deletedAtEnd($date)
-    {
-        return $this->builder->where('deleted_at', '<=', $date);
-    }
-
-    //  This is an alias function of deletedAt
-    public function deleted_at_start($value)
-    {
-        return $this->deletedAtStart($value);
-    }
-
-    //  This is an alias function of deletedAt
-    public function deleted_at_end($value)
-    {
-        return $this->deletedAtEnd($value);
-    }
-
     public function commonCountryId($value)
     {
             $commonCountry = \NextDeveloper\Commons\Database\Models\Countries::where('uuid', $value)->first();
@@ -223,6 +279,21 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
     public function common_language_id($value)
     {
         return $this->commonLanguage($value);
+    }
+    
+    public function crmUserId($value)
+    {
+            $crmUser = \NextDeveloper\CRM\Database\Models\Users::where('uuid', $value)->first();
+
+        if($crmUser) {
+            return $this->builder->where('crm_user_id', '=', $crmUser->id);
+        }
+    }
+
+        //  This is an alias function of crmUser
+    public function crm_user_id($value)
+    {
+        return $this->crmUser($value);
     }
     
     public function crmTargetId($value)
@@ -261,6 +332,9 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
 
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
 
 
 

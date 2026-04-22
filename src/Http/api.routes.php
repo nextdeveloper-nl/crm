@@ -2,48 +2,6 @@
 
 Route::prefix('crm')->group(
     function () {
-        Route::prefix('technologies')->group(
-            function () {
-                Route::get('/', 'Technologies\TechnologiesController@index');
-                Route::get('/actions', 'Technologies\TechnologiesController@getActions');
-
-                Route::get('{crm_technologies}/tags ', 'Technologies\TechnologiesController@tags');
-                Route::post('{crm_technologies}/tags ', 'Technologies\TechnologiesController@saveTags');
-                Route::get('{crm_technologies}/addresses ', 'Technologies\TechnologiesController@addresses');
-                Route::post('{crm_technologies}/addresses ', 'Technologies\TechnologiesController@saveAddresses');
-
-                Route::get('/{crm_technologies}/{subObjects}', 'Technologies\TechnologiesController@relatedObjects');
-                Route::get('/{crm_technologies}', 'Technologies\TechnologiesController@show');
-
-                Route::post('/', 'Technologies\TechnologiesController@store');
-                Route::post('/{crm_technologies}/do/{action}', 'Technologies\TechnologiesController@doAction');
-
-                Route::patch('/{crm_technologies}', 'Technologies\TechnologiesController@update');
-                Route::delete('/{crm_technologies}', 'Technologies\TechnologiesController@destroy');
-            }
-        );
-
-        Route::prefix('sector-focus')->group(
-            function () {
-                Route::get('/', 'SectorFocus\SectorFocusController@index');
-                Route::get('/actions', 'SectorFocus\SectorFocusController@getActions');
-
-                Route::get('{crm_sector_focus}/tags ', 'SectorFocus\SectorFocusController@tags');
-                Route::post('{crm_sector_focus}/tags ', 'SectorFocus\SectorFocusController@saveTags');
-                Route::get('{crm_sector_focus}/addresses ', 'SectorFocus\SectorFocusController@addresses');
-                Route::post('{crm_sector_focus}/addresses ', 'SectorFocus\SectorFocusController@saveAddresses');
-
-                Route::get('/{crm_sector_focus}/{subObjects}', 'SectorFocus\SectorFocusController@relatedObjects');
-                Route::get('/{crm_sector_focus}', 'SectorFocus\SectorFocusController@show');
-
-                Route::post('/', 'SectorFocus\SectorFocusController@store');
-                Route::post('/{crm_sector_focus}/do/{action}', 'SectorFocus\SectorFocusController@doAction');
-
-                Route::patch('/{crm_sector_focus}', 'SectorFocus\SectorFocusController@update');
-                Route::delete('/{crm_sector_focus}', 'SectorFocus\SectorFocusController@destroy');
-            }
-        );
-
         Route::prefix('industries')->group(
             function () {
                 Route::get('/', 'Industries\IndustriesController@index');
@@ -62,195 +20,6 @@ Route::prefix('crm')->group(
 
                 Route::patch('/{crm_industries}', 'Industries\IndustriesController@update');
                 Route::delete('/{crm_industries}', 'Industries\IndustriesController@destroy');
-            }
-        );
-
-        Route::prefix('offerings')->group(
-            function () {
-                Route::get('/', 'Offerings\OfferingsController@index');
-                Route::get('/actions', 'Offerings\OfferingsController@getActions');
-
-                Route::get('{crm_offerings}/tags ', 'Offerings\OfferingsController@tags');
-                Route::post('{crm_offerings}/tags ', 'Offerings\OfferingsController@saveTags');
-                Route::get('{crm_offerings}/addresses ', 'Offerings\OfferingsController@addresses');
-                Route::post('{crm_offerings}/addresses ', 'Offerings\OfferingsController@saveAddresses');
-
-                Route::get('/{crm_offerings}/{subObjects}', 'Offerings\OfferingsController@relatedObjects');
-                Route::get('/{crm_offerings}', 'Offerings\OfferingsController@show');
-
-                Route::post('/', 'Offerings\OfferingsController@store');
-                Route::post('/{crm_offerings}/do/{action}', 'Offerings\OfferingsController@doAction');
-
-                Route::patch('/{crm_offerings}', 'Offerings\OfferingsController@update');
-                Route::delete('/{crm_offerings}', 'Offerings\OfferingsController@destroy');
-            }
-        );
-
-        Route::prefix('regulatory-compliance')->group(
-            function () {
-                Route::get('/', 'RegulatoryCompliance\RegulatoryComplianceController@index');
-                Route::get('/actions', 'RegulatoryCompliance\RegulatoryComplianceController@getActions');
-
-                Route::get('{crm_regulatory_compliance}/tags ', 'RegulatoryCompliance\RegulatoryComplianceController@tags');
-                Route::post('{crm_regulatory_compliance}/tags ', 'RegulatoryCompliance\RegulatoryComplianceController@saveTags');
-                Route::get('{crm_regulatory_compliance}/addresses ', 'RegulatoryCompliance\RegulatoryComplianceController@addresses');
-                Route::post('{crm_regulatory_compliance}/addresses ', 'RegulatoryCompliance\RegulatoryComplianceController@saveAddresses');
-
-                Route::get('/{crm_regulatory_compliance}/{subObjects}', 'RegulatoryCompliance\RegulatoryComplianceController@relatedObjects');
-                Route::get('/{crm_regulatory_compliance}', 'RegulatoryCompliance\RegulatoryComplianceController@show');
-
-                Route::post('/', 'RegulatoryCompliance\RegulatoryComplianceController@store');
-                Route::post('/{crm_regulatory_compliance}/do/{action}', 'RegulatoryCompliance\RegulatoryComplianceController@doAction');
-
-                Route::patch('/{crm_regulatory_compliance}', 'RegulatoryCompliance\RegulatoryComplianceController@update');
-                Route::delete('/{crm_regulatory_compliance}', 'RegulatoryCompliance\RegulatoryComplianceController@destroy');
-            }
-        );
-
-        Route::prefix('email-templates')->group(
-            function () {
-                Route::get('/', 'EmailTemplates\EmailTemplatesController@index');
-                Route::get('/actions', 'EmailTemplates\EmailTemplatesController@getActions');
-
-                Route::get('{crm_email_templates}/tags ', 'EmailTemplates\EmailTemplatesController@tags');
-                Route::post('{crm_email_templates}/tags ', 'EmailTemplates\EmailTemplatesController@saveTags');
-                Route::get('{crm_email_templates}/addresses ', 'EmailTemplates\EmailTemplatesController@addresses');
-                Route::post('{crm_email_templates}/addresses ', 'EmailTemplates\EmailTemplatesController@saveAddresses');
-
-                Route::get('/{crm_email_templates}/{subObjects}', 'EmailTemplates\EmailTemplatesController@relatedObjects');
-                Route::get('/{crm_email_templates}', 'EmailTemplates\EmailTemplatesController@show');
-
-                Route::post('/', 'EmailTemplates\EmailTemplatesController@store');
-                Route::post('/{crm_email_templates}/do/{action}', 'EmailTemplates\EmailTemplatesController@doAction');
-
-                Route::patch('/{crm_email_templates}', 'EmailTemplates\EmailTemplatesController@update');
-                Route::delete('/{crm_email_templates}', 'EmailTemplates\EmailTemplatesController@destroy');
-            }
-        );
-
-        Route::prefix('targets')->group(
-            function () {
-                Route::get('/', 'Targets\TargetsController@index');
-                Route::get('/actions', 'Targets\TargetsController@getActions');
-
-                Route::get('{crm_targets}/tags ', 'Targets\TargetsController@tags');
-                Route::post('{crm_targets}/tags ', 'Targets\TargetsController@saveTags');
-                Route::get('{crm_targets}/addresses ', 'Targets\TargetsController@addresses');
-                Route::post('{crm_targets}/addresses ', 'Targets\TargetsController@saveAddresses');
-
-                Route::get('/{crm_targets}/{subObjects}', 'Targets\TargetsController@relatedObjects');
-                Route::get('/{crm_targets}', 'Targets\TargetsController@show');
-
-                Route::post('/', 'Targets\TargetsController@store');
-                Route::post('/{crm_targets}/do/{action}', 'Targets\TargetsController@doAction');
-
-                Route::patch('/{crm_targets}', 'Targets\TargetsController@update');
-                Route::delete('/{crm_targets}', 'Targets\TargetsController@destroy');
-            }
-        );
-
-        Route::prefix('quote-items')->group(
-            function () {
-                Route::get('/', 'QuoteItems\QuoteItemsController@index');
-                Route::get('/actions', 'QuoteItems\QuoteItemsController@getActions');
-
-                Route::get('{crm_quote_items}/tags ', 'QuoteItems\QuoteItemsController@tags');
-                Route::post('{crm_quote_items}/tags ', 'QuoteItems\QuoteItemsController@saveTags');
-                Route::get('{crm_quote_items}/addresses ', 'QuoteItems\QuoteItemsController@addresses');
-                Route::post('{crm_quote_items}/addresses ', 'QuoteItems\QuoteItemsController@saveAddresses');
-
-                Route::get('/{crm_quote_items}/{subObjects}', 'QuoteItems\QuoteItemsController@relatedObjects');
-                Route::get('/{crm_quote_items}', 'QuoteItems\QuoteItemsController@show');
-
-                Route::post('/', 'QuoteItems\QuoteItemsController@store');
-                Route::post('/{crm_quote_items}/do/{action}', 'QuoteItems\QuoteItemsController@doAction');
-
-                Route::patch('/{crm_quote_items}', 'QuoteItems\QuoteItemsController@update');
-                Route::delete('/{crm_quote_items}', 'QuoteItems\QuoteItemsController@destroy');
-            }
-        );
-
-        Route::prefix('campaigns')->group(
-            function () {
-                Route::get('/', 'Campaigns\CampaignsController@index');
-                Route::get('/actions', 'Campaigns\CampaignsController@getActions');
-
-                Route::get('{crm_campaigns}/tags ', 'Campaigns\CampaignsController@tags');
-                Route::post('{crm_campaigns}/tags ', 'Campaigns\CampaignsController@saveTags');
-                Route::get('{crm_campaigns}/addresses ', 'Campaigns\CampaignsController@addresses');
-                Route::post('{crm_campaigns}/addresses ', 'Campaigns\CampaignsController@saveAddresses');
-
-                Route::get('/{crm_campaigns}/{subObjects}', 'Campaigns\CampaignsController@relatedObjects');
-                Route::get('/{crm_campaigns}', 'Campaigns\CampaignsController@show');
-
-                Route::post('/', 'Campaigns\CampaignsController@store');
-                Route::post('/{crm_campaigns}/do/{action}', 'Campaigns\CampaignsController@doAction');
-
-                Route::patch('/{crm_campaigns}', 'Campaigns\CampaignsController@update');
-                Route::delete('/{crm_campaigns}', 'Campaigns\CampaignsController@destroy');
-            }
-        );
-
-        Route::prefix('campaign-targets')->group(
-            function () {
-                Route::get('/', 'CampaignTargets\CampaignTargetsController@index');
-                Route::get('/actions', 'CampaignTargets\CampaignTargetsController@getActions');
-
-                Route::get('{crm_campaign_targets}/tags ', 'CampaignTargets\CampaignTargetsController@tags');
-                Route::post('{crm_campaign_targets}/tags ', 'CampaignTargets\CampaignTargetsController@saveTags');
-                Route::get('{crm_campaign_targets}/addresses ', 'CampaignTargets\CampaignTargetsController@addresses');
-                Route::post('{crm_campaign_targets}/addresses ', 'CampaignTargets\CampaignTargetsController@saveAddresses');
-
-                Route::get('/{crm_campaign_targets}/{subObjects}', 'CampaignTargets\CampaignTargetsController@relatedObjects');
-                Route::get('/{crm_campaign_targets}', 'CampaignTargets\CampaignTargetsController@show');
-
-                Route::post('/', 'CampaignTargets\CampaignTargetsController@store');
-                Route::post('/{crm_campaign_targets}/do/{action}', 'CampaignTargets\CampaignTargetsController@doAction');
-
-                Route::patch('/{crm_campaign_targets}', 'CampaignTargets\CampaignTargetsController@update');
-                Route::delete('/{crm_campaign_targets}', 'CampaignTargets\CampaignTargetsController@destroy');
-            }
-        );
-
-        Route::prefix('target-users')->group(
-            function () {
-                Route::get('/', 'TargetUsers\TargetUsersController@index');
-                Route::get('/actions', 'TargetUsers\TargetUsersController@getActions');
-
-                Route::get('{crm_target_users}/tags ', 'TargetUsers\TargetUsersController@tags');
-                Route::post('{crm_target_users}/tags ', 'TargetUsers\TargetUsersController@saveTags');
-                Route::get('{crm_target_users}/addresses ', 'TargetUsers\TargetUsersController@addresses');
-                Route::post('{crm_target_users}/addresses ', 'TargetUsers\TargetUsersController@saveAddresses');
-
-                Route::get('/{crm_target_users}/{subObjects}', 'TargetUsers\TargetUsersController@relatedObjects');
-                Route::get('/{crm_target_users}', 'TargetUsers\TargetUsersController@show');
-
-                Route::post('/', 'TargetUsers\TargetUsersController@store');
-                Route::post('/{crm_target_users}/do/{action}', 'TargetUsers\TargetUsersController@doAction');
-
-                Route::patch('/{crm_target_users}', 'TargetUsers\TargetUsersController@update');
-                Route::delete('/{crm_target_users}', 'TargetUsers\TargetUsersController@destroy');
-            }
-        );
-
-        Route::prefix('accounts')->group(
-            function () {
-                Route::get('/', 'Accounts\AccountsController@index');
-                Route::get('/actions', 'Accounts\AccountsController@getActions');
-
-                Route::get('{crm_accounts}/tags ', 'Accounts\AccountsController@tags');
-                Route::post('{crm_accounts}/tags ', 'Accounts\AccountsController@saveTags');
-                Route::get('{crm_accounts}/addresses ', 'Accounts\AccountsController@addresses');
-                Route::post('{crm_accounts}/addresses ', 'Accounts\AccountsController@saveAddresses');
-
-                Route::get('/{crm_accounts}/{subObjects}', 'Accounts\AccountsController@relatedObjects');
-                Route::get('/{crm_accounts}', 'Accounts\AccountsController@show');
-
-                Route::post('/', 'Accounts\AccountsController@store');
-                Route::post('/{crm_accounts}/do/{action}', 'Accounts\AccountsController@doAction');
-
-                Route::patch('/{crm_accounts}', 'Accounts\AccountsController@update');
-                Route::delete('/{crm_accounts}', 'Accounts\AccountsController@destroy');
             }
         );
 
@@ -275,129 +44,24 @@ Route::prefix('crm')->group(
             }
         );
 
-        Route::prefix('notes')->group(
+        Route::prefix('accounts')->group(
             function () {
-                Route::get('/', 'Notes\NotesController@index');
-                Route::get('/actions', 'Notes\NotesController@getActions');
+                Route::get('/', 'Accounts\AccountsController@index');
+                Route::get('/actions', 'Accounts\AccountsController@getActions');
 
-                Route::get('{crm_notes}/tags ', 'Notes\NotesController@tags');
-                Route::post('{crm_notes}/tags ', 'Notes\NotesController@saveTags');
-                Route::get('{crm_notes}/addresses ', 'Notes\NotesController@addresses');
-                Route::post('{crm_notes}/addresses ', 'Notes\NotesController@saveAddresses');
+                Route::get('{crm_accounts}/tags ', 'Accounts\AccountsController@tags');
+                Route::post('{crm_accounts}/tags ', 'Accounts\AccountsController@saveTags');
+                Route::get('{crm_accounts}/addresses ', 'Accounts\AccountsController@addresses');
+                Route::post('{crm_accounts}/addresses ', 'Accounts\AccountsController@saveAddresses');
 
-                Route::get('/{crm_notes}/{subObjects}', 'Notes\NotesController@relatedObjects');
-                Route::get('/{crm_notes}', 'Notes\NotesController@show');
+                Route::get('/{crm_accounts}/{subObjects}', 'Accounts\AccountsController@relatedObjects');
+                Route::get('/{crm_accounts}', 'Accounts\AccountsController@show');
 
-                Route::post('/', 'Notes\NotesController@store');
-                Route::post('/{crm_notes}/do/{action}', 'Notes\NotesController@doAction');
+                Route::post('/', 'Accounts\AccountsController@store');
+                Route::post('/{crm_accounts}/do/{action}', 'Accounts\AccountsController@doAction');
 
-                Route::patch('/{crm_notes}', 'Notes\NotesController@update');
-                Route::delete('/{crm_notes}', 'Notes\NotesController@destroy');
-            }
-        );
-
-        Route::prefix('quotes')->group(
-            function () {
-                Route::get('/', 'Quotes\QuotesController@index');
-                Route::get('/actions', 'Quotes\QuotesController@getActions');
-
-                Route::get('{crm_quotes}/tags ', 'Quotes\QuotesController@tags');
-                Route::post('{crm_quotes}/tags ', 'Quotes\QuotesController@saveTags');
-                Route::get('{crm_quotes}/addresses ', 'Quotes\QuotesController@addresses');
-                Route::post('{crm_quotes}/addresses ', 'Quotes\QuotesController@saveAddresses');
-
-                Route::get('/{crm_quotes}/{subObjects}', 'Quotes\QuotesController@relatedObjects');
-                Route::get('/{crm_quotes}', 'Quotes\QuotesController@show');
-
-                Route::post('/', 'Quotes\QuotesController@store');
-                Route::post('/{crm_quotes}/do/{action}', 'Quotes\QuotesController@doAction');
-
-                Route::patch('/{crm_quotes}', 'Quotes\QuotesController@update');
-                Route::delete('/{crm_quotes}', 'Quotes\QuotesController@destroy');
-            }
-        );
-
-        Route::prefix('tasks')->group(
-            function () {
-                Route::get('/', 'Tasks\TasksController@index');
-                Route::get('/actions', 'Tasks\TasksController@getActions');
-
-                Route::get('{crm_tasks}/tags ', 'Tasks\TasksController@tags');
-                Route::post('{crm_tasks}/tags ', 'Tasks\TasksController@saveTags');
-                Route::get('{crm_tasks}/addresses ', 'Tasks\TasksController@addresses');
-                Route::post('{crm_tasks}/addresses ', 'Tasks\TasksController@saveAddresses');
-
-                Route::get('/{crm_tasks}/{subObjects}', 'Tasks\TasksController@relatedObjects');
-                Route::get('/{crm_tasks}', 'Tasks\TasksController@show');
-
-                Route::post('/', 'Tasks\TasksController@store');
-                Route::post('/{crm_tasks}/do/{action}', 'Tasks\TasksController@doAction');
-
-                Route::patch('/{crm_tasks}', 'Tasks\TasksController@update');
-                Route::delete('/{crm_tasks}', 'Tasks\TasksController@destroy');
-            }
-        );
-
-        Route::prefix('projects')->group(
-            function () {
-                Route::get('/', 'Projects\ProjectsController@index');
-                Route::get('/actions', 'Projects\ProjectsController@getActions');
-
-                Route::get('{crm_projects}/tags ', 'Projects\ProjectsController@tags');
-                Route::post('{crm_projects}/tags ', 'Projects\ProjectsController@saveTags');
-                Route::get('{crm_projects}/addresses ', 'Projects\ProjectsController@addresses');
-                Route::post('{crm_projects}/addresses ', 'Projects\ProjectsController@saveAddresses');
-
-                Route::get('/{crm_projects}/{subObjects}', 'Projects\ProjectsController@relatedObjects');
-                Route::get('/{crm_projects}', 'Projects\ProjectsController@show');
-
-                Route::post('/', 'Projects\ProjectsController@store');
-                Route::post('/{crm_projects}/do/{action}', 'Projects\ProjectsController@doAction');
-
-                Route::patch('/{crm_projects}', 'Projects\ProjectsController@update');
-                Route::delete('/{crm_projects}', 'Projects\ProjectsController@destroy');
-            }
-        );
-
-        Route::prefix('users')->group(
-            function () {
-                Route::get('/', 'Users\UsersController@index');
-                Route::get('/actions', 'Users\UsersController@getActions');
-
-                Route::get('{crm_users}/tags ', 'Users\UsersController@tags');
-                Route::post('{crm_users}/tags ', 'Users\UsersController@saveTags');
-                Route::get('{crm_users}/addresses ', 'Users\UsersController@addresses');
-                Route::post('{crm_users}/addresses ', 'Users\UsersController@saveAddresses');
-
-                Route::get('/{crm_users}/{subObjects}', 'Users\UsersController@relatedObjects');
-                Route::get('/{crm_users}', 'Users\UsersController@show');
-
-                Route::post('/', 'Users\UsersController@store');
-                Route::post('/{crm_users}/do/{action}', 'Users\UsersController@doAction');
-
-                Route::patch('/{crm_users}', 'Users\UsersController@update');
-                Route::delete('/{crm_users}', 'Users\UsersController@destroy');
-            }
-        );
-
-        Route::prefix('meetings')->group(
-            function () {
-                Route::get('/', 'Meetings\MeetingsController@index');
-                Route::get('/actions', 'Meetings\MeetingsController@getActions');
-
-                Route::get('{crm_meetings}/tags ', 'Meetings\MeetingsController@tags');
-                Route::post('{crm_meetings}/tags ', 'Meetings\MeetingsController@saveTags');
-                Route::get('{crm_meetings}/addresses ', 'Meetings\MeetingsController@addresses');
-                Route::post('{crm_meetings}/addresses ', 'Meetings\MeetingsController@saveAddresses');
-
-                Route::get('/{crm_meetings}/{subObjects}', 'Meetings\MeetingsController@relatedObjects');
-                Route::get('/{crm_meetings}', 'Meetings\MeetingsController@show');
-
-                Route::post('/', 'Meetings\MeetingsController@store');
-                Route::post('/{crm_meetings}/do/{action}', 'Meetings\MeetingsController@doAction');
-
-                Route::patch('/{crm_meetings}', 'Meetings\MeetingsController@update');
-                Route::delete('/{crm_meetings}', 'Meetings\MeetingsController@destroy');
+                Route::patch('/{crm_accounts}', 'Accounts\AccountsController@update');
+                Route::delete('/{crm_accounts}', 'Accounts\AccountsController@destroy');
             }
         );
 
@@ -422,6 +86,111 @@ Route::prefix('crm')->group(
             }
         );
 
+        Route::prefix('campaign-targets')->group(
+            function () {
+                Route::get('/', 'CampaignTargets\CampaignTargetsController@index');
+                Route::get('/actions', 'CampaignTargets\CampaignTargetsController@getActions');
+
+                Route::get('{crm_campaign_targets}/tags ', 'CampaignTargets\CampaignTargetsController@tags');
+                Route::post('{crm_campaign_targets}/tags ', 'CampaignTargets\CampaignTargetsController@saveTags');
+                Route::get('{crm_campaign_targets}/addresses ', 'CampaignTargets\CampaignTargetsController@addresses');
+                Route::post('{crm_campaign_targets}/addresses ', 'CampaignTargets\CampaignTargetsController@saveAddresses');
+
+                Route::get('/{crm_campaign_targets}/{subObjects}', 'CampaignTargets\CampaignTargetsController@relatedObjects');
+                Route::get('/{crm_campaign_targets}', 'CampaignTargets\CampaignTargetsController@show');
+
+                Route::post('/', 'CampaignTargets\CampaignTargetsController@store');
+                Route::post('/{crm_campaign_targets}/do/{action}', 'CampaignTargets\CampaignTargetsController@doAction');
+
+                Route::patch('/{crm_campaign_targets}', 'CampaignTargets\CampaignTargetsController@update');
+                Route::delete('/{crm_campaign_targets}', 'CampaignTargets\CampaignTargetsController@destroy');
+            }
+        );
+
+        Route::prefix('campaigns')->group(
+            function () {
+                Route::get('/', 'Campaigns\CampaignsController@index');
+                Route::get('/actions', 'Campaigns\CampaignsController@getActions');
+
+                Route::get('{crm_campaigns}/tags ', 'Campaigns\CampaignsController@tags');
+                Route::post('{crm_campaigns}/tags ', 'Campaigns\CampaignsController@saveTags');
+                Route::get('{crm_campaigns}/addresses ', 'Campaigns\CampaignsController@addresses');
+                Route::post('{crm_campaigns}/addresses ', 'Campaigns\CampaignsController@saveAddresses');
+
+                Route::get('/{crm_campaigns}/{subObjects}', 'Campaigns\CampaignsController@relatedObjects');
+                Route::get('/{crm_campaigns}', 'Campaigns\CampaignsController@show');
+
+                Route::post('/', 'Campaigns\CampaignsController@store');
+                Route::post('/{crm_campaigns}/do/{action}', 'Campaigns\CampaignsController@doAction');
+
+                Route::patch('/{crm_campaigns}', 'Campaigns\CampaignsController@update');
+                Route::delete('/{crm_campaigns}', 'Campaigns\CampaignsController@destroy');
+            }
+        );
+
+        Route::prefix('email-templates')->group(
+            function () {
+                Route::get('/', 'EmailTemplates\EmailTemplatesController@index');
+                Route::get('/actions', 'EmailTemplates\EmailTemplatesController@getActions');
+
+                Route::get('{crm_email_templates}/tags ', 'EmailTemplates\EmailTemplatesController@tags');
+                Route::post('{crm_email_templates}/tags ', 'EmailTemplates\EmailTemplatesController@saveTags');
+                Route::get('{crm_email_templates}/addresses ', 'EmailTemplates\EmailTemplatesController@addresses');
+                Route::post('{crm_email_templates}/addresses ', 'EmailTemplates\EmailTemplatesController@saveAddresses');
+
+                Route::get('/{crm_email_templates}/{subObjects}', 'EmailTemplates\EmailTemplatesController@relatedObjects');
+                Route::get('/{crm_email_templates}', 'EmailTemplates\EmailTemplatesController@show');
+
+                Route::post('/', 'EmailTemplates\EmailTemplatesController@store');
+                Route::post('/{crm_email_templates}/do/{action}', 'EmailTemplates\EmailTemplatesController@doAction');
+
+                Route::patch('/{crm_email_templates}', 'EmailTemplates\EmailTemplatesController@update');
+                Route::delete('/{crm_email_templates}', 'EmailTemplates\EmailTemplatesController@destroy');
+            }
+        );
+
+        Route::prefix('meetings')->group(
+            function () {
+                Route::get('/', 'Meetings\MeetingsController@index');
+                Route::get('/actions', 'Meetings\MeetingsController@getActions');
+
+                Route::get('{crm_meetings}/tags ', 'Meetings\MeetingsController@tags');
+                Route::post('{crm_meetings}/tags ', 'Meetings\MeetingsController@saveTags');
+                Route::get('{crm_meetings}/addresses ', 'Meetings\MeetingsController@addresses');
+                Route::post('{crm_meetings}/addresses ', 'Meetings\MeetingsController@saveAddresses');
+
+                Route::get('/{crm_meetings}/{subObjects}', 'Meetings\MeetingsController@relatedObjects');
+                Route::get('/{crm_meetings}', 'Meetings\MeetingsController@show');
+
+                Route::post('/', 'Meetings\MeetingsController@store');
+                Route::post('/{crm_meetings}/do/{action}', 'Meetings\MeetingsController@doAction');
+
+                Route::patch('/{crm_meetings}', 'Meetings\MeetingsController@update');
+                Route::delete('/{crm_meetings}', 'Meetings\MeetingsController@destroy');
+            }
+        );
+
+        Route::prefix('notes')->group(
+            function () {
+                Route::get('/', 'Notes\NotesController@index');
+                Route::get('/actions', 'Notes\NotesController@getActions');
+
+                Route::get('{crm_notes}/tags ', 'Notes\NotesController@tags');
+                Route::post('{crm_notes}/tags ', 'Notes\NotesController@saveTags');
+                Route::get('{crm_notes}/addresses ', 'Notes\NotesController@addresses');
+                Route::post('{crm_notes}/addresses ', 'Notes\NotesController@saveAddresses');
+
+                Route::get('/{crm_notes}/{subObjects}', 'Notes\NotesController@relatedObjects');
+                Route::get('/{crm_notes}', 'Notes\NotesController@show');
+
+                Route::post('/', 'Notes\NotesController@store');
+                Route::post('/{crm_notes}/do/{action}', 'Notes\NotesController@doAction');
+
+                Route::patch('/{crm_notes}', 'Notes\NotesController@update');
+                Route::delete('/{crm_notes}', 'Notes\NotesController@destroy');
+            }
+        );
+
         Route::prefix('opportunities')->group(
             function () {
                 Route::get('/', 'Opportunities\OpportunitiesController@index');
@@ -440,6 +209,237 @@ Route::prefix('crm')->group(
 
                 Route::patch('/{crm_opportunities}', 'Opportunities\OpportunitiesController@update');
                 Route::delete('/{crm_opportunities}', 'Opportunities\OpportunitiesController@destroy');
+            }
+        );
+
+        Route::prefix('offerings')->group(
+            function () {
+                Route::get('/', 'Offerings\OfferingsController@index');
+                Route::get('/actions', 'Offerings\OfferingsController@getActions');
+
+                Route::get('{crm_offerings}/tags ', 'Offerings\OfferingsController@tags');
+                Route::post('{crm_offerings}/tags ', 'Offerings\OfferingsController@saveTags');
+                Route::get('{crm_offerings}/addresses ', 'Offerings\OfferingsController@addresses');
+                Route::post('{crm_offerings}/addresses ', 'Offerings\OfferingsController@saveAddresses');
+
+                Route::get('/{crm_offerings}/{subObjects}', 'Offerings\OfferingsController@relatedObjects');
+                Route::get('/{crm_offerings}', 'Offerings\OfferingsController@show');
+
+                Route::post('/', 'Offerings\OfferingsController@store');
+                Route::post('/{crm_offerings}/do/{action}', 'Offerings\OfferingsController@doAction');
+
+                Route::patch('/{crm_offerings}', 'Offerings\OfferingsController@update');
+                Route::delete('/{crm_offerings}', 'Offerings\OfferingsController@destroy');
+            }
+        );
+
+        Route::prefix('projects')->group(
+            function () {
+                Route::get('/', 'Projects\ProjectsController@index');
+                Route::get('/actions', 'Projects\ProjectsController@getActions');
+
+                Route::get('{crm_projects}/tags ', 'Projects\ProjectsController@tags');
+                Route::post('{crm_projects}/tags ', 'Projects\ProjectsController@saveTags');
+                Route::get('{crm_projects}/addresses ', 'Projects\ProjectsController@addresses');
+                Route::post('{crm_projects}/addresses ', 'Projects\ProjectsController@saveAddresses');
+
+                Route::get('/{crm_projects}/{subObjects}', 'Projects\ProjectsController@relatedObjects');
+                Route::get('/{crm_projects}', 'Projects\ProjectsController@show');
+
+                Route::post('/', 'Projects\ProjectsController@store');
+                Route::post('/{crm_projects}/do/{action}', 'Projects\ProjectsController@doAction');
+
+                Route::patch('/{crm_projects}', 'Projects\ProjectsController@update');
+                Route::delete('/{crm_projects}', 'Projects\ProjectsController@destroy');
+            }
+        );
+
+        Route::prefix('quotes')->group(
+            function () {
+                Route::get('/', 'Quotes\QuotesController@index');
+                Route::get('/actions', 'Quotes\QuotesController@getActions');
+
+                Route::get('{crm_quotes}/tags ', 'Quotes\QuotesController@tags');
+                Route::post('{crm_quotes}/tags ', 'Quotes\QuotesController@saveTags');
+                Route::get('{crm_quotes}/addresses ', 'Quotes\QuotesController@addresses');
+                Route::post('{crm_quotes}/addresses ', 'Quotes\QuotesController@saveAddresses');
+
+                Route::get('/{crm_quotes}/{subObjects}', 'Quotes\QuotesController@relatedObjects');
+                Route::get('/{crm_quotes}', 'Quotes\QuotesController@show');
+
+                Route::post('/', 'Quotes\QuotesController@store');
+                Route::post('/{crm_quotes}/do/{action}', 'Quotes\QuotesController@doAction');
+
+                Route::patch('/{crm_quotes}', 'Quotes\QuotesController@update');
+                Route::delete('/{crm_quotes}', 'Quotes\QuotesController@destroy');
+            }
+        );
+
+        Route::prefix('quote-items')->group(
+            function () {
+                Route::get('/', 'QuoteItems\QuoteItemsController@index');
+                Route::get('/actions', 'QuoteItems\QuoteItemsController@getActions');
+
+                Route::get('{crm_quote_items}/tags ', 'QuoteItems\QuoteItemsController@tags');
+                Route::post('{crm_quote_items}/tags ', 'QuoteItems\QuoteItemsController@saveTags');
+                Route::get('{crm_quote_items}/addresses ', 'QuoteItems\QuoteItemsController@addresses');
+                Route::post('{crm_quote_items}/addresses ', 'QuoteItems\QuoteItemsController@saveAddresses');
+
+                Route::get('/{crm_quote_items}/{subObjects}', 'QuoteItems\QuoteItemsController@relatedObjects');
+                Route::get('/{crm_quote_items}', 'QuoteItems\QuoteItemsController@show');
+
+                Route::post('/', 'QuoteItems\QuoteItemsController@store');
+                Route::post('/{crm_quote_items}/do/{action}', 'QuoteItems\QuoteItemsController@doAction');
+
+                Route::patch('/{crm_quote_items}', 'QuoteItems\QuoteItemsController@update');
+                Route::delete('/{crm_quote_items}', 'QuoteItems\QuoteItemsController@destroy');
+            }
+        );
+
+        Route::prefix('regulatory-compliance')->group(
+            function () {
+                Route::get('/', 'RegulatoryCompliance\RegulatoryComplianceController@index');
+                Route::get('/actions', 'RegulatoryCompliance\RegulatoryComplianceController@getActions');
+
+                Route::get('{crm_regulatory_compliance}/tags ', 'RegulatoryCompliance\RegulatoryComplianceController@tags');
+                Route::post('{crm_regulatory_compliance}/tags ', 'RegulatoryCompliance\RegulatoryComplianceController@saveTags');
+                Route::get('{crm_regulatory_compliance}/addresses ', 'RegulatoryCompliance\RegulatoryComplianceController@addresses');
+                Route::post('{crm_regulatory_compliance}/addresses ', 'RegulatoryCompliance\RegulatoryComplianceController@saveAddresses');
+
+                Route::get('/{crm_regulatory_compliance}/{subObjects}', 'RegulatoryCompliance\RegulatoryComplianceController@relatedObjects');
+                Route::get('/{crm_regulatory_compliance}', 'RegulatoryCompliance\RegulatoryComplianceController@show');
+
+                Route::post('/', 'RegulatoryCompliance\RegulatoryComplianceController@store');
+                Route::post('/{crm_regulatory_compliance}/do/{action}', 'RegulatoryCompliance\RegulatoryComplianceController@doAction');
+
+                Route::patch('/{crm_regulatory_compliance}', 'RegulatoryCompliance\RegulatoryComplianceController@update');
+                Route::delete('/{crm_regulatory_compliance}', 'RegulatoryCompliance\RegulatoryComplianceController@destroy');
+            }
+        );
+
+        Route::prefix('users')->group(
+            function () {
+                Route::get('/', 'Users\UsersController@index');
+                Route::get('/actions', 'Users\UsersController@getActions');
+
+                Route::get('{crm_users}/tags ', 'Users\UsersController@tags');
+                Route::post('{crm_users}/tags ', 'Users\UsersController@saveTags');
+                Route::get('{crm_users}/addresses ', 'Users\UsersController@addresses');
+                Route::post('{crm_users}/addresses ', 'Users\UsersController@saveAddresses');
+
+                Route::get('/{crm_users}/{subObjects}', 'Users\UsersController@relatedObjects');
+                Route::get('/{crm_users}', 'Users\UsersController@show');
+
+                Route::post('/', 'Users\UsersController@store');
+                Route::post('/{crm_users}/do/{action}', 'Users\UsersController@doAction');
+
+                Route::patch('/{crm_users}', 'Users\UsersController@update');
+                Route::delete('/{crm_users}', 'Users\UsersController@destroy');
+            }
+        );
+
+        Route::prefix('sector-focus')->group(
+            function () {
+                Route::get('/', 'SectorFocus\SectorFocusController@index');
+                Route::get('/actions', 'SectorFocus\SectorFocusController@getActions');
+
+                Route::get('{crm_sector_focus}/tags ', 'SectorFocus\SectorFocusController@tags');
+                Route::post('{crm_sector_focus}/tags ', 'SectorFocus\SectorFocusController@saveTags');
+                Route::get('{crm_sector_focus}/addresses ', 'SectorFocus\SectorFocusController@addresses');
+                Route::post('{crm_sector_focus}/addresses ', 'SectorFocus\SectorFocusController@saveAddresses');
+
+                Route::get('/{crm_sector_focus}/{subObjects}', 'SectorFocus\SectorFocusController@relatedObjects');
+                Route::get('/{crm_sector_focus}', 'SectorFocus\SectorFocusController@show');
+
+                Route::post('/', 'SectorFocus\SectorFocusController@store');
+                Route::post('/{crm_sector_focus}/do/{action}', 'SectorFocus\SectorFocusController@doAction');
+
+                Route::patch('/{crm_sector_focus}', 'SectorFocus\SectorFocusController@update');
+                Route::delete('/{crm_sector_focus}', 'SectorFocus\SectorFocusController@destroy');
+            }
+        );
+
+        Route::prefix('target-users')->group(
+            function () {
+                Route::get('/', 'TargetUsers\TargetUsersController@index');
+                Route::get('/actions', 'TargetUsers\TargetUsersController@getActions');
+
+                Route::get('{crm_target_users}/tags ', 'TargetUsers\TargetUsersController@tags');
+                Route::post('{crm_target_users}/tags ', 'TargetUsers\TargetUsersController@saveTags');
+                Route::get('{crm_target_users}/addresses ', 'TargetUsers\TargetUsersController@addresses');
+                Route::post('{crm_target_users}/addresses ', 'TargetUsers\TargetUsersController@saveAddresses');
+
+                Route::get('/{crm_target_users}/{subObjects}', 'TargetUsers\TargetUsersController@relatedObjects');
+                Route::get('/{crm_target_users}', 'TargetUsers\TargetUsersController@show');
+
+                Route::post('/', 'TargetUsers\TargetUsersController@store');
+                Route::post('/{crm_target_users}/do/{action}', 'TargetUsers\TargetUsersController@doAction');
+
+                Route::patch('/{crm_target_users}', 'TargetUsers\TargetUsersController@update');
+                Route::delete('/{crm_target_users}', 'TargetUsers\TargetUsersController@destroy');
+            }
+        );
+
+        Route::prefix('targets')->group(
+            function () {
+                Route::get('/', 'Targets\TargetsController@index');
+                Route::get('/actions', 'Targets\TargetsController@getActions');
+
+                Route::get('{crm_targets}/tags ', 'Targets\TargetsController@tags');
+                Route::post('{crm_targets}/tags ', 'Targets\TargetsController@saveTags');
+                Route::get('{crm_targets}/addresses ', 'Targets\TargetsController@addresses');
+                Route::post('{crm_targets}/addresses ', 'Targets\TargetsController@saveAddresses');
+
+                Route::get('/{crm_targets}/{subObjects}', 'Targets\TargetsController@relatedObjects');
+                Route::get('/{crm_targets}', 'Targets\TargetsController@show');
+
+                Route::post('/', 'Targets\TargetsController@store');
+                Route::post('/{crm_targets}/do/{action}', 'Targets\TargetsController@doAction');
+
+                Route::patch('/{crm_targets}', 'Targets\TargetsController@update');
+                Route::delete('/{crm_targets}', 'Targets\TargetsController@destroy');
+            }
+        );
+
+        Route::prefix('tasks')->group(
+            function () {
+                Route::get('/', 'Tasks\TasksController@index');
+                Route::get('/actions', 'Tasks\TasksController@getActions');
+
+                Route::get('{crm_tasks}/tags ', 'Tasks\TasksController@tags');
+                Route::post('{crm_tasks}/tags ', 'Tasks\TasksController@saveTags');
+                Route::get('{crm_tasks}/addresses ', 'Tasks\TasksController@addresses');
+                Route::post('{crm_tasks}/addresses ', 'Tasks\TasksController@saveAddresses');
+
+                Route::get('/{crm_tasks}/{subObjects}', 'Tasks\TasksController@relatedObjects');
+                Route::get('/{crm_tasks}', 'Tasks\TasksController@show');
+
+                Route::post('/', 'Tasks\TasksController@store');
+                Route::post('/{crm_tasks}/do/{action}', 'Tasks\TasksController@doAction');
+
+                Route::patch('/{crm_tasks}', 'Tasks\TasksController@update');
+                Route::delete('/{crm_tasks}', 'Tasks\TasksController@destroy');
+            }
+        );
+
+        Route::prefix('technologies')->group(
+            function () {
+                Route::get('/', 'Technologies\TechnologiesController@index');
+                Route::get('/actions', 'Technologies\TechnologiesController@getActions');
+
+                Route::get('{crm_technologies}/tags ', 'Technologies\TechnologiesController@tags');
+                Route::post('{crm_technologies}/tags ', 'Technologies\TechnologiesController@saveTags');
+                Route::get('{crm_technologies}/addresses ', 'Technologies\TechnologiesController@addresses');
+                Route::post('{crm_technologies}/addresses ', 'Technologies\TechnologiesController@saveAddresses');
+
+                Route::get('/{crm_technologies}/{subObjects}', 'Technologies\TechnologiesController@relatedObjects');
+                Route::get('/{crm_technologies}', 'Technologies\TechnologiesController@show');
+
+                Route::post('/', 'Technologies\TechnologiesController@store');
+                Route::post('/{crm_technologies}/do/{action}', 'Technologies\TechnologiesController@doAction');
+
+                Route::patch('/{crm_technologies}', 'Technologies\TechnologiesController@update');
+                Route::delete('/{crm_technologies}', 'Technologies\TechnologiesController@destroy');
             }
         );
 
@@ -464,87 +464,24 @@ Route::prefix('crm')->group(
             }
         );
 
-        Route::prefix('opportunities-performance')->group(
+        Route::prefix('account-managers-performance')->group(
             function () {
-                Route::get('/', 'OpportunitiesPerformance\OpportunitiesPerformanceController@index');
-                Route::get('/actions', 'OpportunitiesPerformance\OpportunitiesPerformanceController@getActions');
+                Route::get('/', 'AccountManagersPerformance\AccountManagersPerformanceController@index');
+                Route::get('/actions', 'AccountManagersPerformance\AccountManagersPerformanceController@getActions');
 
-                Route::get('{crm_opportunities_performance}/tags ', 'OpportunitiesPerformance\OpportunitiesPerformanceController@tags');
-                Route::post('{crm_opportunities_performance}/tags ', 'OpportunitiesPerformance\OpportunitiesPerformanceController@saveTags');
-                Route::get('{crm_opportunities_performance}/addresses ', 'OpportunitiesPerformance\OpportunitiesPerformanceController@addresses');
-                Route::post('{crm_opportunities_performance}/addresses ', 'OpportunitiesPerformance\OpportunitiesPerformanceController@saveAddresses');
+                Route::get('{crm_account_managers_performance}/tags ', 'AccountManagersPerformance\AccountManagersPerformanceController@tags');
+                Route::post('{crm_account_managers_performance}/tags ', 'AccountManagersPerformance\AccountManagersPerformanceController@saveTags');
+                Route::get('{crm_account_managers_performance}/addresses ', 'AccountManagersPerformance\AccountManagersPerformanceController@addresses');
+                Route::post('{crm_account_managers_performance}/addresses ', 'AccountManagersPerformance\AccountManagersPerformanceController@saveAddresses');
 
-                Route::get('/{crm_opportunities_performance}/{subObjects}', 'OpportunitiesPerformance\OpportunitiesPerformanceController@relatedObjects');
-                Route::get('/{crm_opportunities_performance}', 'OpportunitiesPerformance\OpportunitiesPerformanceController@show');
+                Route::get('/{crm_account_managers_performance}/{subObjects}', 'AccountManagersPerformance\AccountManagersPerformanceController@relatedObjects');
+                Route::get('/{crm_account_managers_performance}', 'AccountManagersPerformance\AccountManagersPerformanceController@show');
 
-                Route::post('/', 'OpportunitiesPerformance\OpportunitiesPerformanceController@store');
-                Route::post('/{crm_opportunities_performance}/do/{action}', 'OpportunitiesPerformance\OpportunitiesPerformanceController@doAction');
+                Route::post('/', 'AccountManagersPerformance\AccountManagersPerformanceController@store');
+                Route::post('/{crm_account_managers_performance}/do/{action}', 'AccountManagersPerformance\AccountManagersPerformanceController@doAction');
 
-                Route::patch('/{crm_opportunities_performance}', 'OpportunitiesPerformance\OpportunitiesPerformanceController@update');
-                Route::delete('/{crm_opportunities_performance}', 'OpportunitiesPerformance\OpportunitiesPerformanceController@destroy');
-            }
-        );
-
-        Route::prefix('users-perspective')->group(
-            function () {
-                Route::get('/', 'UsersPerspective\UsersPerspectiveController@index');
-                Route::get('/actions', 'UsersPerspective\UsersPerspectiveController@getActions');
-
-                Route::get('{crm_users_perspective}/tags ', 'UsersPerspective\UsersPerspectiveController@tags');
-                Route::post('{crm_users_perspective}/tags ', 'UsersPerspective\UsersPerspectiveController@saveTags');
-                Route::get('{crm_users_perspective}/addresses ', 'UsersPerspective\UsersPerspectiveController@addresses');
-                Route::post('{crm_users_perspective}/addresses ', 'UsersPerspective\UsersPerspectiveController@saveAddresses');
-
-                Route::get('/{crm_users_perspective}/{subObjects}', 'UsersPerspective\UsersPerspectiveController@relatedObjects');
-                Route::get('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@show');
-
-                Route::post('/', 'UsersPerspective\UsersPerspectiveController@store');
-                Route::post('/{crm_users_perspective}/do/{action}', 'UsersPerspective\UsersPerspectiveController@doAction');
-
-                Route::patch('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@update');
-                Route::delete('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@destroy');
-            }
-        );
-
-        Route::prefix('target-users-perspective')->group(
-            function () {
-                Route::get('/', 'TargetUsersPerspective\TargetUsersPerspectiveController@index');
-                Route::get('/actions', 'TargetUsersPerspective\TargetUsersPerspectiveController@getActions');
-
-                Route::get('{crm_target_users_perspective}/tags ', 'TargetUsersPerspective\TargetUsersPerspectiveController@tags');
-                Route::post('{crm_target_users_perspective}/tags ', 'TargetUsersPerspective\TargetUsersPerspectiveController@saveTags');
-                Route::get('{crm_target_users_perspective}/addresses ', 'TargetUsersPerspective\TargetUsersPerspectiveController@addresses');
-                Route::post('{crm_target_users_perspective}/addresses ', 'TargetUsersPerspective\TargetUsersPerspectiveController@saveAddresses');
-
-                Route::get('/{crm_target_users_perspective}/{subObjects}', 'TargetUsersPerspective\TargetUsersPerspectiveController@relatedObjects');
-                Route::get('/{crm_target_users_perspective}', 'TargetUsersPerspective\TargetUsersPerspectiveController@show');
-
-                Route::post('/', 'TargetUsersPerspective\TargetUsersPerspectiveController@store');
-                Route::post('/{crm_target_users_perspective}/do/{action}', 'TargetUsersPerspective\TargetUsersPerspectiveController@doAction');
-
-                Route::patch('/{crm_target_users_perspective}', 'TargetUsersPerspective\TargetUsersPerspectiveController@update');
-                Route::delete('/{crm_target_users_perspective}', 'TargetUsersPerspective\TargetUsersPerspectiveController@destroy');
-            }
-        );
-
-        Route::prefix('quote-items-perspective')->group(
-            function () {
-                Route::get('/', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@index');
-                Route::get('/actions', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@getActions');
-
-                Route::get('{crm_quote_items_perspective}/tags ', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@tags');
-                Route::post('{crm_quote_items_perspective}/tags ', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@saveTags');
-                Route::get('{crm_quote_items_perspective}/addresses ', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@addresses');
-                Route::post('{crm_quote_items_perspective}/addresses ', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@saveAddresses');
-
-                Route::get('/{crm_quote_items_perspective}/{subObjects}', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@relatedObjects');
-                Route::get('/{crm_quote_items_perspective}', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@show');
-
-                Route::post('/', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@store');
-                Route::post('/{crm_quote_items_perspective}/do/{action}', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@doAction');
-
-                Route::patch('/{crm_quote_items_perspective}', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@update');
-                Route::delete('/{crm_quote_items_perspective}', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@destroy');
+                Route::patch('/{crm_account_managers_performance}', 'AccountManagersPerformance\AccountManagersPerformanceController@update');
+                Route::delete('/{crm_account_managers_performance}', 'AccountManagersPerformance\AccountManagersPerformanceController@destroy');
             }
         );
 
@@ -569,66 +506,24 @@ Route::prefix('crm')->group(
             }
         );
 
-        Route::prefix('quotes-perspective')->group(
+        Route::prefix('monthly-paying-customers-performance')->group(
             function () {
-                Route::get('/', 'QuotesPerspective\QuotesPerspectiveController@index');
-                Route::get('/actions', 'QuotesPerspective\QuotesPerspectiveController@getActions');
+                Route::get('/', 'MonthlyPayingCustomersPerformance\MonthlyPayingCustomersPerformanceController@index');
+                Route::get('/actions', 'MonthlyPayingCustomersPerformance\MonthlyPayingCustomersPerformanceController@getActions');
 
-                Route::get('{crm_quotes_perspective}/tags ', 'QuotesPerspective\QuotesPerspectiveController@tags');
-                Route::post('{crm_quotes_perspective}/tags ', 'QuotesPerspective\QuotesPerspectiveController@saveTags');
-                Route::get('{crm_quotes_perspective}/addresses ', 'QuotesPerspective\QuotesPerspectiveController@addresses');
-                Route::post('{crm_quotes_perspective}/addresses ', 'QuotesPerspective\QuotesPerspectiveController@saveAddresses');
+                Route::get('{cmpcp}/tags ', 'MonthlyPayingCustomersPerformance\MonthlyPayingCustomersPerformanceController@tags');
+                Route::post('{cmpcp}/tags ', 'MonthlyPayingCustomersPerformance\MonthlyPayingCustomersPerformanceController@saveTags');
+                Route::get('{cmpcp}/addresses ', 'MonthlyPayingCustomersPerformance\MonthlyPayingCustomersPerformanceController@addresses');
+                Route::post('{cmpcp}/addresses ', 'MonthlyPayingCustomersPerformance\MonthlyPayingCustomersPerformanceController@saveAddresses');
 
-                Route::get('/{crm_quotes_perspective}/{subObjects}', 'QuotesPerspective\QuotesPerspectiveController@relatedObjects');
-                Route::get('/{crm_quotes_perspective}', 'QuotesPerspective\QuotesPerspectiveController@show');
+                Route::get('/{cmpcp}/{subObjects}', 'MonthlyPayingCustomersPerformance\MonthlyPayingCustomersPerformanceController@relatedObjects');
+                Route::get('/{cmpcp}', 'MonthlyPayingCustomersPerformance\MonthlyPayingCustomersPerformanceController@show');
 
-                Route::post('/', 'QuotesPerspective\QuotesPerspectiveController@store');
-                Route::post('/{crm_quotes_perspective}/do/{action}', 'QuotesPerspective\QuotesPerspectiveController@doAction');
+                Route::post('/', 'MonthlyPayingCustomersPerformance\MonthlyPayingCustomersPerformanceController@store');
+                Route::post('/{cmpcp}/do/{action}', 'MonthlyPayingCustomersPerformance\MonthlyPayingCustomersPerformanceController@doAction');
 
-                Route::patch('/{crm_quotes_perspective}', 'QuotesPerspective\QuotesPerspectiveController@update');
-                Route::delete('/{crm_quotes_perspective}', 'QuotesPerspective\QuotesPerspectiveController@destroy');
-            }
-        );
-
-        Route::prefix('monthly-new-accounts-performance')->group(
-            function () {
-                Route::get('/', 'MonthlyNewAccountsPerformance\MonthlyNewAccountsPerformanceController@index');
-                Route::get('/actions', 'MonthlyNewAccountsPerformance\MonthlyNewAccountsPerformanceController@getActions');
-
-                Route::get('{cmnap}/tags ', 'MonthlyNewAccountsPerformance\MonthlyNewAccountsPerformanceController@tags');
-                Route::post('{cmnap}/tags ', 'MonthlyNewAccountsPerformance\MonthlyNewAccountsPerformanceController@saveTags');
-                Route::get('{cmnap}/addresses ', 'MonthlyNewAccountsPerformance\MonthlyNewAccountsPerformanceController@addresses');
-                Route::post('{cmnap}/addresses ', 'MonthlyNewAccountsPerformance\MonthlyNewAccountsPerformanceController@saveAddresses');
-
-                Route::get('/{cmnap}/{subObjects}', 'MonthlyNewAccountsPerformance\MonthlyNewAccountsPerformanceController@relatedObjects');
-                Route::get('/{cmnap}', 'MonthlyNewAccountsPerformance\MonthlyNewAccountsPerformanceController@show');
-
-                Route::post('/', 'MonthlyNewAccountsPerformance\MonthlyNewAccountsPerformanceController@store');
-                Route::post('/{cmnap}/do/{action}', 'MonthlyNewAccountsPerformance\MonthlyNewAccountsPerformanceController@doAction');
-
-                Route::patch('/{cmnap}', 'MonthlyNewAccountsPerformance\MonthlyNewAccountsPerformanceController@update');
-                Route::delete('/{cmnap}', 'MonthlyNewAccountsPerformance\MonthlyNewAccountsPerformanceController@destroy');
-            }
-        );
-
-        Route::prefix('account-managers-performance')->group(
-            function () {
-                Route::get('/', 'AccountManagersPerformance\AccountManagersPerformanceController@index');
-                Route::get('/actions', 'AccountManagersPerformance\AccountManagersPerformanceController@getActions');
-
-                Route::get('{crm_account_managers_performance}/tags ', 'AccountManagersPerformance\AccountManagersPerformanceController@tags');
-                Route::post('{crm_account_managers_performance}/tags ', 'AccountManagersPerformance\AccountManagersPerformanceController@saveTags');
-                Route::get('{crm_account_managers_performance}/addresses ', 'AccountManagersPerformance\AccountManagersPerformanceController@addresses');
-                Route::post('{crm_account_managers_performance}/addresses ', 'AccountManagersPerformance\AccountManagersPerformanceController@saveAddresses');
-
-                Route::get('/{crm_account_managers_performance}/{subObjects}', 'AccountManagersPerformance\AccountManagersPerformanceController@relatedObjects');
-                Route::get('/{crm_account_managers_performance}', 'AccountManagersPerformance\AccountManagersPerformanceController@show');
-
-                Route::post('/', 'AccountManagersPerformance\AccountManagersPerformanceController@store');
-                Route::post('/{crm_account_managers_performance}/do/{action}', 'AccountManagersPerformance\AccountManagersPerformanceController@doAction');
-
-                Route::patch('/{crm_account_managers_performance}', 'AccountManagersPerformance\AccountManagersPerformanceController@update');
-                Route::delete('/{crm_account_managers_performance}', 'AccountManagersPerformance\AccountManagersPerformanceController@destroy');
+                Route::patch('/{cmpcp}', 'MonthlyPayingCustomersPerformance\MonthlyPayingCustomersPerformanceController@update');
+                Route::delete('/{cmpcp}', 'MonthlyPayingCustomersPerformance\MonthlyPayingCustomersPerformanceController@destroy');
             }
         );
 
@@ -653,27 +548,6 @@ Route::prefix('crm')->group(
             }
         );
 
-        Route::prefix('monthly-paying-customers-performance')->group(
-            function () {
-                Route::get('/', 'MonthlyPayingCustomersPerformance\MonthlyPayingCustomersPerformanceController@index');
-                Route::get('/actions', 'MonthlyPayingCustomersPerformance\MonthlyPayingCustomersPerformanceController@getActions');
-
-                Route::get('{cmpcp}/tags ', 'MonthlyPayingCustomersPerformance\MonthlyPayingCustomersPerformanceController@tags');
-                Route::post('{cmpcp}/tags ', 'MonthlyPayingCustomersPerformance\MonthlyPayingCustomersPerformanceController@saveTags');
-                Route::get('{cmpcp}/addresses ', 'MonthlyPayingCustomersPerformance\MonthlyPayingCustomersPerformanceController@addresses');
-                Route::post('{cmpcp}/addresses ', 'MonthlyPayingCustomersPerformance\MonthlyPayingCustomersPerformanceController@saveAddresses');
-
-                Route::get('/{cmpcp}/{subObjects}', 'MonthlyPayingCustomersPerformance\MonthlyPayingCustomersPerformanceController@relatedObjects');
-                Route::get('/{cmpcp}', 'MonthlyPayingCustomersPerformance\MonthlyPayingCustomersPerformanceController@show');
-
-                Route::post('/', 'MonthlyPayingCustomersPerformance\MonthlyPayingCustomersPerformanceController@store');
-                Route::post('/{cmpcp}/do/{action}', 'MonthlyPayingCustomersPerformance\MonthlyPayingCustomersPerformanceController@doAction');
-
-                Route::patch('/{cmpcp}', 'MonthlyPayingCustomersPerformance\MonthlyPayingCustomersPerformanceController@update');
-                Route::delete('/{cmpcp}', 'MonthlyPayingCustomersPerformance\MonthlyPayingCustomersPerformanceController@destroy');
-            }
-        );
-
         Route::prefix('monthly-new-accounts-per-dist-performance')->group(
             function () {
                 Route::get('/', 'MonthlyNewAccountsPerDistPerformance\MonthlyNewAccountsPerDistPerformanceController@index');
@@ -692,6 +566,111 @@ Route::prefix('crm')->group(
 
                 Route::patch('/{cmnapdp}', 'MonthlyNewAccountsPerDistPerformance\MonthlyNewAccountsPerDistPerformanceController@update');
                 Route::delete('/{cmnapdp}', 'MonthlyNewAccountsPerDistPerformance\MonthlyNewAccountsPerDistPerformanceController@destroy');
+            }
+        );
+
+        Route::prefix('monthly-new-accounts-performance')->group(
+            function () {
+                Route::get('/', 'MonthlyNewAccountsPerformance\MonthlyNewAccountsPerformanceController@index');
+                Route::get('/actions', 'MonthlyNewAccountsPerformance\MonthlyNewAccountsPerformanceController@getActions');
+
+                Route::get('{cmnap}/tags ', 'MonthlyNewAccountsPerformance\MonthlyNewAccountsPerformanceController@tags');
+                Route::post('{cmnap}/tags ', 'MonthlyNewAccountsPerformance\MonthlyNewAccountsPerformanceController@saveTags');
+                Route::get('{cmnap}/addresses ', 'MonthlyNewAccountsPerformance\MonthlyNewAccountsPerformanceController@addresses');
+                Route::post('{cmnap}/addresses ', 'MonthlyNewAccountsPerformance\MonthlyNewAccountsPerformanceController@saveAddresses');
+
+                Route::get('/{cmnap}/{subObjects}', 'MonthlyNewAccountsPerformance\MonthlyNewAccountsPerformanceController@relatedObjects');
+                Route::get('/{cmnap}', 'MonthlyNewAccountsPerformance\MonthlyNewAccountsPerformanceController@show');
+
+                Route::post('/', 'MonthlyNewAccountsPerformance\MonthlyNewAccountsPerformanceController@store');
+                Route::post('/{cmnap}/do/{action}', 'MonthlyNewAccountsPerformance\MonthlyNewAccountsPerformanceController@doAction');
+
+                Route::patch('/{cmnap}', 'MonthlyNewAccountsPerformance\MonthlyNewAccountsPerformanceController@update');
+                Route::delete('/{cmnap}', 'MonthlyNewAccountsPerformance\MonthlyNewAccountsPerformanceController@destroy');
+            }
+        );
+
+        Route::prefix('opportunities-performance')->group(
+            function () {
+                Route::get('/', 'OpportunitiesPerformance\OpportunitiesPerformanceController@index');
+                Route::get('/actions', 'OpportunitiesPerformance\OpportunitiesPerformanceController@getActions');
+
+                Route::get('{crm_opportunities_performance}/tags ', 'OpportunitiesPerformance\OpportunitiesPerformanceController@tags');
+                Route::post('{crm_opportunities_performance}/tags ', 'OpportunitiesPerformance\OpportunitiesPerformanceController@saveTags');
+                Route::get('{crm_opportunities_performance}/addresses ', 'OpportunitiesPerformance\OpportunitiesPerformanceController@addresses');
+                Route::post('{crm_opportunities_performance}/addresses ', 'OpportunitiesPerformance\OpportunitiesPerformanceController@saveAddresses');
+
+                Route::get('/{crm_opportunities_performance}/{subObjects}', 'OpportunitiesPerformance\OpportunitiesPerformanceController@relatedObjects');
+                Route::get('/{crm_opportunities_performance}', 'OpportunitiesPerformance\OpportunitiesPerformanceController@show');
+
+                Route::post('/', 'OpportunitiesPerformance\OpportunitiesPerformanceController@store');
+                Route::post('/{crm_opportunities_performance}/do/{action}', 'OpportunitiesPerformance\OpportunitiesPerformanceController@doAction');
+
+                Route::patch('/{crm_opportunities_performance}', 'OpportunitiesPerformance\OpportunitiesPerformanceController@update');
+                Route::delete('/{crm_opportunities_performance}', 'OpportunitiesPerformance\OpportunitiesPerformanceController@destroy');
+            }
+        );
+
+        Route::prefix('opportunities-perspective')->group(
+            function () {
+                Route::get('/', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@index');
+                Route::get('/actions', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@getActions');
+
+                Route::get('{crm_opportunities_perspective}/tags ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@tags');
+                Route::post('{crm_opportunities_perspective}/tags ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@saveTags');
+                Route::get('{crm_opportunities_perspective}/addresses ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@addresses');
+                Route::post('{crm_opportunities_perspective}/addresses ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@saveAddresses');
+
+                Route::get('/{crm_opportunities_perspective}/{subObjects}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@relatedObjects');
+                Route::get('/{crm_opportunities_perspective}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@show');
+
+                Route::post('/', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@store');
+                Route::post('/{crm_opportunities_perspective}/do/{action}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@doAction');
+
+                Route::patch('/{crm_opportunities_perspective}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@update');
+                Route::delete('/{crm_opportunities_perspective}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@destroy');
+            }
+        );
+
+        Route::prefix('quotes-perspective')->group(
+            function () {
+                Route::get('/', 'QuotesPerspective\QuotesPerspectiveController@index');
+                Route::get('/actions', 'QuotesPerspective\QuotesPerspectiveController@getActions');
+
+                Route::get('{crm_quotes_perspective}/tags ', 'QuotesPerspective\QuotesPerspectiveController@tags');
+                Route::post('{crm_quotes_perspective}/tags ', 'QuotesPerspective\QuotesPerspectiveController@saveTags');
+                Route::get('{crm_quotes_perspective}/addresses ', 'QuotesPerspective\QuotesPerspectiveController@addresses');
+                Route::post('{crm_quotes_perspective}/addresses ', 'QuotesPerspective\QuotesPerspectiveController@saveAddresses');
+
+                Route::get('/{crm_quotes_perspective}/{subObjects}', 'QuotesPerspective\QuotesPerspectiveController@relatedObjects');
+                Route::get('/{crm_quotes_perspective}', 'QuotesPerspective\QuotesPerspectiveController@show');
+
+                Route::post('/', 'QuotesPerspective\QuotesPerspectiveController@store');
+                Route::post('/{crm_quotes_perspective}/do/{action}', 'QuotesPerspective\QuotesPerspectiveController@doAction');
+
+                Route::patch('/{crm_quotes_perspective}', 'QuotesPerspective\QuotesPerspectiveController@update');
+                Route::delete('/{crm_quotes_perspective}', 'QuotesPerspective\QuotesPerspectiveController@destroy');
+            }
+        );
+
+        Route::prefix('quote-items-perspective')->group(
+            function () {
+                Route::get('/', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@index');
+                Route::get('/actions', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@getActions');
+
+                Route::get('{crm_quote_items_perspective}/tags ', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@tags');
+                Route::post('{crm_quote_items_perspective}/tags ', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@saveTags');
+                Route::get('{crm_quote_items_perspective}/addresses ', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@addresses');
+                Route::post('{crm_quote_items_perspective}/addresses ', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@saveAddresses');
+
+                Route::get('/{crm_quote_items_perspective}/{subObjects}', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@relatedObjects');
+                Route::get('/{crm_quote_items_perspective}', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@show');
+
+                Route::post('/', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@store');
+                Route::post('/{crm_quote_items_perspective}/do/{action}', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@doAction');
+
+                Route::patch('/{crm_quote_items_perspective}', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@update');
+                Route::delete('/{crm_quote_items_perspective}', 'QuoteItemsPerspective\QuoteItemsPerspectiveController@destroy');
             }
         );
 
@@ -737,45 +716,66 @@ Route::prefix('crm')->group(
             }
         );
 
-        Route::prefix('opportunities-perspective')->group(
+        Route::prefix('users-perspective')->group(
             function () {
-                Route::get('/', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@index');
-                Route::get('/actions', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@getActions');
+                Route::get('/', 'UsersPerspective\UsersPerspectiveController@index');
+                Route::get('/actions', 'UsersPerspective\UsersPerspectiveController@getActions');
 
-                Route::get('{crm_opportunities_perspective}/tags ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@tags');
-                Route::post('{crm_opportunities_perspective}/tags ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@saveTags');
-                Route::get('{crm_opportunities_perspective}/addresses ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@addresses');
-                Route::post('{crm_opportunities_perspective}/addresses ', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@saveAddresses');
+                Route::get('{crm_users_perspective}/tags ', 'UsersPerspective\UsersPerspectiveController@tags');
+                Route::post('{crm_users_perspective}/tags ', 'UsersPerspective\UsersPerspectiveController@saveTags');
+                Route::get('{crm_users_perspective}/addresses ', 'UsersPerspective\UsersPerspectiveController@addresses');
+                Route::post('{crm_users_perspective}/addresses ', 'UsersPerspective\UsersPerspectiveController@saveAddresses');
 
-                Route::get('/{crm_opportunities_perspective}/{subObjects}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@relatedObjects');
-                Route::get('/{crm_opportunities_perspective}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@show');
+                Route::get('/{crm_users_perspective}/{subObjects}', 'UsersPerspective\UsersPerspectiveController@relatedObjects');
+                Route::get('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@show');
 
-                Route::post('/', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@store');
-                Route::post('/{crm_opportunities_perspective}/do/{action}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@doAction');
+                Route::post('/', 'UsersPerspective\UsersPerspectiveController@store');
+                Route::post('/{crm_users_perspective}/do/{action}', 'UsersPerspective\UsersPerspectiveController@doAction');
 
-                Route::patch('/{crm_opportunities_perspective}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@update');
-                Route::delete('/{crm_opportunities_perspective}', 'OpportunitiesPerspective\OpportunitiesPerspectiveController@destroy');
+                Route::patch('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@update');
+                Route::delete('/{crm_users_perspective}', 'UsersPerspective\UsersPerspectiveController@destroy');
             }
         );
 
-        Route::prefix('leo-active-customers-perspective')->group(
+        Route::prefix('target-users-perspective')->group(
             function () {
-                Route::get('/', 'LeoActiveCustomersPerspective\LeoActiveCustomersPerspectiveController@index');
-                Route::get('/actions', 'LeoActiveCustomersPerspective\LeoActiveCustomersPerspectiveController@getActions');
+                Route::get('/', 'TargetUsersPerspective\TargetUsersPerspectiveController@index');
+                Route::get('/actions', 'TargetUsersPerspective\TargetUsersPerspectiveController@getActions');
 
-                Route::get('{clacp}/tags ', 'LeoActiveCustomersPerspective\LeoActiveCustomersPerspectiveController@tags');
-                Route::post('{clacp}/tags ', 'LeoActiveCustomersPerspective\LeoActiveCustomersPerspectiveController@saveTags');
-                Route::get('{clacp}/addresses ', 'LeoActiveCustomersPerspective\LeoActiveCustomersPerspectiveController@addresses');
-                Route::post('{clacp}/addresses ', 'LeoActiveCustomersPerspective\LeoActiveCustomersPerspectiveController@saveAddresses');
+                Route::get('{crm_target_users_perspective}/tags ', 'TargetUsersPerspective\TargetUsersPerspectiveController@tags');
+                Route::post('{crm_target_users_perspective}/tags ', 'TargetUsersPerspective\TargetUsersPerspectiveController@saveTags');
+                Route::get('{crm_target_users_perspective}/addresses ', 'TargetUsersPerspective\TargetUsersPerspectiveController@addresses');
+                Route::post('{crm_target_users_perspective}/addresses ', 'TargetUsersPerspective\TargetUsersPerspectiveController@saveAddresses');
 
-                Route::get('/{clacp}/{subObjects}', 'LeoActiveCustomersPerspective\LeoActiveCustomersPerspectiveController@relatedObjects');
-                Route::get('/{clacp}', 'LeoActiveCustomersPerspective\LeoActiveCustomersPerspectiveController@show');
+                Route::get('/{crm_target_users_perspective}/{subObjects}', 'TargetUsersPerspective\TargetUsersPerspectiveController@relatedObjects');
+                Route::get('/{crm_target_users_perspective}', 'TargetUsersPerspective\TargetUsersPerspectiveController@show');
 
-                Route::post('/', 'LeoActiveCustomersPerspective\LeoActiveCustomersPerspectiveController@store');
-                Route::post('/{clacp}/do/{action}', 'LeoActiveCustomersPerspective\LeoActiveCustomersPerspectiveController@doAction');
+                Route::post('/', 'TargetUsersPerspective\TargetUsersPerspectiveController@store');
+                Route::post('/{crm_target_users_perspective}/do/{action}', 'TargetUsersPerspective\TargetUsersPerspectiveController@doAction');
 
-                Route::patch('/{clacp}', 'LeoActiveCustomersPerspective\LeoActiveCustomersPerspectiveController@update');
-                Route::delete('/{clacp}', 'LeoActiveCustomersPerspective\LeoActiveCustomersPerspectiveController@destroy');
+                Route::patch('/{crm_target_users_perspective}', 'TargetUsersPerspective\TargetUsersPerspectiveController@update');
+                Route::delete('/{crm_target_users_perspective}', 'TargetUsersPerspective\TargetUsersPerspectiveController@destroy');
+            }
+        );
+
+        Route::prefix('campaign-targets-perspective')->group(
+            function () {
+                Route::get('/', 'CampaignTargetsPerspective\CampaignTargetsPerspectiveController@index');
+                Route::get('/actions', 'CampaignTargetsPerspective\CampaignTargetsPerspectiveController@getActions');
+
+                Route::get('{crm_campaign_targets_perspective}/tags ', 'CampaignTargetsPerspective\CampaignTargetsPerspectiveController@tags');
+                Route::post('{crm_campaign_targets_perspective}/tags ', 'CampaignTargetsPerspective\CampaignTargetsPerspectiveController@saveTags');
+                Route::get('{crm_campaign_targets_perspective}/addresses ', 'CampaignTargetsPerspective\CampaignTargetsPerspectiveController@addresses');
+                Route::post('{crm_campaign_targets_perspective}/addresses ', 'CampaignTargetsPerspective\CampaignTargetsPerspectiveController@saveAddresses');
+
+                Route::get('/{crm_campaign_targets_perspective}/{subObjects}', 'CampaignTargetsPerspective\CampaignTargetsPerspectiveController@relatedObjects');
+                Route::get('/{crm_campaign_targets_perspective}', 'CampaignTargetsPerspective\CampaignTargetsPerspectiveController@show');
+
+                Route::post('/', 'CampaignTargetsPerspective\CampaignTargetsPerspectiveController@store');
+                Route::post('/{crm_campaign_targets_perspective}/do/{action}', 'CampaignTargetsPerspective\CampaignTargetsPerspectiveController@doAction');
+
+                Route::patch('/{crm_campaign_targets_perspective}', 'CampaignTargetsPerspective\CampaignTargetsPerspectiveController@update');
+                Route::delete('/{crm_campaign_targets_perspective}', 'CampaignTargetsPerspective\CampaignTargetsPerspectiveController@destroy');
             }
         );
 
@@ -1119,8 +1119,121 @@ Route::prefix('crm')->group(
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 );
+
+
+
 
 
 

@@ -157,12 +157,10 @@ class Calls extends Model
         }
     }
 
-    public function opportunities() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Opportunities::class);
-    }
-    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
 
 
 
