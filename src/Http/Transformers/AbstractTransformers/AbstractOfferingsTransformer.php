@@ -192,4 +192,5 @@ class AbstractOfferingsTransformer extends AbstractTransformer
 
 
 
+
 }

@@ -13,8 +13,7 @@ class CampaignTargetUsersPerspectiveUpdateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'crm_campaign_id' => 'nullable|exists:crm_campaigns,uuid|uuid',
-        'campaign_name' => 'nullable|string',
+            'campaign_name' => 'nullable|string',
         'campaign_status' => 'nullable|string',
         'crm_target_id' => 'nullable|exists:crm_targets,uuid|uuid',
         'target_name' => 'nullable|string',

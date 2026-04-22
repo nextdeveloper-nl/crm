@@ -208,17 +208,17 @@ class AbstractCampaignTargetUsersPerspectiveService
                 $data['iam_account_id']
             );
         }
-            
+
         if(!array_key_exists('iam_account_id', $data)) {
             $data['iam_account_id'] = UserHelper::currentAccount()->id;
         }
         if (array_key_exists('responsible_account_id', $data)) {
             $data['responsible_account_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\\Database\Models\ResponsibleAccounts',
+                '\NextDeveloper\IAM\Database\Models\Accounts',
                 $data['responsible_account_id']
             );
         }
-                        
+
         try {
             $model = CampaignTargetUsersPerspective::create($data);
         } catch(\Exception $e) {
@@ -290,11 +290,11 @@ class AbstractCampaignTargetUsersPerspectiveService
         }
         if (array_key_exists('responsible_account_id', $data)) {
             $data['responsible_account_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\\Database\Models\ResponsibleAccounts',
+                '\NextDeveloper\IAM\Database\Models\Accounts',
                 $data['responsible_account_id']
             );
         }
-    
+
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();

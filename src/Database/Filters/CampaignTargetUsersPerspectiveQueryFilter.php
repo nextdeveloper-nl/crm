@@ -23,7 +23,7 @@ class CampaignTargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('campaign_name', 'ilike', '%' . $value . '%');
     }
 
-    //  This is an alias function of campaignName
+        //  This is an alias function of campaignName
     public function campaign_name($value)
     {
         return $this->campaignName($value);
@@ -34,7 +34,7 @@ class CampaignTargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('campaign_status', 'ilike', '%' . $value . '%');
     }
 
-    //  This is an alias function of campaignStatus
+        //  This is an alias function of campaignStatus
     public function campaign_status($value)
     {
         return $this->campaignStatus($value);
@@ -45,7 +45,7 @@ class CampaignTargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('target_name', 'ilike', '%' . $value . '%');
     }
 
-    //  This is an alias function of targetName
+        //  This is an alias function of targetName
     public function target_name($value)
     {
         return $this->targetName($value);
@@ -68,7 +68,7 @@ class CampaignTargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('phone_number', 'ilike', '%' . $value . '%');
     }
 
-    //  This is an alias function of phoneNumber
+        //  This is an alias function of phoneNumber
     public function phone_number($value)
     {
         return $this->phoneNumber($value);
@@ -79,7 +79,7 @@ class CampaignTargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('account_name', 'ilike', '%' . $value . '%');
     }
 
-    //  This is an alias function of accountName
+        //  This is an alias function of accountName
     public function account_name($value)
     {
         return $this->accountName($value);
@@ -90,37 +90,88 @@ class CampaignTargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('responsible_account', 'ilike', '%' . $value . '%');
     }
 
-    //  This is an alias function of responsibleAccount
+        //  This is an alias function of responsibleAccount
     public function responsible_account($value)
     {
         return $this->responsibleAccount($value);
     }
 
-    public function crmCampaignId($value)
+    public function createdAtStart($date)
     {
-        $crmCampaign = \NextDeveloper\CRM\Database\Models\Campaigns::where('uuid', $value)->first();
-
-        if ($crmCampaign) {
-            return $this->builder->where('crm_campaign_id', '=', $crmCampaign->id);
-        }
+        return $this->builder->where('created_at', '>=', $date);
     }
 
-    //  This is an alias function of crmCampaign
-    public function crm_campaign_id($value)
+    public function createdAtEnd($date)
     {
-        return $this->crmCampaign($value);
+        return $this->builder->where('created_at', '<=', $date);
+    }
+
+    //  This is an alias function of createdAt
+    public function created_at_start($value)
+    {
+        return $this->createdAtStart($value);
+    }
+
+    //  This is an alias function of createdAt
+    public function created_at_end($value)
+    {
+        return $this->createdAtEnd($value);
+    }
+
+    public function updatedAtStart($date)
+    {
+        return $this->builder->where('updated_at', '>=', $date);
+    }
+
+    public function updatedAtEnd($date)
+    {
+        return $this->builder->where('updated_at', '<=', $date);
+    }
+
+    //  This is an alias function of updatedAt
+    public function updated_at_start($value)
+    {
+        return $this->updatedAtStart($value);
+    }
+
+    //  This is an alias function of updatedAt
+    public function updated_at_end($value)
+    {
+        return $this->updatedAtEnd($value);
+    }
+
+    public function deletedAtStart($date)
+    {
+        return $this->builder->where('deleted_at', '>=', $date);
+    }
+
+    public function deletedAtEnd($date)
+    {
+        return $this->builder->where('deleted_at', '<=', $date);
+    }
+
+    //  This is an alias function of deletedAt
+    public function deleted_at_start($value)
+    {
+        return $this->deletedAtStart($value);
+    }
+
+    //  This is an alias function of deletedAt
+    public function deleted_at_end($value)
+    {
+        return $this->deletedAtEnd($value);
     }
 
     public function crmTargetId($value)
     {
-        $crmTarget = \NextDeveloper\CRM\Database\Models\Targets::where('uuid', $value)->first();
+            $crmTarget = \NextDeveloper\CRM\Database\Models\Targets::where('uuid', $value)->first();
 
-        if ($crmTarget) {
+        if($crmTarget) {
             return $this->builder->where('crm_target_id', '=', $crmTarget->id);
         }
     }
 
-    //  This is an alias function of crmTarget
+        //  This is an alias function of crmTarget
     public function crm_target_id($value)
     {
         return $this->crmTarget($value);
@@ -128,14 +179,14 @@ class CampaignTargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
 
     public function crmUserId($value)
     {
-        $crmUser = \NextDeveloper\CRM\Database\Models\Users::where('uuid', $value)->first();
+            $crmUser = \NextDeveloper\CRM\Database\Models\Users::where('uuid', $value)->first();
 
-        if ($crmUser) {
+        if($crmUser) {
             return $this->builder->where('crm_user_id', '=', $crmUser->id);
         }
     }
 
-    //  This is an alias function of crmUser
+        //  This is an alias function of crmUser
     public function crm_user_id($value)
     {
         return $this->crmUser($value);
@@ -143,9 +194,9 @@ class CampaignTargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
 
     public function iamAccountId($value)
     {
-        $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
+            $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
 
-        if ($iamAccount) {
+        if($iamAccount) {
             return $this->builder->where('iam_account_id', '=', $iamAccount->id);
         }
     }
@@ -153,18 +204,19 @@ class CampaignTargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
 
     public function responsibleAccountId($value)
     {
-        $responsibleAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
+            $responsibleAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
 
-        if ($responsibleAccount) {
+        if($responsibleAccount) {
             return $this->builder->where('responsible_account_id', '=', $responsibleAccount->id);
         }
     }
 
-    //  This is an alias function of responsibleAccount
+        //  This is an alias function of responsibleAccount
     public function responsible_account_id($value)
     {
         return $this->responsibleAccount($value);
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

@@ -12,13 +12,14 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * CampaignTargetUsersPerspective model.
  *
  * @package  NextDeveloper\CRM\Database\Models
- * @property integer $crm_campaign_id
- * @property string $campaign_uuid
+ * @property integer $id
+ * @property string $uuid
  * @property string $campaign_name
  * @property string $campaign_status
  * @property integer $crm_target_id
@@ -31,12 +32,16 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property string $account_name
  * @property integer $responsible_account_id
  * @property string $responsible_account
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $deleted_at
  */
 class CampaignTargetUsersPerspective extends Model
 {
     use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator, HasObject;
+    use SoftDeletes;
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $table = 'crm_campaign_target_users_perspective';
 
@@ -47,8 +52,6 @@ class CampaignTargetUsersPerspective extends Model
     protected $guarded = [];
 
     protected $fillable = [
-            'crm_campaign_id',
-            'campaign_uuid',
             'campaign_name',
             'campaign_status',
             'crm_target_id',
@@ -83,7 +86,7 @@ class CampaignTargetUsersPerspective extends Model
      @var array
      */
     protected $casts = [
-    'crm_campaign_id' => 'integer',
+    'id' => 'integer',
     'campaign_name' => 'string',
     'campaign_status' => 'string',
     'crm_target_id' => 'integer',
@@ -95,6 +98,9 @@ class CampaignTargetUsersPerspective extends Model
     'account_name' => 'string',
     'responsible_account_id' => 'integer',
     'responsible_account' => 'string',
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
+    'deleted_at' => 'datetime',
     ];
 
     /**
@@ -103,7 +109,9 @@ class CampaignTargetUsersPerspective extends Model
      @var array
      */
     protected $dates = [
-
+    'created_at',
+    'updated_at',
+    'deleted_at',
     ];
 
     /**
@@ -154,4 +162,5 @@ class CampaignTargetUsersPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }
