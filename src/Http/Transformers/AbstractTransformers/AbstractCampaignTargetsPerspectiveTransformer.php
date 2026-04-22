@@ -73,6 +73,7 @@ class AbstractCampaignTargetsPerspectiveTransformer extends AbstractTransformer
             'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
             'responsible_account'  =>  $model->responsible_account,
             'responsible_name'  =>  $model->responsible_name,
+            'target_user_count'  =>  $model->target_user_count,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             ]
@@ -163,5 +164,7 @@ class AbstractCampaignTargetsPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 }
