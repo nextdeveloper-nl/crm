@@ -54,29 +54,29 @@ class AbstractCampaignTargetUsersPerspectiveTransformer extends AbstractTransfor
      */
     public function transform(CampaignTargetUsersPerspective $model)
     {
-                                                $crmCampaignId = \NextDeveloper\CRM\Database\Models\Campaigns::where('id', $model->crm_campaign_id)->first();
-                                                            $crmTargetId = \NextDeveloper\CRM\Database\Models\Targets::where('id', $model->crm_target_id)->first();
-                                                            $crmUserId = \NextDeveloper\CRM\Database\Models\Users::where('id', $model->crm_user_id)->first();
-                                                            $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
-                                                            $responsibleAccountId = \NextDeveloper\\Database\Models\ResponsibleAccounts::where('id', $model->responsible_account_id)->first();
-                        
+        $crmCampaignId = \NextDeveloper\CRM\Database\Models\Campaigns::where('id', $model->crm_campaign_id)->first();
+        $crmTargetId = \NextDeveloper\CRM\Database\Models\Targets::where('id', $model->crm_target_id)->first();
+        $crmUserId = \NextDeveloper\CRM\Database\Models\Users::where('id', $model->crm_user_id)->first();
+        $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
+        $responsibleAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->responsible_account_id)->first();
+
         return $this->buildPayload(
             [
-            'id'  =>  $model->id,
-            'crm_campaign_id'  =>  $crmCampaignId ? $crmCampaignId->uuid : null,
-            'campaign_uuid'  =>  $model->campaign_uuid,
-            'campaign_name'  =>  $model->campaign_name,
-            'campaign_status'  =>  $model->campaign_status,
-            'crm_target_id'  =>  $crmTargetId ? $crmTargetId->uuid : null,
-            'target_name'  =>  $model->target_name,
-            'crm_user_id'  =>  $crmUserId ? $crmUserId->uuid : null,
-            'fullname'  =>  $model->fullname,
-            'email'  =>  $model->email,
-            'phone_number'  =>  $model->phone_number,
-            'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
-            'account_name'  =>  $model->account_name,
-            'responsible_account_id'  =>  $responsibleAccountId ? $responsibleAccountId->uuid : null,
-            'responsible_account'  =>  $model->responsible_account,
+                'id' => $model->id,
+                'crm_campaign_id' => $crmCampaignId ? $crmCampaignId->uuid : null,
+                'campaign_uuid' => $model->campaign_uuid,
+                'campaign_name' => $model->campaign_name,
+                'campaign_status' => $model->campaign_status,
+                'crm_target_id' => $crmTargetId ? $crmTargetId->uuid : null,
+                'target_name' => $model->target_name,
+                'crm_user_id' => $crmUserId ? $crmUserId->uuid : null,
+                'fullname' => $model->fullname,
+                'email' => $model->email,
+                'phone_number' => $model->phone_number,
+                'iam_account_id' => $iamAccountId ? $iamAccountId->uuid : null,
+                'account_name' => $model->account_name,
+                'responsible_account_id' => $responsibleAccountId ? $responsibleAccountId->uuid : null,
+                'responsible_account' => $model->responsible_account,
             ]
         );
     }
