@@ -55,6 +55,7 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property integer $iam_user_id
  * @property integer $iam_account_id
  * @property integer $crm_account_id
+ * @property array $tags
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
@@ -109,6 +110,7 @@ class UsersPerspective extends Model
             'iam_user_id',
             'iam_account_id',
             'crm_account_id',
+            'tags',
     ];
 
     /**
@@ -164,6 +166,7 @@ class UsersPerspective extends Model
     'is_single' => 'boolean',
     'child_count' => 'integer',
     'crm_account_id' => 'integer',
+    'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     ];
