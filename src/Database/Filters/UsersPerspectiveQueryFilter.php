@@ -415,6 +415,11 @@ class UsersPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->crmAccount($value);
     }
     
+    public function tags($value)
+    {
+        return $this->builder->whereRaw('? = ANY(tags)', [$value]);
+    }
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

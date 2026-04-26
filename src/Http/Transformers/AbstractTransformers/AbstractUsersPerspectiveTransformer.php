@@ -100,6 +100,7 @@ class AbstractUsersPerspectiveTransformer extends AbstractTransformer
             'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
             'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
             'crm_account_id'  =>  $crmAccountId ? $crmAccountId->uuid : null,
+            'tags'  =>  $model->tags ?? [],
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             ]
