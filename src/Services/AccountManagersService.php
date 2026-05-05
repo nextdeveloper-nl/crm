@@ -46,9 +46,9 @@ class AccountManagersService extends AbstractAccountManagersService
 
         $crmAccount = AccountsPerspective::withoutGlobalScope(AuthorizationScope::class)->where('id', $data['crm_account_id'])->first();
 
-        (new Communicate($user))->sendNotification(
+        (new Communicate($user))->sendEmail(
             subject: 'Assigned as account manager',
-            message: 'You are assigned as an account manager to the account namely:' . $account->name
+            body: 'You are assigned as an account manager to the account namely:' . $account->name
         );
 
         return parent::create($data);
