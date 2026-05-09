@@ -54,6 +54,7 @@ class AbstractCampaignsTransformer extends AbstractTransformer
      */
     public function transform(Campaigns $model)
     {
+                                                $flowPipelineId = \NextDeveloper\Flow\Database\Models\Pipelines::where('id', $model->flow_pipeline_id)->first();
                                                 $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
                                                             $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
                         
@@ -65,6 +66,7 @@ class AbstractCampaignsTransformer extends AbstractTransformer
             'start_date'  =>  $model->start_date,
             'end_date'  =>  $model->end_date,
             'status'  =>  $model->status,
+            'flow_pipeline_id'  =>  $flowPipelineId ? $flowPipelineId->uuid : null,
             'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
             'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
             'created_at'  =>  $model->created_at,
