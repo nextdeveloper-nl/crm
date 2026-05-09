@@ -162,6 +162,21 @@ class CampaignTargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->deletedAtEnd($value);
     }
 
+    public function crmCampaignId($value)
+    {
+        $crmCampaign = \NextDeveloper\CRM\Database\Models\Campaigns::where('uuid', $value)->first();
+
+        if($crmCampaign) {
+            return $this->builder->where('crm_campaign_id', '=', $crmCampaign->id);
+        }
+    }
+
+        //  This is an alias function of crmCampaign
+    public function crm_campaign_id($value)
+    {
+        return $this->crmCampaignId($value);
+    }
+
     public function crmTargetId($value)
     {
             $crmTarget = \NextDeveloper\CRM\Database\Models\Targets::where('uuid', $value)->first();

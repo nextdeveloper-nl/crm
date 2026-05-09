@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $uuid
  * @property string $campaign_name
  * @property string $campaign_status
+ * @property integer $crm_campaign_id
  * @property integer $crm_target_id
  * @property string $target_name
  * @property integer $crm_user_id
@@ -54,6 +55,7 @@ class CampaignTargetUsersPerspective extends Model
     protected $fillable = [
             'campaign_name',
             'campaign_status',
+            'crm_campaign_id',
             'crm_target_id',
             'target_name',
             'crm_user_id',
@@ -89,6 +91,7 @@ class CampaignTargetUsersPerspective extends Model
     'id' => 'integer',
     'campaign_name' => 'string',
     'campaign_status' => 'string',
+    'crm_campaign_id' => 'integer',
     'crm_target_id' => 'integer',
     'target_name' => 'string',
     'crm_user_id' => 'integer',

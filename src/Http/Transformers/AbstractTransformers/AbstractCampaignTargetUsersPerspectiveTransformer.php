@@ -54,6 +54,7 @@ class AbstractCampaignTargetUsersPerspectiveTransformer extends AbstractTransfor
      */
     public function transform(CampaignTargetUsersPerspective $model)
     {
+                                                $crmCampaignId = \NextDeveloper\CRM\Database\Models\Campaigns::where('id', $model->crm_campaign_id)->first();
                                                 $crmTargetId = \NextDeveloper\CRM\Database\Models\Targets::where('id', $model->crm_target_id)->first();
                                                             $crmUserId = \NextDeveloper\CRM\Database\Models\Users::where('id', $model->crm_user_id)->first();
                                                             $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
@@ -64,6 +65,7 @@ class AbstractCampaignTargetUsersPerspectiveTransformer extends AbstractTransfor
             'id'  =>  $model->uuid,
             'campaign_name'  =>  $model->campaign_name,
             'campaign_status'  =>  $model->campaign_status,
+            'crm_campaign_id'  =>  $crmCampaignId ? $crmCampaignId->uuid : null,
             'crm_target_id'  =>  $crmTargetId ? $crmTargetId->uuid : null,
             'target_name'  =>  $model->target_name,
             'crm_user_id'  =>  $crmUserId ? $crmUserId->uuid : null,
