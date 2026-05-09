@@ -20,6 +20,7 @@ class OpportunitiesCreateRequest extends AbstractFormRequest
         'income' => '',
         'deadline' => 'nullable|date',
         'crm_account_id' => 'required|exists:crm_accounts,uuid|uuid',
+        'crm_campaign_id' => 'nullable|exists:crm_campaigns,uuid|uuid',
         'tags' => '',
         'opportunity_stage' => '',
         'type' => 'string',

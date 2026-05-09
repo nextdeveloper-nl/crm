@@ -18,6 +18,9 @@ class CampaignsCreateRequest extends AbstractFormRequest
         'start_date' => 'nullable|date',
         'end_date' => 'nullable|date',
         'status' => 'nullable|string',
+        'campaign_type' => 'nullable|string|in:sales,marketing',
+        'flow_pipeline_id' => 'nullable|exists:flow_pipelines,uuid|uuid',
+        'flow_stage_id' => 'nullable|exists:flow_stages,uuid|uuid',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
