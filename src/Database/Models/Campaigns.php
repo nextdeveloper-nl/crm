@@ -25,6 +25,7 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property \Carbon\Carbon $start_date
  * @property \Carbon\Carbon $end_date
  * @property string $status
+ * @property integer $flow_pipeline_id
  * @property integer $iam_account_id
  * @property integer $iam_user_id
  * @property \Carbon\Carbon $created_at
@@ -52,6 +53,7 @@ class Campaigns extends Model
             'start_date',
             'end_date',
             'status',
+            'flow_pipeline_id',
             'iam_account_id',
             'iam_user_id',
     ];
@@ -82,6 +84,7 @@ class Campaigns extends Model
     'start_date' => 'datetime',
     'end_date' => 'datetime',
     'status' => 'string',
+    'flow_pipeline_id' => 'integer',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
