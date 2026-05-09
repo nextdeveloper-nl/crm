@@ -29,6 +29,7 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property integer $iam_account_id
  * @property integer $iam_user_id
  * @property integer $crm_account_id
+ * @property integer $crm_campaign_id
  * @property array $tags
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
@@ -63,6 +64,7 @@ class Opportunities extends Model
             'iam_account_id',
             'iam_user_id',
             'crm_account_id',
+            'crm_campaign_id',
             'tags',
             'opportunity_stage',
             'type',
@@ -97,6 +99,7 @@ class Opportunities extends Model
     'source' => 'string',
     'deadline' => 'datetime',
     'crm_account_id' => 'integer',
+    'crm_campaign_id' => 'integer',
     'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'created_at' => 'datetime',
     'updated_at' => 'datetime',

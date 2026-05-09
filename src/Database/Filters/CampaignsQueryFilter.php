@@ -35,6 +35,17 @@ class CampaignsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('status', 'ilike', '%' . $value . '%');
     }
 
+    public function campaignType($value)
+    {
+        return $this->builder->where('campaign_type', 'ilike', '%' . $value . '%');
+    }
+
+        //  This is an alias function of campaignType
+    public function campaign_type($value)
+    {
+        return $this->campaignType($value);
+    }
+
     
     public function startDateStart($date)
     {

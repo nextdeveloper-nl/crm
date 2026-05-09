@@ -210,6 +210,21 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
         return $this->crmAccount($value);
     }
     
+    public function crmCampaignId($value)
+    {
+        $crmCampaign = \NextDeveloper\CRM\Database\Models\Campaigns::where('uuid', $value)->first();
+
+        if($crmCampaign) {
+            return $this->builder->where('crm_campaign_id', '=', $crmCampaign->id);
+        }
+    }
+
+        //  This is an alias function of crmCampaign
+    public function crm_campaign_id($value)
+    {
+        return $this->crmCampaignId($value);
+    }
+
     public function commonCurrencyId($value)
     {
             $commonCurrency = \NextDeveloper\Commons\Database\Models\Currencies::where('uuid', $value)->first();

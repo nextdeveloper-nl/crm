@@ -67,6 +67,7 @@ class AbstractCampaignsTransformer extends AbstractTransformer
             'start_date'  =>  $model->start_date,
             'end_date'  =>  $model->end_date,
             'status'  =>  $model->status,
+            'campaign_type'  =>  $model->campaign_type,
             'flow_pipeline_id'  =>  $flowPipelineId ? $flowPipelineId->uuid : null,
             'flow_stage_id'  =>  $flowStageId ? $flowStageId->uuid : null,
             'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
