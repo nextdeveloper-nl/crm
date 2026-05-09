@@ -161,6 +161,21 @@ class CampaignsQueryFilter extends AbstractQueryFilter
         return $this->flowPipelineId($value);
     }
 
+    public function flowStageId($value)
+    {
+        $flowStage = \NextDeveloper\Flow\Database\Models\Stages::where('uuid', $value)->first();
+
+        if($flowStage) {
+            return $this->builder->where('flow_stage_id', '=', $flowStage->id);
+        }
+    }
+
+        //  This is an alias function of flowStage
+    public function flow_stage_id($value)
+    {
+        return $this->flowStageId($value);
+    }
+
     public function iamAccountId($value)
     {
             $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
