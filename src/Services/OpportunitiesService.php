@@ -25,15 +25,6 @@ class OpportunitiesService extends AbstractOpportunitiesService
 
     public static function create($data)
     {
-        /**
-         * Here we should look for responsible, only if we dont have a user, or the creator is not a sales-person
-         */
-        $responsible = UserHelper::me();
-
-        if(!UserHelper::has('sales-person')) {
-            $responsible = self::getNaturalResponsibleForOpportunityType($data['type']);
-        }
-
         if($data['type'] == 'business development') {
             $data['type'] = 'business-development';
         }
@@ -41,14 +32,23 @@ class OpportunitiesService extends AbstractOpportunitiesService
         $opportunity = parent::create($data);
         $opportunity = $opportunity->refresh();
 
-        if($responsible) {
-            UserHelper::runAsAdmin(function () use ($opportunity, $responsible) {
-                $opportunity->update([
-                    'iam_user_id' => $responsible->id,
-                ]);
-            });
+        if(empty($data['crm_campaign_id'])) {
+            /**
+             * Here we should look for responsible, only if we dont have a user, or the creator is not a sales-person
+             */
+            $responsible = UserHelper::me();
 
-            if(empty($data['crm_campaign_id'])) {
+            if(!UserHelper::has('sales-person')) {
+                $responsible = self::getNaturalResponsibleForOpportunityType($data['type']);
+            }
+
+            if($responsible) {
+                UserHelper::runAsAdmin(function () use ($opportunity, $responsible) {
+                    $opportunity->update([
+                        'iam_user_id' => $responsible->id,
+                    ]);
+                });
+
                 $crmAccount = AccountsService::getById($opportunity->crm_account_id);
 
                 AccountManagersService::assignAccountManagerToCrmAccount(
@@ -56,15 +56,15 @@ class OpportunitiesService extends AbstractOpportunitiesService
                     $opportunity->iam_account_id,
                     $responsible->id
                 );
-            }
 
-            (new Communicate($responsible))->sendNotification(
-                severity: 'info',
-                message: 'New ' . $data['type'] . ' opportunity assigned: '
-                . '"' . $data['name'] . '". '
-                . 'Please review it at your earliest convenience. '
-                . config('leo.panel_url') . '/crm/opportunities/' . $opportunity->uuid
-            );
+                (new Communicate($responsible))->sendNotification(
+                    severity: 'info',
+                    message: 'New ' . $data['type'] . ' opportunity assigned: '
+                    . '"' . $data['name'] . '". '
+                    . 'Please review it at your earliest convenience. '
+                    . config('leo.panel_url') . '/crm/opportunities/' . $opportunity->uuid
+                );
+            }
         }
 
         return $opportunity->fresh();
