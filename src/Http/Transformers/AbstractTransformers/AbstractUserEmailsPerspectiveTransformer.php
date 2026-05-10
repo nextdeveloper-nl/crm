@@ -55,7 +55,7 @@ class AbstractUserEmailsPerspectiveTransformer extends AbstractTransformer
     public function transform(UserEmailsPerspective $model)
     {
                                                 $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
-                                                            $communicationEmailId = \NextDeveloper\Communication\Database\Models\Emails::where('id', $model->communication_email_id)->first();
+                                                            $communicationMessageId = \NextDeveloper\Communication\Database\Models\Messages::where('id', $model->communication_message_id)->first();
                                                             $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
                         
         return $this->buildPayload(
@@ -69,14 +69,16 @@ class AbstractUserEmailsPerspectiveTransformer extends AbstractTransformer
             'fullname'  =>  $model->fullname,
             'email'  =>  $model->email,
             'phone_number'  =>  $model->phone_number,
-            'communication_email_id'  =>  $communicationEmailId ? $communicationEmailId->uuid : null,
-            'communication_email_uuid'  =>  $model->communication_email_uuid,
+            'communication_message_id'  =>  $communicationMessageId ? $communicationMessageId->uuid : null,
+            'communication_message_uuid'  =>  $model->communication_message_uuid,
             'from_email_address'  =>  $model->from_email_address,
             'subject'  =>  $model->subject,
             'body'  =>  $model->body,
+            'content_type'  =>  $model->content_type,
             'is_marketing_email'  =>  $model->is_marketing_email,
             'deliver_at'  =>  $model->deliver_at,
             'delivered_at'  =>  $model->delivered_at,
+            'message_status'  =>  $model->message_status,
             'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
@@ -169,4 +171,5 @@ class AbstractUserEmailsPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

@@ -28,14 +28,16 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property string $fullname
  * @property string $email
  * @property string $phone_number
- * @property integer $communication_email_id
- * @property string $communication_email_uuid
+ * @property integer $communication_message_id
+ * @property string $communication_message_uuid
  * @property string $from_email_address
  * @property string $subject
  * @property string $body
+ * @property string $content_type
  * @property boolean $is_marketing_email
  * @property \Carbon\Carbon $deliver_at
  * @property \Carbon\Carbon $delivered_at
+ * @property string $message_status
  * @property integer $iam_account_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
@@ -65,14 +67,16 @@ class UserEmailsPerspective extends Model
             'fullname',
             'email',
             'phone_number',
-            'communication_email_id',
-            'communication_email_uuid',
+            'communication_message_id',
+            'communication_message_uuid',
             'from_email_address',
             'subject',
             'body',
+            'content_type',
             'is_marketing_email',
             'deliver_at',
             'delivered_at',
+            'message_status',
             'iam_account_id',
     ];
 
@@ -104,13 +108,15 @@ class UserEmailsPerspective extends Model
     'fullname' => 'string',
     'email' => 'string',
     'phone_number' => 'string',
-    'communication_email_id' => 'integer',
+    'communication_message_id' => 'integer',
     'from_email_address' => 'string',
     'subject' => 'string',
     'body' => 'string',
+    'content_type' => 'string',
     'is_marketing_email' => 'boolean',
     'deliver_at' => 'datetime',
     'delivered_at' => 'datetime',
+    'message_status' => 'string',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
@@ -177,4 +183,5 @@ class UserEmailsPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

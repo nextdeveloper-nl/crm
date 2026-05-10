@@ -75,6 +75,28 @@ class UserEmailsPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('body', 'ilike', '%' . $value . '%');
     }
 
+        
+    public function contentType($value)
+    {
+        return $this->builder->where('content_type', 'ilike', '%' . $value . '%');
+    }
+
+        //  This is an alias function of contentType
+    public function content_type($value)
+    {
+        return $this->contentType($value);
+    }
+        
+    public function messageStatus($value)
+    {
+        return $this->builder->where('message_status', 'ilike', '%' . $value . '%');
+    }
+
+        //  This is an alias function of messageStatus
+    public function message_status($value)
+    {
+        return $this->messageStatus($value);
+    }
     
     public function isSuspended($value)
     {
@@ -218,19 +240,19 @@ class UserEmailsPerspectiveQueryFilter extends AbstractQueryFilter
     }
 
     
-    public function communicationEmailId($value)
+    public function communicationMessageId($value)
     {
-            $communicationEmail = \NextDeveloper\Communication\Database\Models\Emails::where('uuid', $value)->first();
+            $communicationMessage = \NextDeveloper\Communication\Database\Models\Messages::where('uuid', $value)->first();
 
-        if($communicationEmail) {
-            return $this->builder->where('communication_email_id', '=', $communicationEmail->id);
+        if($communicationMessage) {
+            return $this->builder->where('communication_message_id', '=', $communicationMessage->id);
         }
     }
 
-        //  This is an alias function of communicationEmail
-    public function communication_email_id($value)
+        //  This is an alias function of communicationMessage
+    public function communication_message_id($value)
     {
-        return $this->communicationEmail($value);
+        return $this->communicationMessage($value);
     }
     
     public function iamAccountId($value)
@@ -244,4 +266,5 @@ class UserEmailsPerspectiveQueryFilter extends AbstractQueryFilter
 
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

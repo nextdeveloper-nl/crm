@@ -229,4 +229,5 @@ class CampaignTargetsPerspectiveQueryFilter extends AbstractQueryFilter
 
 
 
+
 }

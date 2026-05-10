@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                
+                    
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -210,21 +210,6 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
         return $this->crmAccount($value);
     }
     
-    public function crmCampaignId($value)
-    {
-        $crmCampaign = \NextDeveloper\CRM\Database\Models\Campaigns::where('uuid', $value)->first();
-
-        if($crmCampaign) {
-            return $this->builder->where('crm_campaign_id', '=', $crmCampaign->id);
-        }
-    }
-
-        //  This is an alias function of crmCampaign
-    public function crm_campaign_id($value)
-    {
-        return $this->crmCampaignId($value);
-    }
-
     public function commonCurrencyId($value)
     {
             $commonCurrency = \NextDeveloper\Commons\Database\Models\Currencies::where('uuid', $value)->first();
@@ -240,7 +225,23 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
         return $this->commonCurrency($value);
     }
     
+    public function crmCampaignId($value)
+    {
+            $crmCampaign = \NextDeveloper\CRM\Database\Models\Campaigns::where('uuid', $value)->first();
+
+        if($crmCampaign) {
+            return $this->builder->where('crm_campaign_id', '=', $crmCampaign->id);
+        }
+    }
+
+        //  This is an alias function of crmCampaign
+    public function crm_campaign_id($value)
+    {
+        return $this->crmCampaign($value);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 

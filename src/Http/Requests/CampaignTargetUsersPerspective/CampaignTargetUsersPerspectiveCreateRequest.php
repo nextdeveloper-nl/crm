@@ -13,7 +13,8 @@ class CampaignTargetUsersPerspectiveCreateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'campaign_name' => 'nullable|string',
+            'crm_campaign_id' => 'nullable|exists:crm_campaigns,uuid|uuid',
+        'campaign_name' => 'nullable|string',
         'campaign_status' => 'nullable|string',
         'crm_target_id' => 'nullable|exists:crm_targets,uuid|uuid',
         'target_name' => 'nullable|string',
@@ -22,7 +23,7 @@ class CampaignTargetUsersPerspectiveCreateRequest extends AbstractFormRequest
         'email' => 'nullable|string',
         'phone_number' => 'nullable|string',
         'account_name' => 'nullable|string',
-        'responsible_account_id' => 'nullable|exists:responsible_accounts,uuid|uuid',
+        'responsible_account_id' => 'nullable|exists:iam_accounts,uuid|uuid',
         'responsible_account' => 'nullable|string',
         ];
     }

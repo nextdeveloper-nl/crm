@@ -59,7 +59,7 @@ class AbstractCampaignTargetsTransformer extends AbstractTransformer
                         
         return $this->buildPayload(
             [
-            'id'  =>  $model->id,
+            'id'  =>  $model->uuid,
             'crm_target_id'  =>  $crmTargetId ? $crmTargetId->uuid : null,
             'crm_campaign_id'  =>  $crmCampaignId ? $crmCampaignId->uuid : null,
             'created_at'  =>  $model->created_at,
@@ -152,6 +152,7 @@ class AbstractCampaignTargetsTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
