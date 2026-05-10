@@ -87,7 +87,7 @@ class GenerateSalesCampaignOpportunities implements ShouldQueue
         $payload = [
             'flow_pipeline_id' => $pipeline->uuid,
             'flow_stage_id'    => $stage->uuid,
-            'object_type'      => Opportunities::class,
+            'object_type'      => 'NextDeveloper\CRM\Opportunities',
             'object_id'        => $opportunity->id,
             'iam_account_id'   => $iamAccount->uuid,
             'iam_user_id'      => $iamUser?->uuid,
