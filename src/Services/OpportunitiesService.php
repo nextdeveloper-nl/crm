@@ -57,10 +57,10 @@ class OpportunitiesService extends AbstractOpportunitiesService
             );
 
             (new Communicate($responsible))->sendNotification(
-                subject: 'New ' . $data['type'] . ' opportunity assigned',
-                message: 'A new ' . $data['type'] . ' opportunity "' . $data['name'] . '" has been assigned to you.'
-                . ' Please review it at your earliest convenience. ' . PHP_EOL . PHP_EOL
-                . 'You can reach the opportunity details here: '
+                severity: 'info',
+                message: 'New ' . $data['type'] . ' opportunity assigned: '
+                . '"' . $data['name'] . '". '
+                . 'Please review it at your earliest convenience. '
                 . config('leo.panel_url') . '/crm/opportunities/' . $opportunity->uuid
             );
         }
