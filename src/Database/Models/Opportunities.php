@@ -29,7 +29,6 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property integer $iam_account_id
  * @property integer $iam_user_id
  * @property integer $crm_account_id
- * @property integer $crm_campaign_id
  * @property array $tags
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
@@ -38,6 +37,7 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property string $type
  * @property string $reason_lost
  * @property integer $common_currency_id
+ * @property integer $crm_campaign_id
  */
 class Opportunities extends Model
 {
@@ -64,12 +64,12 @@ class Opportunities extends Model
             'iam_account_id',
             'iam_user_id',
             'crm_account_id',
-            'crm_campaign_id',
             'tags',
             'opportunity_stage',
             'type',
             'reason_lost',
             'common_currency_id',
+            'crm_campaign_id',
     ];
 
     /**
@@ -99,7 +99,6 @@ class Opportunities extends Model
     'source' => 'string',
     'deadline' => 'datetime',
     'crm_account_id' => 'integer',
-    'crm_campaign_id' => 'integer',
     'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
@@ -107,6 +106,7 @@ class Opportunities extends Model
     'type' => 'string',
     'reason_lost' => 'string',
     'common_currency_id' => 'integer',
+    'crm_campaign_id' => 'integer',
     ];
 
     /**
@@ -168,7 +168,13 @@ class Opportunities extends Model
         }
     }
 
+    public function campaigns() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Campaigns::class);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

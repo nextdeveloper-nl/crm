@@ -57,8 +57,8 @@ class AbstractOpportunitiesTransformer extends AbstractTransformer
                                                 $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
                                                             $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
                                                             $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
-                                                            $crmCampaignId = \NextDeveloper\CRM\Database\Models\Campaigns::where('id', $model->crm_campaign_id)->first();
                                                             $commonCurrencyId = \NextDeveloper\Commons\Database\Models\Currencies::where('id', $model->common_currency_id)->first();
+                                                            $crmCampaignId = \NextDeveloper\CRM\Database\Models\Campaigns::where('id', $model->crm_campaign_id)->first();
                         
         return $this->buildPayload(
             [
@@ -72,7 +72,6 @@ class AbstractOpportunitiesTransformer extends AbstractTransformer
             'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
             'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
             'crm_account_id'  =>  $crmAccountId ? $crmAccountId->uuid : null,
-            'crm_campaign_id'  =>  $crmCampaignId ? $crmCampaignId->uuid : null,
             'tags'  =>  $model->tags,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
@@ -81,6 +80,7 @@ class AbstractOpportunitiesTransformer extends AbstractTransformer
             'type'  =>  $model->type,
             'reason_lost'  =>  $model->reason_lost,
             'common_currency_id'  =>  $commonCurrencyId ? $commonCurrencyId->uuid : null,
+            'crm_campaign_id'  =>  $crmCampaignId ? $crmCampaignId->uuid : null,
             ]
         );
     }
@@ -169,6 +169,7 @@ class AbstractOpportunitiesTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

@@ -21,6 +21,8 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property integer $crm_campaign_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property integer $id
+ * @property string $uuid
  */
 class CampaignTargets extends Model
 {
@@ -65,6 +67,7 @@ class CampaignTargets extends Model
     'crm_campaign_id' => 'integer',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
+    'id' => 'integer',
     ];
 
     /**
@@ -129,6 +132,7 @@ class CampaignTargets extends Model
     public $incrementing = false;
 
     protected $primaryKey = null;
+
 
 
 

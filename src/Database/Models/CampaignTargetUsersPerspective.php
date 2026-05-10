@@ -20,9 +20,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @package  NextDeveloper\CRM\Database\Models
  * @property integer $id
  * @property string $uuid
+ * @property integer $crm_campaign_id
  * @property string $campaign_name
  * @property string $campaign_status
- * @property integer $crm_campaign_id
  * @property integer $crm_target_id
  * @property string $target_name
  * @property integer $crm_user_id
@@ -53,9 +53,9 @@ class CampaignTargetUsersPerspective extends Model
     protected $guarded = [];
 
     protected $fillable = [
+            'crm_campaign_id',
             'campaign_name',
             'campaign_status',
-            'crm_campaign_id',
             'crm_target_id',
             'target_name',
             'crm_user_id',
@@ -89,9 +89,9 @@ class CampaignTargetUsersPerspective extends Model
      */
     protected $casts = [
     'id' => 'integer',
+    'crm_campaign_id' => 'integer',
     'campaign_name' => 'string',
     'campaign_status' => 'string',
-    'crm_campaign_id' => 'integer',
     'crm_target_id' => 'integer',
     'target_name' => 'string',
     'crm_user_id' => 'integer',
@@ -165,6 +165,7 @@ class CampaignTargetUsersPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 }

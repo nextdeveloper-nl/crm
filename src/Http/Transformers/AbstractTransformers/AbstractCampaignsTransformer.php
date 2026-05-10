@@ -54,10 +54,10 @@ class AbstractCampaignsTransformer extends AbstractTransformer
      */
     public function transform(Campaigns $model)
     {
-                                                $flowPipelineId = \NextDeveloper\Flow\Database\Models\Pipelines::where('id', $model->flow_pipeline_id)->first();
-                                                $flowStageId = \NextDeveloper\Flow\Database\Models\Stages::where('id', $model->flow_stage_id)->first();
                                                 $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
                                                             $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
+                                                            $flowPipelineId = \NextDeveloper\Flow\Database\Models\Pipelines::where('id', $model->flow_pipeline_id)->first();
+                                                            $flowStageId = \NextDeveloper\Flow\Database\Models\Stages::where('id', $model->flow_stage_id)->first();
                         
         return $this->buildPayload(
             [
@@ -67,14 +67,14 @@ class AbstractCampaignsTransformer extends AbstractTransformer
             'start_date'  =>  $model->start_date,
             'end_date'  =>  $model->end_date,
             'status'  =>  $model->status,
-            'campaign_type'  =>  $model->campaign_type,
-            'flow_pipeline_id'  =>  $flowPipelineId ? $flowPipelineId->uuid : null,
-            'flow_stage_id'  =>  $flowStageId ? $flowStageId->uuid : null,
             'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
             'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
+            'flow_pipeline_id'  =>  $flowPipelineId ? $flowPipelineId->uuid : null,
+            'flow_stage_id'  =>  $flowStageId ? $flowStageId->uuid : null,
+            'campaign_type'  =>  $model->campaign_type,
             ]
         );
     }
@@ -163,6 +163,7 @@ class AbstractCampaignsTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

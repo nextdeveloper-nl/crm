@@ -25,14 +25,14 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property \Carbon\Carbon $start_date
  * @property \Carbon\Carbon $end_date
  * @property string $status
- * @property string $campaign_type
- * @property integer $flow_pipeline_id
- * @property integer $flow_stage_id
  * @property integer $iam_account_id
  * @property integer $iam_user_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
+ * @property integer $flow_pipeline_id
+ * @property integer $flow_stage_id
+ * @property string $campaign_type
  */
 class Campaigns extends Model
 {
@@ -55,11 +55,11 @@ class Campaigns extends Model
             'start_date',
             'end_date',
             'status',
-            'campaign_type',
-            'flow_pipeline_id',
-            'flow_stage_id',
             'iam_account_id',
             'iam_user_id',
+            'flow_pipeline_id',
+            'flow_stage_id',
+            'campaign_type',
     ];
 
     /**
@@ -88,12 +88,12 @@ class Campaigns extends Model
     'start_date' => 'datetime',
     'end_date' => 'datetime',
     'status' => 'string',
-    'campaign_type' => 'string',
-    'flow_pipeline_id' => 'integer',
-    'flow_stage_id' => 'integer',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
+    'flow_pipeline_id' => 'integer',
+    'flow_stage_id' => 'integer',
+    'campaign_type' => 'string',
     ];
 
     /**
@@ -156,12 +156,23 @@ class Campaigns extends Model
         }
     }
 
-    public function messages() : \Illuminate\Database\Eloquent\Relations\HasMany
+    public function opportunities() : \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\NextDeveloper\Communication\Database\Models\Messages::class);
+        return $this->hasMany(\NextDeveloper\CRM\Database\Models\Opportunities::class);
     }
 
+    public function pipelines() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\Flow\Database\Models\Pipelines::class);
+    }
+    
+    public function stages() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\Flow\Database\Models\Stages::class);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

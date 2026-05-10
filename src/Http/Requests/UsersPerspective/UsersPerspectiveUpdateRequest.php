@@ -47,6 +47,7 @@ class UsersPerspectiveUpdateRequest extends AbstractFormRequest
         'education' => 'nullable',
         'child_count' => 'nullable|integer',
         'crm_account_id' => 'nullable|exists:crm_accounts,uuid|uuid',
+        'tags' => 'nullable',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

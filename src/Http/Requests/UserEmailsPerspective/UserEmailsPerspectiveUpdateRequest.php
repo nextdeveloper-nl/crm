@@ -20,13 +20,15 @@ class UserEmailsPerspectiveUpdateRequest extends AbstractFormRequest
         'fullname' => 'nullable|string',
         'email' => 'nullable|string',
         'phone_number' => 'nullable|string',
-        'communication_email_id' => 'nullable|exists:communication_emails,uuid|uuid',
+        'communication_message_id' => 'nullable|exists:communication_messages,uuid|uuid',
         'from_email_address' => 'nullable|string',
         'subject' => 'nullable|string',
         'body' => 'nullable|string',
+        'content_type' => 'nullable|string',
         'is_marketing_email' => 'nullable|boolean',
         'deliver_at' => 'nullable|date',
         'delivered_at' => 'nullable|date',
+        'message_status' => 'nullable|string',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

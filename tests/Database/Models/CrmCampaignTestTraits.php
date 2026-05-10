@@ -61,6 +61,7 @@ trait CrmCampaignTestTraits
                 'name'  =>  'a',
                 'description'  =>  'a',
                 'status'  =>  'a',
+                'campaign_type'  =>  'a',
                     'start_date'  =>  now(),
                     'end_date'  =>  now(),
                             ],
@@ -389,6 +390,25 @@ trait CrmCampaignTestTraits
             $request = new Request(
                 [
                 'status'  =>  'a'
+                ]
+            );
+
+            $filter = new CrmCampaignQueryFilter($request);
+
+            $model = \NextDeveloper\CRM\Database\Models\CrmCampaign::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_crmcampaign_event_campaign_type_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'campaign_type'  =>  'a'
                 ]
             );
 

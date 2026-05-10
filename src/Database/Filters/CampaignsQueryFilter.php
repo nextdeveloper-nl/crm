@@ -4,7 +4,7 @@ namespace NextDeveloper\CRM\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-        
+                
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -35,6 +35,7 @@ class CampaignsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('status', 'ilike', '%' . $value . '%');
     }
 
+        
     public function campaignType($value)
     {
         return $this->builder->where('campaign_type', 'ilike', '%' . $value . '%');
@@ -45,7 +46,6 @@ class CampaignsQueryFilter extends AbstractQueryFilter
     {
         return $this->campaignType($value);
     }
-
     
     public function startDateStart($date)
     {
@@ -157,36 +157,6 @@ class CampaignsQueryFilter extends AbstractQueryFilter
         return $this->deletedAtEnd($value);
     }
 
-    public function flowPipelineId($value)
-    {
-        $flowPipeline = \NextDeveloper\Flow\Database\Models\Pipelines::where('uuid', $value)->first();
-
-        if($flowPipeline) {
-            return $this->builder->where('flow_pipeline_id', '=', $flowPipeline->id);
-        }
-    }
-
-        //  This is an alias function of flowPipeline
-    public function flow_pipeline_id($value)
-    {
-        return $this->flowPipelineId($value);
-    }
-
-    public function flowStageId($value)
-    {
-        $flowStage = \NextDeveloper\Flow\Database\Models\Stages::where('uuid', $value)->first();
-
-        if($flowStage) {
-            return $this->builder->where('flow_stage_id', '=', $flowStage->id);
-        }
-    }
-
-        //  This is an alias function of flowStage
-    public function flow_stage_id($value)
-    {
-        return $this->flowStageId($value);
-    }
-
     public function iamAccountId($value)
     {
             $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -207,7 +177,38 @@ class CampaignsQueryFilter extends AbstractQueryFilter
     }
 
     
+    public function flowPipelineId($value)
+    {
+            $flowPipeline = \NextDeveloper\Flow\Database\Models\Pipelines::where('uuid', $value)->first();
+
+        if($flowPipeline) {
+            return $this->builder->where('flow_pipeline_id', '=', $flowPipeline->id);
+        }
+    }
+
+        //  This is an alias function of flowPipeline
+    public function flow_pipeline_id($value)
+    {
+        return $this->flowPipeline($value);
+    }
+    
+    public function flowStageId($value)
+    {
+            $flowStage = \NextDeveloper\Flow\Database\Models\Stages::where('uuid', $value)->first();
+
+        if($flowStage) {
+            return $this->builder->where('flow_stage_id', '=', $flowStage->id);
+        }
+    }
+
+        //  This is an alias function of flowStage
+    public function flow_stage_id($value)
+    {
+        return $this->flowStage($value);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
