@@ -22,7 +22,7 @@ class GenerateSalesCampaignOpportunitiesCommand extends Command
 
         $query = Campaigns::withoutGlobalScope(AuthorizationScope::class)
             ->where('campaign_type', 'sales')
-            ->where('status', 'Active');
+            ->where('status', 'active');
 
         if ($campaignUuid = $this->option('campaign')) {
             $query->where('uuid', $campaignUuid);

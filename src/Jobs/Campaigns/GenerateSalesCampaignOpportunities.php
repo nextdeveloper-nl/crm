@@ -34,7 +34,7 @@ class GenerateSalesCampaignOpportunities implements ShouldQueue
 
     public function handle(): void
     {
-        if ($this->campaign->campaign_type !== 'sales' || $this->campaign->status !== 'Active') {
+        if ($this->campaign->campaign_type !== 'sales' || $this->campaign->status !== 'active') {
             Log::info(__METHOD__ . '| Skipping campaign ' . $this->campaign->id . ': type=' . $this->campaign->campaign_type . ', status=' . $this->campaign->status);
             return;
         }
