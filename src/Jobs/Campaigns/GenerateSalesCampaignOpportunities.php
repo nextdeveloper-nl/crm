@@ -13,7 +13,11 @@ use NextDeveloper\CRM\Database\Models\Campaigns;
 use NextDeveloper\CRM\Database\Models\CampaignTargetUsersPerspective;
 use NextDeveloper\CRM\Database\Models\Opportunities;
 use NextDeveloper\CRM\Services\OpportunitiesService;
+use NextDeveloper\Flow\Database\Models\Pipelines;
+use NextDeveloper\Flow\Database\Models\Stages;
+use NextDeveloper\Flow\Services\ItemsService;
 use NextDeveloper\IAM\Database\Models\Accounts as IamAccounts;
+use NextDeveloper\IAM\Database\Models\Users as IamUsers;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 use NextDeveloper\IAM\Helpers\UserHelper;
 
@@ -49,6 +53,37 @@ class GenerateSalesCampaignOpportunities implements ShouldQueue
         foreach ($targetAccounts as $target) {
             $this->createOpportunityForAccount($target->iam_account_id);
         }
+    }
+
+    private function createFlowItem(Opportunities $opportunity, IamAccounts $iamAccount): void
+    {
+        $pipeline = Pipelines::withoutGlobalScopes()
+            ->where('id', $this->campaign->flow_pipeline_id)
+            ->first();
+
+        $stage = Stages::withoutGlobalScopes()
+            ->where('id', $this->campaign->flow_stage_id)
+            ->first();
+
+        if (!$pipeline || !$stage) {
+            Log::warning(__METHOD__ . '| Pipeline or stage not found | campaign: ' . $this->campaign->id);
+            return;
+        }
+
+        $iamUser = $opportunity->iam_user_id
+            ? IamUsers::withoutGlobalScopes()->where('id', $opportunity->iam_user_id)->first()
+            : null;
+
+        ItemsService::create([
+            'flow_pipeline_id' => $pipeline->uuid,
+            'flow_stage_id'    => $stage->uuid,
+            'object_type'      => Opportunities::class,
+            'object_id'        => $opportunity->id,
+            'iam_account_id'   => $iamAccount->uuid,
+            'iam_user_id'      => $iamUser?->uuid,
+        ]);
+
+        Log::info(__METHOD__ . '| Flow item created | opportunity: ' . $opportunity->id . ' | pipeline: ' . $pipeline->id . ' | stage: ' . $stage->id);
     }
 
     private function createOpportunityForAccount(int $iamAccountId): void
@@ -90,11 +125,8 @@ class GenerateSalesCampaignOpportunities implements ShouldQueue
         try {
             $opportunity = OpportunitiesService::create($data);
 
-            if ($opportunity && ($this->campaign->flow_pipeline_id || $this->campaign->flow_stage_id)) {
-                $opportunity->update([
-                    'flow_pipeline_id' => $this->campaign->flow_pipeline_id,
-                    'flow_stage_id'    => $this->campaign->flow_stage_id,
-                ]);
+            if ($opportunity && $this->campaign->flow_pipeline_id && $this->campaign->flow_stage_id) {
+                $this->createFlowItem($opportunity, $iamAccount);
             }
 
             Log::info(__METHOD__ . '| Opportunity created | campaign: ' . $this->campaign->id . ' | iam_account: ' . $iamAccountId);
