@@ -43,6 +43,11 @@ class SalesAdminRole extends AbstractRole implements IAuthorizationRole
         return true;
     }
 
+    public function checkDeletePolicy(Model $model, Users $user): bool
+    {
+        return true;
+    }
+
     public function getModule()
     {
         return 'crm';
