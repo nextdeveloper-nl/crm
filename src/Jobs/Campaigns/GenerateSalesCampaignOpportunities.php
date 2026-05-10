@@ -89,6 +89,7 @@ class GenerateSalesCampaignOpportunities implements ShouldQueue
             'flow_stage_id'    => $stage->uuid,
             'object_type'      => Opportunities::class,
             'object_id'        => $opportunity->id,
+            'object_name'      => $opportunity->name,
             'iam_account_id'   => $iamAccount->uuid,
             'iam_user_id'      => $iamUser?->uuid,
         ];
