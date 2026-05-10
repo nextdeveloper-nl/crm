@@ -48,13 +48,15 @@ class OpportunitiesService extends AbstractOpportunitiesService
                 ]);
             });
 
-            $crmAccount = AccountsService::getById($opportunity->crm_account_id);
+            if(empty($data['crm_campaign_id'])) {
+                $crmAccount = AccountsService::getById($opportunity->crm_account_id);
 
-            AccountManagersService::assignAccountManagerToCrmAccount(
-                $crmAccount,
-                $opportunity->iam_account_id,
-                $responsible->id
-            );
+                AccountManagersService::assignAccountManagerToCrmAccount(
+                    $crmAccount,
+                    $opportunity->iam_account_id,
+                    $responsible->id
+                );
+            }
 
             (new Communicate($responsible))->sendNotification(
                 severity: 'info',
