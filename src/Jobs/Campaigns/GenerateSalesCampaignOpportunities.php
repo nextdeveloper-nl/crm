@@ -87,7 +87,7 @@ class GenerateSalesCampaignOpportunities implements ShouldQueue
         $payload = [
             'flow_pipeline_id' => $pipeline->uuid,
             'flow_stage_id'    => $stage->uuid,
-            'object_type'      => Opportunities::class,
+            'object_type'      => 'NextDeveloper\CRM\Opportunities',
             'object_id'        => $opportunity->id,
             'iam_account_id'   => $iamAccount->uuid,
             'iam_user_id'      => $iamUser?->uuid,
@@ -111,12 +111,25 @@ class GenerateSalesCampaignOpportunities implements ShouldQueue
 
     private function createOpportunityForAccount(int $iamAccountId): void
     {
+        $crmAccount = CrmAccounts::withoutGlobalScope(AuthorizationScope::class)
+            ->where('iam_account_id', $iamAccountId)
+            ->first();
+
         $alreadyExists = Opportunities::withoutGlobalScope(AuthorizationScope::class)
             ->where('crm_campaign_id', $this->campaign->id)
-            ->where('iam_account_id', $iamAccountId)
+            ->where('crm_account_id', $crmAccount?->id)
             ->exists();
 
         if ($alreadyExists) {
+            return;
+        }
+
+        $campaignAccount = IamAccounts::withoutGlobalScope(AuthorizationScope::class)
+            ->where('id', $this->campaign->iam_account_id)
+            ->first();
+
+        if (!$campaignAccount) {
+            Log::warning(__METHOD__ . '| Campaign IAM account not found: ' . $this->campaign->iam_account_id);
             return;
         }
 
@@ -129,14 +142,10 @@ class GenerateSalesCampaignOpportunities implements ShouldQueue
             return;
         }
 
-        $crmAccount = CrmAccounts::withoutGlobalScope(AuthorizationScope::class)
-            ->where('iam_account_id', $iamAccountId)
-            ->first();
-
         $data = [
             'name'            => $this->campaign->name,
             'description'     => $this->campaign->description,
-            'iam_account_id'  => $iamAccount->uuid,
+            'iam_account_id'  => $campaignAccount->uuid,
             'crm_campaign_id' => $this->campaign->id,
             'type'            => 'sales',
         ];
@@ -149,7 +158,7 @@ class GenerateSalesCampaignOpportunities implements ShouldQueue
             $opportunity = OpportunitiesService::create($data);
 
             if ($opportunity && $this->campaign->flow_pipeline_id && $this->campaign->flow_stage_id) {
-                $this->createFlowItem($opportunity, $iamAccount);
+                $this->createFlowItem($opportunity, $campaignAccount);
             }
 
             Log::info(__METHOD__ . '| Opportunity created | campaign: ' . $this->campaign->id . ' | iam_account: ' . $iamAccountId);
