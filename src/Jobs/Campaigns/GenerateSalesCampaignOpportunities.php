@@ -57,16 +57,24 @@ class GenerateSalesCampaignOpportunities implements ShouldQueue
 
     private function createFlowItem(Opportunities $opportunity, IamAccounts $iamAccount): void
     {
+        Log::info(__METHOD__ . '| Starting flow item creation | opportunity: ' . $opportunity->id
+            . ' | campaign_flow_pipeline_id: ' . $this->campaign->flow_pipeline_id
+            . ' | campaign_flow_stage_id: ' . $this->campaign->flow_stage_id);
+
         $pipeline = Pipelines::withoutGlobalScopes()
             ->where('id', $this->campaign->flow_pipeline_id)
             ->first();
+
+        Log::info(__METHOD__ . '| Pipeline lookup result: ' . ($pipeline ? 'found uuid=' . $pipeline->uuid : 'NOT FOUND'));
 
         $stage = Stages::withoutGlobalScopes()
             ->where('id', $this->campaign->flow_stage_id)
             ->first();
 
+        Log::info(__METHOD__ . '| Stage lookup result: ' . ($stage ? 'found uuid=' . $stage->uuid : 'NOT FOUND'));
+
         if (!$pipeline || !$stage) {
-            Log::warning(__METHOD__ . '| Pipeline or stage not found | campaign: ' . $this->campaign->id);
+            Log::warning(__METHOD__ . '| Aborting: pipeline or stage not found | campaign: ' . $this->campaign->id);
             return;
         }
 
@@ -74,16 +82,31 @@ class GenerateSalesCampaignOpportunities implements ShouldQueue
             ? IamUsers::withoutGlobalScopes()->where('id', $opportunity->iam_user_id)->first()
             : null;
 
-        ItemsService::create([
+        Log::info(__METHOD__ . '| IAM user lookup result: ' . ($iamUser ? 'found uuid=' . $iamUser->uuid : 'not set'));
+
+        $payload = [
             'flow_pipeline_id' => $pipeline->uuid,
             'flow_stage_id'    => $stage->uuid,
             'object_type'      => Opportunities::class,
             'object_id'        => $opportunity->id,
             'iam_account_id'   => $iamAccount->uuid,
             'iam_user_id'      => $iamUser?->uuid,
-        ]);
+        ];
 
-        Log::info(__METHOD__ . '| Flow item created | opportunity: ' . $opportunity->id . ' | pipeline: ' . $pipeline->id . ' | stage: ' . $stage->id);
+        Log::info(__METHOD__ . '| Calling ItemsService::create with payload: ' . json_encode($payload));
+
+        try {
+            $item = ItemsService::create($payload);
+
+            Log::info(__METHOD__ . '| Flow item created successfully | item: ' . $item->id
+                . ' | opportunity: ' . $opportunity->id
+                . ' | pipeline: ' . $pipeline->id
+                . ' | stage: ' . $stage->id);
+        } catch (\Exception $e) {
+            Log::error(__METHOD__ . '| Failed to create flow item | opportunity: ' . $opportunity->id
+                . ' | error: ' . $e->getMessage()
+                . ' | trace: ' . $e->getTraceAsString());
+        }
     }
 
     private function createOpportunityForAccount(int $iamAccountId): void
