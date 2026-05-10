@@ -108,6 +108,10 @@ class OpportunitiesService extends AbstractOpportunitiesService
             return $responsible;
         }
 
+        if(!UserHelper::currentAccount()) {
+            return null;
+        }
+
         if (
             strtolower($type) == 'business development' ||
             strtolower($type) == 'partnership' ||
