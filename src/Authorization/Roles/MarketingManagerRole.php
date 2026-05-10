@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\CRM\Database\Models\AccountManagers;
+use NextDeveloper\CRM\Database\Models\Campaigns;
 use NextDeveloper\CRM\Database\Models\UserManagers;
 use NextDeveloper\IAM\Authorization\Roles\AbstractRole;
 use NextDeveloper\IAM\Authorization\Roles\IAuthorizationRole;
@@ -88,6 +89,19 @@ class MarketingManagerRole extends AbstractRole implements IAuthorizationRole
             'crm_target_users_perspective:read',
             'crm_user_emails_perspective:read',
         ]);
+    }
+
+    public function checkDeletePolicy(Model $model, Users $user): bool
+    {
+        if ($model->getTable() == 'crm_campaign_targets') {
+            $campaign = Campaigns::withoutGlobalScopes()
+                ->where('id', $model->crm_campaign_id)
+                ->first();
+
+            return $campaign && $campaign->iam_account_id == UserHelper::currentAccount()->id;
+        }
+
+        return false;
     }
 
     public function checkUpdatePolicy(Model $model, Users $users) : bool

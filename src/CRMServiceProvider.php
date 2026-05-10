@@ -101,7 +101,7 @@ class CRMServiceProvider extends AbstractServiceProvider {
     protected function registerCommands() {
         if ($this->app->runningInConsole()) {
             $this->commands([
-
+                \NextDeveloper\CRM\Console\Commands\GenerateSalesCampaignOpportunitiesCommand::class,
             ]);
         }
     }
