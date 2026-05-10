@@ -5,8 +5,10 @@ namespace NextDeveloper\CRM\Services;
 use NextDeveloper\Commons\Exceptions\NotAllowedException;
 use NextDeveloper\Commons\Services\CurrenciesService;
 use NextDeveloper\Communication\Helpers\Communicate;
+use NextDeveloper\CRM\Database\Models\AccountManagers;
 use NextDeveloper\CRM\Database\Models\Opportunities;
 use NextDeveloper\CRM\Database\Models\Quotes;
+use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 use NextDeveloper\CRM\Services\AbstractServices\AbstractOpportunitiesService;
 use NextDeveloper\IAM\Database\Models\Users;
 use NextDeveloper\IAM\Helpers\UserHelper;
@@ -51,11 +53,25 @@ class OpportunitiesService extends AbstractOpportunitiesService
 
                 $crmAccount = AccountsService::getById($opportunity->crm_account_id);
 
-                AccountManagersService::assignAccountManagerToCrmAccount(
-                    $crmAccount,
-                    $opportunity->iam_account_id,
-                    $responsible->id
-                );
+                $existingManagerIds = AccountManagers::withoutGlobalScope(AuthorizationScope::class)
+                    ->where('crm_account_id', $crmAccount->id)
+                    ->pluck('iam_user_id')
+                    ->toArray();
+
+                $hasSalesRole = UserHelper::getUsersWithRole('sales-person', UserHelper::currentAccount())
+                    ->whereIn('id', $existingManagerIds)
+                    ->isNotEmpty()
+                    || UserHelper::getUsersWithRole('sales-manager', UserHelper::currentAccount())
+                    ->whereIn('id', $existingManagerIds)
+                    ->isNotEmpty();
+
+                if (!$hasSalesRole) {
+                    AccountManagersService::assignAccountManagerToCrmAccount(
+                        $crmAccount,
+                        $opportunity->iam_account_id,
+                        $responsible->id
+                    );
+                }
 
                 (new Communicate($responsible))->sendNotification(
                     severity: 'info',
