@@ -48,13 +48,23 @@ class AccountManagersService extends AbstractAccountManagersService
 
         (new Communicate($user))->sendEmail(
             subject: 'Assigned as account manager',
-            body: 'You are assigned as an account manager to the account namely:' . $account->name
+            body: 'You are assigned as an account manager to the account namely:' . $crmAccount->name
         );
 
         return parent::create($data);
     }
 
     public static function assignAccountManagerToCrmAccount($crmAccount, $iamAccountId, $iamUserId) {
+        $existing = AccountManagers::withoutGlobalScope(AuthorizationScope::class)
+            ->where('crm_account_id', $crmAccount->id)
+            ->where('iam_account_id', $iamAccountId)
+            ->where('iam_user_id', $iamUserId)
+            ->first();
+
+        if ($existing) {
+            return $existing;
+        }
+
         $data = [
             'crm_account_id' => $crmAccount->id,
             'iam_account_id' => $iamAccountId,
