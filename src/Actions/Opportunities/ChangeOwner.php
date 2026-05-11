@@ -3,6 +3,7 @@
 namespace NextDeveloper\CRM\Actions\Opportunities;
 
 use NextDeveloper\Commons\Actions\AbstractAction;
+use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Exceptions\NotAllowedException;
 use NextDeveloper\CRM\Database\Models\Opportunities;
 use NextDeveloper\Events\Services\Events;
@@ -62,6 +63,9 @@ class ChangeOwner extends AbstractAction
                 'iam_user_id' => $newOwner->id,
             ]);
         });
+
+        // Clear all cached representations of this opportunity so stale data is not served.
+        CacheHelper::deleteKeys(Opportunities::class, $this->model->uuid);
 
         $this->setProgress(90, 'Firing event');
         Events::fire('owner-changed', $this->model->fresh());
