@@ -7,6 +7,9 @@ use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Exceptions\NotAllowedException;
 use NextDeveloper\CRM\Database\Models\Opportunities;
 use NextDeveloper\Events\Services\Events;
+use NextDeveloper\Flow\Database\Models\Items;
+use NextDeveloper\Flow\Services\ItemsService;
+use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 use NextDeveloper\IAM\Helpers\UserHelper;
 
 /**
@@ -67,8 +70,21 @@ class ChangeOwner extends AbstractAction
         // Clear all cached representations of this opportunity so stale data is not served.
         CacheHelper::deleteKeys(Opportunities::class, $this->model->uuid);
 
+        $this->setProgress(75, 'Updating related flow items');
+
+        UserHelper::runAsAdmin(function () use ($newOwner) {
+            Items::withoutGlobalScope(AuthorizationScope::class)
+                ->where('object_type', 'NextDeveloper\CRM\Opportunities')
+                ->where('object_id', $this->model->id)
+                ->each(function (Items $item) use ($newOwner) {
+                    ItemsService::update($item->uuid, [
+                        'iam_user_id' => $newOwner->uuid,
+                    ]);
+                });
+        });
+
         $this->setProgress(90, 'Firing event');
-        Events::fire('owner-changed', $this->model->fresh());
+        Events::fire('owner-changed:NextDeveloper\CRM\Opportunities', $this->model->fresh());
 
         $this->setFinished('Opportunity owner changed to ' . $newOwner->fullname);
     }
