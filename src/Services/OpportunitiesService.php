@@ -88,7 +88,8 @@ class OpportunitiesService extends AbstractOpportunitiesService
                     message: 'New ' . $data['type'] . ' opportunity assigned: '
                     . '"' . $data['name'] . '". '
                     . 'Please review it at your earliest convenience. '
-                    . config('leo.panel_url') . '/crm/opportunities/' . $opportunity->uuid
+                    . config('leo.panel_url') . '/crm/opportunities/' . $opportunity->uuid,
+                    object: $opportunity,
                 );
             }
         }
