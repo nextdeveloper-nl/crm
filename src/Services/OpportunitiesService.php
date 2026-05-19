@@ -43,7 +43,22 @@ class OpportunitiesService extends AbstractOpportunitiesService
             // only when the creator is not a sales-person themselves.
             $responsible = UserHelper::me();
 
-            if(!UserHelper::has('sales-person')) {
+            // If iam_user_id was explicitly provided and that user already holds a
+            // sales role, honour the caller's assignment — do not overwrite with a
+            // randomly picked salesperson.
+            $preAssigned = null;
+            if (! empty($data['iam_user_id'])) {
+                $preAssigned = \NextDeveloper\IAM\Database\Models\Users::withoutGlobalScope(
+                        \NextDeveloper\IAM\Database\Scopes\AuthorizationScope::class
+                    )
+                    ->where('uuid', $data['iam_user_id'])
+                    ->first();
+            }
+
+            if ($preAssigned &&
+                (UserHelper::has('sales-person', $preAssigned) || UserHelper::has('sales-manager', $preAssigned))) {
+                $responsible = $preAssigned;
+            } elseif (!(UserHelper::has('sales-person') || UserHelper::has('sales-manager'))) {
                 $responsible = self::getNaturalResponsibleForOpportunityType($data['type']);
             }
 
