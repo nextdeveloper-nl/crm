@@ -94,6 +94,7 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
             'disabling_reason'  =>  $model->disabling_reason,
             'is_suspended'  =>  $model->is_suspended,
             'suspension_reason'  =>  $model->suspension_reason,
+            'tags'  =>  $model->tags,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,

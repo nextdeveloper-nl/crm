@@ -41,6 +41,7 @@ class AccountsPerspectiveUpdateRequest extends AbstractFormRequest
         'disabling_reason' => 'nullable|string',
         'is_suspended' => 'nullable|boolean',
         'suspension_reason' => 'nullable|string',
+        'tags' => 'nullable',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
