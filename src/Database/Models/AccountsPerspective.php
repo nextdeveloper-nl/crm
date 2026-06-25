@@ -50,6 +50,7 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property string $disabling_reason
  * @property boolean $is_suspended
  * @property string $suspension_reason
+ * @property array $tags
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
@@ -100,6 +101,7 @@ class AccountsPerspective extends Model
             'disabling_reason',
             'is_suspended',
             'suspension_reason',
+            'tags',
     ];
 
     /**
@@ -151,6 +153,7 @@ class AccountsPerspective extends Model
     'disabling_reason' => 'string',
     'is_suspended' => 'boolean',
     'suspension_reason' => 'string',
+    'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
