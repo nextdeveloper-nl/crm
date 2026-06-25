@@ -10,8 +10,10 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use NextDeveloper\Commons\Helpers\ExchangeRateHelper;
 use NextDeveloper\Commons\Services\CurrenciesService;
+use NextDeveloper\CRM\Database\Models\Opportunities;
 use NextDeveloper\CRM\Database\Models\QuoteItems;
 use NextDeveloper\CRM\Database\Models\Quotes;
+use NextDeveloper\CRM\Services\OpportunitiesService;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 use NextDeveloper\IAM\Helpers\UserHelper;
 use NextDeveloper\Marketplace\Database\Models\ProductCatalogsPerspective;
@@ -154,6 +156,18 @@ class RecalculateQuote Implements ShouldQueue
             'total_amount'  =>  $totalAmount,
             'common_currency_id'    =>  $accountCurrency->id
         ]);
+
+        //  Keeping the related opportunity's income in sync with the recalculated quote total.
+        if ($this->model->crm_opportunity_id) {
+            $opportunity = Opportunities::where('id', $this->model->crm_opportunity_id)->first();
+
+            if ($opportunity) {
+                OpportunitiesService::update($opportunity->uuid, [
+                    'income'                =>  $totalAmount,
+                    'common_currency_id'    =>  $accountCurrency->id
+                ]);
+            }
+        }
 
     }
 }
