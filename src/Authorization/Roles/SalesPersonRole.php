@@ -47,6 +47,15 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
             return;
         }
 
+        if(
+            $model->getTable() == 'crm_opportunities' ||
+            $model->getTable() == 'crm_opportunities_perspective'
+        ) {
+            $builder->where('iam_account_id', UserHelper::currentAccount()->id)
+                ->where('iam_user_id', UserHelper::me()->id);
+            return;
+        }
+
         $isUserIdExists =  DatabaseHelper::isColumnExists($model->getTable(), 'iam_user_id');
 
         /**

@@ -43,6 +43,14 @@ class MarketingManagerRole extends AbstractRole implements IAuthorizationRole
             return;
         }
 
+        if(
+            $model->getTable() == 'crm_opportunities' ||
+            $model->getTable() == 'crm_opportunities_perspective'
+        ) {
+            $builder->where('iam_account_id', UserHelper::currentAccount()->id);
+            return;
+        }
+
         /**
          * Here the user will only be able to run this query only if the table name starts with 'crm_*' and
          * the owner of the model is the user itself.
