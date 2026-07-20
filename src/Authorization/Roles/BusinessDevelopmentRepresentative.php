@@ -52,7 +52,10 @@ class BusinessDevelopmentRepresentative extends AbstractRole implements IAuthori
             return;
         }
 
-        if($model->getTable() == 'crm_opportunities') {
+        if(
+            $model->getTable() == 'crm_opportunities' ||
+            $model->getTable() == 'crm_opportunities_perspective'
+        ) {
             $builder->where('iam_account_id', UserHelper::currentAccount()->id);
             return;
         }

@@ -47,10 +47,15 @@ class SalesDevelopmentRepresentative extends AbstractRole implements IAuthorizat
             return;
         }
 
+        if($model->getTable() == 'crm_sales_people_perspective') {
+            return;
+        }
+
         if(
-            $model->getTable() == 'crm_sales_people_perspective' ||
+            $model->getTable() == 'crm_opportunities' ||
             $model->getTable() == 'crm_opportunities_perspective'
         ) {
+            $builder->where('iam_account_id', UserHelper::currentAccount()->id);
             return;
         }
 
