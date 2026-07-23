@@ -17,25 +17,25 @@ class CampaignsQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
         return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function description($value)
     {
         return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function status($value)
     {
         return $this->builder->where('status', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function campaignType($value)
     {
         return $this->builder->where('campaign_type', 'ilike', '%' . $value . '%');
@@ -46,7 +46,7 @@ class CampaignsQueryFilter extends AbstractQueryFilter
     {
         return $this->campaignType($value);
     }
-    
+
     public function startDateStart($date)
     {
         return $this->builder->where('start_date', '>=', $date);
@@ -166,7 +166,7 @@ class CampaignsQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -176,7 +176,7 @@ class CampaignsQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function flowPipelineId($value)
     {
             $flowPipeline = \NextDeveloper\Flow\Database\Models\Pipelines::where('uuid', $value)->first();
@@ -191,7 +191,7 @@ class CampaignsQueryFilter extends AbstractQueryFilter
     {
         return $this->flowPipeline($value);
     }
-    
+
     public function flowStageId($value)
     {
             $flowStage = \NextDeveloper\Flow\Database\Models\Stages::where('uuid', $value)->first();
@@ -206,7 +206,7 @@ class CampaignsQueryFilter extends AbstractQueryFilter
     {
         return $this->flowStage($value);
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

@@ -25,7 +25,7 @@ use NextDeveloper\Commons\Exceptions\NotAllowedException;
  */
 class AbstractEmailTemplatesService
 {
-    public static function get(EmailTemplatesQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
+    public static function get(?EmailTemplatesQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
     {
         $enablePaginate = array_key_exists('paginate', $params);
 
@@ -134,7 +134,7 @@ class AbstractEmailTemplatesService
         return EmailTemplates::where('id', $id)->first();
     }
 
-    
+
     /**
      * This method returns the sub objects of the related models
      *
@@ -177,7 +177,7 @@ class AbstractEmailTemplatesService
                 $data['iam_user_id']
             );
         }
-                    
+
         if(!array_key_exists('iam_user_id', $data)) {
             $data['iam_user_id']    = UserHelper::me()->id;
         }
@@ -187,7 +187,7 @@ class AbstractEmailTemplatesService
                 $data['iam_account_id']
             );
         }
-            
+
         if(!array_key_exists('iam_account_id', $data)) {
             $data['iam_account_id'] = UserHelper::currentAccount()->id;
         }
@@ -197,7 +197,7 @@ class AbstractEmailTemplatesService
                 $data['crm_campaign_id']
             );
         }
-                        
+
         try {
             $model = EmailTemplates::create($data);
         } catch(\Exception $e) {
@@ -263,7 +263,7 @@ class AbstractEmailTemplatesService
                 $data['crm_campaign_id']
             );
         }
-    
+
         Events::fire('updating:NextDeveloper\CRM\EmailTemplates', $model);
 
         try {

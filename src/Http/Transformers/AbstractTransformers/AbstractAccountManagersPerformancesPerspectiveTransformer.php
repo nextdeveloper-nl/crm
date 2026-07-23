@@ -55,7 +55,7 @@ class AbstractAccountManagersPerformancesPerspectiveTransformer extends Abstract
     public function transform(AccountManagersPerformancesPerspective $model)
     {
                                                 $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
-                        
+
         return $this->buildPayload(
             [
             'id'  =>  $model->id,

@@ -54,7 +54,7 @@ class AbstractStatsPerformancesPerspectiveTransformer extends AbstractTransforme
      */
     public function transform(StatsPerformancesPerspective $model)
     {
-            
+
         return $this->buildPayload(
             [
             'id'  =>  $model->id,

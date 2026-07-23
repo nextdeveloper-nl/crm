@@ -17,13 +17,13 @@ class OpportunitiesPerformanceQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function type($value)
     {
         return $this->builder->where('type', 'ilike', '%' . $value . '%');
     }
 
-    
+
     public function leadsCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -42,7 +42,7 @@ class OpportunitiesPerformanceQueryFilter extends AbstractQueryFilter
     {
         return $this->leadsCount($value);
     }
-    
+
     public function prospectCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -61,7 +61,7 @@ class OpportunitiesPerformanceQueryFilter extends AbstractQueryFilter
     {
         return $this->prospectCount($value);
     }
-    
+
     public function qualificationCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -80,7 +80,7 @@ class OpportunitiesPerformanceQueryFilter extends AbstractQueryFilter
     {
         return $this->qualificationCount($value);
     }
-    
+
     public function researchCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -99,7 +99,7 @@ class OpportunitiesPerformanceQueryFilter extends AbstractQueryFilter
     {
         return $this->researchCount($value);
     }
-    
+
     public function needAnalysisCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -118,7 +118,7 @@ class OpportunitiesPerformanceQueryFilter extends AbstractQueryFilter
     {
         return $this->needAnalysisCount($value);
     }
-    
+
     public function approachCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -137,7 +137,7 @@ class OpportunitiesPerformanceQueryFilter extends AbstractQueryFilter
     {
         return $this->approachCount($value);
     }
-    
+
     public function valuePropositionCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -156,7 +156,7 @@ class OpportunitiesPerformanceQueryFilter extends AbstractQueryFilter
     {
         return $this->valuePropositionCount($value);
     }
-    
+
     public function identifyingDecisionMakersCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -175,7 +175,7 @@ class OpportunitiesPerformanceQueryFilter extends AbstractQueryFilter
     {
         return $this->identifyingDecisionMakersCount($value);
     }
-    
+
     public function proposalCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -194,7 +194,7 @@ class OpportunitiesPerformanceQueryFilter extends AbstractQueryFilter
     {
         return $this->proposalCount($value);
     }
-    
+
     public function negotiationCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -213,7 +213,7 @@ class OpportunitiesPerformanceQueryFilter extends AbstractQueryFilter
     {
         return $this->negotiationCount($value);
     }
-    
+
     public function wonCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -232,7 +232,7 @@ class OpportunitiesPerformanceQueryFilter extends AbstractQueryFilter
     {
         return $this->wonCount($value);
     }
-    
+
     public function lostCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -251,7 +251,7 @@ class OpportunitiesPerformanceQueryFilter extends AbstractQueryFilter
     {
         return $this->lostCount($value);
     }
-    
+
     public function cancelledCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -270,7 +270,7 @@ class OpportunitiesPerformanceQueryFilter extends AbstractQueryFilter
     {
         return $this->cancelledCount($value);
     }
-    
+
     public function perceptionAnalysisCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -289,7 +289,7 @@ class OpportunitiesPerformanceQueryFilter extends AbstractQueryFilter
     {
         return $this->perceptionAnalysisCount($value);
     }
-    
+
     public function renewalCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -308,7 +308,7 @@ class OpportunitiesPerformanceQueryFilter extends AbstractQueryFilter
     {
         return $this->renewalCount($value);
     }
-    
+
     public function iamAccountId($value)
     {
             $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -318,7 +318,7 @@ class OpportunitiesPerformanceQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

@@ -59,7 +59,7 @@ class AbstractQuotesTransformer extends AbstractTransformer
                                                             $crmOpportunityId = \NextDeveloper\CRM\Database\Models\Opportunities::where('id', $model->crm_opportunity_id)->first();
                                                             $commonCurrencyId = \NextDeveloper\Commons\Database\Models\Currencies::where('id', $model->common_currency_id)->first();
                                                             $accountingInvoiceId = \NextDeveloper\Accounting\Database\Models\Invoices::where('id', $model->accounting_invoice_id)->first();
-                        
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

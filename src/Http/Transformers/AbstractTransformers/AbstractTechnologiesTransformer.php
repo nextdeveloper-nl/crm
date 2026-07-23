@@ -54,7 +54,7 @@ class AbstractTechnologiesTransformer extends AbstractTransformer
      */
     public function transform(Technologies $model)
     {
-            
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

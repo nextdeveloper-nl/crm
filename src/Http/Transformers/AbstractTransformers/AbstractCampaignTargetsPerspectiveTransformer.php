@@ -57,7 +57,7 @@ class AbstractCampaignTargetsPerspectiveTransformer extends AbstractTransformer
                                                 $crmCampaignId = \NextDeveloper\CRM\Database\Models\Campaigns::where('id', $model->crm_campaign_id)->first();
                                                             $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
                                                             $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
-                        
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

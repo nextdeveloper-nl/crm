@@ -36,7 +36,7 @@ class StatsPerformancesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->newAccounts($value);
     }
-    
+
     public function paidInvoices($value)
     {
         $operator = substr($value, 0, 1);
@@ -55,7 +55,7 @@ class StatsPerformancesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->paidInvoices($value);
     }
-    
+
     public function activeCustomers($value)
     {
         $operator = substr($value, 0, 1);
@@ -74,7 +74,7 @@ class StatsPerformancesPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->activeCustomers($value);
     }
-    
+
     public function statDateStart($date)
     {
         return $this->builder->where('stat_date', '>=', $date);

@@ -64,7 +64,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function accountOwnersFullname($value)
     {
         return $this->builder->where('account_owners_fullname', 'ilike', '%' . $value . '%');
@@ -75,7 +75,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->accountOwnersFullname($value);
     }
-        
+
     public function accountOwnersEmail($value)
     {
         return $this->builder->where('account_owners_email', 'ilike', '%' . $value . '%');
@@ -86,7 +86,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->accountOwnersEmail($value);
     }
-        
+
     public function accountOwnersPhoneNumber($value)
     {
         return $this->builder->where('account_owners_phone_number', 'ilike', '%' . $value . '%');
@@ -97,7 +97,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->accountOwnersPhoneNumber($value);
     }
-        
+
     public function domainName($value)
     {
         return $this->builder->where('domain_name', 'ilike', '%' . $value . '%');
@@ -108,7 +108,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->domainName($value);
     }
-        
+
     public function countryName($value)
     {
         return $this->builder->where('country_name', 'ilike', '%' . $value . '%');
@@ -119,7 +119,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->countryName($value);
     }
-        
+
     public function phoneNumber($value)
     {
         return $this->builder->where('phone_number', 'ilike', '%' . $value . '%');
@@ -130,13 +130,13 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->phoneNumber($value);
     }
-        
+
     public function description($value)
     {
         return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function accountType($value)
     {
         return $this->builder->where('account_type', 'ilike', '%' . $value . '%');
@@ -147,13 +147,13 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->accountType($value);
     }
-        
+
     public function position($value)
     {
         return $this->builder->where('position', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function disqualificationReason($value)
     {
         return $this->builder->where('disqualification_reason', 'ilike', '%' . $value . '%');
@@ -164,7 +164,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->disqualificationReason($value);
     }
-        
+
     public function officePhoneNumber($value)
     {
         return $this->builder->where('office_phone_number', 'ilike', '%' . $value . '%');
@@ -175,7 +175,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->officePhoneNumber($value);
     }
-        
+
     public function officePhoneExtension($value)
     {
         return $this->builder->where('office_phone_extension', 'ilike', '%' . $value . '%');
@@ -186,7 +186,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->officePhoneExtension($value);
     }
-        
+
     public function officeEmail($value)
     {
         return $this->builder->where('office_email', 'ilike', '%' . $value . '%');
@@ -197,7 +197,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->officeEmail($value);
     }
-        
+
     public function disablingReason($value)
     {
         return $this->builder->where('disabling_reason', 'ilike', '%' . $value . '%');
@@ -208,7 +208,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->disablingReason($value);
     }
-        
+
     public function suspensionReason($value)
     {
         return $this->builder->where('suspension_reason', 'ilike', '%' . $value . '%');
@@ -219,7 +219,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->suspensionReason($value);
     }
-    
+
     public function riskLevel($value)
     {
         $operator = substr($value, 0, 1);
@@ -238,7 +238,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->riskLevel($value);
     }
-    
+
     public function totalUserCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -257,7 +257,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->totalUserCount($value);
     }
-    
+
     public function registeredUserCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -276,7 +276,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->registeredUserCount($value);
     }
-    
+
     public function isPayingCustomer($value)
     {
         return $this->builder->where('is_paying_customer', $value);
@@ -287,7 +287,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isPayingCustomer($value);
     }
-     
+
     public function isSdrQualified($value)
     {
         return $this->builder->where('is_sdr_qualified', $value);
@@ -298,7 +298,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isSdrQualified($value);
     }
-     
+
     public function isSdrQualificationRequired($value)
     {
         return $this->builder->where('is_sdr_qualification_required', $value);
@@ -309,7 +309,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isSdrQualificationRequired($value);
     }
-     
+
     public function isDisabled($value)
     {
         return $this->builder->where('is_disabled', $value);
@@ -320,7 +320,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isDisabled($value);
     }
-     
+
     public function isSuspended($value)
     {
         return $this->builder->where('is_suspended', $value);
@@ -331,7 +331,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isSuspended($value);
     }
-     
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -412,7 +412,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->commonDomain($value);
     }
-    
+
     public function commonCountryId($value)
     {
             $commonCountry = \NextDeveloper\Commons\Database\Models\Countries::where('uuid', $value)->first();
@@ -427,7 +427,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->commonCountry($value);
     }
-    
+
     public function iamAccountTypeId($value)
     {
             $iamAccountType = \NextDeveloper\IAM\Database\Models\AccountTypes::where('uuid', $value)->first();
@@ -442,7 +442,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->iamAccountType($value);
     }
-    
+
     public function commonCityId($value)
     {
             $commonCity = \NextDeveloper\Commons\Database\Models\Cities::where('uuid', $value)->first();
@@ -457,7 +457,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->commonCity($value);
     }
-    
+
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -467,7 +467,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function iamAccountId($value)
     {
             $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -477,7 +477,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

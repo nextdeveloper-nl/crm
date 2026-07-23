@@ -43,7 +43,7 @@ class SalesAdminRole extends AbstractRole implements IAuthorizationRole
         // This role can see all
     }
 
-    public function checkPrivileges(Users $users = null)
+    public function checkPrivileges(?Users $users = null)
     {
         //return UserHelper::hasRole(self::NAME, $users);
     }

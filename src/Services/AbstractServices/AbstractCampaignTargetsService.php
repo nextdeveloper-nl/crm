@@ -25,7 +25,7 @@ use NextDeveloper\Commons\Exceptions\NotAllowedException;
  */
 class AbstractCampaignTargetsService
 {
-    public static function get(CampaignTargetsQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
+    public static function get(?CampaignTargetsQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
     {
         $enablePaginate = array_key_exists('paginate', $params);
 
@@ -134,7 +134,7 @@ class AbstractCampaignTargetsService
         return CampaignTargets::where('id', $id)->first();
     }
 
-    
+
     /**
      * This method returns the sub objects of the related models
      *
@@ -183,7 +183,7 @@ class AbstractCampaignTargetsService
                 $data['crm_campaign_id']
             );
         }
-                        
+
         try {
             $model = CampaignTargets::create($data);
         } catch(\Exception $e) {
@@ -243,7 +243,7 @@ class AbstractCampaignTargetsService
                 $data['crm_campaign_id']
             );
         }
-    
+
         Events::fire('updating:NextDeveloper\CRM\CampaignTargets', $model);
 
         try {

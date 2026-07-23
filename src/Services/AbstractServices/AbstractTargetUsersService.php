@@ -25,7 +25,7 @@ use NextDeveloper\Commons\Exceptions\NotAllowedException;
  */
 class AbstractTargetUsersService
 {
-    public static function get(TargetUsersQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
+    public static function get(?TargetUsersQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
     {
         $enablePaginate = array_key_exists('paginate', $params);
 
@@ -134,7 +134,7 @@ class AbstractTargetUsersService
         return TargetUsers::where('id', $id)->first();
     }
 
-    
+
     /**
      * This method returns the sub objects of the related models
      *
@@ -183,7 +183,7 @@ class AbstractTargetUsersService
                 $data['crm_user_id']
             );
         }
-            
+
         try {
             $model = TargetUsers::create($data);
         } catch(\Exception $e) {
@@ -243,7 +243,7 @@ class AbstractTargetUsersService
                 $data['crm_user_id']
             );
         }
-    
+
         Events::fire('updating:NextDeveloper\CRM\TargetUsers', $model);
 
         try {

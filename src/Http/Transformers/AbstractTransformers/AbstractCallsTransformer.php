@@ -58,7 +58,7 @@ class AbstractCallsTransformer extends AbstractTransformer
                                                             $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
                                                             $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
                                                             $crmOpportunityId = \NextDeveloper\CRM\Database\Models\Opportunities::where('id', $model->crm_opportunity_id)->first();
-                        
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

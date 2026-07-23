@@ -17,7 +17,7 @@ class AccountManagersPerformanceQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function accountManager($value)
     {
         return $this->builder->where('account_manager', 'ilike', '%' . $value . '%');
@@ -28,7 +28,7 @@ class AccountManagersPerformanceQueryFilter extends AbstractQueryFilter
     {
         return $this->accountManager($value);
     }
-    
+
     public function totalAccounts($value)
     {
         $operator = substr($value, 0, 1);
@@ -47,7 +47,7 @@ class AccountManagersPerformanceQueryFilter extends AbstractQueryFilter
     {
         return $this->totalAccounts($value);
     }
-    
+
     public function creationDateStart($date)
     {
         return $this->builder->where('creation_date', '>=', $date);
@@ -79,7 +79,7 @@ class AccountManagersPerformanceQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

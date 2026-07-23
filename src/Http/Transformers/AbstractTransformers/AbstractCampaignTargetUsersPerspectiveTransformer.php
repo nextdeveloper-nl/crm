@@ -59,7 +59,7 @@ class AbstractCampaignTargetUsersPerspectiveTransformer extends AbstractTransfor
                                                             $crmUserId = \NextDeveloper\CRM\Database\Models\Users::where('id', $model->crm_user_id)->first();
                                                             $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
                                                             $responsibleAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->responsible_account_id)->first();
-                        
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

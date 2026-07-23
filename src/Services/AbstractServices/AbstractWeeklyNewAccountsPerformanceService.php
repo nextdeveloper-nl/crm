@@ -25,7 +25,7 @@ use NextDeveloper\Commons\Exceptions\NotAllowedException;
  */
 class AbstractWeeklyNewAccountsPerformanceService
 {
-    public static function get(WeeklyNewAccountsPerformanceQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
+    public static function get(?WeeklyNewAccountsPerformanceQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
     {
         $enablePaginate = array_key_exists('paginate', $params);
 
@@ -184,7 +184,7 @@ class AbstractWeeklyNewAccountsPerformanceService
      */
     public static function create(array $data)
     {
-        
+
         try {
             $model = WeeklyNewAccountsPerformance::create($data);
         } catch(\Exception $e) {
@@ -230,7 +230,7 @@ class AbstractWeeklyNewAccountsPerformanceService
             );
         }
 
-        
+
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();

@@ -23,7 +23,7 @@ class OpportunitiesUpdatingEvent
      */
     protected $timestamp = null;
 
-    public function __construct(Opportunities $model = null) {
+    public function __construct(?Opportunities $model = null) {
         $this->_model = $model;
     }
 

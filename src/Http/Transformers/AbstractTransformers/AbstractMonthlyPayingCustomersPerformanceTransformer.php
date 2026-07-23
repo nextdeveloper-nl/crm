@@ -54,7 +54,7 @@ class AbstractMonthlyPayingCustomersPerformanceTransformer extends AbstractTrans
      */
     public function transform(MonthlyPayingCustomersPerformance $model)
     {
-            
+
         return $this->buildPayload(
             [
             'id'  =>  $model->id,
