@@ -37,13 +37,13 @@ class AccountManagersPerspectiveQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
         return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function accountManager($value)
     {
         return $this->builder->where('account_manager', 'ilike', '%' . $value . '%');
@@ -54,7 +54,7 @@ class AccountManagersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->accountManager($value);
     }
-    
+
     public function isPayingCustomer($value)
     {
         return $this->builder->where('is_paying_customer', $value);
@@ -65,7 +65,7 @@ class AccountManagersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isPayingCustomer($value);
     }
-     
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -141,7 +141,7 @@ class AccountManagersPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -151,7 +151,7 @@ class AccountManagersPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

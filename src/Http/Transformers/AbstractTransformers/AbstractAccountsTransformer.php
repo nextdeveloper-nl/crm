@@ -56,7 +56,7 @@ class AbstractAccountsTransformer extends AbstractTransformer
     {
                                                 $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
                                                             $commonCityId = \NextDeveloper\Commons\Database\Models\Cities::where('id', $model->common_city_id)->first();
-                        
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

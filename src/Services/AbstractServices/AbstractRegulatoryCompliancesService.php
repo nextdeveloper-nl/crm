@@ -25,7 +25,7 @@ use NextDeveloper\Commons\Exceptions\NotAllowedException;
  */
 class AbstractRegulatoryCompliancesService
 {
-    public static function get(RegulatoryCompliancesQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
+    public static function get(?RegulatoryCompliancesQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
     {
         $enablePaginate = array_key_exists('paginate', $params);
 
@@ -179,7 +179,7 @@ class AbstractRegulatoryCompliancesService
      */
     public static function create(array $data)
     {
-        
+
         try {
             $model = RegulatoryCompliances::create($data);
         } catch(\Exception $e) {
@@ -225,7 +225,7 @@ class AbstractRegulatoryCompliancesService
             );
         }
 
-        
+
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();

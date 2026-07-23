@@ -56,7 +56,7 @@ class AbstractCampaignTargetsTransformer extends AbstractTransformer
     {
                                                 $crmTargetId = \NextDeveloper\CRM\Database\Models\Targets::where('id', $model->crm_target_id)->first();
                                                             $crmCampaignId = \NextDeveloper\CRM\Database\Models\Campaigns::where('id', $model->crm_campaign_id)->first();
-                        
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

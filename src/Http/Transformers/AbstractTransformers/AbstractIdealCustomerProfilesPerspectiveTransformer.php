@@ -54,7 +54,7 @@ class AbstractIdealCustomerProfilesPerspectiveTransformer extends AbstractTransf
      */
     public function transform(IdealCustomerProfilesPerspective $model)
     {
-            
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

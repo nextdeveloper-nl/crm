@@ -17,19 +17,19 @@ class CallsQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function description($value)
     {
         return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function disposition($value)
     {
         return $this->builder->where('disposition', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function fromNumber($value)
     {
         return $this->builder->where('from_number', 'ilike', '%' . $value . '%');
@@ -40,7 +40,7 @@ class CallsQueryFilter extends AbstractQueryFilter
     {
         return $this->fromNumber($value);
     }
-        
+
     public function toNumber($value)
     {
         return $this->builder->where('to_number', 'ilike', '%' . $value . '%');
@@ -51,7 +51,7 @@ class CallsQueryFilter extends AbstractQueryFilter
     {
         return $this->toNumber($value);
     }
-        
+
     public function callDirection($value)
     {
         return $this->builder->where('call_direction', 'ilike', '%' . $value . '%');
@@ -62,13 +62,13 @@ class CallsQueryFilter extends AbstractQueryFilter
     {
         return $this->callDirection($value);
     }
-        
+
     public function name($value)
     {
         return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-    
+
     public function duration($value)
     {
         $operator = substr($value, 0, 1);
@@ -82,7 +82,7 @@ class CallsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('duration', $operator, $value);
     }
 
-    
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -158,7 +158,7 @@ class CallsQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function iamAccountId($value)
     {
             $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -168,7 +168,7 @@ class CallsQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function crmAccountId($value)
     {
             $crmAccount = \NextDeveloper\CRM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -183,7 +183,7 @@ class CallsQueryFilter extends AbstractQueryFilter
     {
         return $this->crmAccount($value);
     }
-    
+
     public function crmOpportunityId($value)
     {
             $crmOpportunity = \NextDeveloper\CRM\Database\Models\Opportunities::where('uuid', $value)->first();
@@ -198,7 +198,7 @@ class CallsQueryFilter extends AbstractQueryFilter
     {
         return $this->crmOpportunity($value);
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

@@ -25,7 +25,7 @@ use NextDeveloper\Commons\Exceptions\NotAllowedException;
  */
 class AbstractTechnologiesService
 {
-    public static function get(TechnologiesQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
+    public static function get(?TechnologiesQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
     {
         $enablePaginate = array_key_exists('paginate', $params);
 
@@ -134,7 +134,7 @@ class AbstractTechnologiesService
         return Technologies::where('id', $id)->first();
     }
 
-    
+
     /**
      * This method returns the sub objects of the related models
      *
@@ -171,7 +171,7 @@ class AbstractTechnologiesService
      */
     public static function create(array $data)
     {
-        
+
         try {
             $model = Technologies::create($data);
         } catch(\Exception $e) {
@@ -219,7 +219,7 @@ class AbstractTechnologiesService
             );
         }
 
-        
+
         Events::fire('updating:NextDeveloper\CRM\Technologies', $model);
 
         try {

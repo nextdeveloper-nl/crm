@@ -25,7 +25,7 @@ use NextDeveloper\Commons\Exceptions\NotAllowedException;
  */
 class AbstractTargetUsersPerspectiveService
 {
-    public static function get(TargetUsersPerspectiveQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
+    public static function get(?TargetUsersPerspectiveQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
     {
         $enablePaginate = array_key_exists('paginate', $params);
 
@@ -191,7 +191,7 @@ class AbstractTargetUsersPerspectiveService
                 $data['common_language_id']
             );
         }
-                        
+
         try {
             $model = TargetUsersPerspective::create($data);
         } catch(\Exception $e) {
@@ -249,7 +249,7 @@ class AbstractTargetUsersPerspectiveService
                 $data['common_language_id']
             );
         }
-    
+
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();

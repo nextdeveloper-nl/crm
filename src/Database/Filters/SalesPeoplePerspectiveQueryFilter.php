@@ -17,61 +17,61 @@ class SalesPeoplePerspectiveQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
         return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function surname($value)
     {
         return $this->builder->where('surname', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function fullname($value)
     {
         return $this->builder->where('fullname', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function email($value)
     {
         return $this->builder->where('email', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function about($value)
     {
         return $this->builder->where('about', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function pronoun($value)
     {
         return $this->builder->where('pronoun', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function nin($value)
     {
         return $this->builder->where('nin', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function country($value)
     {
         return $this->builder->where('country', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function language($value)
     {
         return $this->builder->where('language', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function phoneNumber($value)
     {
         return $this->builder->where('phone_number', 'ilike', '%' . $value . '%');
@@ -82,19 +82,19 @@ class SalesPeoplePerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->phoneNumber($value);
     }
-        
+
     public function position($value)
     {
         return $this->builder->where('position', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function job($value)
     {
         return $this->builder->where('job', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function jobDescription($value)
     {
         return $this->builder->where('job_description', 'ilike', '%' . $value . '%');
@@ -105,19 +105,19 @@ class SalesPeoplePerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->jobDescription($value);
     }
-        
+
     public function hobbies($value)
     {
         return $this->builder->where('hobbies', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function city($value)
     {
         return $this->builder->where('city', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function relationshipStatus($value)
     {
         return $this->builder->where('relationship_status', 'ilike', '%' . $value . '%');
@@ -128,7 +128,7 @@ class SalesPeoplePerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->relationshipStatus($value);
     }
-    
+
     public function profilePictureIdentity($value)
     {
         $operator = substr($value, 0, 1);
@@ -147,7 +147,7 @@ class SalesPeoplePerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->profilePictureIdentity($value);
     }
-    
+
     public function childCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -166,7 +166,7 @@ class SalesPeoplePerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->childCount($value);
     }
-    
+
     public function isRegistered($value)
     {
         return $this->builder->where('is_registered', $value);
@@ -177,7 +177,7 @@ class SalesPeoplePerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isRegistered($value);
     }
-     
+
     public function isNinVerified($value)
     {
         return $this->builder->where('is_nin_verified', $value);
@@ -188,7 +188,7 @@ class SalesPeoplePerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isNinVerified($value);
     }
-     
+
     public function isEmailVerified($value)
     {
         return $this->builder->where('is_email_verified', $value);
@@ -199,7 +199,7 @@ class SalesPeoplePerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isEmailVerified($value);
     }
-     
+
     public function isPhoneNumberVerified($value)
     {
         return $this->builder->where('is_phone_number_verified', $value);
@@ -210,7 +210,7 @@ class SalesPeoplePerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isPhoneNumberVerified($value);
     }
-     
+
     public function isEvangelist($value)
     {
         return $this->builder->where('is_evangelist', $value);
@@ -221,7 +221,7 @@ class SalesPeoplePerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isEvangelist($value);
     }
-     
+
     public function isSingle($value)
     {
         return $this->builder->where('is_single', $value);
@@ -232,7 +232,7 @@ class SalesPeoplePerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isSingle($value);
     }
-     
+
     public function birthdayStart($date)
     {
         return $this->builder->where('birthday', '>=', $date);
@@ -335,7 +335,7 @@ class SalesPeoplePerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->commonCountry($value);
     }
-    
+
     public function commonLanguageId($value)
     {
             $commonLanguage = \NextDeveloper\Commons\Database\Models\Languages::where('uuid', $value)->first();
@@ -350,7 +350,7 @@ class SalesPeoplePerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->commonLanguage($value);
     }
-    
+
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -360,7 +360,7 @@ class SalesPeoplePerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function iamAccountId($value)
     {
             $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -370,7 +370,7 @@ class SalesPeoplePerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

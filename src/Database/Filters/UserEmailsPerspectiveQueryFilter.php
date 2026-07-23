@@ -17,31 +17,31 @@ class UserEmailsPerspectiveQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function position($value)
     {
         return $this->builder->where('position', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function job($value)
     {
         return $this->builder->where('job', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function fullname($value)
     {
         return $this->builder->where('fullname', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function email($value)
     {
         return $this->builder->where('email', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function phoneNumber($value)
     {
         return $this->builder->where('phone_number', 'ilike', '%' . $value . '%');
@@ -52,7 +52,7 @@ class UserEmailsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->phoneNumber($value);
     }
-        
+
     public function fromEmailAddress($value)
     {
         return $this->builder->where('from_email_address', 'ilike', '%' . $value . '%');
@@ -63,19 +63,19 @@ class UserEmailsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->fromEmailAddress($value);
     }
-        
+
     public function subject($value)
     {
         return $this->builder->where('subject', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function body($value)
     {
         return $this->builder->where('body', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function contentType($value)
     {
         return $this->builder->where('content_type', 'ilike', '%' . $value . '%');
@@ -86,7 +86,7 @@ class UserEmailsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->contentType($value);
     }
-        
+
     public function messageStatus($value)
     {
         return $this->builder->where('message_status', 'ilike', '%' . $value . '%');
@@ -97,7 +97,7 @@ class UserEmailsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->messageStatus($value);
     }
-    
+
     public function isSuspended($value)
     {
         return $this->builder->where('is_suspended', $value);
@@ -108,7 +108,7 @@ class UserEmailsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isSuspended($value);
     }
-     
+
     public function isMarketingEmail($value)
     {
         return $this->builder->where('is_marketing_email', $value);
@@ -119,7 +119,7 @@ class UserEmailsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isMarketingEmail($value);
     }
-     
+
     public function deliverAtStart($date)
     {
         return $this->builder->where('deliver_at', '>=', $date);
@@ -239,7 +239,7 @@ class UserEmailsPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function communicationMessageId($value)
     {
             $communicationMessage = \NextDeveloper\Communication\Database\Models\Messages::where('uuid', $value)->first();
@@ -254,7 +254,7 @@ class UserEmailsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->communicationMessage($value);
     }
-    
+
     public function iamAccountId($value)
     {
             $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -264,7 +264,7 @@ class UserEmailsPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 }

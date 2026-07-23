@@ -54,7 +54,7 @@ class AbstractSectorFocusTransformer extends AbstractTransformer
      */
     public function transform(SectorFocus $model)
     {
-            
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

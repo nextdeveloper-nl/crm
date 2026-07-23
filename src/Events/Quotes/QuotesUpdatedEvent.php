@@ -24,7 +24,7 @@ class QuotesUpdatedEvent
      */
     protected $timestamp = null;
 
-    public function __construct(Quotes $model = null)
+    public function __construct(?Quotes $model = null)
     {
         $this->_model = $model;
     }

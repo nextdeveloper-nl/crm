@@ -59,7 +59,7 @@ class AbstractOpportunitiesTransformer extends AbstractTransformer
                                                             $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
                                                             $commonCurrencyId = \NextDeveloper\Commons\Database\Models\Currencies::where('id', $model->common_currency_id)->first();
                                                             $crmCampaignId = \NextDeveloper\CRM\Database\Models\Campaigns::where('id', $model->crm_campaign_id)->first();
-                        
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

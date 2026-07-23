@@ -24,7 +24,7 @@ class UserManagersSavingEvent
      */
     protected $timestamp = null;
 
-    public function __construct(UserManagers $model = null)
+    public function __construct(?UserManagers $model = null)
     {
         $this->_model = $model;
     }

@@ -28,7 +28,7 @@ class NotReadyException extends AbstractCommonsException
      * @param $code
      * @param \Exception|null $previous
      */
-    public function __construct($message, $code = 0, \Exception $previous = null)
+    public function __construct($message, $code = 0, ?\Exception $previous = null)
     {
         $message = $this->defaultMessage . 'Error message is: ' . $message;
 

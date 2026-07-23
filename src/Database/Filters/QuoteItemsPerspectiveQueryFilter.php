@@ -17,7 +17,7 @@ class QuoteItemsPerspectiveQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function productName($value)
     {
         return $this->builder->where('product_name', 'ilike', '%' . $value . '%');
@@ -28,7 +28,7 @@ class QuoteItemsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->productName($value);
     }
-        
+
     public function productCatatalogName($value)
     {
         return $this->builder->where('product_catatalog_name', 'ilike', '%' . $value . '%');
@@ -39,7 +39,7 @@ class QuoteItemsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->productCatatalogName($value);
     }
-        
+
     public function currencyCode($value)
     {
         return $this->builder->where('currency_code', 'ilike', '%' . $value . '%');
@@ -50,7 +50,7 @@ class QuoteItemsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->currencyCode($value);
     }
-    
+
     public function quantity($value)
     {
         $operator = substr($value, 0, 1);
@@ -64,7 +64,7 @@ class QuoteItemsPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('quantity', $operator, $value);
     }
 
-    
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -145,7 +145,7 @@ class QuoteItemsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->marketplaceProduct($value);
     }
-    
+
     public function marketplaceProductCatalogId($value)
     {
             $marketplaceProductCatalog = \NextDeveloper\Marketplace\Database\Models\ProductCatalogs::where('uuid', $value)->first();
@@ -160,7 +160,7 @@ class QuoteItemsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->marketplaceProductCatalog($value);
     }
-    
+
     public function crmQuoteId($value)
     {
             $crmQuote = \NextDeveloper\CRM\Database\Models\Quotes::where('uuid', $value)->first();
@@ -175,7 +175,7 @@ class QuoteItemsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->crmQuote($value);
     }
-    
+
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -185,7 +185,7 @@ class QuoteItemsPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function iamAccountId($value)
     {
             $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -195,7 +195,7 @@ class QuoteItemsPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

@@ -37,13 +37,13 @@ class AccountsQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function position($value)
     {
         return $this->builder->where('position', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function additionalInformation($value)
     {
         return $this->builder->where('additional_information', 'ilike', '%' . $value . '%');
@@ -54,7 +54,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->additionalInformation($value);
     }
-        
+
     public function disablingReason($value)
     {
         return $this->builder->where('disabling_reason', 'ilike', '%' . $value . '%');
@@ -65,7 +65,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->disablingReason($value);
     }
-        
+
     public function suspensionReason($value)
     {
         return $this->builder->where('suspension_reason', 'ilike', '%' . $value . '%');
@@ -76,7 +76,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->suspensionReason($value);
     }
-        
+
     public function disqualificationReason($value)
     {
         return $this->builder->where('disqualification_reason', 'ilike', '%' . $value . '%');
@@ -87,7 +87,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->disqualificationReason($value);
     }
-        
+
     public function officePhoneNumber($value)
     {
         return $this->builder->where('office_phone_number', 'ilike', '%' . $value . '%');
@@ -98,7 +98,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->officePhoneNumber($value);
     }
-        
+
     public function officePhoneExtension($value)
     {
         return $this->builder->where('office_phone_extension', 'ilike', '%' . $value . '%');
@@ -109,7 +109,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->officePhoneExtension($value);
     }
-        
+
     public function officeEmail($value)
     {
         return $this->builder->where('office_email', 'ilike', '%' . $value . '%');
@@ -120,7 +120,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->officeEmail($value);
     }
-    
+
     public function riskLevel($value)
     {
         $operator = substr($value, 0, 1);
@@ -139,7 +139,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->riskLevel($value);
     }
-    
+
     public function technologyRank($value)
     {
         $operator = substr($value, 0, 1);
@@ -158,7 +158,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->technologyRank($value);
     }
-    
+
     public function isPayingCustomer($value)
     {
         return $this->builder->where('is_paying_customer', $value);
@@ -169,7 +169,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->isPayingCustomer($value);
     }
-     
+
     public function isSuspended($value)
     {
         return $this->builder->where('is_suspended', $value);
@@ -180,7 +180,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->isSuspended($value);
     }
-     
+
     public function isServiceEnabled($value)
     {
         return $this->builder->where('is_service_enabled', $value);
@@ -191,7 +191,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->isServiceEnabled($value);
     }
-     
+
     public function isDisabled($value)
     {
         return $this->builder->where('is_disabled', $value);
@@ -202,7 +202,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->isDisabled($value);
     }
-     
+
     public function isSdrQualified($value)
     {
         return $this->builder->where('is_sdr_qualified', $value);
@@ -213,7 +213,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->isSdrQualified($value);
     }
-     
+
     public function isSdrQualificationRequired($value)
     {
         return $this->builder->where('is_sdr_qualification_required', $value);
@@ -224,7 +224,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->isSdrQualificationRequired($value);
     }
-     
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -300,7 +300,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function commonCityId($value)
     {
             $commonCity = \NextDeveloper\Commons\Database\Models\Cities::where('uuid', $value)->first();
@@ -315,7 +315,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->commonCity($value);
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 
 

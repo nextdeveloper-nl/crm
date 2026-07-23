@@ -172,7 +172,7 @@ class Opportunities extends Model
     {
         return $this->belongsTo(\NextDeveloper\CRM\Database\Models\Campaigns::class);
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

@@ -68,7 +68,7 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
         if($isUserIdExists) $builder->where('iam_user_id', UserHelper::me()->id);
     }
 
-    public function checkPrivileges(Users $users = null)
+    public function checkPrivileges(?Users $users = null)
     {
         //return UserHelper::hasRole(self::NAME, $users);
     }

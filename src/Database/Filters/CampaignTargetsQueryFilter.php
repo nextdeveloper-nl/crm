@@ -76,7 +76,7 @@ class CampaignTargetsQueryFilter extends AbstractQueryFilter
     {
         return $this->crmTarget($value);
     }
-    
+
     public function crmCampaignId($value)
     {
             $crmCampaign = \NextDeveloper\CRM\Database\Models\Campaigns::where('uuid', $value)->first();
@@ -91,7 +91,7 @@ class CampaignTargetsQueryFilter extends AbstractQueryFilter
     {
         return $this->crmCampaign($value);
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

@@ -24,7 +24,7 @@ class AccountManagersDeletedEvent
      */
     protected $timestamp = null;
 
-    public function __construct(AccountManagers $model = null)
+    public function __construct(?AccountManagers $model = null)
     {
         $this->_model = $model;
     }

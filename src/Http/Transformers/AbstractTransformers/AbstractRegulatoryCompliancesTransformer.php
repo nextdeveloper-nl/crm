@@ -54,7 +54,7 @@ class AbstractRegulatoryCompliancesTransformer extends AbstractTransformer
      */
     public function transform(RegulatoryCompliances $model)
     {
-            
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

@@ -54,7 +54,7 @@ class AbstractWeeklyNewAccountsPerformanceTransformer extends AbstractTransforme
      */
     public function transform(WeeklyNewAccountsPerformance $model)
     {
-            
+
         return $this->buildPayload(
             [
             'id'  =>  $model->id,

@@ -37,31 +37,31 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
         return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function description($value)
     {
         return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function source($value)
     {
         return $this->builder->where('source', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function type($value)
     {
         return $this->builder->where('type', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function reasonLost($value)
     {
         return $this->builder->where('reason_lost', 'ilike', '%' . $value . '%');
@@ -72,7 +72,7 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
     {
         return $this->reasonLost($value);
     }
-    
+
     public function probability($value)
     {
         $operator = substr($value, 0, 1);
@@ -86,7 +86,7 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('probability', $operator, $value);
     }
 
-    
+
     public function deadlineStart($date)
     {
         return $this->builder->where('deadline', '>=', $date);
@@ -184,7 +184,7 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -194,7 +194,7 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function crmAccountId($value)
     {
             $crmAccount = \NextDeveloper\CRM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -209,7 +209,7 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
     {
         return $this->crmAccount($value);
     }
-    
+
     public function commonCurrencyId($value)
     {
             $commonCurrency = \NextDeveloper\Commons\Database\Models\Currencies::where('uuid', $value)->first();
@@ -224,7 +224,7 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
     {
         return $this->commonCurrency($value);
     }
-    
+
     public function crmCampaignId($value)
     {
             $crmCampaign = \NextDeveloper\CRM\Database\Models\Campaigns::where('uuid', $value)->first();
@@ -239,7 +239,7 @@ class OpportunitiesQueryFilter extends AbstractQueryFilter
     {
         return $this->crmCampaign($value);
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 
 

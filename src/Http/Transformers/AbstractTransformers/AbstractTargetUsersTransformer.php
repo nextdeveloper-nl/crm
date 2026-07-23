@@ -56,7 +56,7 @@ class AbstractTargetUsersTransformer extends AbstractTransformer
     {
                                                 $crmTargetId = \NextDeveloper\CRM\Database\Models\Targets::where('id', $model->crm_target_id)->first();
                                                             $crmUserId = \NextDeveloper\CRM\Database\Models\Users::where('id', $model->crm_user_id)->first();
-                        
+
         return $this->buildPayload(
             [
             'id'  =>  $model->id,

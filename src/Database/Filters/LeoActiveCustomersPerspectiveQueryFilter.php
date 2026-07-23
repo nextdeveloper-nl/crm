@@ -17,19 +17,19 @@ class LeoActiveCustomersPerspectiveQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
         return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function description($value)
     {
         return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function phoneNumber($value)
     {
         return $this->builder->where('phone_number', 'ilike', '%' . $value . '%');
@@ -40,7 +40,7 @@ class LeoActiveCustomersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->phoneNumber($value);
     }
-        
+
     public function accountOwner($value)
     {
         return $this->builder->where('account_owner', 'ilike', '%' . $value . '%');
@@ -51,7 +51,7 @@ class LeoActiveCustomersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->accountOwner($value);
     }
-        
+
     public function accountOwnerEmail($value)
     {
         return $this->builder->where('account_owner_email', 'ilike', '%' . $value . '%');
@@ -62,7 +62,7 @@ class LeoActiveCustomersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->accountOwnerEmail($value);
     }
-        
+
     public function currencyCode($value)
     {
         return $this->builder->where('currency_code', 'ilike', '%' . $value . '%');
@@ -73,7 +73,7 @@ class LeoActiveCustomersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->currencyCode($value);
     }
-    
+
     public function riskLevel($value)
     {
         $operator = substr($value, 0, 1);
@@ -92,7 +92,7 @@ class LeoActiveCustomersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->riskLevel($value);
     }
-    
+
     public function accountingAccount($value)
     {
         $operator = substr($value, 0, 1);
@@ -111,7 +111,7 @@ class LeoActiveCustomersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->accountingAccount($value);
     }
-    
+
     public function crmAccount($value)
     {
         $operator = substr($value, 0, 1);
@@ -130,7 +130,7 @@ class LeoActiveCustomersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->crmAccount($value);
     }
-    
+
     public function iaasAccount($value)
     {
         $operator = substr($value, 0, 1);
@@ -149,7 +149,7 @@ class LeoActiveCustomersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->iaasAccount($value);
     }
-    
+
     public function marketplaceAccount($value)
     {
         $operator = substr($value, 0, 1);
@@ -168,7 +168,7 @@ class LeoActiveCustomersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->marketplaceAccount($value);
     }
-    
+
     public function partnershipAccount($value)
     {
         $operator = substr($value, 0, 1);
@@ -187,7 +187,7 @@ class LeoActiveCustomersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->partnershipAccount($value);
     }
-    
+
     public function ipaasAccount($value)
     {
         $operator = substr($value, 0, 1);
@@ -206,7 +206,7 @@ class LeoActiveCustomersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->ipaasAccount($value);
     }
-    
+
     public function intelligenceAccount($value)
     {
         $operator = substr($value, 0, 1);
@@ -225,7 +225,7 @@ class LeoActiveCustomersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->intelligenceAccount($value);
     }
-    
+
     public function autoquillAccount($value)
     {
         $operator = substr($value, 0, 1);
@@ -244,7 +244,7 @@ class LeoActiveCustomersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->autoquillAccount($value);
     }
-    
+
     public function llmoceanAccount($value)
     {
         $operator = substr($value, 0, 1);
@@ -263,7 +263,7 @@ class LeoActiveCustomersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->llmoceanAccount($value);
     }
-    
+
     public function unpaidInvoiceCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -282,7 +282,7 @@ class LeoActiveCustomersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->unpaidInvoiceCount($value);
     }
-    
+
     public function virtualMachineCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -301,7 +301,7 @@ class LeoActiveCustomersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->virtualMachineCount($value);
     }
-    
+
     public function virtualDiskImageCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -320,7 +320,7 @@ class LeoActiveCustomersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->virtualDiskImageCount($value);
     }
-    
+
     public function virtualNetworkCardCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -339,7 +339,7 @@ class LeoActiveCustomersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->virtualNetworkCardCount($value);
     }
-    
+
     public function ipAddressCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -358,7 +358,7 @@ class LeoActiveCustomersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->ipAddressCount($value);
     }
-    
+
     public function isActive($value)
     {
         return $this->builder->where('is_active', $value);
@@ -369,7 +369,7 @@ class LeoActiveCustomersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isActive($value);
     }
-     
+
     public function isPayingCustomer($value)
     {
         return $this->builder->where('is_paying_customer', $value);
@@ -380,7 +380,7 @@ class LeoActiveCustomersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isPayingCustomer($value);
     }
-     
+
     public function isCrmSuspended($value)
     {
         return $this->builder->where('is_crm_suspended', $value);
@@ -391,7 +391,7 @@ class LeoActiveCustomersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isCrmSuspended($value);
     }
-     
+
     public function isCrmDisabled($value)
     {
         return $this->builder->where('is_crm_disabled', $value);
@@ -402,7 +402,7 @@ class LeoActiveCustomersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isCrmDisabled($value);
     }
-     
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);

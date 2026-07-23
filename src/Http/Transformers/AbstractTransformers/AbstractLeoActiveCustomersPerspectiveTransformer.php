@@ -54,7 +54,7 @@ class AbstractLeoActiveCustomersPerspectiveTransformer extends AbstractTransform
      */
     public function transform(LeoActiveCustomersPerspective $model)
     {
-            
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

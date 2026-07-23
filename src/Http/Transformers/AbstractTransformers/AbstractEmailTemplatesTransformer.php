@@ -58,7 +58,7 @@ class AbstractEmailTemplatesTransformer extends AbstractTransformer
                                                             $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
                                                             $crmCampaignId = \NextDeveloper\CRM\Database\Models\Campaigns::where('id', $model->crm_campaign_id)->first();
                                                             $communicationChannelId = \NextDeveloper\Communication\Database\Models\Channels::where('id', $model->communication_channel_id)->first();
-                        
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

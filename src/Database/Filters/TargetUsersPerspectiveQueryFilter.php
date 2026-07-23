@@ -17,37 +17,37 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function pronoun($value)
     {
         return $this->builder->where('pronoun', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function name($value)
     {
         return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function surname($value)
     {
         return $this->builder->where('surname', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function fullname($value)
     {
         return $this->builder->where('fullname', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function email($value)
     {
         return $this->builder->where('email', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function phoneNumber($value)
     {
         return $this->builder->where('phone_number', 'ilike', '%' . $value . '%');
@@ -58,25 +58,25 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->phoneNumber($value);
     }
-        
+
     public function about($value)
     {
         return $this->builder->where('about', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function position($value)
     {
         return $this->builder->where('position', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function job($value)
     {
         return $this->builder->where('job', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function jobDescription($value)
     {
         return $this->builder->where('job_description', 'ilike', '%' . $value . '%');
@@ -87,19 +87,19 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->jobDescription($value);
     }
-        
+
     public function hobbies($value)
     {
         return $this->builder->where('hobbies', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function city($value)
     {
         return $this->builder->where('city', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function relationshipStatus($value)
     {
         return $this->builder->where('relationship_status', 'ilike', '%' . $value . '%');
@@ -110,7 +110,7 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->relationshipStatus($value);
     }
-        
+
     public function targetName($value)
     {
         return $this->builder->where('target_name', 'ilike', '%' . $value . '%');
@@ -121,7 +121,7 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->targetName($value);
     }
-        
+
     public function targetDescription($value)
     {
         return $this->builder->where('target_description', 'ilike', '%' . $value . '%');
@@ -132,7 +132,7 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->targetDescription($value);
     }
-    
+
     public function childCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -151,7 +151,7 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->childCount($value);
     }
-    
+
     public function isEvangelist($value)
     {
         return $this->builder->where('is_evangelist', $value);
@@ -162,7 +162,7 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isEvangelist($value);
     }
-     
+
     public function isSingle($value)
     {
         return $this->builder->where('is_single', $value);
@@ -173,7 +173,7 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isSingle($value);
     }
-     
+
     public function isSuspended($value)
     {
         return $this->builder->where('is_suspended', $value);
@@ -184,7 +184,7 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->isSuspended($value);
     }
-     
+
     public function birthdayStart($date)
     {
         return $this->builder->where('birthday', '>=', $date);
@@ -265,7 +265,7 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->commonCountry($value);
     }
-    
+
     public function commonLanguageId($value)
     {
             $commonLanguage = \NextDeveloper\Commons\Database\Models\Languages::where('uuid', $value)->first();
@@ -280,7 +280,7 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->commonLanguage($value);
     }
-    
+
     public function crmUserId($value)
     {
             $crmUser = \NextDeveloper\CRM\Database\Models\Users::where('uuid', $value)->first();
@@ -295,7 +295,7 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->crmUser($value);
     }
-    
+
     public function crmTargetId($value)
     {
             $crmTarget = \NextDeveloper\CRM\Database\Models\Targets::where('uuid', $value)->first();
@@ -310,7 +310,7 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->crmTarget($value);
     }
-    
+
     public function iamAccountId($value)
     {
             $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -320,7 +320,7 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -330,7 +330,7 @@ class TargetUsersPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 
