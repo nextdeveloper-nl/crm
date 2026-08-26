@@ -57,6 +57,8 @@ class AbstractOpportunitiesPerspectiveTransformer extends AbstractTransformer
                                                 $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
                                                             $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
                                                             $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
+                                                            $flowPipelineId = \NextDeveloper\Flow\Database\Models\Pipelines::where('id', $model->flow_pipeline_id)->first();
+                                                            $flowStageId = \NextDeveloper\Flow\Database\Models\Stages::where('id', $model->flow_stage_id)->first();
 
         return $this->buildPayload(
             [
@@ -76,6 +78,12 @@ class AbstractOpportunitiesPerspectiveTransformer extends AbstractTransformer
             'meeting_count'  =>  $model->meeting_count,
             'call_count'  =>  $model->call_count,
             'project_count'  =>  $model->project_count,
+            'flow_pipeline_id'  =>  $flowPipelineId ? $flowPipelineId->uuid : null,
+            'flow_pipeline_name'  =>  $model->flow_pipeline_name,
+            'flow_stage_id'  =>  $flowStageId ? $flowStageId->uuid : null,
+            'flow_stage_name'  =>  $model->flow_stage_name,
+            'flow_stage_color'  =>  $model->flow_stage_color,
+            'latest_quote_amount'  =>  $model->latest_quote_amount,
             'type'  =>  $model->type,
             'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
             'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
