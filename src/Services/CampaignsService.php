@@ -25,7 +25,11 @@ class CampaignsService extends AbstractCampaignsService
         $data = self::provisionFlow($data);
         $data = self::resolveFlowIds($data);
 
-        return parent::create($data);
+        $campaign = parent::create($data);
+
+        self::linkFlowPipelineToCampaign($campaign);
+
+        return $campaign;
     }
 
     /**
@@ -62,6 +66,29 @@ class CampaignsService extends AbstractCampaignsService
         unset($data['flow_template_id']);
 
         return $data;
+    }
+
+    /**
+     * The pipeline is provisioned before the campaign row exists, so its object_id can't be
+     * set at creation time. Once the campaign has an id, point the pipeline's object_type /
+     * object_id back at it so the reverse relation resolves.
+     */
+    private static function linkFlowPipelineToCampaign($campaign): void
+    {
+        if (!$campaign->flow_pipeline_id) {
+            return;
+        }
+
+        $pipeline = Pipelines::find($campaign->flow_pipeline_id);
+
+        if (!$pipeline) {
+            return;
+        }
+
+        PipelinesService::update($pipeline->uuid, [
+            'object_type' => get_class($campaign),
+            'object_id'   => $campaign->id,
+        ]);
     }
 
     public static function update($id, array $data)
