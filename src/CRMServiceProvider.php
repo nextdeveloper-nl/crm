@@ -102,6 +102,7 @@ class CRMServiceProvider extends AbstractServiceProvider {
         if ($this->app->runningInConsole()) {
             $this->commands([
                 \NextDeveloper\CRM\Console\Commands\GenerateSalesCampaignOpportunitiesCommand::class,
+                \NextDeveloper\CRM\Console\Commands\FixCampaignFlowLinksCommand::class,
             ]);
         }
     }

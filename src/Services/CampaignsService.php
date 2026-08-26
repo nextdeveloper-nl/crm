@@ -86,7 +86,7 @@ class CampaignsService extends AbstractCampaignsService
         }
 
         PipelinesService::update($pipeline->uuid, [
-            'object_type' => get_class($campaign),
+            'object_type' => str_replace('\\Database\\Models', '', get_class($campaign)),
             'object_id'   => $campaign->id,
         ]);
     }
