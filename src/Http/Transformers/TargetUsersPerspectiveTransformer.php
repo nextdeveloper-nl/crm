@@ -21,11 +21,21 @@ class TargetUsersPerspectiveTransformer extends AbstractTargetUsersPerspectiveTr
      *
      * @return array
      */
+    /**
+     * The perspective's own `iam_account_id` is the account that owns the target list,
+     * not the account the contact belongs to, so the customer list had no company to
+     * show. `account_name` / `account_uuid` come from the view (see leo4
+     * database/scripts/target_users_perspective_account.sql) and are appended here.
+     *
+     * The cache variant carries the payload shape: keyed on the uuid alone, payloads
+     * cached before these fields existed would keep hiding them until something evicted
+     * them, and nothing evicts a perspective row that never changes.
+     */
     public function transform(TargetUsersPerspective $model)
     {
-        $transformed = Cache::get(
-            CacheHelper::getKey('TargetUsersPerspective', $model->uuid, 'Transformed')
-        );
+        $key = CacheHelper::getKey('TargetUsersPerspective', $model->uuid, 'TransformedWithAccount');
+
+        $transformed = Cache::get($key);
 
         if($transformed) {
             return $transformed;
@@ -33,10 +43,10 @@ class TargetUsersPerspectiveTransformer extends AbstractTargetUsersPerspectiveTr
 
         $transformed = parent::transform($model);
 
-        Cache::set(
-            CacheHelper::getKey('TargetUsersPerspective', $model->uuid, 'Transformed'),
-            $transformed
-        );
+        $transformed['account_name'] = $model->account_name;
+        $transformed['account_uuid'] = $model->account_uuid;
+
+        Cache::set($key, $transformed);
 
         return $transformed;
     }
