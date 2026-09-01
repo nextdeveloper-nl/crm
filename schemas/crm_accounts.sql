@@ -1,0 +1,30 @@
+-- PostgreSQL
+
+CREATE TABLE crm_accounts (
+    id                             bigint NOT NULL DEFAULT nextval('crm_accounts_id_seq'::regclass),
+    uuid                           uuid DEFAULT gen_random_uuid(),
+    iam_account_id                 bigint NOT NULL,
+    is_paying_customer             boolean DEFAULT false,
+    risk_level                     smallint,
+    common_city_id                 bigint,
+    position                       text,
+    tags                           text[] NOT NULL DEFAULT '{}'::text[],
+    created_at                     timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at                     timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted_at                     timestamp with time zone,
+    additional_information         text,
+    is_suspended                   boolean DEFAULT false,
+    is_service_enabled             boolean DEFAULT false,
+    is_disabled                    boolean DEFAULT false,
+    disabling_reason               text,
+    suspension_reason              text,
+    technology_rank                integer,
+    is_sdr_qualified               boolean DEFAULT false,
+    is_sdr_qualification_required  boolean NOT NULL DEFAULT true,
+    disqualification_reason        text,
+    office_phone_number            text,
+    office_phone_extension         text,
+    sdr_questionaire               json,
+    office_email                   text,
+    CONSTRAINT crm_accounts_pkey PRIMARY KEY (id)
+);

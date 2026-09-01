@@ -13,7 +13,9 @@ use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
 class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
 {
     /**
-     * Filter by tags
+     * Filter by tags. Comma-separated tag names match accounts that have
+     * all of the given tags. Prefix a tag with "!" to match accounts that
+     * do NOT have that tag (e.g. "LeadOcean,!Disabled").
      *
      * @param  $values
      * @return Builder
@@ -22,15 +24,34 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         $tags = explode(',', $values);
 
-        $search = '';
+        $includeTags = [];
+        $excludeTags = [];
 
-        for($i = 0; $i < count($tags); $i++) {
-            $search .= "'" . trim($tags[$i]) . "',";
+        foreach ($tags as $tag) {
+            $tag = trim($tag);
+
+            if ($tag === '') {
+                continue;
+            }
+
+            if (str_starts_with($tag, '!')) {
+                $excludeTags[] = substr($tag, 1);
+            } else {
+                $includeTags[] = $tag;
+            }
         }
 
-        $search = substr($search, 0, -1);
+        if ($includeTags) {
+            $placeholders = implode(',', array_fill(0, count($includeTags), '?'));
+            $this->builder->whereRaw("tags @> ARRAY[{$placeholders}]::text[]", $includeTags);
+        }
 
-        return $this->builder->whereRaw('tags @> ARRAY[' . $search . ']');
+        if ($excludeTags) {
+            $placeholders = implode(',', array_fill(0, count($excludeTags), '?'));
+            $this->builder->whereRaw("NOT (tags && ARRAY[{$placeholders}]::text[])", $excludeTags);
+        }
+
+        return $this->builder;
     }
 
     /**

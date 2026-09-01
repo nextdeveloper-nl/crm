@@ -35,6 +35,12 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property integer $meeting_count
  * @property integer $call_count
  * @property integer $project_count
+ * @property integer $flow_pipeline_id
+ * @property string $flow_pipeline_name
+ * @property integer $flow_stage_id
+ * @property string $flow_stage_name
+ * @property string $flow_stage_color
+ * @property $latest_quote_amount
  * @property string $type
  * @property integer $iam_user_id
  * @property integer $iam_account_id
@@ -74,6 +80,12 @@ class OpportunitiesPerspective extends Model
             'meeting_count',
             'call_count',
             'project_count',
+            'flow_pipeline_id',
+            'flow_pipeline_name',
+            'flow_stage_id',
+            'flow_stage_name',
+            'flow_stage_color',
+            'latest_quote_amount',
             'type',
             'iam_user_id',
             'iam_account_id',
@@ -114,6 +126,11 @@ class OpportunitiesPerspective extends Model
     'meeting_count' => 'integer',
     'call_count' => 'integer',
     'project_count' => 'integer',
+    'flow_pipeline_id' => 'integer',
+    'flow_pipeline_name' => 'string',
+    'flow_stage_id' => 'integer',
+    'flow_stage_name' => 'string',
+    'flow_stage_color' => 'string',
     'type' => 'string',
     'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'created_at' => 'datetime',
