@@ -695,6 +695,27 @@ Route::prefix('crm')->group(
             }
         );
 
+        Route::prefix('daily-new-accounts-performance')->group(
+            function () {
+                Route::get('/', 'DailyNewAccountsPerformance\DailyNewAccountsPerformanceController@index');
+                Route::get('/actions', 'DailyNewAccountsPerformance\DailyNewAccountsPerformanceController@getActions');
+
+                Route::get('{cdnap}/tags ', 'DailyNewAccountsPerformance\DailyNewAccountsPerformanceController@tags');
+                Route::post('{cdnap}/tags ', 'DailyNewAccountsPerformance\DailyNewAccountsPerformanceController@saveTags');
+                Route::get('{cdnap}/addresses ', 'DailyNewAccountsPerformance\DailyNewAccountsPerformanceController@addresses');
+                Route::post('{cdnap}/addresses ', 'DailyNewAccountsPerformance\DailyNewAccountsPerformanceController@saveAddresses');
+
+                Route::get('/{cdnap}/{subObjects}', 'DailyNewAccountsPerformance\DailyNewAccountsPerformanceController@relatedObjects');
+                Route::get('/{cdnap}', 'DailyNewAccountsPerformance\DailyNewAccountsPerformanceController@show');
+
+                Route::post('/', 'DailyNewAccountsPerformance\DailyNewAccountsPerformanceController@store');
+                Route::post('/{cdnap}/do/{action}', 'DailyNewAccountsPerformance\DailyNewAccountsPerformanceController@doAction');
+
+                Route::patch('/{cdnap}', 'DailyNewAccountsPerformance\DailyNewAccountsPerformanceController@update');
+                Route::delete('/{cdnap}', 'DailyNewAccountsPerformance\DailyNewAccountsPerformanceController@destroy');
+            }
+        );
+
         Route::prefix('weekly-new-accounts-performance')->group(
             function () {
                 Route::get('/', 'WeeklyNewAccountsPerformance\WeeklyNewAccountsPerformanceController@index');

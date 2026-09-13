@@ -16,7 +16,9 @@ This tracks how each account manager is performing — useful for sales leadersh
 
 ## New Account and Paying Customer Trends
 
-Several views track account growth over time: new accounts per week, new accounts per month, new accounts per month broken down by distribution channel, and how many accounts are paying customers in a given month. These are read-only reporting views meant for dashboards rather than resources you create directly.
+Several views track account growth over time: new accounts per day, new accounts per week, new accounts per month, new accounts per month broken down by distribution channel, and how many accounts are paying customers in a given month. These are read-only reporting views meant for dashboards rather than resources you create directly.
+
+The daily view also splits each day's count into accounts tagged `LeadOcean` vs. accounts without that tag (`count_leadocean` / `count_without_leadocean`), covering the last 90 days.
 
 ## Opportunity Performance
 
@@ -32,6 +34,12 @@ A consolidated, read-only view of each salesperson alongside the accounts and op
 
 ```
 GET /crm/account-managers-performance
+```
+
+**View daily new account trends (with/without LeadOcean tag)**
+
+```
+GET /crm/daily-new-accounts-performance
 ```
 
 **View monthly new account trends**

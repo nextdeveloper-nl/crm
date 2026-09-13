@@ -156,6 +156,14 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
             'crm_opportunities_performance:read',
             'crm_leo_active_customers_perspective:read',
 
+            'crm_sales_people_perspective:read',
+            'crm_stats_performances_perspective:read',
+            'crm_daily_new_accounts_performance:read',
+            'crm_weekly_new_accounts_performance:read',
+            'crm_monthly_new_accounts_performance:read',
+            'crm_monthly_new_accounts_per_dist_performance:read',
+            'crm_monthly_paying_customers_performance:read',
+            'crm_account_managers_performance:read',
         ];
     }
 
