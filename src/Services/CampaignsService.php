@@ -2,7 +2,10 @@
 
 namespace NextDeveloper\CRM\Services;
 
+use NextDeveloper\CRM\Database\Models\Campaigns;
 use NextDeveloper\CRM\Services\AbstractServices\AbstractCampaignsService;
+use NextDeveloper\Commons\Database\Models\Taggables;
+use NextDeveloper\Commons\Database\Models\Tags;
 use NextDeveloper\Flow\Database\Models\Pipelines;
 use NextDeveloper\Flow\Database\Models\Stages;
 use NextDeveloper\Flow\Services\PipelinesService;
@@ -98,6 +101,30 @@ class CampaignsService extends AbstractCampaignsService
         return parent::update($id, $data);
     }
 
+    /**
+     * Resolves a Campaign by its Facebook ad_id, so inbound Messenger/Lead Ads
+     * events can attribute a conversation/lead back to the ad that produced it.
+     *
+     * Campaigns are matched by tag (`facebook_ad:<ad_id>`) rather than a dedicated
+     * column, since crm_campaigns has no ad_id field and none is being added here.
+     * Returns null when unmatched — attribution is enrichment, not a hard dependency.
+     */
+    public static function findByFacebookAdId(string $adId): ?Campaigns
+    {
+        $tag = Tags::withoutGlobalScopes()->where('name', 'facebook_ad:' . $adId)->first();
+
+        if (!$tag) {
+            return null;
+        }
+
+        $taggable = Taggables::withoutGlobalScopes()
+            ->where('object_type', Campaigns::class)
+            ->where('common_tags_id', $tag->id)
+            ->first();
+
+        return $taggable ? Campaigns::withoutGlobalScopes()->find($taggable->object_id) : null;
+    }
+
     private static function resolveFlowIds(array $data): array
     {
         if (array_key_exists('flow_pipeline_id', $data)) {
@@ -111,5 +138,53 @@ class CampaignsService extends AbstractCampaignsService
         }
 
         return $data;
+    }
+
+    /**
+     * Soft-deletes the campaign's linked pipeline along with the campaign, so a deleted
+     * campaign doesn't leave an orphaned live pipeline behind.
+     */
+    public static function delete($id)
+    {
+        $campaign = Campaigns::where('uuid', $id)->first();
+
+        if ($campaign?->flow_pipeline_id) {
+            $pipeline = Pipelines::find($campaign->flow_pipeline_id);
+
+            if ($pipeline) {
+                PipelinesService::delete($pipeline->uuid);
+            }
+        }
+
+        return parent::delete($id);
+    }
+
+    /**
+     * Restores a soft-deleted campaign and revives its linked pipeline along with it.
+     *
+     * @throws NotAllowedException if the campaign cannot be found.
+     */
+    public static function restore($id): Campaigns
+    {
+        $campaign = Campaigns::withTrashed()->where('uuid', $id)->first();
+
+        if (!$campaign) {
+            throw new NotAllowedException(
+                'We cannot find the related object to restore. ' .
+                'Maybe you dont have the permission to update this object?'
+            );
+        }
+
+        $campaign->restore();
+
+        if ($campaign->flow_pipeline_id) {
+            $pipeline = Pipelines::withTrashed()->find($campaign->flow_pipeline_id);
+
+            if ($pipeline) {
+                PipelinesService::restore($pipeline->uuid);
+            }
+        }
+
+        return $campaign->fresh();
     }
 }
