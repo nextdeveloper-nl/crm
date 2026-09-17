@@ -14,7 +14,7 @@ class EmailTemplatesCreateRequest extends AbstractFormRequest
     {
         return [
             'subject' => 'required|string',
-        'content' => 'required|string',
+        'content' => 'nullable|string',
         'email_meta' => 'nullable|string',
         'crm_campaign_id' => 'nullable|exists:crm_campaigns,uuid|uuid',
         'communication_channel_id' => 'nullable|exists:communication_channels,uuid|uuid',
