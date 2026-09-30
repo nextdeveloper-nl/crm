@@ -844,6 +844,18 @@ Route::prefix('crm')->group(
 
         // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
+        //  Reminders on CRM records, stored as Communication remindables and sent by
+        //  communication:dispatch-due-reminders.
+        Route::prefix('reminders')->group(
+            function () {
+                Route::get('/', 'Reminders\RemindersController@index');
+                Route::post('/', 'Reminders\RemindersController@store');
+                Route::post('/{crm_reminders}/snooze', 'Reminders\RemindersController@snooze');
+                Route::post('/{crm_reminders}/acknowledge', 'Reminders\RemindersController@acknowledge');
+                Route::post('/{crm_reminders}/cancel', 'Reminders\RemindersController@cancel');
+            }
+        );
+
 
 
 
