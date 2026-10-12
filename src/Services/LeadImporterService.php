@@ -46,24 +46,13 @@ class LeadImporterService
 
     /**
      * Imports one normalized lead. Never throws; the outcome is stored on the returned run.
-     * Runs under the importer owner's identity so every created object belongs to the customer.
+     * Runs as the system admin (same as the campaign opportunity job and the webhook services), because a queue
+     * worker has no user and the customer's own user may not be able to see the configured pipeline. Every created
+     * object is still assigned explicitly to the importer's account and user, so it belongs to the customer.
      */
     public static function import(Importers $importer, array $lead): ImporterRuns
     {
-        // Running as the importer owner, with role checks bypassed because queue workers have no real user
-        $previousUser = UserHelper::me();
-        $previousAccount = UserHelper::currentAccount();
-
-        try {
-            UserHelper::setUserById($importer->iam_user_id);
-            UserHelper::setCurrentAccountById($importer->iam_account_id);
-
-            return UserHelper::withRolesCheckBypassed(fn () => self::importAsOwner($importer, $lead));
-        } finally {
-            if ($previousUser) {
-                UserHelper::setCurrentUserAndAccount($previousUser, $previousAccount);
-            }
-        }
+        return UserHelper::runAsAdmin(fn () => self::importAsOwner($importer, $lead));
     }
 
     private static function importAsOwner(Importers $importer, array $lead): ImporterRuns
@@ -209,6 +198,7 @@ class LeadImporterService
 
         $pipelineUuid = $form['flow_pipeline_id'] ?? $config['flow_pipeline_id'] ?? null;
         $stageUuid = $form['flow_stage_id'] ?? $config['flow_stage_id'] ?? null;
+        $stageName = $form['flow_stage_name'] ?? $config['flow_stage_name'] ?? null;
 
         $pipeline = $pipelineUuid
             ? Pipelines::withoutGlobalScopes()->where('uuid', $pipelineUuid)->first()
@@ -218,15 +208,26 @@ class LeadImporterService
 
         if ($pipeline) {
             $stageQuery = Stages::withoutGlobalScopes()->where('flow_pipeline_id', $pipeline->id);
-            $stage = $stageUuid
-                ? $stageQuery->where('uuid', $stageUuid)->first()
-                : $stageQuery->orderBy('position')->orderBy('id')->first();
+            // Stage by uuid, else by name (case-insensitive), else the pipeline's first stage
+            if ($stageUuid) {
+                $stage = $stageQuery->where('uuid', $stageUuid)->first();
+            } elseif ($stageName) {
+                $stage = $stageQuery->whereRaw('lower(name) = ?', [mb_strtolower($stageName)])->first();
+
+                // A configured stage name that does not exist must fail the lead, not land it in another stage
+                if (!$stage) {
+                    throw new \InvalidArgumentException('Stage "' . $stageName . '" not found in the configured pipeline.');
+                }
+            } else {
+                $stage = $stageQuery->orderBy('position')->orderBy('id')->first();
+            }
         }
 
         return [
             'pipeline'      => $pipeline,
             'stage'         => $stage,
             'type'          => $form['opportunity_type'] ?? $config['opportunity_type'] ?? 'sales',
+            'name_template' => $form['opportunity_name_template'] ?? $config['opportunity_name_template'] ?? null,
             'dedupe_window' => (int) ($config['dedupe_window_hours'] ?? 24),
         ];
     }
@@ -339,13 +340,26 @@ class LeadImporterService
 
         // crm_campaign_id is deliberately omitted so the responsible-user assignment and notification run
         return OpportunitiesService::create([
-            'name'           => ($lead['name'] ?? $lead['email'] ?? $lead['phone']) . ' (' . $lead['source'] . ')',
+            'name'           => self::opportunityName($lead, $mapping['name_template']),
             'description'    => $lead['fields'] ? json_encode($lead['fields'], JSON_UNESCAPED_UNICODE) : null,
             'source'         => $importer->source_type,
             'type'           => $mapping['type'],
             'crm_account_id' => $crmAccount->uuid,
             'iam_account_id' => $owner->uuid,
         ]);
+    }
+
+    /**
+     * Opportunity name from the importer's template ({name} = lead name, falling back to email/phone),
+     * e.g. "FB {name}" -> "FB Jane Doe". Without a template: "<name> (<source>)".
+     */
+    private static function opportunityName(array $lead, ?string $template): string
+    {
+        $name = $lead['name'] ?? $lead['email'] ?? $lead['phone'];
+
+        return $template
+            ? trim(str_replace('{name}', $name, $template))
+            : $name . ' (' . $lead['source'] . ')';
     }
 
     private static function createFlowItem(Opportunities $opportunity, IamAccounts $iamAccount, Importers $importer, array $mapping): void
