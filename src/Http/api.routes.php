@@ -149,6 +149,37 @@ Route::prefix('crm')->group(
             }
         );
 
+        // Generic lead importer connections (one per customer connection to a lead source)
+        Route::prefix('importers')->group(
+            function () {
+                Route::get('/', 'Importers\ImportersController@index');
+                Route::get('/actions', 'Importers\ImportersController@getActions');
+
+                Route::get('{crm_importers}/tags', 'Importers\ImportersController@tags');
+                Route::post('{crm_importers}/tags', 'Importers\ImportersController@saveTags');
+
+                Route::get('/{crm_importers}/{subObjects}', 'Importers\ImportersController@relatedObjects');
+                Route::get('/{crm_importers}', 'Importers\ImportersController@show');
+
+                Route::post('/', 'Importers\ImportersController@store');
+                Route::post('/{crm_importers}/do/{action}', 'Importers\ImportersController@doAction');
+
+                Route::patch('/{crm_importers}', 'Importers\ImportersController@update');
+                Route::delete('/{crm_importers}', 'Importers\ImportersController@destroy');
+            }
+        );
+
+        // Importer runs are written only by LeadImporterService; the API exposes them read-only for audit
+        Route::prefix('importer-runs')->group(
+            function () {
+                Route::get('/', 'ImporterRuns\ImporterRunsController@index');
+                Route::get('/actions', 'ImporterRuns\ImporterRunsController@getActions');
+
+                Route::get('/{crm_importer_runs}/{subObjects}', 'ImporterRuns\ImporterRunsController@relatedObjects');
+                Route::get('/{crm_importer_runs}', 'ImporterRuns\ImporterRunsController@show');
+            }
+        );
+
         Route::prefix('offerings')->group(
             function () {
                 Route::get('/', 'Offerings\OfferingsController@index');

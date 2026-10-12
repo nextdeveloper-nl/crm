@@ -148,6 +148,12 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
             'crm_notes:create',
             'crm_notes:update',
             'crm_notes:delete',
+            // Lead importer: managers/admins manage connections, runs are read-only audit
+            'crm_importers:read',
+            'crm_importers:create',
+            'crm_importers:update',
+            'crm_importers:delete',
+            'crm_importer_runs:read',
             'crm_meetings:read',
             'crm_meetings:create',
             'crm_meetings:update',
