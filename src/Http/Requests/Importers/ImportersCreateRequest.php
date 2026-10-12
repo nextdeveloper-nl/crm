@@ -19,7 +19,7 @@ class ImportersCreateRequest extends AbstractFormRequest
             'config' => 'nullable|array',
             'credentials_enc' => 'nullable|string',
             'object_type' => 'nullable|string',
-            'object_id' => 'nullable|integer',
+            'object_id' => 'nullable',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
