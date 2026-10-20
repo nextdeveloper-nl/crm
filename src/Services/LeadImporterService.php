@@ -102,15 +102,13 @@ class LeadImporterService
             // Everything below is one unit of work; a failure must not leave half a customer behind
             $opportunity = DB::transaction(function () use ($importer, $lead, $mapping) {
                 $user = self::findOrCreateUser($lead);
-                $iamAccount = self::findOrCreateAccount($user);
-                // Only a CRM account this import creates is tagged: an existing one may belong to another tenant's
-                // customer, and importer-controlled tags must not be written onto it.
-                $crmAccountExisted = CrmAccounts::withoutGlobalScope(AuthorizationScope::class)
-                    ->where('iam_account_id', $iamAccount->id)
-                    ->exists();
+                [$iamAccount, $iamAccountCreated] = self::findOrCreateAccount($user);
                 $crmAccount = self::findOrCreateCrmAccount($iamAccount, $lead);
 
-                if (!$crmAccountExisted) {
+                // Importer-controlled tags go on the CRM account only for a customer this import created from scratch
+                // (decided by the creation itself, not by a separate lookup). An existing customer may belong to another
+                // tenant and must not receive this importer's tags.
+                if ($iamAccountCreated) {
                     self::applyTags($crmAccount, $mapping['tags'], fn ($uuid, $tags) => AccountsService::update($uuid, ['tags' => $tags]));
                 }
 
@@ -301,7 +299,10 @@ class LeadImporterService
         return 'lead-' . ltrim($phone, '+') . '@leads.invalid';
     }
 
-    private static function findOrCreateAccount(Users $user): IamAccounts
+    /**
+     * @return array{0: IamAccounts, 1: bool} the account and whether this call created it
+     */
+    private static function findOrCreateAccount(Users $user): array
     {
         // Prefer the user's existing account, otherwise create the initial one
         $accountUser = AccountUsers::withoutGlobalScopes()
@@ -313,7 +314,7 @@ class LeadImporterService
             $account = IamAccounts::withoutGlobalScopes()->find($accountUser->iam_account_id);
 
             if ($account) {
-                return $account;
+                return [$account, false];
             }
         }
 
@@ -322,7 +323,7 @@ class LeadImporterService
         // has to be set before the account (and its created event) exists.
         Cache::put(self::SKIP_NURTURE_CACHE_PREFIX . $user->id, true, now()->addMinutes(10));
 
-        return IamAccountsService::createInitialAccount($user);
+        return [IamAccountsService::createInitialAccount($user), true];
     }
 
     /**
