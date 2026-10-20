@@ -36,7 +36,8 @@ use NextDeveloper\IAM\Services\UsersService;
  *   flow_pipeline_id, flow_stage_id (uuids; stage optional -> first stage),
  *   opportunity_type (default 'sales'), dedupe_window_hours (default 24),
  *   default_country_code (e.g. '90', used to normalize local phone numbers),
- *   forms.<form key>.{flow_pipeline_id, flow_stage_id, opportunity_type} (per-form overrides).
+ *   tags (list of strings put on every imported opportunity and its CRM account),
+ *   forms.<form key>.{flow_pipeline_id, flow_stage_id, opportunity_type, tags} (per-form overrides; form tags are added to the importer's).
  */
 class LeadImporterService
 {
@@ -104,9 +105,15 @@ class LeadImporterService
                 $iamAccount = self::findOrCreateAccount($user);
                 $crmAccount = self::findOrCreateCrmAccount($iamAccount, $lead);
 
+                // Tag the customer's CRM account too, so it can be found by the import's tags
+                self::applyTags($crmAccount, $mapping['tags'], fn ($uuid, $tags) => AccountsService::update($uuid, ['tags' => $tags]));
+
                 $duplicate = self::findRecentOpportunity($importer, $crmAccount, $mapping);
 
                 if ($duplicate) {
+                    // A repeat submission is not a new opportunity, but its tags still apply to the existing one
+                    self::applyTags($duplicate, $mapping['tags'], fn ($uuid, $tags) => OpportunitiesService::update($uuid, ['tags' => $tags]));
+
                     return [$duplicate, true];
                 }
 
@@ -236,6 +243,8 @@ class LeadImporterService
             'type'          => $form['opportunity_type'] ?? $config['opportunity_type'] ?? 'sales',
             'name_template' => $form['opportunity_name_template'] ?? $config['opportunity_name_template'] ?? null,
             'dedupe_window' => (int) ($config['dedupe_window_hours'] ?? 24),
+            // Importer tags plus the form's own tags (not an override: both apply)
+            'tags'          => self::mergeTags((array) ($config['tags'] ?? []), (array) ($form['tags'] ?? [])),
         ];
     }
 
@@ -310,6 +319,41 @@ class LeadImporterService
         return IamAccountsService::createInitialAccount($user);
     }
 
+    /**
+     * Unique, non-empty, trimmed tags; first occurrence order is kept.
+     *
+     * @return string[]
+     */
+    private static function mergeTags(array ...$lists): array
+    {
+        $tags = [];
+
+        foreach ($lists as $list) {
+            foreach ($list as $tag) {
+                $tag = is_scalar($tag) ? trim((string) $tag) : '';
+
+                if ($tag !== '') {
+                    $tags[$tag] = $tag;
+                }
+            }
+        }
+
+        return array_values($tags);
+    }
+
+    /**
+     * Adds tags to a model that has a tags column without dropping the ones it already has.
+     * The write goes through the given service callback; nothing is written when there is nothing new.
+     */
+    private static function applyTags($model, array $tags, callable $update): void
+    {
+        $merged = self::mergeTags((array) $model->tags, $tags);
+
+        if ($tags && $merged !== array_values((array) $model->tags)) {
+            $update($model->uuid, $merged);
+        }
+    }
+
     private static function findOrCreateCrmAccount(IamAccounts $iamAccount, array $lead): CrmAccounts
     {
         $crmAccount = CrmAccounts::withoutGlobalScope(AuthorizationScope::class)
@@ -358,6 +402,8 @@ class LeadImporterService
             'type'           => $mapping['type'],
             'crm_account_id' => $crmAccount->uuid,
             'iam_account_id' => $owner->uuid,
+            // Importer/form tags (config.tags, config.forms.<id>.tags)
+            'tags'           => $mapping['tags'] ?: null,
         ]);
     }
 
