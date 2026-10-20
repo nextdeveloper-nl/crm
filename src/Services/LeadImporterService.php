@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\CRM\Services;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use NextDeveloper\CRM\Database\Models\Accounts as CrmAccounts;
@@ -39,6 +40,12 @@ use NextDeveloper\IAM\Services\UsersService;
  */
 class LeadImporterService
 {
+    /**
+     * Cache key prefix (+ iam user id) set while the importer creates a customer's first account,
+     * read by the lead-nurture opportunity job to avoid a duplicate opportunity for imported leads.
+     */
+    public const SKIP_NURTURE_CACHE_PREFIX = 'crm:lead-import:skip-nurture:';
+
     public const STATUS_PENDING   = 'pending';
     public const STATUS_IMPORTED  = 'imported';
     public const STATUS_DUPLICATE = 'duplicate';
@@ -294,6 +301,11 @@ class LeadImporterService
                 return $account;
             }
         }
+
+        // The import creates its own opportunity for this lead. Mark the user so the "new account" lead-nurture job
+        // (a second opportunity in the same pipeline) skips accounts created here; the job runs async, so the marker
+        // has to be set before the account (and its created event) exists.
+        Cache::put(self::SKIP_NURTURE_CACHE_PREFIX . $user->id, true, now()->addMinutes(10));
 
         return IamAccountsService::createInitialAccount($user);
     }
