@@ -36,7 +36,7 @@ use NextDeveloper\IAM\Services\UsersService;
  *   flow_pipeline_id, flow_stage_id (uuids; stage optional -> first stage),
  *   opportunity_type (default 'sales'), dedupe_window_hours (default 24),
  *   default_country_code (e.g. '90', used to normalize local phone numbers),
- *   tags (list of strings put on every imported opportunity and its CRM account),
+ *   tags (list of strings put on every imported opportunity, and on the CRM account when the import creates it),
  *   forms.<form key>.{flow_pipeline_id, flow_stage_id, opportunity_type, tags} (per-form overrides; form tags are added to the importer's).
  */
 class LeadImporterService
@@ -103,10 +103,16 @@ class LeadImporterService
             $opportunity = DB::transaction(function () use ($importer, $lead, $mapping) {
                 $user = self::findOrCreateUser($lead);
                 $iamAccount = self::findOrCreateAccount($user);
+                // Only a CRM account this import creates is tagged: an existing one may belong to another tenant's
+                // customer, and importer-controlled tags must not be written onto it.
+                $crmAccountExisted = CrmAccounts::withoutGlobalScope(AuthorizationScope::class)
+                    ->where('iam_account_id', $iamAccount->id)
+                    ->exists();
                 $crmAccount = self::findOrCreateCrmAccount($iamAccount, $lead);
 
-                // Tag the customer's CRM account too, so it can be found by the import's tags
-                self::applyTags($crmAccount, $mapping['tags'], fn ($uuid, $tags) => AccountsService::update($uuid, ['tags' => $tags]));
+                if (!$crmAccountExisted) {
+                    self::applyTags($crmAccount, $mapping['tags'], fn ($uuid, $tags) => AccountsService::update($uuid, ['tags' => $tags]));
+                }
 
                 $duplicate = self::findRecentOpportunity($importer, $crmAccount, $mapping);
 
@@ -332,7 +338,8 @@ class LeadImporterService
             foreach ($list as $tag) {
                 $tag = is_scalar($tag) ? trim((string) $tag) : '';
 
-                if ($tag !== '') {
+                // Config is free-form JSON: cap tag length and count so a bad config cannot flood the tags column
+                if ($tag !== '' && mb_strlen($tag) <= 100 && count($tags) < 20) {
                     $tags[$tag] = $tag;
                 }
             }
