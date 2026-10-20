@@ -36,6 +36,7 @@ use NextDeveloper\IAM\Services\UsersService;
  *   flow_pipeline_id, flow_stage_id (uuids; stage optional -> first stage),
  *   opportunity_type (default 'sales'), dedupe_window_hours (default 24),
  *   default_country_code (e.g. '90', used to normalize local phone numbers),
+ *   lead.external_id / lead.description (optional per-lead: unique id for one-opportunity-per-event sources, and the opportunity description),
  *   tags (list of strings put on every imported opportunity, and on the CRM account when the import creates it),
  *   forms.<form key>.{flow_pipeline_id, flow_stage_id, opportunity_type, tags} (per-form overrides; form tags are added to the importer's).
  */
@@ -162,6 +163,10 @@ class LeadImporterService
             'fields' => $lead['fields'] ?? [],
             'source' => $lead['source'] ?? $importer->source_type,
             'form'   => $lead['form'] ?? null,
+            // Optional, set by sources whose every event must become its own opportunity (e.g. one per WhatsApp message):
+            // external_id makes the idempotency hash unique per event, description replaces the answers dump.
+            'external_id' => isset($lead['external_id']) ? (string) $lead['external_id'] : null,
+            'description' => isset($lead['description']) ? (string) $lead['description'] : null,
         ];
     }
 
@@ -198,12 +203,20 @@ class LeadImporterService
      */
     private static function hash(Importers $importer, array $lead): string
     {
-        return hash('sha256', implode('|', [
+        $parts = [
             $importer->source_type,
             $lead['form'] ?? '',
             $lead['email'] ?? '',
             $lead['phone'] ?? '',
-        ]));
+        ];
+
+        // Only added when present, so the hash of leads without one (Facebook) stays exactly as it was and already
+        // imported leads are not imported a second time.
+        if (!empty($lead['external_id'])) {
+            $parts[] = $lead['external_id'];
+        }
+
+        return hash('sha256', implode('|', $parts));
     }
 
     /**
@@ -405,7 +418,7 @@ class LeadImporterService
         // crm_campaign_id is deliberately omitted so the responsible-user assignment and notification run
         return OpportunitiesService::create([
             'name'           => self::opportunityName($lead, $mapping['name_template']),
-            'description'    => $lead['fields'] ? json_encode($lead['fields'], JSON_UNESCAPED_UNICODE) : null,
+            'description'    => $lead['description'] ?? ($lead['fields'] ? json_encode($lead['fields'], JSON_UNESCAPED_UNICODE) : null),
             'source'         => $importer->source_type,
             'type'           => $mapping['type'],
             'crm_account_id' => $crmAccount->uuid,
