@@ -61,6 +61,48 @@ class ImportersService extends AbstractImportersService
     }
 
     /**
+     * Keys a background run may write on any importer (see updateSystemState).
+     */
+    private const SYSTEM_STATE_KEYS = ['cursor', 'last_synced_at', 'last_error', 'status', 'config'];
+
+    /**
+     * Bookkeeping written by background runs (the Facebook sync command, a Page disconnect or takeover): cursor,
+     * last_synced_at, last_error, status and config.
+     *
+     * update() finds the row through the authorization scope, so a run without a user, or one running as an admin who is
+     * not a member of the importer's account, cannot see another account's importer and fails with "We cannot find the
+     * related object to update". This method looks the importer up without the scope and only accepts the keys above,
+     * so it cannot be used to move an importer to another account or user. The role check of the observer is bypassed
+     * for the same reason (there is no acting user); callers must already be trusted server-side code.
+     * As in update(), the stored intake token hash always survives a config write.
+     */
+    public static function updateSystemState(string $uuid, array $data): Importers
+    {
+        $data = array_intersect_key($data, array_flip(self::SYSTEM_STATE_KEYS));
+
+        $model = Importers::withoutGlobalScopes()->where('uuid', $uuid)->first();
+
+        if (!$model) {
+            throw new \InvalidArgumentException('The importer to update could not be found.');
+        }
+
+        if (array_key_exists('config', $data)) {
+            $config = (array) $data['config'];
+            unset($config['intake_token_hash']);
+
+            if (!empty($model->config['intake_token_hash'])) {
+                $config['intake_token_hash'] = $model->config['intake_token_hash'];
+            }
+
+            $data['config'] = $config;
+        }
+
+        \NextDeveloper\IAM\Helpers\UserHelper::withRolesCheckBypassed(fn () => $model->update($data));
+
+        return $model->fresh();
+    }
+
+    /**
      * Stores a new intake token hash on the importer (the only way the hash is written). Goes straight to the abstract
      * service so the client-hash protection in update() does not apply.
      */
