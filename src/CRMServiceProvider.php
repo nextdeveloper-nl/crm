@@ -103,6 +103,7 @@ class CRMServiceProvider extends AbstractServiceProvider {
             $this->commands([
                 \NextDeveloper\CRM\Console\Commands\GenerateSalesCampaignOpportunitiesCommand::class,
                 \NextDeveloper\CRM\Console\Commands\FixCampaignFlowLinksCommand::class,
+                \NextDeveloper\CRM\Console\Commands\LeadIntakeTokenCommand::class,
             ]);
         }
     }
