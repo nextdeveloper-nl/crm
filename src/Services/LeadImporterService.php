@@ -36,6 +36,7 @@ use NextDeveloper\IAM\Services\UsersService;
  *   flow_pipeline_id, flow_stage_id (uuids; stage optional -> first stage),
  *   opportunity_type (default 'sales'), dedupe_window_hours (default 24),
  *   default_country_code (e.g. '90', used to normalize local phone numbers),
+ *   lead.attribution (optional: ad_id, ad_name, adset_*, campaign_*, form_id, platform, is_organic; shown in the description and tagged),
  *   lead.external_id / lead.description (optional per-lead: unique id for one-opportunity-per-event sources, and the opportunity description),
  *   tags (list of strings put on every imported opportunity, and on the CRM account when the import creates it),
  *   forms.<form key>.{flow_pipeline_id, flow_stage_id, opportunity_type, tags} (per-form overrides; form tags are added to the importer's).
@@ -193,6 +194,9 @@ class LeadImporterService
             // external_id makes the idempotency hash unique per event, description replaces the answers dump.
             'external_id' => isset($lead['external_id']) ? (string) $lead['external_id'] : null,
             'description' => isset($lead['description']) ? (string) $lead['description'] : null,
+            // Optional, where the lead came from (Facebook: ad, ad set, campaign, platform, organic). Kept in the stored
+            // run payload (raw ids), shown in the opportunity description and turned into tags.
+            'attribution' => self::cleanAttribution($lead['attribution'] ?? []),
         ];
     }
 
@@ -287,7 +291,7 @@ class LeadImporterService
             'name_template' => $form['opportunity_name_template'] ?? $config['opportunity_name_template'] ?? null,
             'dedupe_window' => (int) ($config['dedupe_window_hours'] ?? 24),
             // Importer tags plus the form's own tags (not an override: both apply)
-            'tags'          => self::mergeTags((array) ($config['tags'] ?? []), (array) ($form['tags'] ?? [])),
+            'tags'          => self::mergeTags((array) ($config['tags'] ?? []), (array) ($form['tags'] ?? []), self::attributionTags($lead['attribution'] ?? [])),
         ];
     }
 
@@ -437,6 +441,104 @@ class LeadImporterService
             ->first();
     }
 
+    // Attribution keys kept from a source (Facebook Lead Ads); anything else is dropped
+    private const ATTRIBUTION_KEYS = [
+        'ad_id', 'ad_name', 'adset_id', 'adset_name', 'campaign_id', 'campaign_name', 'form_id', 'platform', 'is_organic',
+    ];
+
+    /**
+     * Only known keys with scalar values, trimmed and length-capped, so a source cannot push arbitrary data into the
+     * run payload, the description or the tags.
+     *
+     * @return array<string, string|bool>
+     */
+    private static function cleanAttribution($attribution): array
+    {
+        $clean = [];
+
+        foreach (self::ATTRIBUTION_KEYS as $key) {
+            $value = is_array($attribution) ? ($attribution[$key] ?? null) : null;
+
+            if (is_bool($value)) {
+                $clean[$key] = $value;
+            } elseif (is_scalar($value) && trim((string) $value) !== '') {
+                $clean[$key] = mb_substr(trim((string) $value), 0, 200);
+            }
+        }
+
+        return $clean;
+    }
+
+    /**
+     * Tags that say where the lead came from: platform:<facebook|instagram>, campaign:<name>, ad:<name>, organic.
+     * Names fall back to ids when Meta did not give a name (the token may lack the permission for names).
+     *
+     * @return string[]
+     */
+    private static function attributionTags($attribution): array
+    {
+        $a = self::cleanAttribution($attribution);
+        $tags = [];
+
+        if (!empty($a['platform'])) {
+            $tags[] = 'platform:' . mb_strtolower($a['platform']);
+        }
+
+        if (!empty($a['is_organic']) && $a['is_organic'] !== 'false') {
+            $tags[] = 'organic';
+        }
+
+        if (!empty($a['campaign_name']) || !empty($a['campaign_id'])) {
+            $tags[] = 'campaign:' . ($a['campaign_name'] ?? $a['campaign_id']);
+        }
+
+        if (!empty($a['ad_name']) || !empty($a['ad_id'])) {
+            $tags[] = 'ad:' . ($a['ad_name'] ?? $a['ad_id']);
+        }
+
+        return $tags;
+    }
+
+    /**
+     * The opportunity description: the lead's own description or its answers as JSON, followed by a readable block about
+     * the ad the lead came from when the source gave one.
+     */
+    private static function opportunityDescription(array $lead): ?string
+    {
+        $description = $lead['description'] ?? ($lead['fields'] ? json_encode($lead['fields'], JSON_UNESCAPED_UNICODE) : null);
+        $a = self::cleanAttribution($lead['attribution'] ?? []);
+
+        $lines = [];
+        $organic = !empty($a['is_organic']) && $a['is_organic'] !== 'false';
+
+        if (!empty($a['platform'])) {
+            $lines[] = 'Platform: ' . $a['platform'];
+        }
+
+        if ($organic) {
+            $lines[] = 'Source: organic (not from an ad)';
+        }
+
+        foreach (['campaign' => 'Campaign', 'adset' => 'Ad set', 'ad' => 'Ad'] as $prefix => $label) {
+            $name = $a[$prefix . '_name'] ?? null;
+            $id = $a[$prefix . '_id'] ?? null;
+
+            if ($name || $id) {
+                $lines[] = $label . ': ' . ($name ?: $id) . ($name && $id ? ' (' . $id . ')' : '');
+            }
+        }
+
+        if (!empty($a['form_id'])) {
+            $lines[] = 'Form: ' . $a['form_id'];
+        }
+
+        if (!$lines) {
+            return $description;
+        }
+
+        return trim(($description ? $description . "\n\n" : '') . "Lead source\n" . implode("\n", $lines));
+    }
+
     private static function createOpportunity(Importers $importer, array $lead, CrmAccounts $crmAccount, array $mapping): Opportunities
     {
         $owner = IamAccounts::withoutGlobalScopes()->find($importer->iam_account_id);
@@ -444,7 +546,7 @@ class LeadImporterService
         // crm_campaign_id is deliberately omitted so the responsible-user assignment and notification run
         return OpportunitiesService::create([
             'name'           => self::opportunityName($lead, $mapping['name_template']),
-            'description'    => $lead['description'] ?? ($lead['fields'] ? json_encode($lead['fields'], JSON_UNESCAPED_UNICODE) : null),
+            'description'    => self::opportunityDescription($lead),
             'source'         => $importer->source_type,
             'type'           => $mapping['type'],
             'crm_account_id' => $crmAccount->uuid,
