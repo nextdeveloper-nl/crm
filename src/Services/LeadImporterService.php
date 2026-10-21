@@ -150,6 +150,32 @@ class LeadImporterService
     }
 
     /**
+     * Synchronous pre-check for sources that queue the import (see LeadIntakeService): normalizes the lead and verifies
+     * everything import() would reject later without touching the database, i.e. the lead has an email or phone and the
+     * configured pipeline/stage exist. Returns the normalized lead; throws InvalidArgumentException with the reason.
+     */
+    public static function preflight(Importers $importer, array $lead): array
+    {
+        $lead = self::normalize($importer, $lead);
+
+        if (!$lead['email'] && !$lead['phone']) {
+            throw new \InvalidArgumentException('Lead has neither email nor phone number.');
+        }
+
+        $mapping = UserHelper::runAsAdmin(fn () => self::mapping($importer, $lead));
+
+        if (!$mapping['pipeline']) {
+            throw new \InvalidArgumentException('Importer has no valid flow pipeline configured.');
+        }
+
+        if (!$mapping['stage']) {
+            throw new \InvalidArgumentException('Flow pipeline has no stage to place the lead in.');
+        }
+
+        return $lead;
+    }
+
+    /**
      * Lowercases the email and brings the phone number to a digits-only international form.
      */
     public static function normalize(Importers $importer, array $lead): array
