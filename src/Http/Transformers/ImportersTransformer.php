@@ -29,7 +29,7 @@ class ImportersTransformer extends AbstractImportersTransformer
         );
 
         if($transformed) {
-            return $transformed;
+            return $this->withIntakeFields($transformed, $model);
         }
 
         $transformed = parent::transform($model);
@@ -37,10 +37,31 @@ class ImportersTransformer extends AbstractImportersTransformer
         // Public API exposes the linked object's uuid, not its integer id
         $transformed['object_id'] = ImportersService::linkedObjectUuid($model->object_type, $model->object_id);
 
+        // The token hash is a secret: never in the response, never in the cache
+        unset($transformed['config']['intake_token_hash']);
+
         Cache::set(
             CacheHelper::getKey('Importers', $model->uuid, 'Transformed'),
             $transformed
         );
+
+        return $this->withIntakeFields($transformed, $model);
+    }
+
+    /**
+     * Intake fields added after the cache: whether a token exists, the endpoint url and, only on the create response,
+     * the plain token (transient attribute set by ImportersService::create, shown once and never cached).
+     */
+    private function withIntakeFields(array $transformed, Importers $model): array
+    {
+        unset($transformed['config']['intake_token_hash']);
+
+        $transformed['has_intake_token'] = !empty($model->config['intake_token_hash']);
+        $transformed['intake_url'] = ImportersService::intakeUrl($model);
+
+        if (!empty($model->intake_token_plain)) {
+            $transformed['intake_token'] = $model->intake_token_plain;
+        }
 
         return $transformed;
     }

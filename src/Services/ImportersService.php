@@ -4,6 +4,8 @@ namespace NextDeveloper\CRM\Services;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use NextDeveloper\Commons\Exceptions\NotAllowedException;
+use NextDeveloper\CRM\Database\Models\Importers;
 use NextDeveloper\CRM\Services\AbstractServices\AbstractImportersService;
 
 /**
@@ -24,12 +26,101 @@ class ImportersService extends AbstractImportersService
      */
     public static function create(array $data)
     {
-        return parent::create(self::resolveLinkedObject($data));
+        // A client can never supply the intake token hash; it is only ever set by issueToken()
+        $data = self::withoutClientTokenHash(self::resolveLinkedObject($data));
+
+        $importer = parent::create($data);
+
+        // Intake importers (api/ideasoft) get their token right away. The plain token is attached to the returned
+        // model as a transient attribute so the create response can show it ONCE; it is never persisted (only its
+        // sha256 lives in config.intake_token_hash) and the transformer keeps it out of the cache.
+        if (in_array($importer->source_type, LeadIntakeService::SOURCE_TYPES, true)) {
+            $token = LeadIntakeService::issueToken($importer);
+            $importer = $importer->fresh();
+            $importer->intake_token_plain = $token;
+        }
+
+        return $importer;
     }
 
     public static function update($id, array $data)
     {
-        return parent::update($id, self::resolveLinkedObject($data));
+        $data = self::resolveLinkedObject($data);
+
+        // A PATCH sends the whole config; keep the stored token hash so an unrelated edit does not kill the token
+        if (array_key_exists('config', $data)) {
+            $existing = Importers::where('uuid', $id)->first();
+            $data = self::withoutClientTokenHash($data);
+
+            if ($existing && !empty($existing->config['intake_token_hash'])) {
+                $data['config'] = (array) $data['config'] + ['intake_token_hash' => $existing->config['intake_token_hash']];
+            }
+        }
+
+        return parent::update($id, $data);
+    }
+
+    /**
+     * Stores a new intake token hash on the importer (the only way the hash is written). Goes straight to the abstract
+     * service so the client-hash protection in update() does not apply.
+     */
+    public static function setIntakeTokenHash(Importers $importer, string $hash): Importers
+    {
+        $config = $importer->config ?? [];
+        $config['intake_token_hash'] = $hash;
+
+        return parent::update($importer->uuid, ['config' => $config]);
+    }
+
+    /**
+     * Rotates the intake token of an api/ideasoft importer the caller may update. The plain token is returned once
+     * and the previous token stops working immediately.
+     *
+     * @return array{intake_token: string, intake_url: string}
+     */
+    public static function rotateIntakeToken(string $uuid): array
+    {
+        $importer = Importers::where('uuid', $uuid)->first();
+
+        if (!$importer) {
+            throw new NotAllowedException('We cannot find the importer. Maybe you dont have the permission to update it?');
+        }
+
+        if (!in_array($importer->source_type, LeadIntakeService::SOURCE_TYPES, true)) {
+            throw new \InvalidArgumentException('Only api and ideasoft importers have an intake token.');
+        }
+
+        return [
+            'intake_token' => LeadIntakeService::issueToken($importer),
+            'intake_url'   => self::intakeUrl($importer),
+        ];
+    }
+
+    /**
+     * Public URL the website form posts to; null for importers that have no intake endpoint.
+     */
+    public static function intakeUrl(Importers $importer): ?string
+    {
+        if (!in_array($importer->source_type, LeadIntakeService::SOURCE_TYPES, true)) {
+            return null;
+        }
+
+        $host = config('leo.api_url', 'apiv4.plusclouds.com');
+        $base = Str::startsWith($host, ['http://', 'https://']) ? rtrim($host, '/') : 'https://' . $host;
+
+        return $base . '/public/lead-intake/' . $importer->uuid;
+    }
+
+    /**
+     * Drops a client supplied intake_token_hash from a config payload.
+     */
+    private static function withoutClientTokenHash(array $data): array
+    {
+        if (isset($data['config']) && is_array($data['config'])) {
+            unset($data['config']['intake_token_hash']);
+        }
+
+        return $data;
     }
 
     /**

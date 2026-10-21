@@ -157,6 +157,7 @@ Route::prefix('crm')->group(
 
                 Route::get('{crm_importers}/tags', 'Importers\ImportersController@tags');
                 Route::post('{crm_importers}/tags', 'Importers\ImportersController@saveTags');
+                Route::post('{crm_importers}/rotate-intake-token', 'Importers\ImportersController@rotateIntakeToken');
 
                 Route::get('/{crm_importers}/{subObjects}', 'Importers\ImportersController@relatedObjects');
                 Route::get('/{crm_importers}', 'Importers\ImportersController@show');

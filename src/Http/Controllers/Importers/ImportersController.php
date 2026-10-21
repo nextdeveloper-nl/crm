@@ -154,4 +154,12 @@ class ImportersController extends AbstractController
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
+    /**
+     * Issues a new intake token for an api/ideasoft importer. The token is in this response only; the old one stops working.
+     */
+    public function rotateIntakeToken($importersId)
+    {
+        return response()->json(ImportersService::rotateIntakeToken($importersId));
+    }
+
 }

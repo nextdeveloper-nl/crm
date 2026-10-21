@@ -85,11 +85,8 @@ class LeadIntakeService
     {
         $token = Str::random(48);
 
-        $config = $importer->config ?? [];
-        $config['intake_token_hash'] = hash('sha256', $token);
-
-        // Written through the service, as the owner of the importer (the command runs without a user)
-        UserHelper::runAsAdmin(fn () => ImportersService::update($importer->uuid, ['config' => $config]));
+        // Written through ImportersService (the only writer of the hash), as admin since the CLI has no user
+        UserHelper::runAsAdmin(fn () => ImportersService::setIntakeTokenHash($importer, hash('sha256', $token)));
 
         return $token;
     }
