@@ -97,6 +97,8 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
             'crm_ideal_customer_profiles:update',
             'crm_ideal_customer_profiles:delete',
             'crm_campaigns:read',
+            // Mailing analytics (stats, per-email, replies) - see CampaignAnalyticsService
+            'crm_campaign_analytics:read',
             'crm_campaigns:create',
             'crm_campaigns:update',
             'crm_campaigns:delete',
