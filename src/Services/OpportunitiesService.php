@@ -12,6 +12,9 @@ use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 use NextDeveloper\CRM\Services\AbstractServices\AbstractOpportunitiesService;
 use NextDeveloper\IAM\Database\Models\Users;
 use NextDeveloper\IAM\Helpers\UserHelper;
+use NextDeveloper\Flow\Database\Models\Items as FlowItems;
+use NextDeveloper\Flow\Services\ItemsService as FlowItemsService;
+use Illuminate\Support\Facades\DB;
 
 /**
  * This class is responsible from managing the data for Opportunities
@@ -24,6 +27,36 @@ class OpportunitiesService extends AbstractOpportunitiesService
 {
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+    /**
+     * Deletes the opportunity and soft deletes the flow items linked to it (object_type/object_id),
+     * so a deleted opportunity does not stay on the flow boards. Flow items are deleted first because
+     * their delete permission is delegated to the linked opportunity, which must still be resolvable.
+     * Both happen in one transaction so a refused opportunity delete does not leave it without items.
+     */
+    public static function delete($id)
+    {
+        $opportunity = Opportunities::where('uuid', $id)->first();
+
+        if (!$opportunity) {
+            throw new NotAllowedException(
+                'We cannot find the related object to delete. ' .
+                'Maybe you dont have the permission to update this object?'
+            );
+        }
+
+        return DB::transaction(function () use ($opportunity, $id) {
+            $items = FlowItems::where('object_type', 'NextDeveloper\CRM\Opportunities')
+                ->whereIn('object_id', [(string) $opportunity->uuid, (string) $opportunity->id])
+                ->get();
+
+            foreach ($items as $item) {
+                FlowItemsService::delete($item->uuid);
+            }
+
+            return parent::delete($id);
+        });
+    }
 
     public static function create($data)
     {
