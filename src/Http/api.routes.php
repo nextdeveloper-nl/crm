@@ -790,6 +790,27 @@ Route::prefix('crm')->group(
             }
         );
 
+        Route::prefix('account-communications-perspective')->group(
+            function () {
+                Route::get('/', 'AccountCommunicationsPerspective\AccountCommunicationsPerspectiveController@index');
+                Route::get('/actions', 'AccountCommunicationsPerspective\AccountCommunicationsPerspectiveController@getActions');
+
+                Route::get('{crm_account_comm_perspective}/tags ', 'AccountCommunicationsPerspective\AccountCommunicationsPerspectiveController@tags');
+                Route::post('{crm_account_comm_perspective}/tags ', 'AccountCommunicationsPerspective\AccountCommunicationsPerspectiveController@saveTags');
+                Route::get('{crm_account_comm_perspective}/addresses ', 'AccountCommunicationsPerspective\AccountCommunicationsPerspectiveController@addresses');
+                Route::post('{crm_account_comm_perspective}/addresses ', 'AccountCommunicationsPerspective\AccountCommunicationsPerspectiveController@saveAddresses');
+
+                Route::get('/{crm_account_comm_perspective}/{subObjects}', 'AccountCommunicationsPerspective\AccountCommunicationsPerspectiveController@relatedObjects');
+                Route::get('/{crm_account_comm_perspective}', 'AccountCommunicationsPerspective\AccountCommunicationsPerspectiveController@show');
+
+                Route::post('/', 'AccountCommunicationsPerspective\AccountCommunicationsPerspectiveController@store');
+                Route::post('/{crm_account_comm_perspective}/do/{action}', 'AccountCommunicationsPerspective\AccountCommunicationsPerspectiveController@doAction');
+
+                Route::patch('/{crm_account_comm_perspective}', 'AccountCommunicationsPerspective\AccountCommunicationsPerspectiveController@update');
+                Route::delete('/{crm_account_comm_perspective}', 'AccountCommunicationsPerspective\AccountCommunicationsPerspectiveController@destroy');
+            }
+        );
+
         Route::prefix('user-emails-perspective')->group(
             function () {
                 Route::get('/', 'UserEmailsPerspective\UserEmailsPerspectiveController@index');

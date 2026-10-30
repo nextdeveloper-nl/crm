@@ -179,12 +179,7 @@ class AbstractProjectsService
      */
     public static function create(array $data)
     {
-        if (array_key_exists('project_id', $data)) {
-            $data['project_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\\Database\Models\Projects',
-                $data['project_id']
-            );
-        }
+        // project_id is the external provider project id (plain text), so it is stored as given and not resolved from a uuid.
         if (array_key_exists('crm_account_id', $data)) {
             $data['crm_account_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\CRM\Database\Models\Accounts',
@@ -263,12 +258,7 @@ class AbstractProjectsService
             );
         }
 
-        if (array_key_exists('project_id', $data)) {
-            $data['project_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\\Database\Models\Projects',
-                $data['project_id']
-            );
-        }
+        // project_id is the external provider project id (plain text), so it is stored as given and not resolved from a uuid.
         if (array_key_exists('crm_account_id', $data)) {
             $data['crm_account_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\CRM\Database\Models\Accounts',

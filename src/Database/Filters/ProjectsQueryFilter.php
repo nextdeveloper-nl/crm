@@ -41,9 +41,10 @@ class ProjectsQueryFilter extends AbstractQueryFilter
         return $this->projectId($value);
     }
         
+    // token is a secret: filtering on it would let a caller recover it character by character, so this is a no-op.
     public function token($value)
     {
-        return $this->builder->where('token', 'ilike', '%' . $value . '%');
+        return $this->builder;
     }
 
     
@@ -113,21 +114,6 @@ class ProjectsQueryFilter extends AbstractQueryFilter
         return $this->deletedAtEnd($value);
     }
 
-    public function projectId($value)
-    {
-            $project = \NextDeveloper\\Database\Models\Projects::where('uuid', $value)->first();
-
-        if($project) {
-            return $this->builder->where('project_id', '=', $project->id);
-        }
-    }
-
-        //  This is an alias function of project
-    public function project_id($value)
-    {
-        return $this->project($value);
-    }
-    
     public function crmAccountId($value)
     {
             $crmAccount = \NextDeveloper\CRM\Database\Models\Accounts::where('uuid', $value)->first();
