@@ -82,6 +82,17 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
 
     public function checkDeletePolicy(Model $model, Users $user): bool
     {
+        // A sales person can delete the opportunities they own in the current account. Before this
+        // every opportunity delete was refused (and with it the delete of the linked flow item, since
+        // flow_items delegates its delete permission to the linked object).
+        if (
+            $model->getTable() == 'crm_opportunities' ||
+            $model->getTable() == 'crm_opportunities_perspective'
+        ) {
+            return $model->iam_user_id == UserHelper::me()->id &&
+                $model->iam_account_id == UserHelper::currentAccount()->id;
+        }
+
         if ($model->getTable() == 'crm_campaign_targets') {
             $campaign = Campaigns::withoutGlobalScopes()
                 ->where('id', $model->crm_campaign_id)
@@ -95,6 +106,28 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
 
     public function checkUpdatePolicy(Model $model, Users $users) : bool
     {
+        // Opportunities (and their perspective) are not crm_accounts rows, so $model->id must not be
+        // compared with crm_account_id. Previously this made every opportunity update fail (e.g. the
+        // second save of a flow item linked to a new opportunity). The owner of the opportunity, or a
+        // manager of the CRM account it belongs to, may update it.
+        if (
+            $model->getTable() == 'crm_opportunities' ||
+            $model->getTable() == 'crm_opportunities_perspective'
+        ) {
+            if (
+                $model->iam_user_id == UserHelper::me()->id &&
+                $model->iam_account_id == UserHelper::currentAccount()->id
+            ) {
+                return true;
+            }
+
+            return $model->crm_account_id && AccountManagers::withoutGlobalScopes()
+                ->where('iam_user_id', UserHelper::currentUser()->id)
+                ->where('iam_account_id', UserHelper::currentAccount()->id)
+                ->where('crm_account_id', $model->crm_account_id)
+                ->exists();
+        }
+
         $amIManager = AccountManagers::withoutGlobalScopes()
             ->where('iam_user_id', UserHelper::currentUser()->id)
             ->where('iam_account_id', UserHelper::currentAccount()->id)
