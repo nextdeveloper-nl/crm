@@ -2,7 +2,6 @@
 
 namespace NextDeveloper\CRM\Services;
 
-use NextDeveloper\Communication\Helpers\Communicate;
 use NextDeveloper\CRM\Database\Models\AccountManagers;
 use NextDeveloper\CRM\Database\Models\Accounts;
 use NextDeveloper\CRM\Services\AbstractServices\AbstractAccountManagersService;
@@ -42,15 +41,8 @@ class AccountManagersService extends AbstractAccountManagersService
             return $duplicate;
         }
 
-        $user = UserHelper::getUserWithId($data['iam_user_id']);
-
-        $crmAccount = AccountsPerspective::withoutGlobalScope(AuthorizationScope::class)->where('id', $data['crm_account_id'])->first();
-
-        (new Communicate($user))->sendEmail(
-            subject: 'Assigned as account manager',
-            body: 'You are assigned as an account manager to the account namely:' . $crmAccount->name
-        );
-
+        // Removed the generic "Assigned as account manager" email sent via Communicate (sender "Example").
+        // The branded "PlusClouds CRM" email (App\Envelopes\CRM\Accounts\AssignedAsAccountManager) is the only one sent now.
         return parent::create($data);
     }
 
