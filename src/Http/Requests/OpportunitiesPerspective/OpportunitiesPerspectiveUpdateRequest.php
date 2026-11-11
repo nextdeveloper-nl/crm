@@ -16,7 +16,7 @@ class OpportunitiesPerspectiveUpdateRequest extends AbstractFormRequest
             'name' => 'nullable|string',
         'description' => 'nullable|string',
         'probability' => 'nullable|integer',
-        'opportunity_stage' => 'nullable',
+        'opportunity_stage' => 'nullable|string',
         'source' => 'nullable|string',
         'income' => 'nullable',
         'deadline' => 'nullable|date',

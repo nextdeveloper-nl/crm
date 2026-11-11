@@ -66,4 +66,4 @@ SELECT co.id,
            FROM crm_quotes
           WHERE crm_quotes.deleted_at IS NULL
           ORDER BY crm_quotes.crm_opportunity_id, crm_quotes.created_at DESC) lq ON lq.crm_opportunity_id = co.id
-  WHERE ca.deleted_at IS NULL AND co.deleted_at IS NULL AND (co.opportunity_stage <> ALL (ARRAY['won'::opportunity_stage, 'lost'::opportunity_stage]));
+  WHERE ca.deleted_at IS NULL AND co.deleted_at IS NULL AND (co.opportunity_stage <> ALL (ARRAY['won'::text, 'lost'::text]));
