@@ -16,7 +16,7 @@ CREATE TABLE crm_opportunities (
     created_at          timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at          timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted_at          timestamp with time zone,
-    opportunity_stage   opportunity_stage DEFAULT 'lead'::opportunity_stage,
+    opportunity_stage   text DEFAULT 'lead'::text, -- free text; the board stage names come from flow_stages
     type                text DEFAULT 'sales'::text,
     reason_lost         text,
     common_currency_id  bigint,
