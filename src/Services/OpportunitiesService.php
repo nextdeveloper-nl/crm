@@ -47,7 +47,7 @@ class OpportunitiesService extends AbstractOpportunitiesService
 
         return DB::transaction(function () use ($opportunity, $id) {
             $items = FlowItems::where('object_type', 'NextDeveloper\CRM\Opportunities')
-                ->whereIn('object_id', [(string) $opportunity->uuid, (string) $opportunity->id])
+                ->where('object_id', $opportunity->id)
                 ->get();
 
             foreach ($items as $item) {
