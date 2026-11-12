@@ -8,6 +8,8 @@ use Illuminate\Support\Str;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\CRM\Database\Models\AccountManagers;
 use NextDeveloper\CRM\Database\Models\Campaigns;
+use NextDeveloper\CRM\Database\Models\Targets;
+use NextDeveloper\CRM\Database\Models\UserManagers;
 use NextDeveloper\IAM\Authorization\Roles\AbstractRole;
 use NextDeveloper\IAM\Authorization\Roles\IAuthorizationRole;
 use NextDeveloper\IAM\Database\Models\Users;
@@ -101,7 +103,17 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
             return $campaign && $campaign->iam_account_id == UserHelper::currentAccount()->id;
         }
 
-        return false;
+        if (! $this->isOperationAllowed($model, 'delete')) {
+            return false;
+        }
+
+        if ($model->getTable() == 'crm_target_users') {
+            return $this->isTargetOwnedByMe($model->crm_target_id);
+        }
+
+        // Every other table this role may delete (email templates, tasks, notes, meetings, ...) carries
+        // iam_account_id/iam_user_id: a sales person may delete the records they own in the current account.
+        return $this->isOwnedByMe($model);
     }
 
     public function checkUpdatePolicy(Model $model, Users $users) : bool
@@ -128,13 +140,92 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
                 ->exists();
         }
 
-        $amIManager = AccountManagers::withoutGlobalScopes()
-            ->where('iam_user_id', UserHelper::currentUser()->id)
-            ->where('iam_account_id', UserHelper::currentAccount()->id)
-            ->where('crm_account_id', $model->id)
+        if (! $this->isOperationAllowed($model, 'update')) {
+            return false;
+        }
+
+        // Only crm_accounts rows are matched against crm_account_managers by their own id. Before this every
+        // other table fell through to that check, so e.g. a sales person could create email templates but
+        // never update them (unless the template id happened to equal a managed CRM account id).
+        if ($model->getTable() == 'crm_accounts') {
+            return AccountManagers::withoutGlobalScopes()
+                ->where('iam_user_id', UserHelper::currentUser()->id)
+                ->where('iam_account_id', UserHelper::currentAccount()->id)
+                ->where('crm_account_id', $model->id)
+                ->exists();
+        }
+
+        // crm_users has no iam_account_id; it is managed through crm_user_managers.
+        if ($model->getTable() == 'crm_users') {
+            return UserManagers::withoutGlobalScopes()
+                ->where('iam_user_id', UserHelper::currentUser()->id)
+                ->where('iam_account_id', UserHelper::currentAccount()->id)
+                ->where('crm_user_id', $model->id)
+                ->exists();
+        }
+
+        if ($model->getTable() == 'crm_campaign_targets') {
+            $campaign = Campaigns::withoutGlobalScopes()
+                ->where('id', $model->crm_campaign_id)
+                ->first();
+
+            return $campaign && $campaign->iam_account_id == UserHelper::currentAccount()->id;
+        }
+
+        if ($model->getTable() == 'crm_target_users') {
+            return $this->isTargetOwnedByMe($model->crm_target_id);
+        }
+
+        return $this->isOwnedByMe($model);
+    }
+
+    /**
+     * Whether this role grants the given operation (create, update, delete, ...) on the model's table.
+     */
+    private function isOperationAllowed(Model $model, string $operation): bool
+    {
+        return in_array($model->getTable() . ':' . $operation, $this->allowedOperations());
+    }
+
+    /**
+     * A record is owned by the sales person when it belongs to the current account and to the user, both before
+     * and after the change, so it can not be moved into or out of the account or handed to someone else. This
+     * matches apply(), which only lets a sales person read the records they own.
+     */
+    private function isOwnedByMe(Model $model): bool
+    {
+        $table = $model->getTable();
+
+        if (! DatabaseHelper::isColumnExists($table, 'iam_account_id')) {
+            return false;
+        }
+
+        $accountId = UserHelper::currentAccount()->id;
+
+        if (
+            $model->getAttribute('iam_account_id') != $accountId ||
+            $model->getOriginal('iam_account_id', $accountId) != $accountId
+        ) {
+            return false;
+        }
+
+        if (! DatabaseHelper::isColumnExists($table, 'iam_user_id')) {
+            return true;
+        }
+
+        $userId = UserHelper::me()->id;
+
+        return $model->getAttribute('iam_user_id') == $userId &&
+            $model->getOriginal('iam_user_id', $userId) == $userId;
+    }
+
+    private function isTargetOwnedByMe($targetId): bool
+    {
+        $target = Targets::withoutGlobalScopes()
+            ->where('id', $targetId)
             ->first();
 
-        return $amIManager !== null;
+        return $target !== null && $this->isOwnedByMe($target);
     }
 
     public function getModule()
