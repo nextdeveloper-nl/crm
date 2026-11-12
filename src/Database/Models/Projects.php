@@ -150,54 +150,30 @@ class Projects extends Model
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
+    /**
+     * The external provider token is a secret: encrypted at rest and never serialized.
+     * Done here (not in $casts / $hidden above) so regenerating the model keeps it.
+     *
+     * @return array<string, string>
+     */
+    public function getCasts()
+    {
+        return array_merge(parent::getCasts(), ['token' => 'encrypted']);
+    }
 
+    /**
+     * @return array<int, string>
+     */
+    public function getHidden()
+    {
+        return array_values(array_unique(array_merge(parent::getHidden(), ['token'])));
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    /**
+     * Whether a token is stored, without decrypting it.
+     */
+    public function getHasTokenAttribute(): bool
+    {
+        return filled($this->attributes['token'] ?? null);
+    }
 }

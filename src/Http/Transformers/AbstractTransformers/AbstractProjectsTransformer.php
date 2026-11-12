@@ -54,7 +54,6 @@ class AbstractProjectsTransformer extends AbstractTransformer
      */
     public function transform(Projects $model)
     {
-                                                $projectId = \NextDeveloper\\Database\Models\Projects::where('id', $model->project_id)->first();
                                                             $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
                                                             $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
                                                             $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
@@ -65,8 +64,9 @@ class AbstractProjectsTransformer extends AbstractTransformer
             'id'  =>  $model->uuid,
             'name'  =>  $model->name,
             'url'  =>  $model->url,
-            'project_id'  =>  $projectId ? $projectId->uuid : null,
-            'token'  =>  $model->token,
+            // project_id is the external provider's project id (plain text), not a reference.
+            'project_id'  =>  $model->project_id,
+            'has_token'  =>  $model->has_token,
             'crm_account_id'  =>  $crmAccountId ? $crmAccountId->uuid : null,
             'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
             'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,

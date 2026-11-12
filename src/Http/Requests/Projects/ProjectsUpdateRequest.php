@@ -15,8 +15,9 @@ class ProjectsUpdateRequest extends AbstractFormRequest
         return [
             'name' => 'nullable|string',
         'url' => 'nullable|string',
-        'project_id' => 'nullable|string|exists:projects,uuid|uuid',
+        'project_id' => 'nullable|string',
         'token' => 'nullable|string',
+        'remove_token' => 'sometimes|boolean',
         'crm_account_id' => 'nullable|exists:crm_accounts,uuid|uuid',
         'crm_opportunity_id' => 'nullable|exists:crm_opportunities,uuid|uuid',
         ];
