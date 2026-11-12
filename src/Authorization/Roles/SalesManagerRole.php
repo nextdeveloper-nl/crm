@@ -214,9 +214,15 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
             return $amIManager !== null;
         }
 
-        if(property_exists('iam_account_id', $model)) {
-            if($model->iam_account_id == UserHelper::currentAccount()->id)
-                return true;
+        //  Records of the manager's own account may be updated, including handing them to a teammate (iam_user_id).
+        //  The record has to belong to the current account both before and after the change, so it can not be
+        //  moved into or out of the account.
+        $accountId = $model->getAttribute('iam_account_id');
+
+        if($accountId !== null
+            && $accountId == UserHelper::currentAccount()->id
+            && $model->getOriginal('iam_account_id', $accountId) == $accountId) {
+            return true;
         }
 
         if($model->iam_user_id == $users->id)
