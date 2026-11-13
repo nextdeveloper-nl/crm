@@ -24,4 +24,17 @@ trait RequiresSalesManager
             throw new NotAllowedException('Only a sales manager can run this action.');
         }
     }
+
+    /**
+     * Suspending and unsuspending an account is a sales-admin decision: sales managers and sales persons can not
+     * run it (they can hide or deactivate the customer for themselves instead).
+     *
+     * @throws NotAllowedException when the current user is not sales-admin.
+     */
+    protected function requireSalesAdmin(): void
+    {
+        if (!UserHelper::hasRole('sales-admin')) {
+            throw new NotAllowedException('Only a sales admin can suspend or unsuspend accounts.');
+        }
+    }
 }

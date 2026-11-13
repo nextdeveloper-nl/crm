@@ -32,8 +32,8 @@ class UnsuspendAccount extends AbstractAction
      */
     public function __construct(Accounts $accounts)
     {
-        //  Only a sales manager (or sales admin) may change an account's state, see RequiresSalesManager.
-        $this->requireSalesManager();
+        //  Only a sales admin may suspend or unsuspend, see RequiresSalesManager::requireSalesAdmin().
+        $this->requireSalesAdmin();
 
         $this->model = $accounts;
         parent::__construct();
