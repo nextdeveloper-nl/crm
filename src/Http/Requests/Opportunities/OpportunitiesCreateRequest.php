@@ -15,7 +15,7 @@ class OpportunitiesCreateRequest extends AbstractFormRequest
         return [
             'name' => 'required|string',
         'description' => 'nullable|string',
-        'probability' => 'integer',
+        'probability' => 'integer|min:0|max:100',
         'source' => 'nullable|string',
         // income must be a non-negative number (a negative deal value is invalid)
         'income' => 'nullable|numeric|min:0',

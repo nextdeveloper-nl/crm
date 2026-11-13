@@ -15,10 +15,10 @@ class OpportunitiesPerspectiveCreateRequest extends AbstractFormRequest
         return [
             'name' => 'nullable|string',
         'description' => 'nullable|string',
-        'probability' => 'nullable|integer',
+        'probability' => 'nullable|integer|min:0|max:100',
         'opportunity_stage' => 'nullable|string',
         'source' => 'nullable|string',
-        'income' => 'nullable',
+        'income' => 'nullable|numeric|min:0',
         'deadline' => 'nullable|date',
         'account_name' => 'nullable|string',
         'crm_account_id' => 'nullable|exists:crm_accounts,uuid|uuid',
