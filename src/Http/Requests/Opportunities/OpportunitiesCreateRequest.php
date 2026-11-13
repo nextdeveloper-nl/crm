@@ -15,9 +15,9 @@ class OpportunitiesCreateRequest extends AbstractFormRequest
         return [
             'name' => 'required|string',
         'description' => 'nullable|string',
-        'probability' => 'integer',
+        'probability' => 'integer|min:0|max:100',
         'source' => 'nullable|string',
-        'income' => '',
+        'income' => 'nullable|numeric|min:0',
         'deadline' => 'nullable|date',
         'crm_account_id' => 'required|exists:crm_accounts,uuid|uuid',
         'tags' => '',

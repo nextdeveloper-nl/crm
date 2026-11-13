@@ -22,7 +22,7 @@ class QuotesPerspectiveCreateRequest extends AbstractFormRequest
         'buyer_name' => 'nullable|string',
         'common_currency_id' => 'nullable|exists:common_currencies,uuid|uuid',
         'currency_code' => 'nullable|string',
-        'suggested_price' => 'nullable',
+        'suggested_price' => 'nullable|numeric|min:0',
         'approval_level' => 'nullable',
         'tags' => 'nullable',
         'crm_opportunity_id' => 'nullable|exists:crm_opportunities,uuid|uuid',
