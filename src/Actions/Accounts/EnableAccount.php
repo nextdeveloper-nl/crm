@@ -3,6 +3,7 @@
 namespace NextDeveloper\CRM\Actions\Accounts;
 
 use NextDeveloper\Commons\Actions\AbstractAction;
+use NextDeveloper\CRM\Actions\Concerns\RequiresSalesManager;
 use NextDeveloper\Commons\Exceptions\NotAllowedException;
 use NextDeveloper\CRM\Database\Models\Accounts;
 use NextDeveloper\Events\Services\Events;
@@ -14,6 +15,8 @@ use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
  */
 class EnableAccount extends AbstractAction
 {
+    use RequiresSalesManager;
+
     /**
      * Events associated with this action.
      */
@@ -31,6 +34,9 @@ class EnableAccount extends AbstractAction
      */
     public function __construct(Accounts $accounts)
     {
+        //  Only a sales manager (or sales admin) may change an account's state, see RequiresSalesManager.
+        $this->requireSalesManager();
+
         $this->model = $accounts;
         parent::__construct();
     }

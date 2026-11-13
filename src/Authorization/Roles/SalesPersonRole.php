@@ -313,7 +313,15 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
 
             'crm_accounts_perspective:read',
             'crm_opportunities_performance:read',
-            'crm_sales_people_perspective:read'
+            'crm_sales_people_perspective:read',
+
+            // Customer statistics page and the Sources/Automations panels (round 2 UI test): a sales person got 403
+            // on these. crm_account_managers_performance is left out on purpose: it shows other people's numbers.
+            'crm_importers:read',
+            'crm_monthly_new_accounts_performance:read',
+            'crm_monthly_paying_customers_performance:read',
+            'crm_weekly_new_accounts_performance:read',
+            'crm_stats_performances_perspective:read',
         ];
     }
 
