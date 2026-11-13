@@ -34,6 +34,53 @@ class QuotesService extends AbstractQuotesService
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
     /**
+     * Creates a quote. When the request carries no currency, the quote gets the currency of the customer's
+     * accounting account (accounting_accounts.common_currency_id, where accounting_accounts.iam_account_id equals
+     * crm_accounts.iam_account_id of the opportunity's customer). Before, the quote had no currency and showed "-".
+     *
+     * @param array $data
+     * @return Quotes
+     */
+    public static function create(array $data)
+    {
+        if (empty($data['common_currency_id']) && !empty($data['crm_opportunity_id'])) {
+            $currencyUuid = self::getDefaultCurrencyUuid($data['crm_opportunity_id']);
+
+            if ($currencyUuid) {
+                $data['common_currency_id'] = $currencyUuid;
+            }
+        }
+
+        return parent::create($data);
+    }
+
+    /**
+     * Uuid of the currency of the accounting account that belongs to the opportunity's customer, or null when
+     * the opportunity, the customer, the accounting account or its currency cannot be found.
+     *
+     * @param string $opportunityUuid
+     * @return string|null
+     */
+    private static function getDefaultCurrencyUuid(string $opportunityUuid): ?string
+    {
+        $opportunity = Opportunities::withoutGlobalScopes()->where('uuid', $opportunityUuid)->first();
+
+        $crmAccount = $opportunity
+            ? Accounts::withoutGlobalScopes()->where('id', $opportunity->crm_account_id)->first()
+            : null;
+
+        $accountingAccount = $crmAccount ? AccountingHelper::getAccountFromCrmAccount($crmAccount) : null;
+
+        if (!$accountingAccount || !$accountingAccount->common_currency_id) {
+            return null;
+        }
+
+        $currency = Currencies::withoutGlobalScopes()->where('id', $accountingAccount->common_currency_id)->first();
+
+        return $currency ? $currency->uuid : null;
+    }
+
+    /**
      * Convert a given quote into an invoice with items, idempotently.
      * Returns the created invoice model.
      *
