@@ -16,7 +16,7 @@ class QuotesCreateRequest extends AbstractFormRequest
             'crm_opportunity_id' => 'nullable|exists:crm_opportunities,uuid|uuid',
         'name' => 'required|string',
         'description' => 'nullable|string',
-        'suggested_price' => 'nullable',
+        'suggested_price' => 'nullable|numeric|min:0',
         'common_currency_id' => 'nullable|exists:common_currencies,uuid|uuid',
         'tags' => '',
         'approval_level' => '',
