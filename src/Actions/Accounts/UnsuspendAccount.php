@@ -3,6 +3,7 @@
 namespace NextDeveloper\CRM\Actions\Accounts;
 
 use NextDeveloper\Commons\Actions\AbstractAction;
+use NextDeveloper\CRM\Actions\Concerns\RequiresSalesManager;
 use NextDeveloper\Commons\Exceptions\NotAllowedException;
 use NextDeveloper\CRM\Database\Models\Accounts;
 use NextDeveloper\Events\Services\Events;
@@ -12,6 +13,8 @@ use NextDeveloper\Events\Services\Events;
  */
 class UnsuspendAccount extends AbstractAction
 {
+    use RequiresSalesManager;
+
     /**
      * Events associated with this action.
      */
@@ -29,6 +32,9 @@ class UnsuspendAccount extends AbstractAction
      */
     public function __construct(Accounts $accounts)
     {
+        //  Only a sales admin may suspend or unsuspend, see RequiresSalesManager::requireSalesAdmin().
+        $this->requireSalesAdmin();
+
         $this->model = $accounts;
         parent::__construct();
     }
