@@ -58,7 +58,10 @@ class CampaignsService extends AbstractCampaignsService
             throw new NotAllowedException("Pipeline template '{$templateId}' not found.");
         }
 
-        $pipeline = PipelinesService::createFromTemplate($templateId, $data['name'] ?? null);
+        // The pipeline's kind follows the campaign type; without one it comes from the template.
+        $kind = in_array($campaignType, ['sales', 'marketing'], true) ? $campaignType : null;
+
+        $pipeline = PipelinesService::createFromTemplate($templateId, $data['name'] ?? null, $kind);
 
         $firstStage = Stages::where('flow_pipeline_id', $pipeline->id)
             ->orderBy('position')
