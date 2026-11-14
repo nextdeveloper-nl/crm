@@ -64,12 +64,12 @@ class TenantHelper
     }
 
     /**
-     * Master switch for tenant isolation (config crm.tenant_isolation.enabled). Off until the owner column DDL has
-     * been applied, so the code is safe to deploy first.
+     * Master switch for tenant isolation (config crm.tenant_isolation.enabled, on by default). Needs the owner
+     * column DDL applied; set CRM_TENANT_ISOLATION_ENABLED=false where it is not.
      */
     public static function isolationEnabled(): bool
     {
-        return (bool) config('crm.tenant_isolation.enabled', false);
+        return (bool) config('crm.tenant_isolation.enabled', true);
     }
 
     /**

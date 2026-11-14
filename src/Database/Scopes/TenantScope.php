@@ -18,8 +18,9 @@ use NextDeveloper\IAM\Helpers\UserHelper;
  * It restricts the tables listed in crm.tenant_isolation.owner_column_tables to rows whose
  * owner_iam_account_id is the current account. The platform account (the operator) is not restricted.
  *
- * Inert until crm.tenant_isolation.enabled is true, so the code can ship before the DDL
- * (schemas/changes/2026_11_14_crm_accounts_owner.sql) is applied.
+ * Enabled by default (crm.tenant_isolation.enabled). The DDL (schemas/changes/2026_11_14_crm_accounts_owner.sql)
+ * must be applied first, otherwise queries fail on the missing owner_iam_account_id column; set
+ * CRM_TENANT_ISOLATION_ENABLED=false to turn the scope off.
  */
 class TenantScope implements Scope
 {

@@ -14,8 +14,10 @@ return [
 
     //  Multi-tenancy. See docs/features/multi-tenancy-plan.md and schemas/changes/2026_11_14_crm_accounts_owner.sql.
     'tenant_isolation' => [
-        //  Turn on only AFTER the owner column DDL is applied (the scope queries owner_iam_account_id).
-        'enabled'             => env('CRM_TENANT_ISOLATION_ENABLED', false),
+        //  On by default. Requires the owner column DDL (schemas/changes/2026_11_14_crm_accounts_owner.sql) on
+        //  the database: the scope queries owner_iam_account_id. Set CRM_TENANT_ISOLATION_ENABLED=false to
+        //  switch it off (e.g. on a database where the DDL is not applied yet).
+        'enabled'             => env('CRM_TENANT_ISOLATION_ENABLED', true),
         //  The operator account (sees all tenants; owner of trigger-created crm_accounts). Falls back to
         //  leo.current_account_id when null.
         'platform_account_id' => env('CRM_PLATFORM_ACCOUNT_ID', null),

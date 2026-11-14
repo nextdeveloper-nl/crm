@@ -9,9 +9,8 @@
 --                                      Rows created by the iam_accounts trigger belong to the platform tenant (5).
 --                                      One customer iam_account may have one CRM record per owning tenant.
 --
--- The application keeps working before this file is applied: TenantScope is inert until
--- CRM_TENANT_ISOLATION_ENABLED=true (config crm.tenant_isolation.enabled). Apply this file, check the result, then
--- switch the flag on.
+-- TenantScope is ON by default (config crm.tenant_isolation.enabled). Apply this file BEFORE deploying code that
+-- contains it, or set CRM_TENANT_ISOLATION_ENABLED=false until it is applied.
 --
 -- STEP 0 (read-only, run first): there must be no duplicate live rows per customer, otherwise the unique index
 -- below fails and the whole transaction rolls back. Expected result: 0 rows.
