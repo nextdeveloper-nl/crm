@@ -43,6 +43,11 @@ class AccountsService extends AbstractAccountsService
         // always owns what they create.
         if (!self::mayChooseOwner()) {
             unset($data['owner_iam_account_id']);
+
+            // The customer a CRM record points at decides whose people the owner can see (TenantScope), so an
+            // untrusted caller may only create a record for an account it verifiably belongs to: its own account or
+            // one it is a member of. Anything else (a foreign account uuid) is refused.
+            self::assertCallerBelongsToAccount($data['iam_account_id'] ?? null);
         }
 
         if (TenantHelper::isolationEnabled() && !array_key_exists('owner_iam_account_id', $data)) {
@@ -50,6 +55,31 @@ class AccountsService extends AbstractAccountsService
         }
 
         return parent::create($data);
+    }
+
+    private static function assertCallerBelongsToAccount($accountUuidOrId): void
+    {
+        $account = $accountUuidOrId === null ? UserHelper::currentAccount() : (
+            is_int($accountUuidOrId)
+                ? \NextDeveloper\IAM\Database\Models\Accounts::withoutGlobalScopes()->where('id', $accountUuidOrId)->first()
+                : \NextDeveloper\IAM\Database\Models\Accounts::withoutGlobalScopes()->where('uuid', $accountUuidOrId)->first()
+        );
+
+        $current = (int) UserHelper::currentAccount()->id;
+
+        $allowed = $account && (
+            (int) $account->id === $current
+            || \NextDeveloper\IAM\Database\Models\AccountUsers::withoutGlobalScopes()
+                ->where('iam_account_id', $account->id)
+                ->where('iam_user_id', UserHelper::me()->id)
+                ->exists()
+        );
+
+        if (!$allowed) {
+            throw new \NextDeveloper\Commons\Exceptions\NotAllowedException(
+                'You can only create a CRM record for an account you belong to.'
+            );
+        }
     }
 
     private static function mayChooseOwner(): bool
@@ -63,9 +93,10 @@ class AccountsService extends AbstractAccountsService
     private ?Accounts $crmAccount = null;
 
     public static function update($id, $data) {
-        // Ownership can not be transferred or claimed through an update either.
+        // Ownership can not be transferred or claimed through an update either, and the customer a record points
+        // at is immutable for untrusted callers (re-pointing it would hand them another account's people).
         if (!self::mayChooseOwner()) {
-            unset($data['owner_iam_account_id']);
+            unset($data['owner_iam_account_id'], $data['iam_account_id']);
         }
 
         if(array_key_exists('sdr_questionaire', $data)) {
