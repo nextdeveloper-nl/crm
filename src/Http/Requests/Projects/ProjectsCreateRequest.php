@@ -15,7 +15,7 @@ class ProjectsCreateRequest extends AbstractFormRequest
         return [
             'name' => 'required|string',
         'url' => 'required|string',
-        'project_id' => 'nullable|string|exists:projects,uuid|uuid',
+        'project_id' => 'nullable|string',
         'token' => 'nullable|string',
         'crm_account_id' => 'required|exists:crm_accounts,uuid|uuid',
         'crm_opportunity_id' => 'nullable|exists:crm_opportunities,uuid|uuid',

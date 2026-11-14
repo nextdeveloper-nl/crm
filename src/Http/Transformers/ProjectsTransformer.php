@@ -50,6 +50,8 @@ class ProjectsTransformer extends AbstractProjectsTransformer
                 'name'               => $model->name,
                 'url'                => $model->url,
                 'project_id'         => $model->project_id,
+                // The token itself is write-only; clients only learn whether one is set.
+                'has_token'          => $model->has_token,
                 'crm_account_id'     => $crmAccount ? $crmAccount->uuid : null,
                 'iam_user_id'        => $iamUser ? $iamUser->uuid : null,
                 'iam_account_id'     => $iamAccount ? $iamAccount->uuid : null,

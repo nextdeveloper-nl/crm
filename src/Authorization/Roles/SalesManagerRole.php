@@ -46,7 +46,8 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
             $model->getTable() == 'crm_opportunities_perspective' ||
             $model->getTable() == 'crm_opportunities' ||
             $model->getTable() == 'crm_quotes' ||
-            $model->getTable() == 'crm_quotes_perspective'
+            $model->getTable() == 'crm_quotes_perspective' ||
+            $model->getTable() == 'crm_projects'
         ) {
             $builder->where('iam_account_id', UserHelper::currentAccount()->id);
             return;
@@ -160,6 +161,11 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
             'crm_meetings:create',
             'crm_meetings:update',
             'crm_meetings:delete',
+            // Projects (external repos / boards). The token is write-only; see Projects model.
+            'crm_projects:read',
+            'crm_projects:create',
+            'crm_projects:update',
+            'crm_projects:delete',
 
             'crm_opportunities_performance:read',
             'crm_leo_active_customers_perspective:read',
@@ -177,6 +183,11 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
 
     public function checkDeletePolicy(Model $model, Users $user): bool
     {
+        // Projects belong to the account they were created in.
+        if ($model->getTable() == 'crm_projects') {
+            return $model->iam_account_id == UserHelper::currentAccount()->id;
+        }
+
         if ($model->getTable() == 'crm_campaign_targets') {
             $campaign = Campaigns::withoutGlobalScopes()
                 ->where('id', $model->crm_campaign_id)
@@ -190,6 +201,11 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
 
     public function checkUpdatePolicy(Model $model, Users $users) : bool
     {
+        // Projects belong to the account they were created in, so any sales manager there can update them.
+        if ($model->getTable() == 'crm_projects') {
+            return $model->iam_account_id == UserHelper::currentAccount()->id;
+        }
+
         if($model->getTable() == 'crm_accounts') {
             $amIManager = AccountManagers::withoutGlobalScopes()
                 ->where('iam_account_id', UserHelper::currentAccount()->id)
