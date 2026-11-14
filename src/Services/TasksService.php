@@ -51,6 +51,10 @@ class TasksService extends AbstractTasksService
             $data['object_id'] = $object->id;
         }
 
+        if (!isset($data['description'])) {
+            $data['description'] = '';
+        }
+
         // Schedule fields, parent and milestone rules (leo4#1245).
         $data = TaskScheduleService::prepare(null, $data);
 
@@ -64,6 +68,11 @@ class TasksService extends AbstractTasksService
     public static function update($id, array $data)
     {
         $existing = \NextDeveloper\CRM\Database\Models\Tasks::where('uuid', $id)->first();
+
+        // crm_tasks.description is NOT NULL, and an emptied textarea arrives as null.
+        if (array_key_exists('description', $data) && $data['description'] === null) {
+            $data['description'] = '';
+        }
 
         if ($existing) {
             $data = TaskScheduleService::prepare($existing, $data);
