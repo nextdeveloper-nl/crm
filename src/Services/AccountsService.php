@@ -38,6 +38,13 @@ class AccountsService extends AbstractAccountsService
      */
     public static function create(array $data)
     {
+        // The owner decides which customers' people a tenant can see (TenantScope), so only trusted callers (the
+        // platform account, or system code running as admin, e.g. the importers) may name the owner. Anybody else
+        // always owns what they create.
+        if (!self::mayChooseOwner()) {
+            unset($data['owner_iam_account_id']);
+        }
+
         if (TenantHelper::isolationEnabled() && !array_key_exists('owner_iam_account_id', $data)) {
             $data['owner_iam_account_id'] = TenantHelper::resolveOwnerId();
         }
@@ -45,11 +52,22 @@ class AccountsService extends AbstractAccountsService
         return parent::create($data);
     }
 
+    private static function mayChooseOwner(): bool
+    {
+        return TenantHelper::isPlatformAccount((int) UserHelper::currentAccount()->id)
+            || UserHelper::bypassRolesCheck();
+    }
+
     private array $lastError;
 
     private ?Accounts $crmAccount = null;
 
     public static function update($id, $data) {
+        // Ownership can not be transferred or claimed through an update either.
+        if (!self::mayChooseOwner()) {
+            unset($data['owner_iam_account_id']);
+        }
+
         if(array_key_exists('sdr_questionaire', $data)) {
             if(array_key_exists('isGoodFit', $data['sdr_questionaire'])) {
                 if($data['sdr_questionaire']['isGoodFit']) {

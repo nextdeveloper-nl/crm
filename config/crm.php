@@ -55,6 +55,11 @@ return [
             'crm_account_managers_performance'     => 'iam_account_id',
             'crm_user_managers'                    => 'iam_account_id',
             'crm_task_dependencies'                => 'iam_account_id',
+            //  Message content: only the tenant's OWN account messages. Not the owned customers': owning a CRM record
+            //  of a company (which a tenant can create by adding a company that already exists) must not expose that
+            //  company's communications.
+            'crm_account_communications_perspective' => 'iam_account_id',
+            'crm_user_emails_perspective'          => 'iam_account_id',
             //  needs schemas/changes/2026_11_14_crm_account_managers_perspective_owner.sql (adds the column)
             'crm_account_managers_perspective'     => 'manager_iam_account_id',
         ],
@@ -85,8 +90,6 @@ return [
         'owned_customer_account_tables' => [
             'crm_users_perspective'                  => 'iam_account_id',
             'crm_sales_people_perspective'           => 'iam_account_id',
-            'crm_account_communications_perspective' => 'iam_account_id',
-            'crm_user_emails_perspective'            => 'iam_account_id',
         ],
         //  crm_users has no account column: a contact is visible to a tenant when the person belongs to the tenant or
         //  one of its owned customers, is managed by the tenant (crm_user_managers) or is in one of its targets.
