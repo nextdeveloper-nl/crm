@@ -31,6 +31,16 @@ class TaskDependencies extends Model
 
     protected $table = 'crm_task_dependencies';
 
+    /**
+     * Multi-tenancy: this model registered no global scope at all, so any tenant could read every dependency. Only
+     * the tenant boundary is added here (not the role-based AuthorizationScope) to keep the existing behaviour for
+     * the owning account unchanged.
+     */
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new \NextDeveloper\CRM\Database\Scopes\TenantScope());
+    }
+
     protected $fillable = [
         'predecessor_task_id',
         'successor_task_id',

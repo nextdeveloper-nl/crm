@@ -16,6 +16,8 @@ use NextDeveloper\IAM\Helpers\UserHelper;
  * account filter at all, so it cannot be the tenant boundary. This scope is registered next to it in
  * crm.scopes.global and runs regardless of which role won.
  *
+ * Fail closed: a crm_* table that is not classified in crm.tenant_isolation returns nothing to tenants.
+ *
  * It restricts the tables listed in crm.tenant_isolation.* to rows owned by the current account: crm_accounts by
  * owner_iam_account_id, tenant-owned tables by their iam_account_id, link tables through their parent row. The platform account (the operator) is not restricted.
  *
@@ -41,14 +43,29 @@ class TenantScope implements Scope
         $isAccount = array_key_exists($table, $accountTables);
         $isParent  = array_key_exists($table, $parentTables);
 
-        if (!$isOwner && !$isAccount && !$isParent) {
+        // Global reference data and the documented known gaps are not tenant filtered here.
+        if (in_array($table, (array) config('crm.tenant_isolation.shared_tables', []), true)
+            || in_array($table, (array) config('crm.tenant_isolation.pending_tables', []), true)) {
+            return;
+        }
+
+        $isClassified = $isOwner || $isAccount || $isParent;
+
+        // Fail closed: a crm_* table that is not classified in config (a new table, or a platform-only view) returns
+        // no rows to tenants. The platform account is never restricted.
+        if (!$isClassified && !str_starts_with($table, 'crm_')) {
             return;
         }
 
         $account = UserHelper::currentAccount();
 
-        // The operator sees every tenant; everybody else only their own records.
         if (TenantHelper::isPlatformAccount($account->id)) {
+            return;
+        }
+
+        if (!$isClassified) {
+            $builder->whereRaw('1 = 0');
+
             return;
         }
 

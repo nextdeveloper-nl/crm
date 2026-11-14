@@ -54,6 +54,40 @@ return [
             'crm_account_managers'                 => 'iam_account_id',
             'crm_account_managers_performance'     => 'iam_account_id',
             'crm_user_managers'                    => 'iam_account_id',
+            'crm_task_dependencies'                => 'iam_account_id',
+            //  needs schemas/changes/2026_11_14_crm_account_managers_perspective_owner.sql (adds the column)
+            'crm_account_managers_perspective'     => 'manager_iam_account_id',
+        ],
+        //  Global reference data every tenant may read (writes are governed by the roles, not by this scope).
+        'shared_tables' => [
+            'crm_industries',
+            'crm_offerings',
+            'crm_technologies',
+            'crm_sector_focus',
+            'crm_regulatory_compliance',
+        ],
+        //  Platform-wide aggregates / views: only the platform account may read them, everybody else gets no rows.
+        'platform_only_tables' => [
+            'crm_daily_new_accounts_performance',
+            'crm_weekly_new_accounts_performance',
+            'crm_monthly_new_accounts_performance',
+            'crm_monthly_new_accounts_per_dist_performance',
+            'crm_monthly_paying_customers_performance',
+            'crm_leo_active_customers_perspective',
+            'crm_stats_performances_perspective',
+            //  no DDL in schemas/ yet, so the tenant column is unknown: closed until it is modelled
+            'crm_account_managers_performances_perspective',
+            'crm_account_users_perspective',
+        ],
+        //  KNOWN GAPS: contact/user data without a tenant column yet. Deliberately NOT filtered by this scope (they
+        //  are still limited by the role classes). Every table here is a leak to close; nothing else may be added
+        //  without a decision (TenantScopeTest fails on an unclassified table).
+        'pending_tables' => [
+            'crm_users',
+            'crm_users_perspective',
+            'crm_user_emails_perspective',
+            'crm_account_communications_perspective',
+            'crm_sales_people_perspective',
         ],
         //  Link tables without any account column: owned through their parent row.
         //  table => [foreign key column, parent table, parent's owner column]

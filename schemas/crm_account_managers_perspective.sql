@@ -12,7 +12,8 @@ SELECT ca.id,
     ca.tags,
     ca.created_at,
     ca.updated_at,
-    ca.deleted_at
+    ca.deleted_at,
+    cam.iam_account_id AS manager_iam_account_id
    FROM iam_accounts ia
      JOIN crm_accounts ca ON ia.id = ca.iam_account_id
      JOIN crm_account_managers cam ON ca.id = cam.crm_account_id
