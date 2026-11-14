@@ -43,6 +43,7 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property string $office_phone_extension
  * @property $sdr_questionaire
  * @property string $office_email
+ * @property integer $owner_iam_account_id Tenant (iam_accounts.id) that owns this CRM record
  */
 class Accounts extends Model
 {
@@ -61,6 +62,7 @@ class Accounts extends Model
 
     protected $fillable = [
             'iam_account_id',
+            'owner_iam_account_id',
             'is_paying_customer',
             'risk_level',
             'common_city_id',

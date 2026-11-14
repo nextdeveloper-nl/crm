@@ -26,5 +26,10 @@ CREATE TABLE crm_accounts (
     office_phone_extension         text,
     sdr_questionaire               json,
     office_email                   text,
-    CONSTRAINT crm_accounts_pkey PRIMARY KEY (id)
+    owner_iam_account_id           bigint NOT NULL DEFAULT 5, -- tenant that owns this CRM record (see schemas/changes/2026_11_14_crm_accounts_owner.sql)
+    CONSTRAINT crm_accounts_pkey PRIMARY KEY (id),
+    CONSTRAINT crm_accounts_owner_iam_account_id_fkey FOREIGN KEY (owner_iam_account_id) REFERENCES iam_accounts(id)
 );
+
+CREATE UNIQUE INDEX crm_accounts_iam_account_owner_uidx ON crm_accounts (iam_account_id, owner_iam_account_id) WHERE deleted_at IS NULL;
+CREATE INDEX crm_accounts_owner_iam_account_id_idx ON crm_accounts (owner_iam_account_id);

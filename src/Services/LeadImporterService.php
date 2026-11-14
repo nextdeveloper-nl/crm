@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use NextDeveloper\CRM\Database\Models\Accounts as CrmAccounts;
 use NextDeveloper\CRM\Database\Models\ImporterRuns;
 use NextDeveloper\CRM\Database\Models\Importers;
+use NextDeveloper\CRM\Helpers\TenantHelper;
 use NextDeveloper\CRM\Database\Models\Opportunities;
 use NextDeveloper\Flow\Database\Models\Pipelines;
 use NextDeveloper\Flow\Database\Models\Stages;
@@ -105,7 +106,7 @@ class LeadImporterService
             $opportunity = DB::transaction(function () use ($importer, $lead, $mapping) {
                 $user = self::findOrCreateUser($lead);
                 [$iamAccount, $iamAccountCreated] = self::findOrCreateAccount($user);
-                $crmAccount = self::findOrCreateCrmAccount($iamAccount, $lead);
+                $crmAccount = self::findOrCreateCrmAccount($iamAccount, $lead, (int) $importer->iam_account_id);
 
                 // Importer-controlled tags go on the CRM account only for a customer this import created from scratch
                 // (decided by the creation itself, not by a separate lookup). An existing customer may belong to another
@@ -405,18 +406,31 @@ class LeadImporterService
         }
     }
 
-    private static function findOrCreateCrmAccount(IamAccounts $iamAccount, array $lead): CrmAccounts
+    private static function findOrCreateCrmAccount(IamAccounts $iamAccount, array $lead, int $ownerAccountId): CrmAccounts
     {
-        $crmAccount = CrmAccounts::withoutGlobalScope(AuthorizationScope::class)
-            ->where('iam_account_id', $iamAccount->id)
-            ->first();
+        // Multi-tenancy: the lead's CRM record belongs to the tenant that owns the importer, not to whichever account
+        // the (admin) import job happens to run as. A customer shared by two tenants has one CRM record per tenant.
+        $query = CrmAccounts::withoutGlobalScope(AuthorizationScope::class)
+            ->where('iam_account_id', $iamAccount->id);
+
+        if (TenantHelper::isolationEnabled()) {
+            $query->where('owner_iam_account_id', $ownerAccountId);
+        }
+
+        $crmAccount = $query->first();
 
         if (!$crmAccount) {
-            $crmAccount = AccountsService::create([
+            $attributes = [
                 'iam_account_id'      => $iamAccount->uuid,
                 'office_phone_number' => $lead['phone'],
                 'office_email'        => $lead['email'],
-            ]);
+            ];
+
+            if (TenantHelper::isolationEnabled()) {
+                $attributes['owner_iam_account_id'] = $ownerAccountId;
+            }
+
+            $crmAccount = AccountsService::create($attributes);
         } elseif ($lead['phone'] && !$crmAccount->office_phone_number) {
             $crmAccount = AccountsService::update($crmAccount->uuid, ['office_phone_number' => $lead['phone']]);
         }

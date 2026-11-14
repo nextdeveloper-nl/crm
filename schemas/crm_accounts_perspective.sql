@@ -37,7 +37,8 @@ SELECT crm_accounts.id,
     ARRAY( SELECT DISTINCT unnest(COALESCE(iam_accounts.tags, ARRAY[]::text[]) || COALESCE(crm_accounts.tags, ARRAY[]::text[])) AS unnest) AS tags,
     iam_accounts.created_at,
     iam_accounts.updated_at,
-    iam_accounts.deleted_at
+    iam_accounts.deleted_at,
+    crm_accounts.owner_iam_account_id
    FROM iam_accounts
      JOIN crm_accounts ON iam_accounts.id = crm_accounts.iam_account_id
      LEFT JOIN iam_users iu ON iam_accounts.iam_user_id = iu.id

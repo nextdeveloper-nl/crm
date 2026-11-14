@@ -12,8 +12,9 @@ create or replace function create_crm_account()
 as
 $function$
 BEGIN
-    insert into crm_accounts (iam_account_id)
-    values (new.id)
+    -- owner = platform tenant (iam_accounts.id 5); tenants' own records are created by the CRM services
+    insert into crm_accounts (iam_account_id, owner_iam_account_id)
+    values (new.id, 5)
     ON CONFLICT DO NOTHING;
 
     return new;

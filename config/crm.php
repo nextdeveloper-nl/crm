@@ -6,7 +6,24 @@ return [
             //  Dont do this here because it makes infinite loop with user object.
             '\NextDeveloper\IAM\Database\Scopes\AuthorizationScope',
             '\NextDeveloper\Commons\Database\GlobalScopes\LimitScope',
+            //  Tenant boundary, independent of the role AuthorizationScope picks. Inert while
+            //  crm.tenant_isolation.enabled is false.
+            '\NextDeveloper\CRM\Database\Scopes\TenantScope',
         ]
+    ],
+
+    //  Multi-tenancy. See docs/features/multi-tenancy-plan.md and schemas/changes/2026_11_14_crm_accounts_owner.sql.
+    'tenant_isolation' => [
+        //  Turn on only AFTER the owner column DDL is applied (the scope queries owner_iam_account_id).
+        'enabled'             => env('CRM_TENANT_ISOLATION_ENABLED', false),
+        //  The operator account (sees all tenants; owner of trigger-created crm_accounts). Falls back to
+        //  leo.current_account_id when null.
+        'platform_account_id' => env('CRM_PLATFORM_ACCOUNT_ID', null),
+        //  Tables/views that carry owner_iam_account_id.
+        'owner_column_tables' => [
+            'crm_accounts',
+            'crm_accounts_perspective',
+        ],
     ],
 
     'linked_actions'    =>  [

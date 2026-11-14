@@ -4,6 +4,7 @@ namespace NextDeveloper\CRM\Services;
 
 use Illuminate\Support\Facades\Log;
 use NextDeveloper\CRM\Database\Models\Accounts;
+use NextDeveloper\CRM\Helpers\TenantHelper;
 use NextDeveloper\CRM\Services\AbstractServices\AbstractAccountsService;
 use NextDeveloper\I18n\Helpers\i18n;
 use NextDeveloper\IAM\Helpers\UserHelper;
@@ -29,6 +30,20 @@ class AccountsService extends AbstractAccountsService
         'service_enable_failed'     => 'Service could not be enabled.',
         'service_enabled'           => 'Service is enabled.'
     ];
+
+    /**
+     * Multi-tenancy: stamps the owning tenant on the new CRM record. Callers that run as admin on behalf of a tenant
+     * (importers, intake jobs) must pass owner_iam_account_id explicitly; everybody else gets the current account.
+     * Only stamped while tenant isolation is enabled (the column exists once the DDL is applied).
+     */
+    public static function create(array $data)
+    {
+        if (TenantHelper::isolationEnabled() && !array_key_exists('owner_iam_account_id', $data)) {
+            $data['owner_iam_account_id'] = TenantHelper::resolveOwnerId();
+        }
+
+        return parent::create($data);
+    }
 
     private array $lastError;
 

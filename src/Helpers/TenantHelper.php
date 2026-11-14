@@ -62,4 +62,40 @@ class TenantHelper
     {
         return (int) $model->iam_account_id === (int) UserHelper::currentAccount()->id;
     }
+
+    /**
+     * Master switch for tenant isolation (config crm.tenant_isolation.enabled). Off until the owner column DDL has
+     * been applied, so the code is safe to deploy first.
+     */
+    public static function isolationEnabled(): bool
+    {
+        return (bool) config('crm.tenant_isolation.enabled', false);
+    }
+
+    /**
+     * The platform (operator) account id: crm.tenant_isolation.platform_account_id, falling back to
+     * leo.current_account_id. Null when neither is configured (nobody is treated as the platform).
+     */
+    public static function platformAccountId(): ?int
+    {
+        $id = config('crm.tenant_isolation.platform_account_id') ?? config('leo.current_account_id');
+
+        return ($id === null || $id === '') ? null : (int) $id;
+    }
+
+    public static function isPlatformAccount(int $accountId): bool
+    {
+        $platform = self::platformAccountId();
+
+        return $platform !== null && $platform === $accountId;
+    }
+
+    /**
+     * Owner (tenant) for a new tenant-owned record: the explicitly given tenant (importers and other system jobs
+     * that run as admin must pass the importer's account) or the current account.
+     */
+    public static function resolveOwnerId(?int $explicitOwnerId = null): int
+    {
+        return $explicitOwnerId ?? (int) UserHelper::currentAccount()->id;
+    }
 }
