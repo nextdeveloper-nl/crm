@@ -6,7 +6,7 @@ use NextDeveloper\CRM\Database\Models\CampaignTargets;
 use NextDeveloper\CRM\Database\Models\Campaigns;
 use NextDeveloper\CRM\Database\Models\Targets;
 use NextDeveloper\Events\Services\Events;
-use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
+use NextDeveloper\CRM\Helpers\TenantHelper;
 use NextDeveloper\CRM\Services\AbstractServices\AbstractCampaignTargetsService;
 
 /**
@@ -22,13 +22,14 @@ class CampaignTargetsService extends AbstractCampaignTargetsService
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
     public static function create(array $data)
     {
-        $target = Targets::withoutGlobalScope(AuthorizationScope::class)
-            ->where('uuid', $data['crm_target_id'])
-            ->firstOrFail();
+        // Multi-tenancy: both the target and the campaign must belong to the current
+        // account. Previously both were resolved by UUID with AuthorizationScope
+        // removed, so a tenant could link another tenant's target (contact list)
+        // to its own campaign and read the contacts. Missing or foreign records
+        // both result in a 404.
+        $target = TenantHelper::findOwnedOrFail(Targets::class, $data['crm_target_id'] ?? null);
 
-        $campaign = Campaigns::withoutGlobalScope(AuthorizationScope::class)
-            ->where('uuid', $data['crm_campaign_id'])
-            ->firstOrFail();
+        $campaign = TenantHelper::findOwnedOrFail(Campaigns::class, $data['crm_campaign_id'] ?? null);
 
         $model = new CampaignTargets();
         $model->crm_target_id   = $target->id;
