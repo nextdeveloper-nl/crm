@@ -48,6 +48,9 @@ WHERE o.crm_account_id = platform_ca.id
   AND o.iam_account_id <> 5
   AND tenant_ca.owner_iam_account_id = o.iam_account_id;
 
+-- NOTE: rows created here are tenant-owned with is_created_by_owner = false (see 2026_11_14_crm_accounts_created_by_owner.sql);
+-- the tenant does not see the customer's members until that flag is set for the customers it really created.
+--
 -- 4. Check, then COMMIT or ROLLBACK:
 --   SELECT owner_iam_account_id, count(*) FROM crm_accounts WHERE deleted_at IS NULL GROUP BY 1 ORDER BY 2 DESC;
 

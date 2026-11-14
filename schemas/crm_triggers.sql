@@ -13,8 +13,8 @@ as
 $function$
 BEGIN
     -- owner = platform tenant (iam_accounts.id 5); tenants' own records are created by the CRM services
-    insert into crm_accounts (iam_account_id, owner_iam_account_id)
-    values (new.id, 5)
+    insert into crm_accounts (iam_account_id, owner_iam_account_id, is_created_by_owner)
+    values (new.id, 5, true)
     ON CONFLICT DO NOTHING;
 
     return new;

@@ -106,7 +106,7 @@ class LeadImporterService
             $opportunity = DB::transaction(function () use ($importer, $lead, $mapping) {
                 $user = self::findOrCreateUser($lead);
                 [$iamAccount, $iamAccountCreated] = self::findOrCreateAccount($user);
-                $crmAccount = self::findOrCreateCrmAccount($iamAccount, $lead, (int) $importer->iam_account_id);
+                $crmAccount = self::findOrCreateCrmAccount($iamAccount, $lead, (int) $importer->iam_account_id, $iamAccountCreated);
 
                 // Importer-controlled tags go on the CRM account only for a customer this import created from scratch
                 // (decided by the creation itself, not by a separate lookup). An existing customer may belong to another
@@ -415,7 +415,7 @@ class LeadImporterService
         }
     }
 
-    private static function findOrCreateCrmAccount(IamAccounts $iamAccount, array $lead, int $ownerAccountId): CrmAccounts
+    private static function findOrCreateCrmAccount(IamAccounts $iamAccount, array $lead, int $ownerAccountId, bool $iamAccountCreated = false): CrmAccounts
     {
         // Multi-tenancy: the lead's CRM record belongs to the tenant that owns the importer, not to whichever account
         // the (admin) import job happens to run as. A customer shared by two tenants has one CRM record per tenant.
@@ -437,6 +437,9 @@ class LeadImporterService
 
             if (TenantHelper::isolationEnabled()) {
                 $attributes['owner_iam_account_id'] = $ownerAccountId;
+                // Only a customer this import created from scratch is the tenant's own; a lead that matched an existing
+                // IAM user/account must not expose that account's people to the importer's tenant.
+                $attributes['is_created_by_owner']  = $iamAccountCreated;
             }
 
             $crmAccount = AccountsService::create($attributes);

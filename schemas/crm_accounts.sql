@@ -26,7 +26,8 @@ CREATE TABLE crm_accounts (
     office_phone_extension         text,
     sdr_questionaire               json,
     office_email                   text,
-    owner_iam_account_id           bigint NOT NULL DEFAULT 5, -- tenant that owns this CRM record (see schemas/changes/2026_11_14_crm_accounts_owner.sql)
+    owner_iam_account_id           bigint NOT NULL DEFAULT 5,
+    is_created_by_owner            boolean NOT NULL DEFAULT false, -- owner created the customer (see schemas/changes/2026_11_14_crm_accounts_created_by_owner.sql) -- tenant that owns this CRM record (see schemas/changes/2026_11_14_crm_accounts_owner.sql)
     CONSTRAINT crm_accounts_pkey PRIMARY KEY (id),
     CONSTRAINT crm_accounts_owner_iam_account_id_fkey FOREIGN KEY (owner_iam_account_id) REFERENCES iam_accounts(id)
 );

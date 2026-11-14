@@ -42,7 +42,7 @@ class AccountsService extends AbstractAccountsService
         // platform account, or system code running as admin, e.g. the importers) may name the owner. Anybody else
         // always owns what they create.
         if (!self::mayChooseOwner()) {
-            unset($data['owner_iam_account_id']);
+            unset($data['owner_iam_account_id'], $data['is_created_by_owner']);
 
             // The customer a CRM record points at decides whose people the owner can see (TenantScope), so an
             // untrusted caller may only create a record for the account it is acting in. Anything else is refused.
@@ -90,7 +90,7 @@ class AccountsService extends AbstractAccountsService
         // Ownership can not be transferred or claimed through an update either, and the customer a record points
         // at is immutable for untrusted callers (re-pointing it would hand them another account's people).
         if (!self::mayChooseOwner()) {
-            unset($data['owner_iam_account_id'], $data['iam_account_id']);
+            unset($data['owner_iam_account_id'], $data['iam_account_id'], $data['is_created_by_owner']);
         }
 
         if(array_key_exists('sdr_questionaire', $data)) {

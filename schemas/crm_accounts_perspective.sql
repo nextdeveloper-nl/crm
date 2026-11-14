@@ -38,7 +38,8 @@ SELECT crm_accounts.id,
     iam_accounts.created_at,
     iam_accounts.updated_at,
     iam_accounts.deleted_at,
-    crm_accounts.owner_iam_account_id
+    crm_accounts.owner_iam_account_id,
+    crm_accounts.is_created_by_owner
    FROM iam_accounts
      JOIN crm_accounts ON iam_accounts.id = crm_accounts.iam_account_id
      LEFT JOIN iam_users iu ON iam_accounts.iam_user_id = iu.id

@@ -131,7 +131,7 @@ class TenantScope implements Scope
     }
 
     /**
-     * Customer iam_account ids the tenant owns a CRM record for (crm_accounts.owner_iam_account_id = tenant).
+     * Customer iam_account ids the tenant created and owns a CRM record for (owner = tenant, is_created_by_owner).
      * Plain query builder: it is a subquery of the scope itself and must not recurse into the scope.
      */
     private static function ownedCustomerAccountIds(int $tenantAccountId): \Illuminate\Database\Query\Builder
@@ -139,6 +139,8 @@ class TenantScope implements Scope
         return DB::table('crm_accounts')
             ->select('iam_account_id')
             ->where('owner_iam_account_id', $tenantAccountId)
+            // only customers the tenant created itself: attaching to an existing company does not expose its people
+            ->where('is_created_by_owner', true)
             ->whereNull('deleted_at');
     }
 }
