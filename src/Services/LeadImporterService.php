@@ -104,9 +104,9 @@ class LeadImporterService
 
             // Everything below is one unit of work; a failure must not leave half a customer behind
             $opportunity = DB::transaction(function () use ($importer, $lead, $mapping) {
-                $user = self::findOrCreateUser($lead);
+                [$user, $userCreated] = self::findOrCreateUser($lead);
                 [$iamAccount, $iamAccountCreated] = self::findOrCreateAccount($user);
-                $crmAccount = self::findOrCreateCrmAccount($iamAccount, $lead, (int) $importer->iam_account_id, $iamAccountCreated);
+                $crmAccount = self::findOrCreateCrmAccount($iamAccount, $lead, (int) $importer->iam_account_id, $userCreated && $iamAccountCreated);
 
                 // Importer-controlled tags go on the CRM account only for a customer this import created from scratch
                 // (decided by the creation itself, not by a separate lookup). An existing customer may belong to another
@@ -308,9 +308,13 @@ class LeadImporterService
     /**
      * Identity match: email first, then phone number. Creates the user when nobody matches.
      */
-    private static function findOrCreateUser(array $lead): Users
+    /**
+     * @return array{0: Users, 1: bool} the user and whether this call created it
+     */
+    private static function findOrCreateUser(array $lead): array
     {
         $user = null;
+        $userCreated = false;
 
         if ($lead['email']) {
             $user = Users::withoutGlobalScope(AuthorizationScope::class)->where('email', $lead['email'])->first();
@@ -331,6 +335,7 @@ class LeadImporterService
                 'email'     => $lead['email'] ?? self::placeholderEmail($lead['phone']),
                 'is_active' => true,
             ]);
+            $userCreated = true;
         }
 
         // Fill the phone number if the user has none (never overwrite a verified one)
@@ -341,7 +346,7 @@ class LeadImporterService
             ]);
         }
 
-        return $user;
+        return [$user, $userCreated];
     }
 
     /**
@@ -437,8 +442,9 @@ class LeadImporterService
 
             if (TenantHelper::isolationEnabled()) {
                 $attributes['owner_iam_account_id'] = $ownerAccountId;
-                // Only a customer this import created from scratch is the tenant's own; a lead that matched an existing
-                // IAM user/account must not expose that account's people to the importer's tenant.
+                // Only a customer this import created from scratch (the person AND the account) is the tenant's own; a
+                // lead that matched an existing IAM user, even one without an account yet, must not expose that person
+                // to the importer's tenant.
                 $attributes['is_created_by_owner']  = $iamAccountCreated;
             }
 

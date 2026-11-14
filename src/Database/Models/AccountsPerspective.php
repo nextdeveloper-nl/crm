@@ -47,6 +47,8 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property string $office_phone_extension
  * @property string $office_email
  * @property boolean $is_disabled
+ * @property boolean $is_created_by_owner
+ * @property integer $owner_iam_account_id
  * @property string $disabling_reason
  * @property boolean $is_suspended
  * @property string $suspension_reason
@@ -150,6 +152,8 @@ class AccountsPerspective extends Model
     'office_phone_extension' => 'string',
     'office_email' => 'string',
     'is_disabled' => 'boolean',
+    'is_created_by_owner' => 'boolean',
+    'owner_iam_account_id' => 'integer',
     'disabling_reason' => 'string',
     'is_suspended' => 'boolean',
     'suspension_reason' => 'string',

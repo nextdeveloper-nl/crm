@@ -40,8 +40,6 @@ end;
 $function$;
 
 -- crm_accounts_perspective exposes the flag (appended last) so the API can hide the existing account's owner details.
-CREATE OR REPLACE VIEW whenever the SELECT needs to change)
-
 CREATE OR REPLACE VIEW crm_accounts_perspective AS
 SELECT crm_accounts.id,
     crm_accounts.uuid,

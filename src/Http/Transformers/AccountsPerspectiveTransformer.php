@@ -60,7 +60,7 @@ class AccountsPerspectiveTransformer extends AbstractAccountsPerspectiveTransfor
     private function hideOwnerDetailsOfForeignCustomer(AccountsPerspective $model, array $transformed): array
     {
         if (!TenantHelper::isolationEnabled()
-            || $model->is_created_by_owner !== false
+            || $model->is_created_by_owner === true      // fail closed: anything but a strict true is masked
             || TenantHelper::isPlatformAccount((int) UserHelper::currentAccount()->id)) {
             return $transformed;
         }
