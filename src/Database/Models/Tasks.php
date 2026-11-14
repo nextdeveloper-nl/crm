@@ -35,6 +35,12 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property string $object_type
  * @property integer $object_id
  * @property \Carbon\Carbon $due_date
+ * @property \Carbon\Carbon $start_date
+ * @property integer $progress
+ * @property integer $crm_task_id
+ * @property boolean $is_milestone
+ * @property integer $sort_order
+ * @property float $estimated_hours
  */
 class Tasks extends Model
 {
@@ -63,6 +69,12 @@ class Tasks extends Model
             'object_type',
             'object_id',
             'due_date',
+            'start_date',
+            'progress',
+            'crm_task_id',
+            'is_milestone',
+            'sort_order',
+            'estimated_hours',
     ];
 
     /**
@@ -98,6 +110,12 @@ class Tasks extends Model
     'object_type' => 'string',
     'object_id' => 'integer',
     'due_date' => 'datetime',
+    'start_date' => 'datetime',
+    'progress' => 'integer',
+    'crm_task_id' => 'integer',
+    'is_milestone' => 'boolean',
+    'sort_order' => 'integer',
+    'estimated_hours' => 'double',
     ];
 
     /**
@@ -110,6 +128,7 @@ class Tasks extends Model
     'updated_at',
     'deleted_at',
     'due_date',
+    'start_date',
     ];
 
     /**
@@ -160,6 +179,22 @@ class Tasks extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+    /**
+     * The task this one is a subtask of (leo4#1245).
+     */
+    public function parentTask(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(self::class, 'crm_task_id');
+    }
+
+    /**
+     * Subtasks; a task with subtasks takes its dates and progress from them (leo4#1245).
+     */
+    public function subtasks(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(self::class, 'crm_task_id');
+    }
 
 
 

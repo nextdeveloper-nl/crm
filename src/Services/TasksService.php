@@ -51,12 +51,43 @@ class TasksService extends AbstractTasksService
             $data['object_id'] = $object->id;
         }
 
-        return parent::create($data);
+        if (!isset($data['description'])) {
+            $data['description'] = '';
+        }
+
+        // Schedule fields, parent and milestone rules (leo4#1245).
+        $data = TaskScheduleService::prepare(null, $data);
+
+        $task = parent::create($data);
+
+        TaskScheduleService::rollUp($task?->crm_task_id);
+
+        return $task;
     }
 
     public static function update($id, array $data)
     {
+        $existing = \NextDeveloper\CRM\Database\Models\Tasks::where('uuid', $id)->first();
+
+        // crm_tasks.description is NOT NULL, and an emptied textarea arrives as null.
+        if (array_key_exists('description', $data) && $data['description'] === null) {
+            $data['description'] = '';
+        }
+
+        if ($existing) {
+            $data = TaskScheduleService::prepare($existing, $data);
+        }
+
+        $previousParentId = $existing?->crm_task_id;
+
         $task = parent::update($id, $data);
+
+        // A subtask's change rolls up into its parent, and into the old parent when it moved (leo4#1245).
+        TaskScheduleService::rollUp($task?->crm_task_id);
+
+        if ($previousParentId && $previousParentId !== $task?->crm_task_id) {
+            TaskScheduleService::rollUp($previousParentId);
+        }
 
         self::invalidateBoards($task?->id);
 
@@ -65,11 +96,21 @@ class TasksService extends AbstractTasksService
 
     public static function delete($id)
     {
-        $taskId = \NextDeveloper\CRM\Database\Models\Tasks::withoutGlobalScopes()->where('uuid', $id)->value('id');
+        $task = \NextDeveloper\CRM\Database\Models\Tasks::withoutGlobalScopes()->where('uuid', $id)->first(['id', 'crm_task_id']);
 
         $result = parent::delete($id);
 
-        self::invalidateBoards($taskId);
+        if ($task) {
+            // Subtasks of a deleted task move up to its parent (or become top-level tasks).
+            \Illuminate\Support\Facades\DB::table('crm_tasks')
+                ->where('crm_task_id', $task->id)
+                ->whereNull('deleted_at')
+                ->update(['crm_task_id' => $task->crm_task_id, 'updated_at' => now()]);
+
+            TaskScheduleService::rollUp($task->crm_task_id);
+        }
+
+        self::invalidateBoards($task?->id);
 
         return $result;
     }
@@ -78,7 +119,7 @@ class TasksService extends AbstractTasksService
      * Project boards cache their payload (leo4#1242): drop the snapshot of every pipeline
      * that shows this task, so an edit appears without waiting for the cache to expire.
      */
-    private static function invalidateBoards(?int $taskId): void
+    public static function invalidateBoards(?int $taskId): void
     {
         $flowPipelines = '\NextDeveloper\Flow\Services\PipelinesService';
 

@@ -201,6 +201,32 @@ class TasksQueryFilter extends AbstractQueryFilter
     }
 
 
+    public function isMilestone($value)
+    {
+        return $this->builder->where('is_milestone', $value);
+    }
+
+    //  This is an alias function of isMilestone
+    public function is_milestone($value)
+    {
+        return $this->isMilestone($value);
+    }
+
+    public function crmTaskId($value)
+    {
+        $crmTask = \NextDeveloper\CRM\Database\Models\Tasks::where('uuid', $value)->first();
+
+        if($crmTask) {
+            return $this->builder->where('crm_task_id', '=', $crmTask->id);
+        }
+    }
+
+    //  This is an alias function of crmTask
+    public function crm_task_id($value)
+    {
+        return $this->crmTaskId($value);
+    }
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

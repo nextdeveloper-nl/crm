@@ -154,4 +154,62 @@ class TasksController extends AbstractController
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
+    /**
+     * Saves dates and progress of several tasks in one call, all or nothing (leo4#1245).
+     * Body: { tasks: [{ id, start_date?, due_date?, progress? }] }
+     */
+    public function schedule(\NextDeveloper\CRM\Http\Requests\Tasks\TasksScheduleRequest $request)
+    {
+        $tasks = \NextDeveloper\CRM\Services\TaskScheduleService::bulkSchedule($request->validated()['tasks']);
+
+        return ResponsableFactory::makeResponse($this, array_map(fn ($task) => [
+            'id'         => $task->uuid,
+            'start_date' => $task->start_date?->toIso8601String(),
+            'due_date'   => $task->due_date?->toIso8601String(),
+            'progress'   => $task->progress,
+        ], array_filter($tasks)));
+    }
+
+    /**
+     * Links of a task, both the tasks it waits for and the tasks waiting for it (leo4#1245).
+     */
+    public function dependencies($tasksId)
+    {
+        return ResponsableFactory::makeResponse($this, \NextDeveloper\CRM\Services\TaskScheduleService::dependenciesOf($tasksId));
+    }
+
+    /**
+     * Makes the successor wait for the predecessor (leo4#1245).
+     * Body: { predecessor_id, successor_id, type?, lag_days? }
+     */
+    public function addDependency(\NextDeveloper\CRM\Http\Requests\Tasks\TasksDependencyRequest $request)
+    {
+        $data = $request->validated();
+
+        $link = \NextDeveloper\CRM\Services\TaskScheduleService::addDependency(
+            $data['predecessor_id'],
+            $data['successor_id'],
+            $data['type'] ?? 'finish_to_start',
+            (int) ($data['lag_days'] ?? 0),
+        );
+
+        return ResponsableFactory::makeResponse($this, [
+            'id'             => $link->uuid,
+            'predecessor_id' => $data['predecessor_id'],
+            'successor_id'   => $data['successor_id'],
+            'type'           => $link->type,
+            'lag_days'       => $link->lag_days,
+        ]);
+    }
+
+    /**
+     * Removes a link between two tasks (leo4#1245).
+     */
+    public function removeDependency($dependencyId)
+    {
+        \NextDeveloper\CRM\Services\TaskScheduleService::removeDependency($dependencyId);
+
+        return $this->noContent();
+    }
+
 }
