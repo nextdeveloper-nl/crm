@@ -375,6 +375,12 @@ Route::prefix('crm')->group(
                 Route::get('/', 'Tasks\TasksController@index');
                 Route::get('/actions', 'Tasks\TasksController@getActions');
 
+                // Gantt schedules (leo4#1245): bulk dates/progress and links between tasks.
+                Route::post('/schedule', 'Tasks\TasksController@schedule');
+                Route::post('/dependencies', 'Tasks\TasksController@addDependency');
+                Route::delete('/dependencies/{dependency}', 'Tasks\TasksController@removeDependency');
+                Route::get('/{crm_tasks}/dependencies', 'Tasks\TasksController@dependencies');
+
                 Route::get('{crm_tasks}/tags ', 'Tasks\TasksController@tags');
                 Route::post('{crm_tasks}/tags ', 'Tasks\TasksController@saveTags');
                 Route::get('{crm_tasks}/addresses ', 'Tasks\TasksController@addresses');

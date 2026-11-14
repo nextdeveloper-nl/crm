@@ -57,6 +57,7 @@ class AbstractTasksTransformer extends AbstractTransformer
                                                 $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
                                                             $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
                                                             $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
+                                                            $crmTaskId = $model->crm_task_id ? \NextDeveloper\CRM\Database\Models\Tasks::withoutGlobalScopes()->where('id', $model->crm_task_id)->first() : null;
 
         return $this->buildPayload(
             [
@@ -75,6 +76,12 @@ class AbstractTasksTransformer extends AbstractTransformer
             'object_type'  =>  $model->object_type,
             'object_id'  =>  $model->object_id,
             'due_date'  =>  $model->due_date,
+            'start_date'  =>  $model->start_date,
+            'progress'  =>  $model->progress,
+            'crm_task_id'  =>  $crmTaskId ? $crmTaskId->uuid : null,
+            'is_milestone'  =>  $model->is_milestone,
+            'sort_order'  =>  $model->sort_order,
+            'estimated_hours'  =>  $model->estimated_hours,
             ]
         );
     }

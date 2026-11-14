@@ -17,5 +17,17 @@ CREATE TABLE crm_tasks (
     object_type     text,
     object_id       bigint,
     due_date        timestamp with time zone,
-    CONSTRAINT crm_tasks_pkey PRIMARY KEY (id)
+    start_date      timestamp with time zone,
+    progress        integer NOT NULL DEFAULT 0,
+    crm_task_id     bigint,
+    is_milestone    boolean NOT NULL DEFAULT false,
+    sort_order      integer NOT NULL DEFAULT 0,
+    estimated_hours double precision,
+    CONSTRAINT crm_tasks_pkey PRIMARY KEY (id),
+    CONSTRAINT crm_tasks_crm_task_id_fkey FOREIGN KEY (crm_task_id) REFERENCES crm_tasks(id) ON DELETE SET NULL,
+    CONSTRAINT crm_tasks_progress_check CHECK (progress BETWEEN 0 AND 100),
+    CONSTRAINT crm_tasks_schedule_order_check CHECK (start_date IS NULL OR due_date IS NULL OR due_date >= start_date),
+    CONSTRAINT crm_tasks_not_own_parent_check CHECK (crm_task_id IS NULL OR crm_task_id <> id)
 );
+
+CREATE INDEX crm_tasks_crm_task_id_idx ON crm_tasks (crm_task_id) WHERE deleted_at IS NULL;

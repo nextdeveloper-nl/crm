@@ -22,6 +22,12 @@ class TasksCreateRequest extends AbstractFormRequest
         'object_type' => 'nullable|string',
         'object_id' => 'nullable',
         'due_date' => 'nullable|date',
+        'start_date' => 'nullable|date',
+        'progress' => 'integer|min:0|max:100',
+        'crm_task_id' => 'nullable|exists:crm_tasks,uuid|uuid',
+        'is_milestone' => 'boolean',
+        'sort_order' => 'integer',
+        'estimated_hours' => 'nullable|numeric|min:0',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
