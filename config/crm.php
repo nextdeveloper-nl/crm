@@ -79,15 +79,19 @@ return [
             'crm_account_managers_performances_perspective',
             'crm_account_users_perspective',
         ],
-        //  KNOWN GAPS: contact/user data without a tenant column yet. Deliberately NOT filtered by this scope (they
-        //  are still limited by the role classes). Every table here is a leak to close; nothing else may be added
-        //  without a decision (TenantScopeTest fails on an unclassified table).
-        'pending_tables' => [
+        //  Contact / user data. Views whose account column is the account a person belongs to (or the account of the
+        //  messages): visible when that account is the tenant itself or one of the customers the tenant owns
+        //  (crm_accounts.owner_iam_account_id = tenant).
+        'owned_customer_account_tables' => [
+            'crm_users_perspective'                  => 'iam_account_id',
+            'crm_sales_people_perspective'           => 'iam_account_id',
+            'crm_account_communications_perspective' => 'iam_account_id',
+            'crm_user_emails_perspective'            => 'iam_account_id',
+        ],
+        //  crm_users has no account column: a contact is visible to a tenant when the person belongs to the tenant or
+        //  one of its owned customers, is managed by the tenant (crm_user_managers) or is in one of its targets.
+        'contact_tables' => [
             'crm_users',
-            'crm_users_perspective',
-            'crm_user_emails_perspective',
-            'crm_account_communications_perspective',
-            'crm_sales_people_perspective',
         ],
         //  Link tables without any account column: owned through their parent row.
         //  table => [foreign key column, parent table, parent's owner column]

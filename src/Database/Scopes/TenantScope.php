@@ -43,13 +43,18 @@ class TenantScope implements Scope
         $isAccount = array_key_exists($table, $accountTables);
         $isParent  = array_key_exists($table, $parentTables);
 
-        // Global reference data and the documented known gaps are not tenant filtered here.
-        if (in_array($table, (array) config('crm.tenant_isolation.shared_tables', []), true)
-            || in_array($table, (array) config('crm.tenant_isolation.pending_tables', []), true)) {
+        // Global reference data is not tenant filtered.
+        if (in_array($table, (array) config('crm.tenant_isolation.shared_tables', []), true)) {
             return;
         }
 
-        $isClassified = $isOwner || $isAccount || $isParent;
+        $ownedCustomerTables = (array) config('crm.tenant_isolation.owned_customer_account_tables', []);
+        $contactTables       = (array) config('crm.tenant_isolation.contact_tables', []);
+
+        $isOwnedCustomer = array_key_exists($table, $ownedCustomerTables);
+        $isContact       = in_array($table, $contactTables, true);
+
+        $isClassified = $isOwner || $isAccount || $isParent || $isOwnedCustomer || $isContact;
 
         // Fail closed: a crm_* table that is not classified in config (a new table, or a platform-only view) returns
         // no rows to tenants. The platform account is never restricted.
@@ -77,6 +82,42 @@ class TenantScope implements Scope
             $builder->where($table . '.' . $accountTables[$table], $account->id);
         }
 
+        if ($isOwnedCustomer) {
+            $column = $table . '.' . $ownedCustomerTables[$table];
+
+            $builder->where(function (Builder $query) use ($column, $account) {
+                $query->where($column, $account->id)
+                    ->orWhereIn($column, self::ownedCustomerAccountIds($account->id));
+            });
+        }
+
+        if ($isContact) {
+            $builder->where(function (Builder $query) use ($table, $account) {
+                // people who belong to the tenant or to a customer it owns
+                $query->whereIn(
+                    $table . '.iam_user_id',
+                    DB::table('iam_account_user')->select('iam_user_id')->where(function ($members) use ($account) {
+                        $members->where('iam_account_id', $account->id)
+                            ->orWhereIn('iam_account_id', self::ownedCustomerAccountIds($account->id));
+                    })
+                )
+                // contacts the tenant manages
+                ->orWhereIn(
+                    $table . '.id',
+                    DB::table('crm_user_managers')->select('crm_user_id')
+                        ->where('iam_account_id', $account->id)->whereNull('deleted_at')
+                )
+                // contacts in one of the tenant's target lists
+                ->orWhereIn(
+                    $table . '.id',
+                    DB::table('crm_target_users')->select('crm_user_id')->whereIn(
+                        'crm_target_id',
+                        DB::table('crm_targets')->select('id')->where('iam_account_id', $account->id)
+                    )
+                );
+            });
+        }
+
         if ($isParent) {
             // Link tables: visible when the parent row (campaign / target) belongs to the tenant. Plain query
             // builder, so the parent is checked by account here and not by another scope.
@@ -87,5 +128,17 @@ class TenantScope implements Scope
                 DB::table($parentTable)->select('id')->where($parentOwnerColumn, $account->id)
             );
         }
+    }
+
+    /**
+     * Customer iam_account ids the tenant owns a CRM record for (crm_accounts.owner_iam_account_id = tenant).
+     * Plain query builder: it is a subquery of the scope itself and must not recurse into the scope.
+     */
+    private static function ownedCustomerAccountIds(int $tenantAccountId): \Illuminate\Database\Query\Builder
+    {
+        return DB::table('crm_accounts')
+            ->select('iam_account_id')
+            ->where('owner_iam_account_id', $tenantAccountId)
+            ->whereNull('deleted_at');
     }
 }
