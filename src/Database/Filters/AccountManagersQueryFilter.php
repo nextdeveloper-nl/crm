@@ -18,6 +18,22 @@ class AccountManagersQueryFilter extends AbstractQueryFilter
      */
     protected $builder;
 
+    public function role($value)
+    {
+        return $this->builder->where('role', $value);
+    }
+
+    public function isPrimary($value)
+    {
+        return $this->builder->where('is_primary', $value);
+    }
+
+    //  This is an alias function of isPrimary
+    public function is_primary($value)
+    {
+        return $this->isPrimary($value);
+    }
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
