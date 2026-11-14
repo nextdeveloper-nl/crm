@@ -53,4 +53,48 @@ class TasksService extends AbstractTasksService
 
         return parent::create($data);
     }
+
+    public static function update($id, array $data)
+    {
+        $task = parent::update($id, $data);
+
+        self::invalidateBoards($task?->id);
+
+        return $task;
+    }
+
+    public static function delete($id)
+    {
+        $taskId = \NextDeveloper\CRM\Database\Models\Tasks::withoutGlobalScopes()->where('uuid', $id)->value('id');
+
+        $result = parent::delete($id);
+
+        self::invalidateBoards($taskId);
+
+        return $result;
+    }
+
+    /**
+     * Project boards cache their payload (leo4#1242): drop the snapshot of every pipeline
+     * that shows this task, so an edit appears without waiting for the cache to expire.
+     */
+    private static function invalidateBoards(?int $taskId): void
+    {
+        $flowPipelines = '\NextDeveloper\Flow\Services\PipelinesService';
+
+        if (!$taskId || !class_exists($flowPipelines)) {
+            return;
+        }
+
+        $pipelineIds = \Illuminate\Support\Facades\DB::table('flow_items')
+            ->where('object_type', 'NextDeveloper\\CRM\\Tasks')
+            ->where('object_id', $taskId)
+            ->whereNull('deleted_at')
+            ->distinct()
+            ->pluck('flow_pipeline_id');
+
+        foreach ($pipelineIds as $pipelineId) {
+            $flowPipelines::invalidateBoardByPipelineId($pipelineId);
+        }
+    }
 }

@@ -49,9 +49,11 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
             return;
         }
 
+        // Own opportunities and tasks, in the current account only.
         if(
             $model->getTable() == 'crm_opportunities' ||
-            $model->getTable() == 'crm_opportunities_perspective'
+            $model->getTable() == 'crm_opportunities_perspective' ||
+            $model->getTable() == 'crm_tasks'
         ) {
             $builder->where('iam_account_id', UserHelper::currentAccount()->id)
                 ->where('iam_user_id', UserHelper::me()->id);
