@@ -10,6 +10,8 @@ use NextDeveloper\CRM\Database\Models\Opportunities;
 use NextDeveloper\CRM\Database\Models\Quotes;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 use NextDeveloper\CRM\Services\AbstractServices\AbstractOpportunitiesService;
+use NextDeveloper\IAM\Database\Models\Accounts as IamAccounts;
+use NextDeveloper\IAM\Database\Models\AccountUsers;
 use NextDeveloper\IAM\Database\Models\Users;
 use NextDeveloper\IAM\Helpers\UserHelper;
 use NextDeveloper\Flow\Database\Models\Items as FlowItems;
@@ -72,6 +74,14 @@ class OpportunitiesService extends AbstractOpportunitiesService
         // When crm_campaign_id is set the job owns the flow, so we must not
         // touch iam_user_id, account-manager records, or send notifications here.
         if(empty($data['crm_campaign_id'])) {
+            // Multi-tenancy: the responsible person and the account managers must come from the tenant that OWNS the
+            // opportunity (iam_account_id = the seller), not from the account the code happens to run as. Imports and
+            // other system jobs run as the platform admin, so currentAccount() would pick the platform's own staff for
+            // a tenant's lead.
+            $tenantAccount = IamAccounts::withoutGlobalScope(AuthorizationScope::class)
+                ->where('id', $opportunity->iam_account_id)
+                ->first() ?? UserHelper::currentAccount();
+
             // Default to the creator; override with a naturally-assigned person
             // only when the creator is not a sales-person themselves.
             $responsible = UserHelper::me();
@@ -88,11 +98,19 @@ class OpportunitiesService extends AbstractOpportunitiesService
                     ->first();
             }
 
+            // Multi-tenancy: a pre-assigned user must be a member of the owning tenant; a foreign user uuid is ignored.
+            if ($preAssigned && !AccountUsers::withoutGlobalScope(AuthorizationScope::class)
+                    ->where('iam_user_id', $preAssigned->id)
+                    ->where('iam_account_id', $tenantAccount->id)
+                    ->exists()) {
+                $preAssigned = null;
+            }
+
             if ($preAssigned &&
                 (UserHelper::has('sales-person', $preAssigned) || UserHelper::has('sales-manager', $preAssigned))) {
                 $responsible = $preAssigned;
             } elseif (!(UserHelper::has('sales-person') || UserHelper::has('sales-manager'))) {
-                $responsible = self::getNaturalResponsibleForOpportunityType($data['type']);
+                $responsible = self::getNaturalResponsibleForOpportunityType($data['type'], $tenantAccount);
             }
 
             if($responsible) {
@@ -115,10 +133,10 @@ class OpportunitiesService extends AbstractOpportunitiesService
                 // Only assign a new account manager when none of the existing ones
                 // already hold a sales-person or sales-manager role, to avoid
                 // overwriting an intentional assignment.
-                $hasSalesRole = UserHelper::getUsersWithRole('sales-person', UserHelper::currentAccount())
+                $hasSalesRole = UserHelper::getUsersWithRole('sales-person', $tenantAccount)
                     ->whereIn('id', $existingManagerIds)
                     ->isNotEmpty()
-                    || UserHelper::getUsersWithRole('sales-manager', UserHelper::currentAccount())
+                    || UserHelper::getUsersWithRole('sales-manager', $tenantAccount)
                     ->whereIn('id', $existingManagerIds)
                     ->isNotEmpty();
 
@@ -177,9 +195,13 @@ class OpportunitiesService extends AbstractOpportunitiesService
         return null;
     }
 
-    public static function getNaturalResponsibleForOpportunityType($type) : ?Users
+    public static function getNaturalResponsibleForOpportunityType($type, ?IamAccounts $account = null) : ?Users
     {
         $responsible = null;
+
+        // Multi-tenancy: candidates are picked from this account (the tenant that owns the opportunity); the current
+        // account only when no tenant is given.
+        $account = $account ?? UserHelper::currentAccount();
 
         if($type == null) {
             return $responsible;
@@ -187,7 +209,7 @@ class OpportunitiesService extends AbstractOpportunitiesService
 
         // getUsersWithRole without an account returns everyone system-wide,
         // so bail early when there is no resolvable current account.
-        if(!UserHelper::currentAccount()) {
+        if(!$account) {
             return null;
         }
 
@@ -196,7 +218,7 @@ class OpportunitiesService extends AbstractOpportunitiesService
             strtolower($type) == 'partnership' ||
             strtolower($type) == 'business-development'
         ) {
-            $businessDevelopers = UserHelper::getUsersWithRole('business-development-representative', UserHelper::currentAccount());
+            $businessDevelopers = UserHelper::getUsersWithRole('business-development-representative', $account);
 
             // Pick a random business developer from the current account.
             if (count($businessDevelopers) > 0) {
@@ -206,10 +228,12 @@ class OpportunitiesService extends AbstractOpportunitiesService
 
         if(strtolower($type) == 'sales') {
             // If the creator is already a sales-person, assign it to themselves.
-            if(UserHelper::has('sales-person'))
+            // Multi-tenancy: only when the creator is acting inside the owning tenant (a platform sales person
+            // running an import for a tenant must not get the tenant's lead).
+            if(UserHelper::has('sales-person') && (int) UserHelper::currentAccount()->id === (int) $account->id)
                 return UserHelper::me();
 
-            $accountManagers = UserHelper::getUsersWithRole('sales-person', UserHelper::currentAccount());
+            $accountManagers = UserHelper::getUsersWithRole('sales-person', $account);
 
             // Pick a random sales-person from the current account.
             if(count($accountManagers) > 0) {
@@ -219,7 +243,7 @@ class OpportunitiesService extends AbstractOpportunitiesService
 
         // Fall back to a sales-admin when no role-specific person was found.
         if(!$responsible) {
-            $admins = UserHelper::getUsersWithRole('sales-admin', UserHelper::currentAccount());
+            $admins = UserHelper::getUsersWithRole('sales-admin', $account);
 
             if (count($admins) > 0) {
                 $responsible = $admins->random();

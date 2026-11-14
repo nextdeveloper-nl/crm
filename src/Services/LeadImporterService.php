@@ -266,6 +266,15 @@ class LeadImporterService
             ? Pipelines::withoutGlobalScopes()->where('uuid', $pipelineUuid)->first()
             : null;
 
+        // Multi-tenancy: a tenant's importer may only drop leads into a pipeline its own account owns. Without this,
+        // a tenant could point an importer at another tenant's (or the platform's) pipeline by uuid. The platform's
+        // own importers are not restricted.
+        if ($pipeline && TenantHelper::isolationEnabled()
+            && (int) $pipeline->iam_account_id !== (int) $importer->iam_account_id
+            && !TenantHelper::isPlatformAccount((int) $importer->iam_account_id)) {
+            throw new \InvalidArgumentException('The importer\'s flow pipeline does not belong to the importer\'s account.');
+        }
+
         $stage = null;
 
         if ($pipeline) {
