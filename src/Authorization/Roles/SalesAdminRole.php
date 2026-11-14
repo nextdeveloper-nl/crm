@@ -30,12 +30,13 @@ class SalesAdminRole extends AbstractRole implements IAuthorizationRole
      */
     public function apply(Builder $builder, Model $model)
     {
-        //  Opportunities and projects are always bound to the account they were created in, otherwise
-        //  they leak into every other account the user is a member of.
+        //  Opportunities, projects and tasks are always bound to the account they were created in,
+        //  otherwise they leak into every other account the user is a member of.
         if(
             $model->getTable() == 'crm_opportunities' ||
             $model->getTable() == 'crm_opportunities_perspective' ||
-            $model->getTable() == 'crm_projects'
+            $model->getTable() == 'crm_projects' ||
+            $model->getTable() == 'crm_tasks'
         ) {
             $builder->where('iam_account_id', UserHelper::currentAccount()->id);
             return;

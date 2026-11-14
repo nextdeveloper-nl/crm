@@ -47,7 +47,9 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
             $model->getTable() == 'crm_opportunities' ||
             $model->getTable() == 'crm_quotes' ||
             $model->getTable() == 'crm_quotes_perspective' ||
-            $model->getTable() == 'crm_projects'
+            $model->getTable() == 'crm_projects' ||
+            // Tasks on a project board are shared by the account's team (leo4#1242).
+            $model->getTable() == 'crm_tasks'
         ) {
             $builder->where('iam_account_id', UserHelper::currentAccount()->id);
             return;
@@ -183,8 +185,8 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
 
     public function checkDeletePolicy(Model $model, Users $user): bool
     {
-        // Projects belong to the account they were created in.
-        if ($model->getTable() == 'crm_projects') {
+        // Projects and tasks belong to the account they were created in.
+        if ($model->getTable() == 'crm_projects' || $model->getTable() == 'crm_tasks') {
             return $model->iam_account_id == UserHelper::currentAccount()->id;
         }
 
@@ -201,8 +203,8 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
 
     public function checkUpdatePolicy(Model $model, Users $users) : bool
     {
-        // Projects belong to the account they were created in, so any sales manager there can update them.
-        if ($model->getTable() == 'crm_projects') {
+        // Projects and tasks belong to the account they were created in, so any sales manager there can update them.
+        if ($model->getTable() == 'crm_projects' || $model->getTable() == 'crm_tasks') {
             return $model->iam_account_id == UserHelper::currentAccount()->id;
         }
 
