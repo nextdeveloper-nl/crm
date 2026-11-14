@@ -17,12 +17,29 @@ use NextDeveloper\CRM\Database\Models\Users as CrmUsers;
 
 class CrmHelper
 {
+    /**
+     * Adds the user as a sales responsible of the account. Idempotent: a user already holding the sales role on
+     * the account keeps that row, since (crm_account_id, iam_user_id, role) is unique among live rows.
+     */
     public static function addAccountManager(\NextDeveloper\CRM\Database\Models\Accounts $account, Accounts|int $iamAccount, Users|int $iamUser)
     {
+        $iamUserId = is_int($iamUser) ? $iamUser : $iamUser->id;
+
+        $existing = AccountManagers::withoutGlobalScope(AuthorizationScope::class)
+            ->where('crm_account_id', $account->id)
+            ->where('iam_user_id', $iamUserId)
+            ->where('role', AccountManagers::ROLE_SALES)
+            ->first();
+
+        if ($existing) {
+            return $existing;
+        }
+
         $accountManager = AccountManagers::create([
             'crm_account_id' => $account->id,
             'iam_account_id' => is_int($iamAccount) ? $iamAccount : $iamAccount->id,
-            'iam_user_id' => is_int($iamUser) ? $iamUser : $iamUser->id
+            'iam_user_id' => $iamUserId,
+            'role' => AccountManagers::ROLE_SALES,
         ]);
 
         return $accountManager;
