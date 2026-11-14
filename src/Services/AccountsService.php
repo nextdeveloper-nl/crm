@@ -45,8 +45,7 @@ class AccountsService extends AbstractAccountsService
             unset($data['owner_iam_account_id']);
 
             // The customer a CRM record points at decides whose people the owner can see (TenantScope), so an
-            // untrusted caller may only create a record for an account it verifiably belongs to: its own account or
-            // one it is a member of. Anything else (a foreign account uuid) is refused.
+            // untrusted caller may only create a record for the account it is acting in. Anything else is refused.
             self::assertCallerBelongsToAccount($data['iam_account_id'] ?? null);
         }
 
@@ -57,27 +56,22 @@ class AccountsService extends AbstractAccountsService
         return parent::create($data);
     }
 
+    /**
+     * Untrusted callers may only point a CRM record at the account they are currently acting in. Plain membership of
+     * another account is not enough (a member may hold a minimal role there), and a record for a foreign customer is
+     * created by trusted code only (store(), the importers), never straight from a request.
+     */
     private static function assertCallerBelongsToAccount($accountUuidOrId): void
     {
-        $account = $accountUuidOrId === null ? UserHelper::currentAccount() : (
-            is_int($accountUuidOrId)
-                ? \NextDeveloper\IAM\Database\Models\Accounts::withoutGlobalScopes()->where('id', $accountUuidOrId)->first()
-                : \NextDeveloper\IAM\Database\Models\Accounts::withoutGlobalScopes()->where('uuid', $accountUuidOrId)->first()
-        );
+        $current = UserHelper::currentAccount();
 
-        $current = (int) UserHelper::currentAccount()->id;
-
-        $allowed = $account && (
-            (int) $account->id === $current
-            || \NextDeveloper\IAM\Database\Models\AccountUsers::withoutGlobalScopes()
-                ->where('iam_account_id', $account->id)
-                ->where('iam_user_id', UserHelper::me()->id)
-                ->exists()
-        );
+        $allowed = $accountUuidOrId === null
+            || (is_int($accountUuidOrId) && (int) $accountUuidOrId === (int) $current->id)
+            || (is_string($accountUuidOrId) && $accountUuidOrId === $current->uuid);
 
         if (!$allowed) {
             throw new \NextDeveloper\Commons\Exceptions\NotAllowedException(
-                'You can only create a CRM record for an account you belong to.'
+                'You can only create a CRM record for the account you are currently acting in.'
             );
         }
     }
