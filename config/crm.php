@@ -21,10 +21,45 @@ return [
         //  The operator account (sees all tenants; owner of trigger-created crm_accounts). Falls back to
         //  leo.current_account_id when null.
         'platform_account_id' => env('CRM_PLATFORM_ACCOUNT_ID', null),
-        //  Tables/views that carry owner_iam_account_id.
+        //  Tables/views that carry owner_iam_account_id (the tenant that owns the CRM record).
         'owner_column_tables' => [
             'crm_accounts',
             'crm_accounts_perspective',
+        ],
+        //  table => column holding the OWNING tenant's iam_account_id (seller / creator account). Rows of other
+        //  tenants are hidden whatever role applies; the platform account is unrestricted.
+        'account_column_tables' => [
+            'crm_opportunities'                    => 'iam_account_id',
+            'crm_opportunities_perspective'        => 'iam_account_id',
+            'crm_opportunities_performance'        => 'iam_account_id',
+            'crm_quotes'                           => 'iam_account_id',
+            'crm_quotes_perspective'               => 'iam_account_id',
+            'crm_quote_items'                      => 'iam_account_id',
+            'crm_quote_items_perspective'          => 'iam_account_id',
+            'crm_calls'                            => 'iam_account_id',
+            'crm_meetings'                         => 'iam_account_id',
+            'crm_tasks'                            => 'iam_account_id',
+            'crm_notes'                            => 'iam_account_id',
+            'crm_projects'                         => 'iam_account_id',
+            'crm_campaigns'                        => 'iam_account_id',
+            'crm_campaign_targets_perspective'     => 'iam_account_id',
+            //  iam_account_id of this view is the target user's own account; the owner is the campaign's account
+            'crm_campaign_target_users_perspective' => 'responsible_account_id',
+            'crm_targets'                          => 'iam_account_id',
+            'crm_target_users_perspective'         => 'iam_account_id',
+            'crm_email_templates'                  => 'iam_account_id',
+            'crm_importers'                        => 'iam_account_id',
+            'crm_importer_runs'                    => 'iam_account_id',
+            //  iam_account_id = the managing (tenant) account
+            'crm_account_managers'                 => 'iam_account_id',
+            'crm_account_managers_performance'     => 'iam_account_id',
+            'crm_user_managers'                    => 'iam_account_id',
+        ],
+        //  Link tables without any account column: owned through their parent row.
+        //  table => [foreign key column, parent table, parent's owner column]
+        'parent_scoped_tables' => [
+            'crm_campaign_targets' => ['crm_campaign_id', 'crm_campaigns', 'iam_account_id'],
+            'crm_target_users'     => ['crm_target_id', 'crm_targets', 'iam_account_id'],
         ],
     ],
 
