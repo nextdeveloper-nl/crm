@@ -77,6 +77,18 @@ class AccountManagerChanges extends Model
         'deleted_at' => 'datetime',
     ];
 
+    /**
+     * Multi-tenancy: this model was generated without any global scope, so every tenant could read every tenant's
+     * audit rows. Only the tenant boundary is registered (crm_account_manager_changes is classified in
+     * crm.tenant_isolation.account_column_tables). The role-based AuthorizationScope is deliberately NOT added: no CRM
+     * role lists this table, so it would fall back to the anonymous filter and hide the rows from the people who
+     * legitimately read them (e.g. the reassign undo).
+     */
+    protected static function booted(): void
+    {
+        static::addGlobalScope(app(\NextDeveloper\CRM\Database\Scopes\TenantScope::class));
+    }
+
     public function accountManager(): BelongsTo
     {
         return $this->belongsTo(AccountManagers::class, 'crm_account_manager_id')->withTrashed();
