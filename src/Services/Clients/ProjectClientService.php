@@ -91,7 +91,40 @@ class ProjectClientService
             case 'gitlab.com':
                 return 'https://gitlab.com/api/v4/';
             default:
+                // Multi-tenancy/SSRF: a tenant-supplied URL must not point the server (and the stored token) at
+                // internal addresses such as localhost, the metadata endpoint or private networks.
+                self::assertPublicUrl($url);
+
                 return $this->ensureUrlScheme($url);
+        }
+    }
+
+    /**
+     * Rejects non-http(s) URLs and hosts that are, or resolve to, private/loopback/reserved addresses.
+     *
+     * @throws DataTypeException
+     */
+    public static function assertPublicUrl(string $url): void
+    {
+        $candidate = parse_url($url, PHP_URL_SCHEME) ? $url : 'https://' . $url;
+        $scheme = strtolower((string) parse_url($candidate, PHP_URL_SCHEME));
+        $host = parse_url($candidate, PHP_URL_HOST);
+
+        if (!in_array($scheme, ['http', 'https'], true) || !$host) {
+            throw new DataTypeException('Invalid URL provided');
+        }
+
+        $host = trim($host, '[]');
+        $ips = filter_var($host, FILTER_VALIDATE_IP) ? [$host] : (gethostbynamel($host) ?: []);
+
+        if (!$ips) {
+            throw new DataTypeException('The project URL host could not be resolved');
+        }
+
+        foreach ($ips as $ip) {
+            if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+                throw new DataTypeException('The project URL must point to a public address');
+            }
         }
     }
 

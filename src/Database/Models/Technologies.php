@@ -131,6 +131,9 @@ class Technologies extends Model
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
+    // Writes to the shared catalog are platform-only (see the trait).
+    use \NextDeveloper\CRM\Database\Models\Concerns\GuardsSharedCatalog;
+
 
 
 

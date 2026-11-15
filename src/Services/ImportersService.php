@@ -171,6 +171,19 @@ class ImportersService extends AbstractImportersService
      */
     private static function resolveLinkedObject(array $data): array
     {
+        // Multi-tenancy: an integer object_id used to skip the visibility check, so a tenant could link its importer
+        // to another tenant's pipeline/campaign by guessing ids. Integer ids go through the same scoped lookup.
+        if (isset($data['object_id']) && (is_int($data['object_id']) || (is_string($data['object_id']) && ctype_digit($data['object_id'])))) {
+            $intClass = $data['object_type'] ?? null;
+
+            if ($intClass && class_exists($intClass) && is_subclass_of($intClass, Model::class)
+                && !$intClass::where('id', (int) $data['object_id'])->exists()) {
+                throw new \InvalidArgumentException('The linked object could not be found.');
+            }
+
+            return $data;
+        }
+
         if (!isset($data['object_id']) || !is_string($data['object_id']) || !Str::isUuid($data['object_id'])) {
             return $data;
         }

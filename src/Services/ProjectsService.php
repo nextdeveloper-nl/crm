@@ -24,12 +24,26 @@ class ProjectsService extends AbstractProjectsService
 
     public static function create(array $data)
     {
+        self::assertProjectUrl($data);
+
         return parent::create(self::prepareTokenForCreate($data));
     }
 
     public static function update($id, array $data)
     {
+        self::assertProjectUrl($data);
+
         return parent::update($id, self::prepareTokenForUpdate($data));
+    }
+
+    /**
+     * SSRF guard on write: a supplied url must be a public http(s) address (github/gitlab hosts are always public).
+     */
+    private static function assertProjectUrl(array $data): void
+    {
+        if (!empty($data['url']) && is_string($data['url'])) {
+            ProjectClientService::assertPublicUrl($data['url']);
+        }
     }
 
     /**

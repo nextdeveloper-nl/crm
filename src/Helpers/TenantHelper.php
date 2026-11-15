@@ -98,4 +98,17 @@ class TenantHelper
     {
         return $explicitOwnerId ?? (int) UserHelper::currentAccount()->id;
     }
+
+    /**
+     * Whether the caller may write the shared catalogs (industries, offerings, ...): the platform account, trusted
+     * server-side callers that bypass the role check (seeders, importers running as admin) or isolation switched off.
+     */
+    public static function maySharedCatalogBeWritten(): bool
+    {
+        if (!self::isolationEnabled() || UserHelper::bypassRolesCheck()) {
+            return true;
+        }
+
+        return self::isPlatformAccount((int) UserHelper::currentAccount()->id);
+    }
 }
