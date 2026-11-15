@@ -64,6 +64,8 @@ class AbstractAccountManagersTransformer extends AbstractTransformer
             'crm_account_id'  =>  $crmAccountId ? $crmAccountId->uuid : null,
             'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
             'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
+            'role'  =>  $model->role,
+            'is_primary'  =>  $model->is_primary,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,

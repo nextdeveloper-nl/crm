@@ -82,7 +82,6 @@ class WatchAccount extends AbstractAction
         $accountManager = AccountManagers::withoutGlobalScope(AuthorizationScope::class)
             ->where('crm_account_id', $this->model->id)
             ->where('iam_user_id', $iamAccountUser->id)
-            ->where('iam_account_id', $iamAccount->id)
             ->first();
 
         if (!$accountManager) {

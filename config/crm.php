@@ -55,6 +55,8 @@ return [
             'crm_account_managers_performance'     => 'iam_account_id',
             'crm_user_managers'                    => 'iam_account_id',
             'crm_task_dependencies'                => 'iam_account_id',
+            //  audit trail of account responsible changes (added with the account-responsibles feature): a tenant sees its own
+            'crm_account_manager_changes'          => 'iam_account_id',
             //  Message content: only the tenant's OWN account messages. Not the owned customers': owning a CRM record
             //  of a company (which a tenant can create by adding a company that already exists) must not expose that
             //  company's communications.

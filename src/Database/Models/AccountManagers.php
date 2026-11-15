@@ -23,6 +23,10 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property integer $crm_account_id
  * @property integer $iam_user_id
  * @property integer $iam_account_id
+ * @property string $role
+ * @property boolean $is_primary
+ * @property integer $created_by
+ * @property integer $updated_by
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
@@ -46,6 +50,10 @@ class AccountManagers extends Model
             'crm_account_id',
             'iam_user_id',
             'iam_account_id',
+            'role',
+            'is_primary',
+            'created_by',
+            'updated_by',
     ];
 
     /**
@@ -70,6 +78,10 @@ class AccountManagers extends Model
     protected $casts = [
     'id' => 'integer',
     'crm_account_id' => 'integer',
+    'role' => 'string',
+    'is_primary' => 'boolean',
+    'created_by' => 'integer',
+    'updated_by' => 'integer',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
@@ -134,6 +146,28 @@ class AccountManagers extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+    /**
+     * Looks after the customer. The only role that grants the module *-success-manager roles on the customer's
+     * IAM account (leo4#1237).
+     */
+    public const ROLE_SUCCESS_MANAGER = 'success_manager';
+
+    public const ROLE_SALES = 'sales';
+
+    public const ROLE_SUPPORT = 'support';
+
+    public const ROLE_TECHNICAL = 'technical';
+
+    /**
+     * The responsible roles a row may hold. Mirrors crm_account_managers_role_check.
+     */
+    public const ROLES = [
+        self::ROLE_SUCCESS_MANAGER,
+        self::ROLE_SALES,
+        self::ROLE_SUPPORT,
+        self::ROLE_TECHNICAL,
+    ];
 
 
 
