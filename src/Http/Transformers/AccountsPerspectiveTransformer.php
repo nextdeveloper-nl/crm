@@ -61,7 +61,7 @@ class AccountsPerspectiveTransformer extends AbstractAccountsPerspectiveTransfor
     {
         if (!TenantHelper::isolationEnabled()
             || $model->is_created_by_owner === true      // fail closed: anything but a strict true is masked
-            || TenantHelper::isPlatformAccount((int) UserHelper::currentAccount()->id)) {
+            || (UserHelper::currentAccount() && TenantHelper::isPlatformAccount((int) UserHelper::currentAccount()->id))) {
             return $transformed;
         }
 

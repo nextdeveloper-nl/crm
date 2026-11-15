@@ -27,7 +27,7 @@ class ImportersService extends AbstractImportersService
     public static function create(array $data)
     {
         // A client can never supply the intake token hash; it is only ever set by issueToken()
-        $data = self::withoutClientTokenHash(self::resolveLinkedObject($data));
+        $data = self::withoutClientTokenHash(self::resolveLinkedObject($data));  // no stored importer yet
 
         $importer = parent::create($data);
 
@@ -45,7 +45,8 @@ class ImportersService extends AbstractImportersService
 
     public static function update($id, array $data)
     {
-        $data = self::resolveLinkedObject($data);
+        // On update the object_type may be omitted; the stored importer's type is then the one the id refers to.
+        $data = self::resolveLinkedObject($data, $id);
 
         // A PATCH sends the whole config; keep the stored token hash so an unrelated edit does not kill the token
         if (array_key_exists('config', $data)) {
@@ -169,15 +170,21 @@ class ImportersService extends AbstractImportersService
      * Converts a uuid object_id into the integer id of the model named by object_type.
      * The lookup runs through the model's normal scopes, so a caller can only link objects they may see.
      */
-    private static function resolveLinkedObject(array $data): array
+    private static function resolveLinkedObject(array $data, ?string $existingImporterUuid = null): array
     {
         // Multi-tenancy: an integer object_id used to skip the visibility check, so a tenant could link its importer
         // to another tenant's pipeline/campaign by guessing ids. Integer ids go through the same scoped lookup.
         if (isset($data['object_id']) && (is_int($data['object_id']) || (is_string($data['object_id']) && ctype_digit($data['object_id'])))) {
-            $intClass = $data['object_type'] ?? null;
+            // Fail closed: the id must always be checked against a real model class, taken from the request or, on an
+            // update that omits it, from the stored importer. An id without a resolvable type is refused.
+            $intClass = $data['object_type']
+                ?? ($existingImporterUuid ? Importers::where('uuid', $existingImporterUuid)->value('object_type') : null);
 
-            if ($intClass && class_exists($intClass) && is_subclass_of($intClass, Model::class)
-                && !$intClass::where('id', (int) $data['object_id'])->exists()) {
+            if (!$intClass || !class_exists($intClass) || !is_subclass_of($intClass, Model::class)) {
+                throw new \InvalidArgumentException('object_type must be a model class when object_id is given.');
+            }
+
+            if (!$intClass::where('id', (int) $data['object_id'])->exists()) {
                 throw new \InvalidArgumentException('The linked object could not be found.');
             }
 

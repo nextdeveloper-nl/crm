@@ -64,6 +64,8 @@ class ProjectClientService
     {
         $this->client = new Client([
             'base_uri' => $this->baseUrl,
+            // SSRF: the URL was vetted once; a redirect would send the request (and the token) to an unvetted host.
+            'allow_redirects' => false,
             'headers' => [
                 'Accept' => 'application/json',
             ],
@@ -100,6 +102,22 @@ class ProjectClientService
     }
 
     /**
+     * Every A and AAAA address of a host (IPv6 included, so an AAAA-only internal host cannot slip through).
+     *
+     * @return string[]
+     */
+    private static function resolveAddresses(string $host): array
+    {
+        $ips = [];
+
+        foreach (@dns_get_record($host, DNS_A | DNS_AAAA) ?: [] as $record) {
+            $ips[] = $record['ip'] ?? $record['ipv6'] ?? null;
+        }
+
+        return array_values(array_filter($ips));
+    }
+
+    /**
      * Rejects non-http(s) URLs and hosts that are, or resolve to, private/loopback/reserved addresses.
      *
      * @throws DataTypeException
@@ -115,7 +133,7 @@ class ProjectClientService
         }
 
         $host = trim($host, '[]');
-        $ips = filter_var($host, FILTER_VALIDATE_IP) ? [$host] : (gethostbynamel($host) ?: []);
+        $ips = filter_var($host, FILTER_VALIDATE_IP) ? [$host] : self::resolveAddresses($host);
 
         if (!$ips) {
             throw new DataTypeException('The project URL host could not be resolved');

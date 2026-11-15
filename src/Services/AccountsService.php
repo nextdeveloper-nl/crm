@@ -65,6 +65,10 @@ class AccountsService extends AbstractAccountsService
     {
         $current = UserHelper::currentAccount();
 
+        if (!$current) {
+            throw new \NextDeveloper\Commons\Exceptions\NotAllowedException('There is no account to create a CRM record for.');
+        }
+
         $allowed = $accountUuidOrId === null
             || (is_int($accountUuidOrId) && (int) $accountUuidOrId === (int) $current->id)
             || (is_string($accountUuidOrId) && $accountUuidOrId === $current->uuid);
@@ -78,7 +82,9 @@ class AccountsService extends AbstractAccountsService
 
     private static function mayChooseOwner(): bool
     {
-        return TenantHelper::isPlatformAccount((int) UserHelper::currentAccount()->id)
+        $account = UserHelper::currentAccount();
+
+        return ($account !== null && TenantHelper::isPlatformAccount((int) $account->id))
             || UserHelper::bypassRolesCheck();
     }
 

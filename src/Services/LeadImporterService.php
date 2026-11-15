@@ -307,8 +307,7 @@ class LeadImporterService
 
     /**
      * Identity match: email first, then phone number. Creates the user when nobody matches.
-     */
-    /**
+     *
      * @return array{0: Users, 1: bool} the user and whether this call created it
      */
     private static function findOrCreateUser(array $lead): array

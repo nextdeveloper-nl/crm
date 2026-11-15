@@ -28,7 +28,8 @@ class TenantHelper
      */
     public static function findOwned(string $modelClass, ?string $uuid): ?Model
     {
-        if (!$uuid) {
+        // No uuid or no acting account: nothing is owned by "nobody".
+        if (!$uuid || !UserHelper::currentAccount()) {
             return null;
         }
 
@@ -60,7 +61,9 @@ class TenantHelper
      */
     public static function isOwned(Model $model): bool
     {
-        return (int) $model->iam_account_id === (int) UserHelper::currentAccount()->id;
+        $account = UserHelper::currentAccount();
+
+        return $account !== null && (int) $model->iam_account_id === (int) $account->id;
     }
 
     /**
@@ -96,7 +99,18 @@ class TenantHelper
      */
     public static function resolveOwnerId(?int $explicitOwnerId = null): int
     {
-        return $explicitOwnerId ?? (int) UserHelper::currentAccount()->id;
+        if ($explicitOwnerId !== null) {
+            return $explicitOwnerId;
+        }
+
+        $account = UserHelper::currentAccount();
+
+        // Never stamp a record with a made-up owner: without an acting account the caller must name the owner.
+        if (!$account) {
+            throw new \LogicException('No acting account to own the record; pass the owner explicitly.');
+        }
+
+        return (int) $account->id;
     }
 
     /**
@@ -109,6 +123,8 @@ class TenantHelper
             return true;
         }
 
-        return self::isPlatformAccount((int) UserHelper::currentAccount()->id);
+        $account = UserHelper::currentAccount();
+
+        return $account !== null && self::isPlatformAccount((int) $account->id);
     }
 }

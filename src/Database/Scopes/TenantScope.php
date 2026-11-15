@@ -64,6 +64,14 @@ class TenantScope implements Scope
 
         $account = UserHelper::currentAccount();
 
+        // No acting account (anonymous request, webhook, console run without a user): there is no tenant to show
+        // anything to, so fail closed instead of dereferencing null. Trusted system code runs as admin and has one.
+        if (!$account) {
+            $builder->whereRaw('1 = 0');
+
+            return;
+        }
+
         if (TenantHelper::isPlatformAccount($account->id)) {
             return;
         }
