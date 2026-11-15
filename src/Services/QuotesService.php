@@ -46,7 +46,25 @@ class QuotesService extends AbstractQuotesService
 
     public static function create($data)
     {
-        return parent::create(self::withoutWorkflowFields(\NextDeveloper\CRM\Helpers\TenantHelper::guardWrite($data)));
+        $data = self::withoutWorkflowFields(\NextDeveloper\CRM\Helpers\TenantHelper::guardWrite($data));
+
+        // The quote belongs to the account that owns its opportunity, not to whichever account the caller acts in
+        // (guardWrite drops a client-chosen iam_account_id). They differ only for callers that can see several
+        // tenants, e.g. the platform account; deriving it keeps the quote visible to the tenant it is for.
+        // The opportunity lookup is scoped, and guardWrite has already proven it is visible.
+        if (!empty($data['crm_opportunity_id'])) {
+            $opportunity = Opportunities::query()
+                ->when(is_numeric($data['crm_opportunity_id']),
+                    fn ($q) => $q->where('id', (int) $data['crm_opportunity_id']),
+                    fn ($q) => $q->where('uuid', $data['crm_opportunity_id']))
+                ->first();
+
+            if ($opportunity) {
+                $data['iam_account_id'] = $opportunity->iam_account_id;
+            }
+        }
+
+        return parent::create($data);
     }
 
     public static function update($id, $data)
