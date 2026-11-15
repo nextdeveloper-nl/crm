@@ -153,4 +153,26 @@ class TenantHelper
             throw (new \Illuminate\Database\Eloquent\ModelNotFoundException())->setModel($modelClass, [$idOrUuid]);
         }
     }
+
+    /**
+     * Single guard for create AND update of child records (calls, meetings, notes, projects, opportunities, quotes,
+     * quote items): every parent foreign key present in the payload must be visible to the caller, and an untrusted
+     * caller can never choose the owning account. Defense in depth: the generated services resolve uuids with scoped
+     * lookups, but nothing in them states that intent, and a future unscoped lookup would silently allow planting
+     * records into (or re-parenting them onto) another tenant's account.
+     *
+     * @return array the payload, without iam_account_id for untrusted callers
+     */
+    public static function guardWrite(array $data): array
+    {
+        self::assertVisible(\NextDeveloper\CRM\Database\Models\Accounts::class, $data['crm_account_id'] ?? null);
+        self::assertVisible(\NextDeveloper\CRM\Database\Models\Opportunities::class, $data['crm_opportunity_id'] ?? null);
+        self::assertVisible(\NextDeveloper\CRM\Database\Models\Quotes::class, $data['crm_quote_id'] ?? null);
+
+        if (!UserHelper::bypassRolesCheck()) {
+            unset($data['iam_account_id']);
+        }
+
+        return $data;
+    }
 }

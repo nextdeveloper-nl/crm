@@ -25,14 +25,17 @@ class CallsService extends AbstractCallsService
      */
     public static function create(array $data)
     {
-        \NextDeveloper\CRM\Helpers\TenantHelper::assertVisible(\NextDeveloper\CRM\Database\Models\Accounts::class, $data['crm_account_id'] ?? null);
-        \NextDeveloper\CRM\Helpers\TenantHelper::assertVisible(\NextDeveloper\CRM\Database\Models\Opportunities::class, $data['crm_opportunity_id'] ?? null);
-
-        if (!\NextDeveloper\IAM\Helpers\UserHelper::bypassRolesCheck() || empty($data['iam_account_id'])) {
-            $data['iam_account_id'] = \NextDeveloper\IAM\Helpers\UserHelper::currentAccount()->id;
-        }
+        $trustedAccount = \NextDeveloper\IAM\Helpers\UserHelper::bypassRolesCheck() ? ($data['iam_account_id'] ?? null) : null;
+        $data = \NextDeveloper\CRM\Helpers\TenantHelper::guardWrite($data);
+        $data['iam_account_id'] = $trustedAccount ?: \NextDeveloper\IAM\Helpers\UserHelper::currentAccount()->id;
 
         return parent::create($data);
+    }
+
+    /** Re-parenting a call onto an account / opportunity the caller cannot see is refused. */
+    public static function update($id, array $data)
+    {
+        return parent::update($id, \NextDeveloper\CRM\Helpers\TenantHelper::guardWrite($data));
     }
 
     public static function get(?CallsQueryFilter $filter = null, array $params = []): Collection|LengthAwarePaginator

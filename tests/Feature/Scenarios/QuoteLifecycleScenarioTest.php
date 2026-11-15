@@ -395,6 +395,26 @@ class QuoteLifecycleScenarioTest extends TestCase
 
     // ================================================================ insider abuse inside tenant A
 
+    private function check_Y_cannot_re_parent_its_own_records_onto_Xs_account(): void
+    {
+        $w = $this->world;
+        $this->Y();
+
+        $ownAccount = $this->crmAccount['B'];
+        $call = CallsService::create(['name' => 'own call', 'description' => 'x', 'crm_account_id' => $ownAccount['uuid']]);
+        $note = NotesService::create(['note' => 'own note', 'crm_account_id' => $ownAccount['uuid']]);
+        $ownOpportunity = $this->opportunity['B']['manager'];
+
+        // moving own records onto X's account would put Y's data into X's timeline (and expose X's account id as an oracle)
+        $this->attempt(fn () => CallsService::update($call->uuid, ['crm_account_id' => $w['crmAccount']->uuid]));
+        $this->attempt(fn () => NotesService::update($note->uuid, ['crm_account_id' => $w['crmAccount']->uuid]));
+        $this->attempt(fn () => OpportunitiesService::update($ownOpportunity['uuid'], ['crm_account_id' => $w['crmAccount']->uuid]));
+
+        $this->assertSame((int) $ownAccount['id'], (int) \DB::table('crm_calls')->where('uuid', $call->uuid)->value('crm_account_id'), 'a call was re-parented onto another tenant');
+        $this->assertSame((int) $ownAccount['id'], (int) \DB::table('crm_notes')->where('uuid', $note->uuid)->value('crm_account_id'), 'a note was re-parented onto another tenant');
+        $this->assertSame((int) $ownAccount['id'], (int) \DB::table('crm_opportunities')->where('id', $ownOpportunity['id'])->value('crm_account_id'), 'an opportunity was re-parented onto another tenant');
+    }
+
     private function check_the_manager_cannot_hand_the_opportunity_to_a_user_of_another_company(): void
     {
         $w = $this->world;

@@ -22,9 +22,12 @@ class NotesService extends AbstractNotesService
      */
     public static function create(array $data)
     {
-        \NextDeveloper\CRM\Helpers\TenantHelper::assertVisible(\NextDeveloper\CRM\Database\Models\Accounts::class, $data['crm_account_id'] ?? null);
-        \NextDeveloper\CRM\Helpers\TenantHelper::assertVisible(\NextDeveloper\CRM\Database\Models\Opportunities::class, $data['crm_opportunity_id'] ?? null);
+        return parent::create(\NextDeveloper\CRM\Helpers\TenantHelper::guardWrite($data));
+    }
 
-        return parent::create($data);
+    /** Re-parenting onto an account / opportunity the caller cannot see is refused. */
+    public static function update($id, array $data)
+    {
+        return parent::update($id, \NextDeveloper\CRM\Helpers\TenantHelper::guardWrite($data));
     }
 }

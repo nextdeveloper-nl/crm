@@ -46,14 +46,12 @@ class QuotesService extends AbstractQuotesService
 
     public static function create($data)
     {
-        \NextDeveloper\CRM\Helpers\TenantHelper::assertVisible(Opportunities::class, $data['crm_opportunity_id'] ?? null);
-
-        return parent::create(self::withoutWorkflowFields($data));
+        return parent::create(self::withoutWorkflowFields(\NextDeveloper\CRM\Helpers\TenantHelper::guardWrite($data)));
     }
 
     public static function update($id, $data)
     {
-        return parent::update($id, self::withoutWorkflowFields($data));
+        return parent::update($id, self::withoutWorkflowFields(\NextDeveloper\CRM\Helpers\TenantHelper::guardWrite($data)));
     }
 
     /**

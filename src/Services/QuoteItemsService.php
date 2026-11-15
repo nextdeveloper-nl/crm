@@ -25,7 +25,7 @@ class QuoteItemsService extends AbstractQuoteItemsService
     {
         // Multi-tenancy: the quote must be visible to the caller. The generated create() resolves the quote uuid
         // without checking, so a foreign quote would receive the item before the (scoped) recalculation fails.
-        \NextDeveloper\CRM\Helpers\TenantHelper::assertVisible(Quotes::class, $data['crm_quote_id'] ?? null);
+        $data = \NextDeveloper\CRM\Helpers\TenantHelper::guardWrite($data);
 
         // If currency not provided, inherit from parent quote
         if (array_key_exists('crm_quote_id', $data)) {
@@ -64,6 +64,9 @@ class QuoteItemsService extends AbstractQuoteItemsService
 
     public static function update($id, $data)
     {
+        // Multi-tenancy: an item cannot be moved onto a quote the caller cannot see.
+        $data = \NextDeveloper\CRM\Helpers\TenantHelper::guardWrite($data);
+
         $line = parent::update($id, $data);
 
         (new ValidateQuoteItem($line))->handle();

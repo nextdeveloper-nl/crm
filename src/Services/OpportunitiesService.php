@@ -63,7 +63,7 @@ class OpportunitiesService extends AbstractOpportunitiesService
     public static function create($data)
     {
         // Multi-tenancy: the CRM account the opportunity is created on must be visible to the caller.
-        \NextDeveloper\CRM\Helpers\TenantHelper::assertVisible(\NextDeveloper\CRM\Database\Models\Accounts::class, $data['crm_account_id'] ?? null);
+        $data = \NextDeveloper\CRM\Helpers\TenantHelper::guardWrite($data);
 
         // Normalize legacy type value to the canonical slug form
         if($data['type'] == 'business development') {
@@ -261,6 +261,9 @@ class OpportunitiesService extends AbstractOpportunitiesService
      */
     public static function update($id, array $data)
     {
+        // Multi-tenancy: an opportunity cannot be moved onto another tenant's CRM account.
+        $data = \NextDeveloper\CRM\Helpers\TenantHelper::guardWrite($data);
+
         $opportunity = parent::update($id, $data);
 
         // Only sales-managers and sales-admins are allowed to re-assign the
