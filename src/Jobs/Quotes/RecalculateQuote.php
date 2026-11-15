@@ -163,7 +163,9 @@ class RecalculateQuote Implements ShouldQueue
         ]);
 
         //  Keeping the related opportunity's income in sync with the recalculated quote total.
-        if ($this->model->crm_opportunity_id) {
+        //  Do not overwrite the opportunity's income with an empty quote: a 0 total (no items yet) would wipe a
+        //  value that was entered manually on the opportunity.
+        if ($this->model->crm_opportunity_id && $totalAmount > 0) {
             $opportunity = Opportunities::where('id', $this->model->crm_opportunity_id)->first();
 
             if ($opportunity) {

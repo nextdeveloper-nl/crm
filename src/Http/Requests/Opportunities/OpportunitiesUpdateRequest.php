@@ -17,7 +17,8 @@ class OpportunitiesUpdateRequest extends AbstractFormRequest
         'description' => 'nullable|string',
         'probability' => 'integer',
         'source' => 'nullable|string',
-        'income' => '',
+        // income must be a non-negative number (a negative deal value is invalid)
+        'income' => 'nullable|numeric|min:0',
         'deadline' => 'nullable|date',
         'crm_account_id' => 'nullable|exists:crm_accounts,uuid|uuid',
         'tags' => '',

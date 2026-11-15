@@ -45,6 +45,13 @@ class RequestApproveQuote extends AbstractAction
      */
     public function handle(): void
     {
+        // Approval requests are disabled by default (config crm.quote_approval_enabled = false): fail visibly and
+        // change nothing, so the quote stays in 'draft' and no approval notification is sent.
+        if (!config('crm.quote_approval_enabled', false)) {
+            $this->setFinishedWithError('Quote approval requests are currently disabled.');
+            return;
+        }
+
         $this->setProgress(0, 'Initiating quote approval request');
 
         try {

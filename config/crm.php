@@ -1,6 +1,10 @@
 <?php
 
 return [
+    //  Quote approval flow (RequestApproveQuote / Approve). Disabled by default and deliberately NOT read from an env
+    //  variable: set it to true here, in code, when approvals are re-enabled.
+    'quote_approval_enabled' => false,
+
     'scopes'    =>  [
         'global' => [
             //  Dont do this here because it makes infinite loop with user object.
