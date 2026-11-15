@@ -107,8 +107,19 @@ class ProjectClientService
                 // Pin the connection to the vetted addresses (DNS rebinding: the name must not resolve to something
                 // else between this check and the request). IP literals need no pinning.
                 if ($host && !filter_var(trim($host, '[]'), FILTER_VALIDATE_IP)) {
-                    $port = parse_url($base, PHP_URL_PORT) ?: (parse_url($base, PHP_URL_SCHEME) === 'http' ? 80 : 443);
-                    $this->pinnedResolve = [$host . ':' . $port . ':' . implode(',', $ips)];
+                    // Scheme is case-insensitive ("HTTP://"); normalise before deriving the port, and pin both default
+                    // ports plus the explicit one, so a pin/port mismatch can never fall back to live DNS.
+                    $scheme = strtolower((string) parse_url($base, PHP_URL_SCHEME));
+                    $ports  = array_unique(array_filter([
+                        parse_url($base, PHP_URL_PORT) ?: ($scheme === 'http' ? 80 : 443),
+                        80,
+                        443,
+                    ]));
+
+                    $this->pinnedResolve = array_map(
+                        fn ($port) => strtolower($host) . ':' . $port . ':' . implode(',', $ips),
+                        array_values($ports)
+                    );
                 }
 
                 return $base;
