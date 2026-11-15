@@ -21,6 +21,9 @@ class ProjectClientService
     protected string $baseUrl;
     protected string $token;
 
+    /** curl --resolve entries pinning the connection to the addresses that passed assertPublicUrl() */
+    protected array $pinnedResolve = [];
+
 
     /**
      * @throws NotFoundException|DataTypeException
@@ -66,6 +69,7 @@ class ProjectClientService
             'base_uri' => $this->baseUrl,
             // SSRF: the URL was vetted once; a redirect would send the request (and the token) to an unvetted host.
             'allow_redirects' => false,
+            'curl' => $this->pinnedResolve ? [CURLOPT_RESOLVE => $this->pinnedResolve] : [],
             'headers' => [
                 'Accept' => 'application/json',
             ],
@@ -95,9 +99,19 @@ class ProjectClientService
             default:
                 // Multi-tenancy/SSRF: a tenant-supplied URL must not point the server (and the stored token) at
                 // internal addresses such as localhost, the metadata endpoint or private networks.
-                self::assertPublicUrl($url);
+                $ips = self::assertPublicUrl($url);
 
-                return $this->ensureUrlScheme($url);
+                $base = $this->ensureUrlScheme($url);
+                $host = parse_url($base, PHP_URL_HOST);
+
+                // Pin the connection to the vetted addresses (DNS rebinding: the name must not resolve to something
+                // else between this check and the request). IP literals need no pinning.
+                if ($host && !filter_var(trim($host, '[]'), FILTER_VALIDATE_IP)) {
+                    $port = parse_url($base, PHP_URL_PORT) ?: (parse_url($base, PHP_URL_SCHEME) === 'http' ? 80 : 443);
+                    $this->pinnedResolve = [$host . ':' . $port . ':' . implode(',', $ips)];
+                }
+
+                return $base;
         }
     }
 
@@ -119,10 +133,11 @@ class ProjectClientService
 
     /**
      * Rejects non-http(s) URLs and hosts that are, or resolve to, private/loopback/reserved addresses.
+     * Returns the vetted addresses so the caller can pin the connection to them.
      *
      * @throws DataTypeException
      */
-    public static function assertPublicUrl(string $url): void
+    public static function assertPublicUrl(string $url): array
     {
         $candidate = parse_url($url, PHP_URL_SCHEME) ? $url : 'https://' . $url;
         $scheme = strtolower((string) parse_url($candidate, PHP_URL_SCHEME));
@@ -144,6 +159,8 @@ class ProjectClientService
                 throw new DataTypeException('The project URL must point to a public address');
             }
         }
+
+        return array_values($ips);
     }
 
     /**

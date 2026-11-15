@@ -172,45 +172,60 @@ class ImportersService extends AbstractImportersService
      */
     private static function resolveLinkedObject(array $data, ?string $existingImporterUuid = null): array
     {
-        // Multi-tenancy: an integer object_id used to skip the visibility check, so a tenant could link its importer
-        // to another tenant's pipeline/campaign by guessing ids. Integer ids go through the same scoped lookup.
-        if (isset($data['object_id']) && (is_int($data['object_id']) || (is_string($data['object_id']) && ctype_digit($data['object_id'])))) {
-            // Fail closed: the id must always be checked against a real model class, taken from the request or, on an
-            // update that omits it, from the stored importer. An id without a resolvable type is refused.
-            $intClass = $data['object_type']
-                ?? ($existingImporterUuid ? Importers::where('uuid', $existingImporterUuid)->value('object_type') : null);
+        $typeSent = !empty($data['object_type']);
+        $idSent   = array_key_exists('object_id', $data);
 
-            if (!$intClass || !class_exists($intClass) || !is_subclass_of($intClass, Model::class)) {
-                throw new \InvalidArgumentException('object_type must be a model class when object_id is given.');
-            }
+        // Nothing about the link is being written.
+        if (!$typeSent && !$idSent) {
+            return $data;
+        }
 
-            if (!$intClass::where('id', (int) $data['object_id'])->exists()) {
+        // Explicitly clearing the link.
+        if ($idSent && $data['object_id'] === null) {
+            return $data;
+        }
+
+        // Multi-tenancy: the EFFECTIVE (type, id) pair is what gets stored, so it is the pair that is checked. On an
+        // update either half may be omitted and then comes from the stored importer; changing only the type (or only
+        // the id) would otherwise point the old half at an object nobody verified. The lookup runs through the model's
+        // normal scopes, so a caller can only link objects they may see.
+        $stored = $existingImporterUuid ? Importers::where('uuid', $existingImporterUuid)->first() : null;
+
+        $class = $typeSent ? $data['object_type'] : $stored?->object_type;
+        $rawId = $idSent ? $data['object_id'] : $stored?->object_id;
+
+        if ($rawId === null || $rawId === '') {
+            return $data;   // a type with no id links nothing
+        }
+
+        // Only real Eloquent models; fail closed when the type is missing or not a model.
+        if (!$class || !class_exists($class) || !is_subclass_of($class, Model::class)) {
+            throw new \InvalidArgumentException('object_type must be a model class when object_id is given.');
+        }
+
+        // integer id (internal callers, or the stored id): check it is visible
+        if (is_int($rawId) || (is_string($rawId) && ctype_digit($rawId))) {
+            if (!$class::where('id', (int) $rawId)->exists()) {
                 throw new \InvalidArgumentException('The linked object could not be found.');
             }
 
             return $data;
         }
 
-        if (!isset($data['object_id']) || !is_string($data['object_id']) || !Str::isUuid($data['object_id'])) {
+        // public API: uuid, stored as the integer id
+        if (is_string($rawId) && Str::isUuid($rawId)) {
+            $object = $class::where('uuid', $rawId)->first();
+
+            if (!$object) {
+                throw new \InvalidArgumentException('The linked object could not be found.');
+            }
+
+            $data['object_id'] = $object->id;
+
             return $data;
         }
 
-        $class = $data['object_type'] ?? null;
-
-        // Only real Eloquent models; object_type comes from the request
-        if (!$class || !class_exists($class) || !is_subclass_of($class, Model::class)) {
-            throw new \InvalidArgumentException('object_type must be a model class when object_id is a uuid.');
-        }
-
-        $object = $class::where('uuid', $data['object_id'])->first();
-
-        if (!$object) {
-            throw new \InvalidArgumentException('The linked object could not be found.');
-        }
-
-        $data['object_id'] = $object->id;
-
-        return $data;
+        throw new \InvalidArgumentException('object_id must be a uuid.');
     }
 
     /**
