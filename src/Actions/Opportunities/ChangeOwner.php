@@ -51,10 +51,30 @@ class ChangeOwner extends AbstractAction
             return;
         }
 
+        // Multi-tenancy: the action receives a model, it does not look it up, so ownership is checked here. Only the
+        // account that owns the opportunity may reassign it (trusted server code excepted).
+        if (!UserHelper::bypassRolesCheck()
+            && (int) $this->model->iam_account_id !== (int) UserHelper::currentAccount()->id) {
+            $this->setFinishedWithError('The opportunity does not belong to your account.');
+            return;
+        }
+
         $newOwner = UserHelper::getWithId($this->params['iam_user_id']);
 
         if (!$newOwner) {
             $this->setFinishedWithError('The specified user could not be found.');
+            return;
+        }
+
+        // The new owner must be a member of the account that owns the opportunity: handing a deal (and the notes,
+        // quotes and contacts behind it) to a user of another company would give that company the trade secrets.
+        $isMember = \NextDeveloper\IAM\Database\Models\AccountUsers::withoutGlobalScopes()
+            ->where('iam_user_id', $newOwner->id)
+            ->where('iam_account_id', $this->model->iam_account_id)
+            ->exists();
+
+        if (!$isMember) {
+            $this->setFinishedWithError('The new owner must be a member of the opportunity\'s account.');
             return;
         }
 

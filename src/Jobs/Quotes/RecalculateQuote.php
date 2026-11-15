@@ -44,10 +44,15 @@ class RecalculateQuote Implements ShouldQueue
 
     public function handle()
     {
+        // The recalculation needs admin rights (prices, currencies, the whole quote), but QuoteItemsService also calls
+        // this synchronously INSIDE the user's request. setAdminAsCurrentUser() was never reverted, so the rest of that
+        // request ran as the system user of the platform account: wrong tenant for every lookup after it, and admin
+        // rights for whatever followed. runAsAdmin() restores the caller afterwards.
+        UserHelper::runAsAdmin(fn () => $this->recalculate());
+    }
 
-        UserHelper::setAdminAsCurrentUser();
-
-
+    private function recalculate()
+    {
         $items = QuoteItems::where('crm_quote_id', $this->model->id)->get();
 
         $detailedAmount = [];

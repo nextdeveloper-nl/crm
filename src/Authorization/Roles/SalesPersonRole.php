@@ -49,6 +49,13 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
             return;
         }
 
+        // Projects are shared by the account's team (like tasks on a project board, leo4#1242): a sales person works
+        // on the projects of the account it acts in, never on another account's.
+        if($model->getTable() == 'crm_projects') {
+            $builder->where('iam_account_id', UserHelper::currentAccount()->id);
+            return;
+        }
+
         // Own opportunities and tasks, in the current account only.
         if(
             $model->getTable() == 'crm_opportunities' ||
@@ -144,6 +151,11 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
 
         if (! $this->isOperationAllowed($model, 'update')) {
             return false;
+        }
+
+        // Projects belong to the account they were created in; any sales person of that account may update them.
+        if ($model->getTable() == 'crm_projects') {
+            return $model->iam_account_id == UserHelper::currentAccount()->id;
         }
 
         // Only crm_accounts rows are matched against crm_account_managers by their own id. Before this every
@@ -273,6 +285,10 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
             'crm_calls:create',
             'crm_calls:update',
             'crm_calls:delete',
+            // a sales person logs projects for its customers; no delete (managers/admins clean up)
+            'crm_projects:read',
+            'crm_projects:create',
+            'crm_projects:update',
             'crm_emails:read',
             'crm_emails:create',
             'crm_emails:update',

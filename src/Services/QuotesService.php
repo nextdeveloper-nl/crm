@@ -34,6 +34,29 @@ class QuotesService extends AbstractQuotesService
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
     /**
+     * Workflow fields only the approval actions (and trusted server code) may write. A client that could PATCH
+     * approval_level could approve its own discount and then convert the quote to an invoice.
+     */
+    private const WORKFLOW_FIELDS = ['approval_level', 'is_converted', 'accounting_invoice_id'];
+
+    private static function withoutWorkflowFields(array $data): array
+    {
+        return UserHelper::bypassRolesCheck() ? $data : array_diff_key($data, array_flip(self::WORKFLOW_FIELDS));
+    }
+
+    public static function create($data)
+    {
+        \NextDeveloper\CRM\Helpers\TenantHelper::assertVisible(Opportunities::class, $data['crm_opportunity_id'] ?? null);
+
+        return parent::create(self::withoutWorkflowFields($data));
+    }
+
+    public static function update($id, $data)
+    {
+        return parent::update($id, self::withoutWorkflowFields($data));
+    }
+
+    /**
      * Convert a given quote into an invoice with items, idempotently.
      * Returns the created invoice model.
      *

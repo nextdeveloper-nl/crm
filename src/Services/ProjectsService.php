@@ -25,6 +25,7 @@ class ProjectsService extends AbstractProjectsService
     public static function create(array $data)
     {
         self::assertProjectUrl($data);
+        \NextDeveloper\CRM\Helpers\TenantHelper::assertVisible(\NextDeveloper\CRM\Database\Models\Accounts::class, $data['crm_account_id'] ?? null);
 
         return parent::create(self::prepareTokenForCreate($data));
     }

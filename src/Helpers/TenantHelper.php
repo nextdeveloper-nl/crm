@@ -127,4 +127,30 @@ class TenantHelper
 
         return $account !== null && self::isPlatformAccount((int) $account->id);
     }
+
+    /**
+     * Fails with a 404-style exception unless the referenced parent record (a CRM account, opportunity, quote, ...)
+     * is visible to the caller through the model's normal scopes (role + tenant). Creating a child record (call, note,
+     * quote item, ...) for a parent the caller cannot see would plant data into another tenant's account, and the
+     * generated services resolve the parent uuid to an id WITHOUT checking visibility. Trusted server-side callers
+     * (importers running as admin) are not restricted.
+     *
+     * @param class-string<Model> $modelClass
+     * @param int|string|null     $idOrUuid
+     */
+    public static function assertVisible(string $modelClass, $idOrUuid, bool $tenantBoundaryOnly = false): void
+    {
+        if ($idOrUuid === null || $idOrUuid === '' || UserHelper::bypassRolesCheck()) {
+            return;
+        }
+
+        // $tenantBoundaryOnly: skip the role filter and keep the tenant boundary (TenantScope). Needed where the role
+        // filter depends on the very row being created (a manager sees an account only once it manages it).
+        $query = $tenantBoundaryOnly ? $modelClass::withoutGlobalScope(AuthorizationScope::class) : $modelClass::query();
+        is_numeric($idOrUuid) ? $query->where('id', (int) $idOrUuid) : $query->where('uuid', $idOrUuid);
+
+        if (!$query->exists()) {
+            throw (new \Illuminate\Database\Eloquent\ModelNotFoundException())->setModel($modelClass, [$idOrUuid]);
+        }
+    }
 }

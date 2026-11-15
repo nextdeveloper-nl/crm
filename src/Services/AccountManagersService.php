@@ -22,6 +22,19 @@ class AccountManagersService extends AbstractAccountManagersService
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
     public static function create($data) {
+        // Multi-tenancy: a tenant may only appoint managers inside its own account, for CRM accounts it can see, and
+        // only people who are members of that account. (The old WatchAccount flow wrote rows for the customer's account.)
+        if (!UserHelper::bypassRolesCheck()) {
+            $current = UserHelper::currentAccount();
+            $targetAccount = UserHelper::getAccountById($data['iam_account_id'] ?? $current->id);
+
+            if (!$targetAccount || (int) $targetAccount->id !== (int) $current->id) {
+                throw new \NextDeveloper\Commons\Exceptions\NotAllowedException('Account managers can only be appointed inside your own account.');
+            }
+
+            \NextDeveloper\CRM\Helpers\TenantHelper::assertVisible(Accounts::class, $data['crm_account_id'] ?? null, true);
+        }
+
         $user = UserHelper::getUserWithId($data['iam_user_id']);
         $account = UserHelper::getAccountById($data['iam_account_id']);
 

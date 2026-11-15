@@ -66,6 +66,12 @@ trait TwoTenantFixture
         $manager = UsersService::createWithEmail(fake()->unique()->safeEmail());
         $person = UsersService::createWithEmail(fake()->unique()->safeEmail());
 
+        // every real user holds the default roles of leo.register.default_roles (member, commons-user, ...) next to the
+        // CRM role; they decide what iam_accounts / common_domains / common_actions a user can reach
+        foreach ([$admin, $manager, $person] as $u) {
+            RolesService::assignDefaultRoles($u, $account);
+        }
+
         RolesService::assignUserToRole($admin, RolesService::getRole(new SalesAdminRole()), $account);
         RolesService::assignUserToRole($manager, RolesService::getRole(new SalesManagerRole()), $account);
         RolesService::assignUserToRole($person, RolesService::getRole(new SalesPersonRole()), $account);

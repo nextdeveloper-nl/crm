@@ -62,6 +62,9 @@ class OpportunitiesService extends AbstractOpportunitiesService
 
     public static function create($data)
     {
+        // Multi-tenancy: the CRM account the opportunity is created on must be visible to the caller.
+        \NextDeveloper\CRM\Helpers\TenantHelper::assertVisible(\NextDeveloper\CRM\Database\Models\Accounts::class, $data['crm_account_id'] ?? null);
+
         // Normalize legacy type value to the canonical slug form
         if($data['type'] == 'business development') {
             $data['type'] = 'business-development';

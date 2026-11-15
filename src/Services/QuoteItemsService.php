@@ -23,6 +23,10 @@ class QuoteItemsService extends AbstractQuoteItemsService
 
     public static function create($data)
     {
+        // Multi-tenancy: the quote must be visible to the caller. The generated create() resolves the quote uuid
+        // without checking, so a foreign quote would receive the item before the (scoped) recalculation fails.
+        \NextDeveloper\CRM\Helpers\TenantHelper::assertVisible(Quotes::class, $data['crm_quote_id'] ?? null);
+
         // If currency not provided, inherit from parent quote
         if (array_key_exists('crm_quote_id', $data)) {
             $quoteId = $data['crm_quote_id'];
