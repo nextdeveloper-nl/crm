@@ -13,7 +13,12 @@ return [
             //  Tenant boundary, independent of the role AuthorizationScope picks. Inert while
             //  crm.tenant_isolation.enabled is false.
             '\NextDeveloper\CRM\Database\Scopes\TenantScope',
-        ]
+        ],
+        //  Sales staff list: only users that belong to the current account (roles are global, so the view alone
+        //  returns every sales person on the platform).
+        'crm_sales_people_perspective' => [
+            '\NextDeveloper\CRM\Database\Scopes\SalesPeopleScope',
+        ],
     ],
 
     //  Multi-tenancy. See docs/features/multi-tenancy-plan.md and schemas/changes/2026_11_14_crm_accounts_owner.sql.
