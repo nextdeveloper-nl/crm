@@ -74,6 +74,25 @@ class TasksService extends AbstractTasksService
             $data['description'] = '';
         }
 
+        // The assignee has to be a member of the current account (same rule as creating a board task);
+        // a null/empty value is dropped so it never clears the assignee by accident.
+        if (array_key_exists('iam_user_id', $data)) {
+            if (empty($data['iam_user_id'])) {
+                unset($data['iam_user_id']);
+            } else {
+                $assigneeId = \Illuminate\Support\Facades\DB::table('iam_users')->where('uuid', $data['iam_user_id'])->value('id');
+
+                $isMember = $assigneeId && \Illuminate\Support\Facades\DB::table('iam_account_user')
+                    ->where('iam_user_id', $assigneeId)
+                    ->where('iam_account_id', \NextDeveloper\IAM\Helpers\UserHelper::currentAccount()->id)
+                    ->exists();
+
+                if (!$isMember) {
+                    throw new \NextDeveloper\Commons\Exceptions\NotAllowedException('The assignee is not a member of this account.');
+                }
+            }
+        }
+
         if ($existing) {
             $data = TaskScheduleService::prepare($existing, $data);
         }

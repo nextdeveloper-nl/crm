@@ -28,6 +28,8 @@ class TasksUpdateRequest extends AbstractFormRequest
         'is_milestone' => 'boolean',
         'sort_order' => 'integer',
         'estimated_hours' => 'nullable|numeric|min:0',
+        // Assignee (user uuid). Added below the generated rules: the flow task drawer reassigns a task through this.
+        'iam_user_id' => 'nullable|uuid|exists:iam_users,uuid',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
