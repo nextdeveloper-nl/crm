@@ -49,8 +49,17 @@ class CustomerAccountResolverService
             return null;
         }
 
+        // Any domain of the account counts (leo4#1255): the primary one (iam_accounts.common_domain_id) or a
+        // secondary one (common_domains.iam_account_id).
         return IamAccounts::withoutGlobalScope(AuthorizationScope::class)
-            ->where('common_domain_id', $domain->id)
+            ->where(function ($q) use ($domain) {
+                $q->where('common_domain_id', $domain->id);
+
+                if ($domain->iam_account_id) {
+                    $q->orWhere('id', $domain->iam_account_id);
+                }
+            })
+            ->orderByRaw('case when common_domain_id = ? then 0 else 1 end', [$domain->id])
             ->orderBy('id')
             ->first();
     }
