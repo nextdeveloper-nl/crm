@@ -43,6 +43,14 @@ class MarketingManagerRole extends AbstractRole implements IAuthorizationRole
             return;
         }
 
+        // marketing-manager and sales-manager share level 120, so AuthorizationScope may pick this role for a user
+        // that holds both. Everything outside marketing's own tables then has to follow the sales-manager rules,
+        // otherwise the default iam_user_id = me filter below hides e.g. the users of the manager's customers.
+        if(UserHelper::has(SalesManagerRole::NAME)) {
+            app(SalesManagerRole::class)->apply($builder, $model);
+            return;
+        }
+
         if(
             $model->getTable() == 'crm_opportunities' ||
             $model->getTable() == 'crm_opportunities_perspective'

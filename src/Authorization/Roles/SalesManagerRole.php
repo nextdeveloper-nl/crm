@@ -34,6 +34,19 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
      */
     public function apply(Builder $builder, Model $model)
     {
+        // Same level (120) as marketing-manager: when this role is picked for a user that also holds
+        // marketing-manager, the marketing tables keep marketing's rules (no row filter) instead of the
+        // iam_user_id = me default at the bottom of this method.
+        if(
+            ($model->getTable() == 'crm_campaigns' ||
+            $model->getTable() == 'crm_campaign_targets' ||
+            $model->getTable() == 'crm_targets' ||
+            $model->getTable() == 'crm_target_users') &&
+            UserHelper::has(MarketingManagerRole::NAME)
+        ) {
+            return;
+        }
+
         if($model->getTable() == 'crm_accounts_perspective' || $model->getTable() == 'crm_accounts') {
             $builder->whereRaw('id IN       (
                 select distinct crm_account_id from crm_account_managers cam where cam.iam_account_id = ' . UserHelper::currentAccount()->id . '
