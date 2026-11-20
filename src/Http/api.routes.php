@@ -745,6 +745,15 @@ Route::prefix('crm')->group(
             }
         );
 
+        // Read-only stats performances perspective: the route was missing, so GET /crm/stats-performances-perspective
+        // returned 404 although the controller, model and role permissions (crm_stats_performances_perspective:read) exist.
+        Route::prefix('stats-performances-perspective')->group(
+            function () {
+                Route::get('/', 'StatsPerformancesPerspective\StatsPerformancesPerspectiveController@index');
+                Route::get('/{crm_stats_performances_perspective}', 'StatsPerformancesPerspective\StatsPerformancesPerspectiveController@show');
+            }
+        );
+
         Route::prefix('sales-people-perspective')->group(
             function () {
                 Route::get('/', 'SalesPeoplePerspective\SalesPeoplePerspectiveController@index');
