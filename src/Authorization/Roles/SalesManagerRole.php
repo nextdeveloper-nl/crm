@@ -56,9 +56,15 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
         }
 
         if($model->getTable() == 'crm_users_perspective') {
-            $builder->whereRaw('crm_account_id in (
-                select cam.crm_account_id from crm_account_managers cam where cam.iam_account_id = ' . UserHelper::currentAccount()->id . '
-            )');
+            // The people of the CRM accounts the acting account is assigned to as manager, and of its own CRM account
+            // (an account owner works on the users of their own account). Soft deleted manager rows do not count.
+            $currentAccountId = (int) UserHelper::currentAccount()->id;
+            $builder->whereRaw('(crm_account_id in (
+                select cam.crm_account_id from crm_account_managers cam
+                where cam.iam_account_id = ' . $currentAccountId . ' and cam.deleted_at is null
+            ) or crm_account_id in (
+                select ca.id from crm_accounts ca where ca.iam_account_id = ' . $currentAccountId . ' and ca.deleted_at is null
+            ))');
             return;
         }
 
