@@ -13,7 +13,7 @@ class MeetingsCreateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'agenda_calendar_item_id' => 'nullable|exists:agenda_calendar_items,uuid|uuid',
+            'agenda_calendar_item_id' => 'nullable|exists:agenda_calendar_events,uuid|uuid',
         'meeting_note' => 'required|string',
         'outcome' => 'required|string',
         'crm_account_id' => 'required|exists:crm_accounts,uuid|uuid',

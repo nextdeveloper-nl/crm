@@ -120,7 +120,7 @@ class MeetingsQueryFilter extends AbstractQueryFilter
 
     public function agendaCalendarItemId($value)
     {
-            $agendaCalendarItem = \NextDeveloper\Agenda\Database\Models\CalendarItems::where('uuid', $value)->first();
+            $agendaCalendarItem = \NextDeveloper\Agenda\Database\Models\CalendarEvents::where('uuid', $value)->first();
 
         if($agendaCalendarItem) {
             return $this->builder->where('agenda_calendar_item_id', '=', $agendaCalendarItem->id);
@@ -130,7 +130,7 @@ class MeetingsQueryFilter extends AbstractQueryFilter
         //  This is an alias function of agendaCalendarItem
     public function agenda_calendar_item_id($value)
     {
-        return $this->agendaCalendarItem($value);
+        return $this->agendaCalendarItemId($value);
     }
 
     public function iamUserId($value)

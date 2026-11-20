@@ -181,7 +181,7 @@ class AbstractMeetingsService
     {
         if (array_key_exists('agenda_calendar_item_id', $data)) {
             $data['agenda_calendar_item_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\Agenda\Database\Models\CalendarItems',
+                '\NextDeveloper\Agenda\Database\Models\CalendarEvents',
                 $data['agenda_calendar_item_id']
             );
         }
@@ -265,7 +265,7 @@ class AbstractMeetingsService
 
         if (array_key_exists('agenda_calendar_item_id', $data)) {
             $data['agenda_calendar_item_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\Agenda\Database\Models\CalendarItems',
+                '\NextDeveloper\Agenda\Database\Models\CalendarEvents',
                 $data['agenda_calendar_item_id']
             );
         }
