@@ -54,6 +54,9 @@ Route::prefix('crm')->group(
                 Route::get('{crm_accounts}/addresses ', 'Accounts\AccountsController@addresses');
                 Route::post('{crm_accounts}/addresses ', 'Accounts\AccountsController@saveAddresses');
 
+                // Must stay before the {subObjects} wildcard: contacts + platform users of the account
+                Route::get('/{crm_accounts}/people', 'AccountContacts\AccountContactsController@people');
+
                 Route::get('/{crm_accounts}/{subObjects}', 'Accounts\AccountsController@relatedObjects');
                 Route::get('/{crm_accounts}', 'Accounts\AccountsController@show');
 
@@ -135,6 +138,7 @@ Route::prefix('crm')->group(
 
                 // Static segments before the {crm_account_contacts} wildcard routes
                 Route::post('/with-contact', 'AccountContacts\AccountContactsController@storeWithContact');
+                Route::post('/from-account-user', 'AccountContacts\AccountContactsController@copyAccountUser');
 
                 Route::get('/{crm_account_contacts}/{subObjects}', 'AccountContacts\AccountContactsController@relatedObjects');
                 Route::get('/{crm_account_contacts}', 'AccountContacts\AccountContactsController@show');

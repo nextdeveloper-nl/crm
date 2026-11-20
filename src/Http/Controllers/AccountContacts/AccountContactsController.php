@@ -11,6 +11,7 @@ use NextDeveloper\CRM\Database\Models\AccountContacts;
 use NextDeveloper\CRM\Services\AccountContactsService;
 use NextDeveloper\CRM\Http\Requests\AccountContacts\AccountContactsCreateRequest;
 use NextDeveloper\CRM\Http\Requests\AccountContacts\AccountContactsCreateWithContactRequest;
+use NextDeveloper\CRM\Http\Requests\AccountContacts\AccountContactsCopyAccountUserRequest;
 use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
 class AccountContactsController extends AbstractController
 {
@@ -172,6 +173,30 @@ class AccountContactsController extends AbstractController
         $validated = $request->validated();
 
         $model = AccountContactsService::createWithContact($validated['contact'], collect($validated)->except('contact')->all());
+
+        return ResponsableFactory::makeResponse($this, $model);
+    }
+
+    /**
+     * Everybody of a CRM account: the linked agenda contacts the caller may see plus the account's platform users.
+     *
+     * @param  $crmAccountsId
+     * @return mixed|null
+     */
+    public function people($crmAccountsId)
+    {
+        return $this->withArray(['data' => AccountContactsService::people($crmAccountsId)]);
+    }
+
+    /**
+     * Makes an own, private agenda contact from an account user and links it to the account.
+     *
+     * @param  AccountContactsCopyAccountUserRequest $request
+     * @return mixed|null
+     */
+    public function copyAccountUser(AccountContactsCopyAccountUserRequest $request)
+    {
+        $model = AccountContactsService::copyAccountUser($request->validated()['crm_user_id']);
 
         return ResponsableFactory::makeResponse($this, $model);
     }

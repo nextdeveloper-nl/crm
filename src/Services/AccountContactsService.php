@@ -16,6 +16,9 @@ use NextDeveloper\CRM\Database\Filters\AccountContactsQueryFilter;
 use NextDeveloper\CRM\Database\Models\AccountContactShares;
 use NextDeveloper\CRM\Database\Models\AccountContacts;
 use NextDeveloper\CRM\Database\Models\Accounts;
+use NextDeveloper\CRM\Database\Models\UsersPerspective;
+use NextDeveloper\CRM\Http\Transformers\AccountContactsTransformer;
+use NextDeveloper\IAM\Database\Models\Users;
 use NextDeveloper\CRM\Helpers\TenantHelper;
 use NextDeveloper\CRM\Services\AbstractServices\AbstractAccountContactsService;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
@@ -289,6 +292,141 @@ class AccountContactsService extends AbstractAccountContactsService
             $created = ContactsService::create($contact);
 
             return self::create(array_merge($link, ['agenda_contact_id' => $created->uuid]));
+        });
+    }
+
+    /**
+     * Everybody of a CRM account the caller can talk to: the Agenda contacts linked to it that the caller may see
+     * (source "agenda") and the people of the account itself, its platform users (source "account_user").
+     *
+     * Account users are read live from the users perspective, never copied, so they are always current and are
+     * visible to exactly the callers who can already see that perspective (its role scope). Only a small contact
+     * subset of the user is exposed here, not the whole perspective row.
+     *
+     * An agenda contact whose email matches an account user is flagged with matches_account_user_id so a client can
+     * merge the two instead of listing the person twice.
+     */
+    public static function people(string $crmAccountUuid): array
+    {
+        // 404 for an account the caller cannot see (no probing of other tenants' accounts).
+        TenantHelper::assertVisible(Accounts::class, $crmAccountUuid);
+
+        $account = Accounts::where('uuid', $crmAccountUuid)->first();
+
+        if (!$account) {
+            throw (new ModelNotFoundException())->setModel(Accounts::class, [$crmAccountUuid]);
+        }
+
+        // Role scoped: a caller only gets the users of accounts they may see.
+        $users = UsersPerspective::where('crm_account_id', $account->id)->get();
+        $iamUserUuids = Users::whereIn('id', $users->pluck('iam_user_id'))->pluck('uuid', 'id');
+
+        $accountUsers = $users->map(function ($user) use ($iamUserUuids, $account) {
+            return [
+                'source'         => 'account_user',
+                'id'             => $user->uuid,                           // crm_users uuid
+                'iam_user_id'    => $iamUserUuids[$user->iam_user_id] ?? null,
+                'crm_account_id' => $account->uuid,
+                'role'           => $user->position ?: $user->job,
+                'is_primary'     => false,
+                'is_evangelist'  => (bool) $user->is_evangelist,
+                'is_owner'       => false,
+                'contact'        => [
+                    'id'         => null,
+                    'name'       => $user->name,
+                    'surname'    => $user->surname,
+                    'email'      => $user->email,
+                    'cell_phone' => $user->phone_number,
+                    'city'       => $user->city,
+                ],
+            ];
+        })->values();
+
+        $emailToUser = $accountUsers
+            ->filter(fn ($row) => !empty($row['contact']['email']))
+            ->keyBy(fn ($row) => mb_strtolower($row['contact']['email']));
+
+        $transformer = new AccountContactsTransformer();
+
+        $contacts = self::visibleQuery()
+            ->where('crm_account_id', $account->id)
+            ->get()
+            ->map(function (AccountContacts $link) use ($transformer, $emailToUser) {
+                $row = $transformer->transform($link);
+                $row['source'] = 'agenda';
+
+                // Same person as an account user? (by either email of the contact)
+                foreach ([$row['contact']['email'] ?? null, $row['contact']['email_work'] ?? null] as $email) {
+                    if ($email && isset($emailToUser[mb_strtolower($email)])) {
+                        $row['matches_account_user_id'] = $emailToUser[mb_strtolower($email)]['id'];
+                        break;
+                    }
+                }
+
+                return $row;
+            })
+            ->values();
+
+        return $contacts->concat($accountUsers)->values()->all();
+    }
+
+    /**
+     * Gives the caller an own Agenda contact made from an account user, linked privately to that user's CRM account,
+     * so the caller can keep their own notes without touching the platform user. Only users the caller can see (users
+     * perspective scope) can be copied.
+     */
+    public static function copyAccountUser(string $crmUserUuid)
+    {
+        $user = UsersPerspective::where('uuid', $crmUserUuid)->first();
+
+        if (!$user) {
+            throw (new ModelNotFoundException())->setModel(UsersPerspective::class, [$crmUserUuid]);
+        }
+
+        $account = Accounts::where('id', $user->crm_account_id)->first();
+        $addressBook = AddressBooks::first(); // Scoped: the caller's own address book
+
+        if (!$account) {
+            throw (new ModelNotFoundException())->setModel(Accounts::class, [$user->crm_account_id]);
+        }
+
+        if (!$addressBook) {
+            throw new NotAllowedException('You need an address book to copy a contact.');
+        }
+
+        // Do not create a second contact for the same person on the same account.
+        if ($user->email) {
+            $existing = Contacts::whereIn('id', AccountContacts::withoutGlobalScope(AuthorizationScope::class)
+                ->where('crm_account_id', $account->id)
+                ->where('iam_user_id', UserHelper::me()->id)
+                ->select('agenda_contact_id'))
+                ->where(function ($query) use ($user) {
+                    $query->whereRaw('lower(email) = ?', [mb_strtolower($user->email)])
+                        ->orWhereRaw('lower(email_work) = ?', [mb_strtolower($user->email)]);
+                })
+                ->exists();
+
+            if ($existing) {
+                throw ValidationException::withMessages(['crm_user_id' => 'You already have this person as a contact of this account.']);
+            }
+        }
+
+        return DB::transaction(function () use ($user, $account, $addressBook) {
+            $contact = ContactsService::create([
+                'name'                   => $user->name,
+                'surname'                => $user->surname,
+                'email'                  => $user->email,
+                'cell_phone'             => $user->phone_number,
+                'description'            => $user->job_description,
+                'agenda_address_book_id' => $addressBook->uuid,
+            ]);
+
+            return self::create([
+                'crm_account_id'    => $account->uuid,
+                'agenda_contact_id' => $contact->uuid,
+                'role'              => $user->position ?: $user->job,
+                'visibility'        => AccountContacts::VISIBILITY_PRIVATE,
+            ]);
         });
     }
 
