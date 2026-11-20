@@ -123,6 +123,14 @@ class SalesAdminRole extends AbstractRole implements IAuthorizationRole
             'crm_notes:create',
             'crm_notes:update',
             'crm_notes:delete',
+            // Contacts of a CRM account (Agenda contacts linked to accounts) and who they are shared with
+            'crm_account_contacts:read',
+            'crm_account_contacts:create',
+            'crm_account_contacts:update',
+            'crm_account_contacts:delete',
+            'crm_account_contact_shares:read',
+            'crm_account_contact_shares:create',
+            'crm_account_contact_shares:delete',
             // Lead importer: managers/admins manage connections, runs are read-only audit
             'crm_importers:read',
             'crm_importers:create',

@@ -128,6 +128,36 @@ Route::prefix('crm')->group(
             }
         );
 
+        Route::prefix('account-contacts')->group(
+            function () {
+                Route::get('/', 'AccountContacts\AccountContactsController@index');
+                Route::get('/actions', 'AccountContacts\AccountContactsController@getActions');
+
+                // Static segments before the {crm_account_contacts} wildcard routes
+                Route::post('/with-contact', 'AccountContacts\AccountContactsController@storeWithContact');
+
+                Route::get('/{crm_account_contacts}/{subObjects}', 'AccountContacts\AccountContactsController@relatedObjects');
+                Route::get('/{crm_account_contacts}', 'AccountContacts\AccountContactsController@show');
+
+                Route::post('/', 'AccountContacts\AccountContactsController@store');
+                Route::post('/{crm_account_contacts}/copy', 'AccountContacts\AccountContactsController@copy');
+                Route::post('/{crm_account_contacts}/do/{action}', 'AccountContacts\AccountContactsController@doAction');
+
+                Route::patch('/{crm_account_contacts}', 'AccountContacts\AccountContactsController@update');
+                Route::delete('/{crm_account_contacts}', 'AccountContacts\AccountContactsController@destroy');
+            }
+        );
+
+        Route::prefix('account-contact-shares')->group(
+            function () {
+                Route::get('/', 'AccountContactShares\AccountContactSharesController@index');
+                Route::get('/{crm_account_contact_shares}', 'AccountContactShares\AccountContactSharesController@show');
+
+                Route::post('/', 'AccountContactShares\AccountContactSharesController@store');
+                Route::delete('/{crm_account_contact_shares}', 'AccountContactShares\AccountContactSharesController@destroy');
+            }
+        );
+
         Route::prefix('notes')->group(
             function () {
                 Route::get('/', 'Notes\NotesController@index');

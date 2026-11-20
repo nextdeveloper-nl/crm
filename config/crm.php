@@ -49,6 +49,9 @@ return [
             'crm_meetings'                         => 'iam_account_id',
             'crm_tasks'                            => 'iam_account_id',
             'crm_notes'                            => 'iam_account_id',
+            //  Contacts of a CRM account: the link's iam_account_id is the account of the contact's owner
+            'crm_account_contacts'                 => 'iam_account_id',
+            'crm_account_contact_shares'           => 'iam_account_id',
             'crm_projects'                         => 'iam_account_id',
             'crm_campaigns'                        => 'iam_account_id',
             'crm_campaign_targets_perspective'     => 'iam_account_id',
