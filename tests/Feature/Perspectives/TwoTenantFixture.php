@@ -108,7 +108,9 @@ trait TwoTenantFixture
     protected function crmRecord($customer, int $ownerId): array
     {
         $record = UserHelper::runAsAdmin(fn () => CrmAccountsService::create([
-            'iam_account_id' => $customer->uuid,
+            // The integer id: the service resolves a uuid through scoped lookups that cannot see a customer created
+            // as the platform user; an id is used as is (DatabaseHelper::uuidToId).
+            'iam_account_id' => $customer->id,
             'owner_iam_account_id' => $ownerId,
             'is_created_by_owner' => true,
         ]));
