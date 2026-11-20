@@ -750,7 +750,7 @@ Route::prefix('crm')->group(
         Route::prefix('stats-performances-perspective')->group(
             function () {
                 Route::get('/', 'StatsPerformancesPerspective\StatsPerformancesPerspectiveController@index');
-                Route::get('/{crm_stats_performances_perspective}', 'StatsPerformancesPerspective\StatsPerformancesPerspectiveController@show');
+                Route::get('/{stats_perspective}', 'StatsPerformancesPerspective\StatsPerformancesPerspectiveController@show');
             }
         );
 
