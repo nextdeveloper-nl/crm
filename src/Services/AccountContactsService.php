@@ -114,12 +114,13 @@ class AccountContactsService extends AbstractAccountContactsService
     }
 
     /**
-     * Sub objects of a link (tags, states). The link is resolved through the visibility rules, and only an allowlist of
+     * Sub objects of a link (states only: the Taggable trait reads common_tags.object_type, which the database does
+     * not have, so tags are not served here). The link is resolved through the visibility rules, and only an allowlist of
      * sub objects can be requested, so nothing else on the model is reachable through the route.
      */
     public static function relatedObjects($uuid, $object)
     {
-        if (!in_array($object, ['tags', 'states'], true)) {
+        if (!in_array($object, ['states'], true)) {
             throw new NotAllowedException('This sub object is not available.');
         }
 

@@ -343,17 +343,24 @@ class AccountContactsTest extends TestCase
 
         $this->actAsRole('A', 'manager');
         try {
-            AccountContactsService::relatedObjects($link->uuid, 'tags');
+            AccountContactsService::relatedObjects($link->uuid, 'states');
             $this->fail('A private link was reachable through its sub objects.');
         } catch (ModelNotFoundException $e) {
             $this->assertTrue(true);
         }
 
         $this->actAsRole('A', 'person');
-        $this->assertNotNull(AccountContactsService::relatedObjects($link->uuid, 'tags'));
+        $this->assertNotNull(AccountContactsService::relatedObjects($link->uuid, 'states'));
 
-        $this->expectException(NotAllowedException::class);
-        AccountContactsService::relatedObjects($link->uuid, 'agenda_contact_id');
+        // anything outside the allowlist is refused, tags included
+        foreach (['agenda_contact_id', 'tags'] as $notAllowed) {
+            try {
+                AccountContactsService::relatedObjects($link->uuid, $notAllowed);
+                $this->fail("Sub object $notAllowed was served.");
+            } catch (NotAllowedException $e) {
+                $this->assertTrue(true);
+            }
+        }
     }
 
     public function test_contact_links_have_no_actions(): void
