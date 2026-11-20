@@ -68,7 +68,9 @@ class AccountContactsService extends AbstractAccountContactsService
                             ->where('iam_account_id', $accountId)
                             ->whereIn(
                                 'id',
-                                AccountContactShares::withoutGlobalScopes()
+                                // Only the role scope is removed: soft deleted (revoked) shares must not grant access.
+                                AccountContactShares::withoutGlobalScope(AuthorizationScope::class)
+                                    ->whereNull('deleted_at')
                                     ->where('shared_iam_user_id', $meId)
                                     ->select('crm_account_contact_id')
                             );
@@ -106,6 +108,31 @@ class AccountContactsService extends AbstractAccountContactsService
     public static function getByRef($ref): ?AccountContacts
     {
         return self::visibleQuery()->where('uuid', $ref)->first();
+    }
+
+    /**
+     * Sub objects of a link (tags, states). The link is resolved through the visibility rules, and only an allowlist of
+     * sub objects can be requested, so nothing else on the model is reachable through the route.
+     */
+    public static function relatedObjects($uuid, $object)
+    {
+        if (!in_array($object, ['tags', 'states'], true)) {
+            throw new NotAllowedException('This sub object is not available.');
+        }
+
+        $link = self::getByRef($uuid);
+
+        if (!$link) {
+            throw (new ModelNotFoundException())->setModel(AccountContacts::class, [$uuid]);
+        }
+
+        return $link->$object;
+    }
+
+    /** A contact link has no actions; refusing here keeps the generic action route from reaching the model. */
+    public static function doAction($objectId, $action, ...$params)
+    {
+        throw new NotAllowedException('This object has no actions.');
     }
 
     /**
