@@ -140,7 +140,6 @@ Route::prefix('crm')->group(
                 Route::post('/with-contact', 'AccountContacts\AccountContactsController@storeWithContact');
                 Route::post('/from-account-user', 'AccountContacts\AccountContactsController@copyAccountUser');
 
-                Route::get('/{crm_account_contacts}/{subObjects}', 'AccountContacts\AccountContactsController@relatedObjects');
                 Route::get('/{crm_account_contacts}', 'AccountContacts\AccountContactsController@show');
 
                 Route::post('/', 'AccountContacts\AccountContactsController@store');

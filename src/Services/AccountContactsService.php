@@ -114,23 +114,14 @@ class AccountContactsService extends AbstractAccountContactsService
     }
 
     /**
-     * Sub objects of a link (states only: the Taggable trait reads common_tags.object_type, which the database does
-     * not have, so tags are not served here). The link is resolved through the visibility rules, and only an allowlist of
-     * sub objects can be requested, so nothing else on the model is reachable through the route.
+     * Contact links serve no sub objects. The generic route is removed and this refuses anyway: the generated
+     * implementation resolves the link without the visibility rules and calls whatever relation name it is given. The
+     * tag and state relations of the platform traits do not match the database (common_tags.object_type and
+     * common_states.model_type do not exist), so there is nothing to serve.
      */
     public static function relatedObjects($uuid, $object)
     {
-        if (!in_array($object, ['states'], true)) {
-            throw new NotAllowedException('This sub object is not available.');
-        }
-
-        $link = self::getByRef($uuid);
-
-        if (!$link) {
-            throw (new ModelNotFoundException())->setModel(AccountContacts::class, [$uuid]);
-        }
-
-        return $link->$object;
+        throw new NotAllowedException('This object has no sub objects.');
     }
 
     /** A contact link has no actions; refusing here keeps the generic action route from reaching the model. */

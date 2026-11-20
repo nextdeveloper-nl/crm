@@ -337,28 +337,21 @@ class AccountContactsTest extends TestCase
 
     // ---------------------------------------------------------------- sub objects
 
-    public function test_sub_objects_follow_visibility_and_an_allowlist(): void
+    public function test_contact_links_serve_no_sub_objects(): void
     {
         $link = $this->link('A', 'person', $this->makeContact('A', 'person'));
 
-        $this->actAsRole('A', 'manager');
-        try {
-            AccountContactsService::relatedObjects($link->uuid, 'states');
-            $this->fail('A private link was reachable through its sub objects.');
-        } catch (ModelNotFoundException $e) {
-            $this->assertTrue(true);
-        }
+        // nothing is served, to the owner or to anybody else, whatever relation name is asked for
+        foreach (['person', 'manager'] as $who) {
+            foreach (['states', 'tags', 'agenda_contact_id'] as $subObject) {
+                $this->actAsRole('A', $who);
 
-        $this->actAsRole('A', 'person');
-        $this->assertNotNull(AccountContactsService::relatedObjects($link->uuid, 'states'));
-
-        // anything outside the allowlist is refused, tags included
-        foreach (['agenda_contact_id', 'tags'] as $notAllowed) {
-            try {
-                AccountContactsService::relatedObjects($link->uuid, $notAllowed);
-                $this->fail("Sub object $notAllowed was served.");
-            } catch (NotAllowedException $e) {
-                $this->assertTrue(true);
+                try {
+                    AccountContactsService::relatedObjects($link->uuid, $subObject);
+                    $this->fail("Sub object $subObject was served to $who.");
+                } catch (NotAllowedException $e) {
+                    $this->assertTrue(true);
+                }
             }
         }
     }
