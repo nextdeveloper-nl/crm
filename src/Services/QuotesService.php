@@ -61,6 +61,16 @@ class QuotesService extends AbstractQuotesService
 
             if ($opportunity) {
                 $data['iam_account_id'] = $opportunity->iam_account_id;
+
+                // A quote sent without a currency gets the currency of the customer's accounting account; before,
+                // it had none and showed "-". Stays empty when the chain cannot be resolved.
+                if (empty($data['common_currency_id'])) {
+                    $currencyUuid = self::getDefaultCurrencyUuid($opportunity);
+
+                    if ($currencyUuid) {
+                        $data['common_currency_id'] = $currencyUuid;
+                    }
+                }
             }
         }
 
@@ -70,6 +80,26 @@ class QuotesService extends AbstractQuotesService
     public static function update($id, $data)
     {
         return parent::update($id, self::withoutWorkflowFields(\NextDeveloper\CRM\Helpers\TenantHelper::guardWrite($data)));
+    }
+
+    /**
+     * Uuid of the currency of the accounting account that belongs to the opportunity's customer
+     * (accounting_accounts.iam_account_id = crm_accounts.iam_account_id), or null when the customer, the accounting
+     * account or its currency cannot be found.
+     */
+    private static function getDefaultCurrencyUuid(Opportunities $opportunity): ?string
+    {
+        $crmAccount = Accounts::withoutGlobalScopes()->where('id', $opportunity->crm_account_id)->first();
+
+        $accountingAccount = $crmAccount ? AccountingHelper::getAccountFromCrmAccount($crmAccount) : null;
+
+        if (!$accountingAccount || !$accountingAccount->common_currency_id) {
+            return null;
+        }
+
+        $currency = Currencies::withoutGlobalScopes()->where('id', $accountingAccount->common_currency_id)->first();
+
+        return $currency ? $currency->uuid : null;
     }
 
     /**
