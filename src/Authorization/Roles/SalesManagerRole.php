@@ -28,8 +28,6 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
     /**
      * Applies basic member role sql for Eloquent
      *
-     * @param Builder $builder
-     * @param Model $model
      * @return void
      */
     public function apply(Builder $builder, Model $model)
@@ -37,7 +35,7 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
         // Same level (120) as marketing-manager: when this role is picked for a user that also holds
         // marketing-manager, the marketing tables keep marketing's rules (no row filter) instead of the
         // iam_user_id = me default at the bottom of this method.
-        if(
+        if (
             ($model->getTable() == 'crm_campaigns' ||
             $model->getTable() == 'crm_campaign_targets' ||
             $model->getTable() == 'crm_targets' ||
@@ -47,58 +45,64 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
             return;
         }
 
-        if($model->getTable() == 'crm_accounts_perspective' || $model->getTable() == 'crm_accounts') {
+        if ($model->getTable() == 'crm_accounts_perspective' || $model->getTable() == 'crm_accounts') {
             $builder->whereRaw('id IN       (
-                select distinct crm_account_id from crm_account_managers cam where cam.iam_account_id = ' . UserHelper::currentAccount()->id . '
+                select distinct crm_account_id from crm_account_managers cam where cam.iam_account_id = '.UserHelper::currentAccount()->id.'
             )');
 
             return;
         }
 
-        if(
+        if (
             $model->getTable() == 'crm_opportunities_perspective' ||
             $model->getTable() == 'crm_opportunities' ||
             $model->getTable() == 'crm_quotes' ||
             $model->getTable() == 'crm_quotes_perspective' ||
             $model->getTable() == 'crm_projects' ||
             // Tasks on a project board are shared by the account's team (leo4#1242).
-            $model->getTable() == 'crm_tasks'
+            $model->getTable() == 'crm_tasks' ||
+            // Email templates are shared by the account's team and never leave the account (leo4#1339).
+            $model->getTable() == 'crm_email_templates'
         ) {
             $builder->where('iam_account_id', UserHelper::currentAccount()->id);
+
             return;
         }
 
-        if($model->getTable() == 'crm_users_perspective') {
+        if ($model->getTable() == 'crm_users_perspective') {
             // The people of the CRM accounts the acting account is assigned to as manager, and of its own CRM account
             // (an account owner works on the users of their own account). Soft deleted manager rows do not count.
             $currentAccountId = (int) UserHelper::currentAccount()->id;
             $builder->whereRaw('(crm_account_id in (
                 select cam.crm_account_id from crm_account_managers cam
-                where cam.iam_account_id = ' . $currentAccountId . ' and cam.deleted_at is null
+                where cam.iam_account_id = '.$currentAccountId.' and cam.deleted_at is null
             ) or crm_account_id in (
-                select ca.id from crm_accounts ca where ca.iam_account_id = ' . $currentAccountId . ' and ca.deleted_at is null
+                select ca.id from crm_accounts ca where ca.iam_account_id = '.$currentAccountId.' and ca.deleted_at is null
             ))');
+
             return;
         }
 
         // Sales staff list: no row filter here. The view has an iam_user_id column, so the default below would show
         // a sales person/manager only their own row. SalesPeopleScope already limits the list to the current account.
-        if($model->getTable() == 'crm_sales_people_perspective') {
+        if ($model->getTable() == 'crm_sales_people_perspective') {
             return;
         }
 
-        $isUserIdExists =  DatabaseHelper::isColumnExists($model->getTable(), 'iam_user_id');
+        $isUserIdExists = DatabaseHelper::isColumnExists($model->getTable(), 'iam_user_id');
 
         /**
          * Here the user will only be able to run this query only if the table name starts with 'crm_*' and
          * the owner of the model is the user itself.
          */
-        if($isUserIdExists) $builder->where('iam_user_id', UserHelper::me()->id);
+        if ($isUserIdExists) {
+            $builder->where('iam_user_id', UserHelper::me()->id);
+        }
     }
 
     public function checkPrivileges(?Users $users = null)
     {
-        //return UserHelper::hasRole(self::NAME, $users);
+        // return UserHelper::hasRole(self::NAME, $users);
     }
 
     public function getModule()
@@ -106,7 +110,7 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
         return 'crm';
     }
 
-    public function allowedOperations() :array
+    public function allowedOperations(): array
     {
         return [
             'crm_accounts:read',
@@ -148,6 +152,7 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
             'crm_opportunities:delete',
             'crm_user_managers:read',
             'crm_user_managers:create',
+            'crm_user_managers:update',
             'crm_user_managers:delete',
             'crm_users_perspective:read',
             'crm_quotes:read',
@@ -170,6 +175,12 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
             'crm_emails:create',
             'crm_emails:update',
             'crm_emails:delete',
+            // Mailing templates of the account (leo4#1339). A manager must hold at least what a sales person holds,
+            // because only the lowest level crm role of a user is checked.
+            'crm_email_templates:read',
+            'crm_email_templates:create',
+            'crm_email_templates:update',
+            'crm_email_templates:delete',
             'crm_tasks:read',
             'crm_tasks:create',
             'crm_tasks:update',
@@ -196,11 +207,6 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
             'crm_meetings:create',
             'crm_meetings:update',
             'crm_meetings:delete',
-            // Email templates: a sales manager has full CRUD on the templates of the current account
-            'crm_email_templates:read',
-            'crm_email_templates:create',
-            'crm_email_templates:update',
-            'crm_email_templates:delete',
             // Projects (external repos / boards). The token is write-only; see Projects model.
             'crm_projects:read',
             'crm_projects:create',
@@ -223,8 +229,12 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
 
     public function checkDeletePolicy(Model $model, Users $user): bool
     {
-        // Projects and tasks belong to the account they were created in.
-        if ($model->getTable() == 'crm_projects' || $model->getTable() == 'crm_tasks') {
+        // Projects, tasks and email templates belong to the account they were created in.
+        if (
+            $model->getTable() == 'crm_projects' ||
+            $model->getTable() == 'crm_tasks' ||
+            $model->getTable() == 'crm_email_templates'
+        ) {
             return $model->iam_account_id == UserHelper::currentAccount()->id;
         }
 
@@ -236,42 +246,47 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
             return $campaign && $campaign->iam_account_id == UserHelper::currentAccount()->id;
         }
 
-        // Email templates belong to the account they were created in; a sales manager may delete them there.
-        // Before this the delete was refused for every table except the ones above.
-        if ($model->getTable() == 'crm_email_templates') {
-            return $model->iam_account_id == UserHelper::currentAccount()->id;
-        }
-
         return false;
     }
 
-    public function checkUpdatePolicy(Model $model, Users $users) : bool
+    public function checkUpdatePolicy(Model $model, Users $users): bool
     {
         // Projects and tasks belong to the account they were created in, so any sales manager there can update them.
         if ($model->getTable() == 'crm_projects' || $model->getTable() == 'crm_tasks') {
             return $model->iam_account_id == UserHelper::currentAccount()->id;
         }
 
-        if($model->getTable() == 'crm_accounts') {
+        // An email template stays in its account: it must belong to the current account before and after the change,
+        // even when the manager created it while acting in another account (leo4#1339).
+        if ($model->getTable() == 'crm_email_templates') {
+            $accountId = UserHelper::currentAccount()->id;
+
+            return $model->getAttribute('iam_account_id') == $accountId
+                && $model->getOriginal('iam_account_id', $accountId) == $accountId;
+        }
+
+        if ($model->getTable() == 'crm_accounts') {
             $amIManager = AccountManagers::withoutGlobalScopes()
                 ->where('iam_account_id', UserHelper::currentAccount()->id)
                 ->where('crm_account_id', $model->id)
                 ->first();
 
-            if (config('leo.debug.authorization_scope'))
+            if (config('leo.debug.authorization_scope')) {
                 Log::info('SalesManagerRole::checkUpdatePolicy', ['amIManager' => $amIManager]);
+            }
 
             return $amIManager !== null;
         }
 
-        if($model->getTable() == 'crm_users') {
+        if ($model->getTable() == 'crm_users') {
             $amIManager = UserManagers::withoutGlobalScopes()
                 ->where('iam_user_id', UserHelper::currentUser()->id)
                 ->where('crm_user_id', $model->id)
                 ->first();
 
-            if (config('leo.debug.authorization_scope'))
+            if (config('leo.debug.authorization_scope')) {
                 Log::info('SalesManagerRole::checkUpdatePolicy', ['amIManager' => $amIManager]);
+            }
 
             return $amIManager !== null;
         }
@@ -281,18 +296,18 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
         //  moved into or out of the account.
         $accountId = $model->getAttribute('iam_account_id');
 
-        if($accountId !== null
+        if ($accountId !== null
             && $accountId == UserHelper::currentAccount()->id
             && $model->getOriginal('iam_account_id', $accountId) == $accountId) {
             return true;
         }
 
-        if($model->iam_user_id == $users->id)
+        if ($model->iam_user_id == $users->id) {
             return true;
+        }
 
         return false;
     }
-
 
     public function getLevel(): int
     {
@@ -311,11 +326,11 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
 
     public function canBeApplied($column)
     {
-        if(self::DB_PREFIX === '*') {
+        if (self::DB_PREFIX === '*') {
             return true;
         }
 
-        if(Str::startsWith($column, self::DB_PREFIX)) {
+        if (Str::startsWith($column, self::DB_PREFIX)) {
             return true;
         }
 

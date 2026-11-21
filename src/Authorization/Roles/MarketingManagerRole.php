@@ -28,13 +28,11 @@ class MarketingManagerRole extends AbstractRole implements IAuthorizationRole
     /**
      * Applies basic member role sql for Eloquent
      *
-     * @param Builder $builder
-     * @param Model $model
      * @return void
      */
     public function apply(Builder $builder, Model $model)
     {
-        if(
+        if (
             $model->getTable() == 'crm_campaigns' ||
             $model->getTable() == 'crm_campaign_targets' ||
             $model->getTable() == 'crm_targets' ||
@@ -46,16 +44,25 @@ class MarketingManagerRole extends AbstractRole implements IAuthorizationRole
         // marketing-manager and sales-manager share level 120, so AuthorizationScope may pick this role for a user
         // that holds both. Everything outside marketing's own tables then has to follow the sales-manager rules,
         // otherwise the default iam_user_id = me filter below hides e.g. the users of the manager's customers.
-        if(UserHelper::has(SalesManagerRole::NAME)) {
+        if (UserHelper::has(SalesManagerRole::NAME)) {
             app(SalesManagerRole::class)->apply($builder, $model);
+
             return;
         }
 
-        if(
+        if (
             $model->getTable() == 'crm_opportunities' ||
             $model->getTable() == 'crm_opportunities_perspective'
         ) {
             $builder->where('iam_account_id', UserHelper::currentAccount()->id);
+
+            return;
+        }
+
+        // Email templates are shared by the account's team and never leave the account (leo4#1339).
+        if ($model->getTable() == 'crm_email_templates') {
+            $builder->where('iam_account_id', UserHelper::currentAccount()->id);
+
             return;
         }
 
@@ -63,13 +70,15 @@ class MarketingManagerRole extends AbstractRole implements IAuthorizationRole
          * Here the user will only be able to run this query only if the table name starts with 'crm_*' and
          * the owner of the model is the user itself.
          */
-        $isUserIdExists =  DatabaseHelper::isColumnExists($model->getTable(), 'iam_user_id');
-        if($isUserIdExists) $builder->where('iam_user_id', UserHelper::me()->id);
+        $isUserIdExists = DatabaseHelper::isColumnExists($model->getTable(), 'iam_user_id');
+        if ($isUserIdExists) {
+            $builder->where('iam_user_id', UserHelper::me()->id);
+        }
     }
 
     public function checkPrivileges(?Users $users = null)
     {
-        //return UserHelper::hasRole(self::NAME, $users);
+        // return UserHelper::hasRole(self::NAME, $users);
     }
 
     public function getModule()
@@ -77,9 +86,9 @@ class MarketingManagerRole extends AbstractRole implements IAuthorizationRole
         return 'crm';
     }
 
-    public function allowedOperations() :array
+    public function allowedOperations(): array
     {
-        return array_merge((new SalesManagerRole())->allowedOperations(), [
+        return array_merge((new SalesManagerRole)->allowedOperations(), [
             'crm_campaigns:read',
             'crm_campaigns:create',
             'crm_campaigns:update',
@@ -109,6 +118,10 @@ class MarketingManagerRole extends AbstractRole implements IAuthorizationRole
 
     public function checkDeletePolicy(Model $model, Users $user): bool
     {
+        if ($model->getTable() == 'crm_email_templates') {
+            return $this->isTemplateOfCurrentAccount($model);
+        }
+
         if ($model->getTable() == 'crm_campaign_targets') {
             $campaign = Campaigns::withoutGlobalScopes()
                 ->where('id', $model->crm_campaign_id)
@@ -120,43 +133,62 @@ class MarketingManagerRole extends AbstractRole implements IAuthorizationRole
         return false;
     }
 
-    public function checkUpdatePolicy(Model $model, Users $users) : bool
+    public function checkUpdatePolicy(Model $model, Users $users): bool
     {
-        if($model->getTable() == 'crm_accounts') {
+        if ($model->getTable() == 'crm_email_templates') {
+            return $this->isTemplateOfCurrentAccount($model);
+        }
+
+        if ($model->getTable() == 'crm_accounts') {
             $amIManager = AccountManagers::withoutGlobalScopes()
                 ->where('iam_account_id', UserHelper::currentAccount()->id)
                 ->where('crm_account_id', $model->id)
                 ->first();
 
-            if (config('leo.debug.authorization_scope'))
+            if (config('leo.debug.authorization_scope')) {
                 Log::info('SalesManagerRole::checkUpdatePolicy', ['amIManager' => $amIManager]);
+            }
 
             return $amIManager !== null;
         }
 
-        if($model->getTable() == 'crm_users') {
+        if ($model->getTable() == 'crm_users') {
             $amIManager = UserManagers::withoutGlobalScopes()
                 ->where('iam_user_id', UserHelper::currentUser()->id)
                 ->where('crm_user_id', $model->id)
                 ->first();
 
-            if (config('leo.debug.authorization_scope'))
+            if (config('leo.debug.authorization_scope')) {
                 Log::info('SalesManagerRole::checkUpdatePolicy', ['amIManager' => $amIManager]);
+            }
 
             return $amIManager !== null;
         }
 
-        if(property_exists('iam_account_id', $model)) {
-            if($model->iam_account_id == UserHelper::currentAccount()->id)
+        if (property_exists('iam_account_id', $model)) {
+            if ($model->iam_account_id == UserHelper::currentAccount()->id) {
                 return true;
+            }
         }
 
-        if($model->iam_user_id == $users->id)
+        if ($model->iam_user_id == $users->id) {
             return true;
+        }
 
         return false;
     }
 
+    /**
+     * An email template may be changed or removed only while it belongs to the current account, both before and
+     * after the change, so it can not be moved into or out of the account.
+     */
+    private function isTemplateOfCurrentAccount(Model $model): bool
+    {
+        $accountId = UserHelper::currentAccount()->id;
+
+        return $model->getAttribute('iam_account_id') == $accountId
+            && $model->getOriginal('iam_account_id', $accountId) == $accountId;
+    }
 
     public function getLevel(): int
     {
@@ -175,11 +207,11 @@ class MarketingManagerRole extends AbstractRole implements IAuthorizationRole
 
     public function canBeApplied($column)
     {
-        if(self::DB_PREFIX === '*') {
+        if (self::DB_PREFIX === '*') {
             return true;
         }
 
-        if(Str::startsWith($column, self::DB_PREFIX)) {
+        if (Str::startsWith($column, self::DB_PREFIX)) {
             return true;
         }
 
