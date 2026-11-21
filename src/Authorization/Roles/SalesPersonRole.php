@@ -73,6 +73,12 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
             return;
         }
 
+        // Sales staff list: no row filter here. The view has an iam_user_id column, so the default below would show
+        // a sales person/manager only their own row. SalesPeopleScope already limits the list to the current account.
+        if($model->getTable() == 'crm_sales_people_perspective') {
+            return;
+        }
+
         $isUserIdExists =  DatabaseHelper::isColumnExists($model->getTable(), 'iam_user_id');
 
         /**
