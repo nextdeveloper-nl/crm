@@ -84,6 +84,11 @@ return [
             'crm_technologies',
             'crm_sector_focus',
             'crm_regulatory_compliance',
+            //  Sales staff list. Not tenant filtered here on purpose: the view's iam_account_id is ONE arbitrary account
+            //  of a multi-account user (DISTINCT ON user), so comparing it with the tenant hid every member whose
+            //  arbitrary account was another one (most managers/owners). SalesPeopleScope is the boundary: it limits the
+            //  list to members of the current account.
+            'crm_sales_people_perspective',
         ],
         //  Platform-wide aggregates / views: only the platform account may read them, everybody else gets no rows.
         'platform_only_tables' => [
@@ -103,7 +108,6 @@ return [
         //  (crm_accounts.owner_iam_account_id = tenant).
         'owned_customer_account_tables' => [
             'crm_users_perspective'                  => 'iam_account_id',
-            'crm_sales_people_perspective'           => 'iam_account_id',
         ],
         //  crm_users has no account column: a contact is visible to a tenant when the person belongs to the tenant or
         //  one of its owned customers, is managed by the tenant (crm_user_managers) or is in one of its targets.
