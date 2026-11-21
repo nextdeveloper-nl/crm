@@ -190,6 +190,11 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
             'crm_meetings:create',
             'crm_meetings:update',
             'crm_meetings:delete',
+            // Email templates: a sales manager has full CRUD on the templates of the current account
+            'crm_email_templates:read',
+            'crm_email_templates:create',
+            'crm_email_templates:update',
+            'crm_email_templates:delete',
             // Projects (external repos / boards). The token is write-only; see Projects model.
             'crm_projects:read',
             'crm_projects:create',
@@ -223,6 +228,12 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
                 ->first();
 
             return $campaign && $campaign->iam_account_id == UserHelper::currentAccount()->id;
+        }
+
+        // Email templates belong to the account they were created in; a sales manager may delete them there.
+        // Before this the delete was refused for every table except the ones above.
+        if ($model->getTable() == 'crm_email_templates') {
+            return $model->iam_account_id == UserHelper::currentAccount()->id;
         }
 
         return false;
