@@ -279,6 +279,8 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
             'crm_opportunities:read',
             'crm_opportunities:create',
             'crm_opportunities:update',
+            // Delete is limited to own opportunities by checkDeletePolicy()
+            'crm_opportunities:delete',
             'crm_user_managers:read',
             'crm_user_managers:create',
             'crm_user_managers:update',

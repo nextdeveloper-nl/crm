@@ -238,6 +238,13 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
             return $model->iam_account_id == UserHelper::currentAccount()->id;
         }
 
+        // Opportunities belong to the account (team) they were created in, so a sales manager can delete
+        // the ones created by any team mate in the current account. Before this every opportunity delete
+        // by a manager was refused by the final "return false".
+        if ($model->getTable() == 'crm_opportunities' || $model->getTable() == 'crm_opportunities_perspective') {
+            return $model->iam_account_id == UserHelper::currentAccount()->id;
+        }
+
         if ($model->getTable() == 'crm_campaign_targets') {
             $campaign = Campaigns::withoutGlobalScopes()
                 ->where('id', $model->crm_campaign_id)
