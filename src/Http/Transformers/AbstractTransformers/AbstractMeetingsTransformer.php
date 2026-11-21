@@ -54,7 +54,9 @@ class AbstractMeetingsTransformer extends AbstractTransformer
      */
     public function transform(Meetings $model)
     {
-                                                $agendaCalendarItemId = \NextDeveloper\Agenda\Database\Models\CalendarItems::where('id', $model->agenda_calendar_item_id)->first();
+        $agendaCalendarItemId = $model->agenda_calendar_item_id
+            ? \NextDeveloper\Agenda\Database\Models\CalendarEvents::where('id', $model->agenda_calendar_item_id)->first()
+            : null;
                                                             $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
                                                             $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
                                                             $crmAccountId = \NextDeveloper\CRM\Database\Models\Accounts::where('id', $model->crm_account_id)->first();
