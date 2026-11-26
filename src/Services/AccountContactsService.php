@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use NextDeveloper\Agenda\Database\Models\AddressBooks;
 use NextDeveloper\Agenda\Database\Models\Contacts;
-use NextDeveloper\Agenda\Services\ContactsService;
 use NextDeveloper\Commons\Exceptions\NotAllowedException;
 use NextDeveloper\CRM\Database\Filters\AccountContactsQueryFilter;
 use NextDeveloper\CRM\Database\Models\AccountContactShares;
@@ -43,6 +42,15 @@ class AccountContactsService extends AbstractAccountContactsService
 {
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+    /** Name of the address book that is created for a user who adds a first contact without having one. */
+    public const DEFAULT_ADDRESS_BOOK_NAME = 'CRM contacts';
+
+    /** Agenda contact fields a CRM user may set when a contact is created from a CRM account. */
+    private const CONTACT_FIELDS = [
+        'name', 'surname', 'email', 'home_phone', 'cell_phone', 'fax_number',
+        'email_work', 'website', 'notes', 'description',
+    ];
 
     /**
      * Query of the links the caller may see: own links, team links of the caller's account on CRM accounts the caller
@@ -136,24 +144,30 @@ class AccountContactsService extends AbstractAccountContactsService
      */
     public static function create(array $data)
     {
-        unset($data['iam_user_id'], $data['iam_account_id']);
-
         TenantHelper::assertVisible(Accounts::class, $data['crm_account_id'] ?? null);
 
-        // Only the owner may link a contact (Agenda scope would hide foreign contacts anyway; the explicit
-        // iam_user_id check keeps this true when the scope is bypassed).
-        $contact = Contacts::where('uuid', $data['agenda_contact_id'] ?? null)
-            ->where('iam_user_id', UserHelper::me()->id)
-            ->first();
+        // Only the owner may link a contact. The Agenda role scope is not used (a sales user needs no Agenda role to
+        // manage the contacts of a customer), the explicit owner + account filter of ownContactsQuery() replaces it.
+        $contact = self::ownContactsQuery()->where('uuid', $data['agenda_contact_id'] ?? null)->first();
 
         if (!$contact) {
             throw (new ModelNotFoundException())->setModel(Contacts::class, [$data['agenda_contact_id'] ?? null]);
         }
 
-        $account = Accounts::where('uuid', $data['crm_account_id'])->first();
+        return self::linkContact($contact, $data);
+    }
+
+    /**
+     * Links an Agenda contact that is already known to be the caller's own to a CRM account the caller can see.
+     */
+    private static function linkContact(Contacts $contact, array $data)
+    {
+        unset($data['iam_user_id'], $data['iam_account_id']);
+
+        $account = Accounts::where('uuid', $data['crm_account_id'] ?? null)->first();
 
         if (!$account) {
-            throw (new ModelNotFoundException())->setModel(Accounts::class, [$data['crm_account_id']]);
+            throw (new ModelNotFoundException())->setModel(Accounts::class, [$data['crm_account_id'] ?? null]);
         }
 
         $alreadyLinked = AccountContacts::withoutGlobalScope(AuthorizationScope::class)
@@ -165,6 +179,9 @@ class AccountContactsService extends AbstractAccountContactsService
             throw ValidationException::withMessages(['agenda_contact_id' => 'This contact is already linked to this account.']);
         }
 
+        // The id, not the uuid: the generated service resolves a uuid through the Agenda role scope, which finds
+        // nothing for a caller without an Agenda role.
+        $data['agenda_contact_id'] = (int) $contact->id;
         $data['visibility'] = $data['visibility'] ?? AccountContacts::VISIBILITY_PRIVATE;
         $data['is_primary'] = (bool) ($data['is_primary'] ?? false);
 
@@ -232,10 +249,9 @@ class AccountContactsService extends AbstractAccountContactsService
         }
 
         $contact = Contacts::withoutGlobalScope(AuthorizationScope::class)->where('id', $link->agenda_contact_id)->first();
-        $addressBook = AddressBooks::first(); // Scoped: the caller's own address book
 
-        if (!$contact || !$addressBook) {
-            throw new NotAllowedException('You need an address book to copy a contact.');
+        if (!$contact) {
+            throw (new ModelNotFoundException())->setModel(Contacts::class, [$link->agenda_contact_id]);
         }
 
         $account = Accounts::where('id', $link->crm_account_id)->first();
@@ -244,17 +260,11 @@ class AccountContactsService extends AbstractAccountContactsService
             throw (new ModelNotFoundException())->setModel(Accounts::class, [$link->crm_account_id]);
         }
 
-        return DB::transaction(function () use ($contact, $addressBook, $link, $account) {
-            $copy = ContactsService::create(
-                collect($contact->only([
-                    'name', 'surname', 'email', 'home_phone', 'cell_phone', 'fax_number',
-                    'email_work', 'website', 'notes', 'description',
-                ]))->merge(['agenda_address_book_id' => $addressBook->uuid])->all()
-            );
+        return DB::transaction(function () use ($contact, $link, $account) {
+            $copy = self::createOwnContact($contact->only(self::CONTACT_FIELDS), self::ownAddressBook());
 
-            return self::create([
+            return self::linkContact($copy, [
                 'crm_account_id'    => $account->uuid,
-                'agenda_contact_id' => $copy->uuid,
                 'role'              => $link->role,
                 'visibility'        => AccountContacts::VISIBILITY_PRIVATE,
             ]);
@@ -263,27 +273,17 @@ class AccountContactsService extends AbstractAccountContactsService
 
     /**
      * Creates the Agenda contact and links it to the CRM account in one step ("add a new contact from the account
-     * page"). $contact takes the Agenda contact fields (agenda_address_book_id optional: first address book),
+     * page"). $contact takes the Agenda contact fields (agenda_address_book_id optional: see ownAddressBook()),
      * $link the link fields (crm_account_id required).
      */
     public static function createWithContact(array $contact, array $link)
     {
         TenantHelper::assertVisible(Accounts::class, $link['crm_account_id'] ?? null);
 
-        if (empty($contact['agenda_address_book_id'])) {
-            $addressBook = AddressBooks::first();
-
-            if (!$addressBook) {
-                throw new NotAllowedException('You need an address book to add a contact.');
-            }
-
-            $contact['agenda_address_book_id'] = $addressBook->uuid;
-        }
-
         return DB::transaction(function () use ($contact, $link) {
-            $created = ContactsService::create($contact);
+            $created = self::createOwnContact($contact, self::ownAddressBook($contact['agenda_address_book_id'] ?? null));
 
-            return self::create(array_merge($link, ['agenda_contact_id' => $created->uuid]));
+            return self::linkContact($created, $link);
         });
     }
 
@@ -376,19 +376,14 @@ class AccountContactsService extends AbstractAccountContactsService
         }
 
         $account = Accounts::where('id', $user->crm_account_id)->first();
-        $addressBook = AddressBooks::first(); // Scoped: the caller's own address book
 
         if (!$account) {
             throw (new ModelNotFoundException())->setModel(Accounts::class, [$user->crm_account_id]);
         }
 
-        if (!$addressBook) {
-            throw new NotAllowedException('You need an address book to copy a contact.');
-        }
-
         // Do not create a second contact for the same person on the same account.
         if ($user->email) {
-            $existing = Contacts::whereIn('id', AccountContacts::withoutGlobalScope(AuthorizationScope::class)
+            $existing = self::ownContactsQuery()->whereIn('id', AccountContacts::withoutGlobalScope(AuthorizationScope::class)
                 ->where('crm_account_id', $account->id)
                 ->where('iam_user_id', UserHelper::me()->id)
                 ->select('agenda_contact_id'))
@@ -403,23 +398,116 @@ class AccountContactsService extends AbstractAccountContactsService
             }
         }
 
-        return DB::transaction(function () use ($user, $account, $addressBook) {
-            $contact = ContactsService::create([
-                'name'                   => $user->name,
-                'surname'                => $user->surname,
-                'email'                  => $user->email,
-                'cell_phone'             => $user->phone_number,
-                'description'            => $user->job_description,
-                'agenda_address_book_id' => $addressBook->uuid,
-            ]);
+        return DB::transaction(function () use ($user, $account) {
+            $contact = self::createOwnContact([
+                'name'        => $user->name,
+                'surname'     => $user->surname,
+                'email'       => $user->email,
+                'cell_phone'  => $user->phone_number,
+                'description' => $user->job_description,
+            ], self::ownAddressBook());
 
-            return self::create([
+            return self::linkContact($contact, [
                 'crm_account_id'    => $account->uuid,
-                'agenda_contact_id' => $contact->uuid,
                 'role'              => $user->position ?: $user->job,
                 'visibility'        => AccountContacts::VISIBILITY_PRIVATE,
             ]);
         });
+    }
+
+    /**
+     * The caller's own Agenda contacts for the "link an existing contact" picker, newest first. $search matches name,
+     * surname and both emails. Served here so a sales user does not need an Agenda role to pick a contact.
+     *
+     * @return array<int, array{id: string, name: ?string, surname: ?string, email: ?string, email_work: ?string, cell_phone: ?string}>
+     */
+    public static function ownAgendaContacts(?string $search = null, int $limit = 10): array
+    {
+        $query = self::ownContactsQuery();
+        $search = trim((string) $search);
+
+        if ($search !== '') {
+            $like = '%' . addcslashes(mb_strtolower($search), '\\%_') . '%';
+
+            $query->where(function (Builder $match) use ($like) {
+                $match->whereRaw('lower(name) like ?', [$like])
+                    ->orWhereRaw('lower(surname) like ?', [$like])
+                    ->orWhereRaw("lower(concat_ws(' ', name, surname)) like ?", [$like])
+                    ->orWhereRaw('lower(email) like ?', [$like])
+                    ->orWhereRaw('lower(email_work) like ?', [$like]);
+            });
+        }
+
+        return $query->orderByDesc('id')
+            ->limit(max(1, min($limit, 50)))
+            ->get()
+            ->map(fn (Contacts $contact) => [
+                'id'         => $contact->uuid,
+                'name'       => $contact->name,
+                'surname'    => $contact->surname,
+                'email'      => $contact->email,
+                'email_work' => $contact->email_work,
+                'cell_phone' => $contact->cell_phone,
+            ])
+            ->all();
+    }
+
+    /**
+     * Agenda contacts owned by the caller in the current account. The Agenda role scope is replaced by this explicit
+     * owner + account filter: the role scope returns nothing for a user without an Agenda role, and CRM roles are
+     * what authorize the contacts of a CRM account.
+     */
+    private static function ownContactsQuery(): Builder
+    {
+        return Contacts::withoutGlobalScope(AuthorizationScope::class)
+            ->where('iam_user_id', UserHelper::me()->id)
+            ->where('iam_account_id', UserHelper::currentAccount()->id);
+    }
+
+    /**
+     * The address book new contacts of the caller go to: the given one (must be the caller's own), else the caller's
+     * first address book, else a default one that is created on first use. Reading and creating it does not depend on
+     * an Agenda role; the row always belongs to the acting user and the current account.
+     */
+    private static function ownAddressBook(?string $uuid = null): AddressBooks
+    {
+        $query = AddressBooks::withoutGlobalScope(AuthorizationScope::class)
+            ->where('iam_user_id', UserHelper::me()->id)
+            ->where('iam_account_id', UserHelper::currentAccount()->id);
+
+        if ($uuid) {
+            $addressBook = $query->where('uuid', $uuid)->first();
+
+            if (!$addressBook) {
+                throw (new ModelNotFoundException())->setModel(AddressBooks::class, [$uuid]);
+            }
+
+            return $addressBook;
+        }
+
+        return $query->orderBy('id')->first()
+            ?? UserHelper::withRolesCheckBypassed(fn () => AddressBooks::create([
+                'name'           => self::DEFAULT_ADDRESS_BOOK_NAME,
+                'iam_user_id'    => UserHelper::me()->id,
+                'iam_account_id' => UserHelper::currentAccount()->id,
+            ]));
+    }
+
+    /**
+     * Creates an Agenda contact owned by the caller in the given (own) address book. The caller is already authorized
+     * by the CRM role (crm_account_contacts:create), so the Agenda write policy is bypassed for this single insert;
+     * owner and account are always the acting user and the current account, never taken from the payload.
+     */
+    private static function createOwnContact(array $fields, AddressBooks $addressBook): Contacts
+    {
+        return UserHelper::withRolesCheckBypassed(fn () => Contacts::create(array_merge(
+            collect($fields)->only(self::CONTACT_FIELDS)->all(),
+            [
+                'agenda_address_book_id' => $addressBook->id,
+                'iam_user_id'            => UserHelper::me()->id,
+                'iam_account_id'         => UserHelper::currentAccount()->id,
+            ]
+        )));
     }
 
     /** The caller's own link by uuid, or NotAllowedException (same message for unknown and foreign links). */

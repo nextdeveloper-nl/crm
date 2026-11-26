@@ -137,6 +137,7 @@ Route::prefix('crm')->group(
                 Route::get('/actions', 'AccountContacts\AccountContactsController@getActions');
 
                 // Static segments before the {crm_account_contacts} wildcard routes
+                Route::get('/agenda-contacts', 'AccountContacts\AccountContactsController@agendaContacts');
                 Route::post('/with-contact', 'AccountContacts\AccountContactsController@storeWithContact');
                 Route::post('/from-account-user', 'AccountContacts\AccountContactsController@copyAccountUser');
 

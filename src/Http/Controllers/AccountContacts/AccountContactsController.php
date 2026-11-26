@@ -12,6 +12,7 @@ use NextDeveloper\CRM\Services\AccountContactsService;
 use NextDeveloper\CRM\Http\Requests\AccountContacts\AccountContactsCreateRequest;
 use NextDeveloper\CRM\Http\Requests\AccountContacts\AccountContactsCreateWithContactRequest;
 use NextDeveloper\CRM\Http\Requests\AccountContacts\AccountContactsCopyAccountUserRequest;
+use NextDeveloper\CRM\Http\Requests\AccountContacts\AccountContactsAgendaSearchRequest;
 use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
 class AccountContactsController extends AbstractController
 {
@@ -175,6 +176,21 @@ class AccountContactsController extends AbstractController
         $model = AccountContactsService::createWithContact($validated['contact'], collect($validated)->except('contact')->all());
 
         return ResponsableFactory::makeResponse($this, $model);
+    }
+
+    /**
+     * The caller's own Agenda contacts, for linking an existing contact to a CRM account. Needs no Agenda role.
+     *
+     * @param  AccountContactsAgendaSearchRequest $request
+     * @return mixed|null
+     */
+    public function agendaContacts(AccountContactsAgendaSearchRequest $request)
+    {
+        $validated = $request->validated();
+
+        return $this->withArray([
+            'data' => AccountContactsService::ownAgendaContacts($validated['name'] ?? null, (int) ($validated['rowCount'] ?? 10)),
+        ]);
     }
 
     /**
