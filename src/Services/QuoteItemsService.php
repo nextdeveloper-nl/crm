@@ -44,7 +44,19 @@ class QuoteItemsService extends AbstractQuoteItemsService
 
             if ($productCatalog && $productCatalog->common_currency_id) {
                 $data['common_currency_id'] = $productCatalog->common_currency_id;
+            } elseif ($productCatalog) {
+                //  Many plans carry no currency of their own; they are priced in their market's currency.
+                $marketCurrencyId = self::marketCurrencyIdOf($productCatalog->marketplace_product_id);
+
+                if ($marketCurrencyId) {
+                    $data['common_currency_id'] = $marketCurrencyId;
+                }
             }
+        }
+
+        //  Last resort, as the comment above says: inherit the currency of the parent quote.
+        if (!array_key_exists('common_currency_id', $data) && isset($quote) && $quote && $quote->common_currency_id) {
+            $data['common_currency_id'] = $quote->common_currency_id;
         }
 
         if (!array_key_exists('common_currency_id', $data)) {
@@ -93,5 +105,23 @@ class QuoteItemsService extends AbstractQuoteItemsService
         (new RecalculateQuote($quote, syncEmptyTotal: true))->handle();
 
         return $line;
+    }
+
+    /**
+     * The currency of the market a product is sold in, read without authorization scopes: the plan was already
+     * resolved above and the market currency is not sensitive.
+     */
+    private static function marketCurrencyIdOf(?int $productId): ?int
+    {
+        if (! $productId) {
+            return null;
+        }
+
+        $currencyId = \Illuminate\Support\Facades\DB::table('marketplace_products as p')
+            ->join('marketplace_markets as m', 'm.id', '=', 'p.marketplace_market_id')
+            ->where('p.id', $productId)
+            ->value('m.common_currency_id');
+
+        return $currencyId ? (int) $currencyId : null;
     }
 }
