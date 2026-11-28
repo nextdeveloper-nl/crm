@@ -118,8 +118,9 @@ class MarketingManagerRole extends AbstractRole implements IAuthorizationRole
 
     public function checkDeletePolicy(Model $model, Users $user): bool
     {
-        if ($model->getTable() == 'crm_email_templates') {
-            return $this->isTemplateOfCurrentAccount($model);
+        // Email templates and campaigns belong to the account they were created in (leo4#1339, leo4#1390).
+        if ($model->getTable() == 'crm_email_templates' || $model->getTable() == 'crm_campaigns') {
+            return $this->isRecordOfCurrentAccount($model);
         }
 
         if ($model->getTable() == 'crm_campaign_targets') {
@@ -135,8 +136,10 @@ class MarketingManagerRole extends AbstractRole implements IAuthorizationRole
 
     public function checkUpdatePolicy(Model $model, Users $users): bool
     {
-        if ($model->getTable() == 'crm_email_templates') {
-            return $this->isTemplateOfCurrentAccount($model);
+        // A campaign of the account may be edited by any of its marketing managers, but never moved into or out of
+        // the account (leo4#1390).
+        if ($model->getTable() == 'crm_email_templates' || $model->getTable() == 'crm_campaigns') {
+            return $this->isRecordOfCurrentAccount($model);
         }
 
         if ($model->getTable() == 'crm_accounts') {
@@ -179,10 +182,10 @@ class MarketingManagerRole extends AbstractRole implements IAuthorizationRole
     }
 
     /**
-     * An email template may be changed or removed only while it belongs to the current account, both before and
-     * after the change, so it can not be moved into or out of the account.
+     * A record may be changed or removed only while it belongs to the current account, both before and after the
+     * change, so it can not be moved into or out of the account.
      */
-    private function isTemplateOfCurrentAccount(Model $model): bool
+    private function isRecordOfCurrentAccount(Model $model): bool
     {
         $accountId = UserHelper::currentAccount()->id;
 

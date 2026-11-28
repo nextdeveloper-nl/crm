@@ -245,6 +245,12 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
             return $model->iam_account_id == UserHelper::currentAccount()->id;
         }
 
+        // Campaigns belong to the account (team) they were created in (leo4#1390). Before this every campaign delete
+        // by a manager was refused by the final "return false", although crm_campaigns:delete is allowed.
+        if ($model->getTable() == 'crm_campaigns') {
+            return $this->isRecordOfCurrentAccount($model);
+        }
+
         if ($model->getTable() == 'crm_campaign_targets') {
             $campaign = Campaigns::withoutGlobalScopes()
                 ->where('id', $model->crm_campaign_id)
@@ -258,6 +264,12 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
 
     public function checkUpdatePolicy(Model $model, Users $users): bool
     {
+        // A campaign stays in its account, also when the manager created it while acting in another account, so the
+        // iam_user_id fallback at the bottom does not apply to it (leo4#1390).
+        if ($model->getTable() == 'crm_campaigns') {
+            return $this->isRecordOfCurrentAccount($model);
+        }
+
         // Projects and tasks belong to the account they were created in, so any sales manager there can update them.
         if ($model->getTable() == 'crm_projects' || $model->getTable() == 'crm_tasks') {
             return $model->iam_account_id == UserHelper::currentAccount()->id;
@@ -314,6 +326,18 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
         }
 
         return false;
+    }
+
+    /**
+     * A record may be changed or removed only while it belongs to the current account, both before and after the
+     * change, so it can not be moved into or out of the account.
+     */
+    private function isRecordOfCurrentAccount(Model $model): bool
+    {
+        $accountId = UserHelper::currentAccount()->id;
+
+        return $model->getAttribute('iam_account_id') == $accountId
+            && $model->getOriginal('iam_account_id', $accountId) == $accountId;
     }
 
     public function getLevel(): int
