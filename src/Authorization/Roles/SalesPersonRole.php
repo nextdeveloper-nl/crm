@@ -10,6 +10,7 @@ use NextDeveloper\CRM\Database\Models\AccountManagers;
 use NextDeveloper\CRM\Database\Models\Campaigns;
 use NextDeveloper\CRM\Database\Models\Targets;
 use NextDeveloper\CRM\Database\Models\UserManagers;
+use NextDeveloper\CRM\Helpers\CampaignPerspectiveHelper;
 use NextDeveloper\IAM\Authorization\Roles\AbstractRole;
 use NextDeveloper\IAM\Authorization\Roles\IAuthorizationRole;
 use NextDeveloper\IAM\Database\Models\Users;
@@ -76,6 +77,13 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
         // Sales staff list: no row filter here. The view has an iam_user_id column, so the default below would show
         // a sales person/manager only their own row. SalesPeopleScope already limits the list to the current account.
         if($model->getTable() == 'crm_sales_people_perspective') {
+            return;
+        }
+
+        // Customer Lists / Customers tabs of a campaign: only the rows of own campaigns in the current account, the
+        // same campaigns crm_campaigns shows this role (leo4#1391).
+        if(CampaignPerspectiveHelper::isCampaignPerspective($model)) {
+            CampaignPerspectiveHelper::apply($builder, $model, true);
             return;
         }
 
@@ -346,6 +354,9 @@ class SalesPersonRole extends AbstractRole implements IAuthorizationRole
             'crm_campaign_targets:create',
             'crm_campaign_targets:update',
             'crm_campaign_targets:delete',
+            // Customer Lists / Customers tabs of a campaign, scoped in apply() (leo4#1391)
+            'crm_campaign_targets_perspective:read',
+            'crm_campaign_target_users_perspective:read',
             'crm_email_templates:read',
             'crm_email_templates:create',
             'crm_email_templates:update',

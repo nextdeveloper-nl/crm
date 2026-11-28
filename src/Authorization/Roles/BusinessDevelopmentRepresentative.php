@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\CRM\Database\Models\AccountManagers;
 use NextDeveloper\CRM\Database\Models\Campaigns;
+use NextDeveloper\CRM\Helpers\CampaignPerspectiveHelper;
 use NextDeveloper\IAM\Authorization\Roles\AbstractRole;
 use NextDeveloper\IAM\Authorization\Roles\IAuthorizationRole;
 use NextDeveloper\IAM\Database\Models\Users;
@@ -57,6 +58,13 @@ class BusinessDevelopmentRepresentative extends AbstractRole implements IAuthori
             $model->getTable() == 'crm_opportunities_perspective'
         ) {
             $builder->where('iam_account_id', UserHelper::currentAccount()->id);
+            return;
+        }
+
+        // Customer Lists / Customers tabs of a campaign: only the rows of own campaigns in the current account, the
+        // same campaigns crm_campaigns shows this role (leo4#1391).
+        if(CampaignPerspectiveHelper::isCampaignPerspective($model)) {
+            CampaignPerspectiveHelper::apply($builder, $model, true);
             return;
         }
 

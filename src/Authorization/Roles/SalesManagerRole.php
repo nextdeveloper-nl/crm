@@ -10,6 +10,7 @@ use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\CRM\Database\Models\AccountManagers;
 use NextDeveloper\CRM\Database\Models\Campaigns;
 use NextDeveloper\CRM\Database\Models\UserManagers;
+use NextDeveloper\CRM\Helpers\CampaignPerspectiveHelper;
 use NextDeveloper\IAM\Authorization\Roles\AbstractRole;
 use NextDeveloper\IAM\Authorization\Roles\IAuthorizationRole;
 use NextDeveloper\IAM\Database\Models\Users;
@@ -32,6 +33,14 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
      */
     public function apply(Builder $builder, Model $model)
     {
+        // Customer Lists / Customers tabs of a campaign (leo4#1391): the rows of the campaigns this role sees in
+        // crm_campaigns, i.e. own campaigns of the current account, or all of them when marketing rules apply.
+        if (CampaignPerspectiveHelper::isCampaignPerspective($model)) {
+            CampaignPerspectiveHelper::apply($builder, $model, ! UserHelper::has(MarketingManagerRole::NAME));
+
+            return;
+        }
+
         // Same level (120) as marketing-manager: when this role is picked for a user that also holds
         // marketing-manager, the marketing tables keep marketing's rules (no row filter) instead of the
         // iam_user_id = me default at the bottom of this method.
@@ -146,6 +155,9 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
             'crm_target_users:create',
             'crm_target_users:update',
             'crm_target_users:delete',
+            // Customer Lists / Customers tabs of a campaign, scoped in apply() (leo4#1391)
+            'crm_campaign_targets_perspective:read',
+            'crm_campaign_target_users_perspective:read',
             'crm_opportunities:read',
             'crm_opportunities:create',
             'crm_opportunities:update',
