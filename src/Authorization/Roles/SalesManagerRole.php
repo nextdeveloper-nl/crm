@@ -11,6 +11,7 @@ use NextDeveloper\CRM\Database\Models\AccountManagers;
 use NextDeveloper\CRM\Database\Models\Campaigns;
 use NextDeveloper\CRM\Database\Models\UserManagers;
 use NextDeveloper\CRM\Helpers\CampaignPerspectiveHelper;
+use NextDeveloper\CRM\Helpers\CustomerUsersAccessHelper;
 use NextDeveloper\IAM\Authorization\Roles\AbstractRole;
 use NextDeveloper\IAM\Authorization\Roles\IAuthorizationRole;
 use NextDeveloper\IAM\Database\Models\Users;
@@ -79,6 +80,11 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
         }
 
         if ($model->getTable() == 'crm_users_perspective') {
+            // A customer's users are sign-in identities: only platform staff and partners see them (leo4#1388).
+            if (CustomerUsersAccessHelper::hideUsersFromNonPartners($builder)) {
+                return;
+            }
+
             // The people of the CRM accounts the acting account is assigned to as manager, and of its own CRM account
             // (an account owner works on the users of their own account). Soft deleted manager rows do not count.
             $currentAccountId = (int) UserHelper::currentAccount()->id;

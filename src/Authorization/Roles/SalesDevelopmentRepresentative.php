@@ -9,6 +9,7 @@ use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\CRM\Database\Models\AccountManagers;
 use NextDeveloper\CRM\Database\Models\Campaigns;
 use NextDeveloper\CRM\Helpers\CampaignPerspectiveHelper;
+use NextDeveloper\CRM\Helpers\CustomerUsersAccessHelper;
 use NextDeveloper\IAM\Authorization\Roles\AbstractRole;
 use NextDeveloper\IAM\Authorization\Roles\IAuthorizationRole;
 use NextDeveloper\IAM\Database\Models\Users;
@@ -42,6 +43,11 @@ class SalesDevelopmentRepresentative extends AbstractRole implements IAuthorizat
         }
 
         if($model->getTable() == 'crm_users_perspective') {
+            // A customer's users are sign-in identities: only platform staff and partners see them (leo4#1388).
+            if (CustomerUsersAccessHelper::hideUsersFromNonPartners($builder)) {
+                return;
+            }
+
             $builder->whereRaw('id in (
                 select cum.crm_user_id from crm_user_managers cum where (cum.iam_account_id = ' . UserHelper::currentAccount()->id . ')
                 )');
