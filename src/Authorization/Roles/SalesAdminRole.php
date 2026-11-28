@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use NextDeveloper\CRM\Database\Models\AccountManagers;
+use NextDeveloper\CRM\Helpers\CampaignPerspectiveHelper;
 use NextDeveloper\IAM\Authorization\Roles\AbstractRole;
 use NextDeveloper\IAM\Authorization\Roles\IAuthorizationRole;
 use NextDeveloper\IAM\Database\Models\Users;
@@ -39,6 +40,13 @@ class SalesAdminRole extends AbstractRole implements IAuthorizationRole
             $model->getTable() == 'crm_tasks'
         ) {
             $builder->where('iam_account_id', UserHelper::currentAccount()->id);
+            return;
+        }
+
+        // Customer Lists / Customers tabs of a campaign: the rows of every campaign of the current account
+        // (leo4#1391). Without this the target users view, which has no owner column, is not filtered at all.
+        if(CampaignPerspectiveHelper::isCampaignPerspective($model)) {
+            CampaignPerspectiveHelper::apply($builder, $model, false);
             return;
         }
 
@@ -159,6 +167,9 @@ class SalesAdminRole extends AbstractRole implements IAuthorizationRole
             'crm_campaign_targets:create',
             'crm_campaign_targets:update',
             'crm_campaign_targets:delete',
+            // Customer Lists / Customers tabs of a campaign, scoped in apply() (leo4#1391)
+            'crm_campaign_targets_perspective:read',
+            'crm_campaign_target_users_perspective:read',
             'crm_email_templates:read',
             'crm_email_templates:create',
             'crm_email_templates:update',

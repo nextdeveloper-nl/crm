@@ -10,6 +10,7 @@ use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\CRM\Database\Models\AccountManagers;
 use NextDeveloper\CRM\Database\Models\Campaigns;
 use NextDeveloper\CRM\Database\Models\UserManagers;
+use NextDeveloper\CRM\Helpers\CampaignPerspectiveHelper;
 use NextDeveloper\IAM\Authorization\Roles\AbstractRole;
 use NextDeveloper\IAM\Authorization\Roles\IAuthorizationRole;
 use NextDeveloper\IAM\Database\Models\Users;
@@ -38,6 +39,14 @@ class MarketingManagerRole extends AbstractRole implements IAuthorizationRole
             $model->getTable() == 'crm_targets' ||
             $model->getTable() == 'crm_target_users'
         ) {
+            return;
+        }
+
+        // Customer Lists / Customers tabs of a campaign: the rows of every campaign of the current account, like
+        // crm_campaigns (leo4#1391). The views carry no owner column the generic filter below could use.
+        if (CampaignPerspectiveHelper::isCampaignPerspective($model)) {
+            CampaignPerspectiveHelper::apply($builder, $model, false);
+
             return;
         }
 
