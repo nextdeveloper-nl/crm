@@ -7,6 +7,7 @@ use NextDeveloper\Commons\Services\CurrenciesService;
 use NextDeveloper\Communication\Helpers\Communicate;
 use NextDeveloper\CRM\Database\Models\AccountManagers;
 use NextDeveloper\CRM\Database\Models\Opportunities;
+use NextDeveloper\CRM\Database\Models\QuoteItems;
 use NextDeveloper\CRM\Database\Models\Quotes;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 use NextDeveloper\CRM\Services\AbstractServices\AbstractOpportunitiesService;
@@ -188,6 +189,61 @@ class OpportunitiesService extends AbstractOpportunitiesService
         return $quote ?? self::createQuote($opportunity);
     }
 
+    /**
+     * The quote whose lines are the opportunity's products (leo4#1395): its most recent quote. This is the same quote
+     * the opportunity perspective reports as latest_quote_amount and the pipeline cards show as the card value.
+     * Unscoped on purpose (role, tenant and limit scopes): the income lock and the income sync must see the quote
+     * whoever wrote it. withoutGlobalScopes() also drops the soft-delete scope, hence the explicit deleted_at filter.
+     */
+    public static function getLatestQuote(int $opportunityId): ?Quotes
+    {
+        return Quotes::withoutGlobalScopes()
+            ->whereNull('deleted_at')
+            ->where('crm_opportunity_id', $opportunityId)
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc')
+            ->first();
+    }
+
+    /**
+     * True when the opportunity's latest quote has at least one line. Its income is then the quote total and is not
+     * typed by hand any more (leo4#1395).
+     */
+    public static function hasLineItems(int $opportunityId): bool
+    {
+        $quote = self::getLatestQuote($opportunityId);
+
+        if (!$quote) {
+            return false;
+        }
+
+        return QuoteItems::withoutGlobalScopes()
+            ->whereNull('deleted_at')
+            ->where('crm_quote_id', $quote->id)
+            ->exists();
+    }
+
+    /**
+     * Drops a hand-typed income (and its currency) when the opportunity has products: the value is then calculated
+     * from the products by RecalculateQuote, which writes it as admin and is not affected by this.
+     */
+    public static function withoutCalculatedIncome($id, array $data): array
+    {
+        $incomeKeys = ['income', 'common_currency_id', 'commonCurrencyId'];
+
+        if (UserHelper::bypassRolesCheck() || !array_intersect($incomeKeys, array_keys($data))) {
+            return $data;
+        }
+
+        $opportunity = Opportunities::where('uuid', $id)->first();
+
+        if (!$opportunity || !self::hasLineItems($opportunity->id)) {
+            return $data;
+        }
+
+        return array_diff_key($data, array_flip($incomeKeys));
+    }
+
     public static function getQuoteByOpportunityId($uuid): ?Quotes
     {
         $opportunity = Opportunities::where('id', $uuid)->first();
@@ -263,6 +319,9 @@ class OpportunitiesService extends AbstractOpportunitiesService
     {
         // Multi-tenancy: an opportunity cannot be moved onto another tenant's CRM account.
         $data = \NextDeveloper\CRM\Helpers\TenantHelper::guardWrite($data);
+
+        // Manual value only while the opportunity has no products (leo4#1395).
+        $data = self::withoutCalculatedIncome($id, $data);
 
         $opportunity = parent::update($id, $data);
 
