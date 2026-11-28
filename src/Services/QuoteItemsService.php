@@ -88,7 +88,9 @@ class QuoteItemsService extends AbstractQuoteItemsService
 
         $line = parent::delete($id);
 
-        dispatch(new RecalculateQuote($quote));
+        // Synchronous like create/update, so the opportunity value the panel reloads right after is already the new
+        // sum; removing the last product writes 0 (leo4#1395).
+        (new RecalculateQuote($quote, syncEmptyTotal: true))->handle();
 
         return $line;
     }

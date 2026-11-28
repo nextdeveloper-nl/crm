@@ -33,13 +33,21 @@ class RecalculateQuote Implements ShouldQueue
     private $model;
 
     /**
+     * @var bool
+     */
+    private $syncEmptyTotal;
+
+    /**
      * This Job takes a quote object and recalculates its totals based on its items.
      *
      * @param Quotes $quote
+     * @param bool $syncEmptyTotal Also write a 0 total to the opportunity. Set after a line was removed, so removing
+     *                             the last product sets the opportunity value to 0 instead of leaving the old sum.
      */
-    public function __construct(Quotes $quote)
+    public function __construct(Quotes $quote, bool $syncEmptyTotal = false)
     {
         $this->model = $quote;
+        $this->syncEmptyTotal = $syncEmptyTotal;
     }
 
     public function handle()
@@ -164,8 +172,17 @@ class RecalculateQuote Implements ShouldQueue
 
         //  Keeping the related opportunity's income in sync with the recalculated quote total.
         //  Do not overwrite the opportunity's income with an empty quote: a 0 total (no items yet) would wipe a
-        //  value that was entered manually on the opportunity.
-        if ($this->model->crm_opportunity_id && $totalAmount > 0) {
+        //  value that was entered manually on the opportunity. After a line was removed the 0 is the real sum.
+        //  Only the opportunity's latest quote drives its income (leo4#1395): its lines are the opportunity's
+        //  products, and it is the quote the perspective and the pipeline cards show. Editing an older quote of the
+        //  same opportunity no longer overwrites the value.
+        $latestQuote = $this->model->crm_opportunity_id
+            ? OpportunitiesService::getLatestQuote($this->model->crm_opportunity_id)
+            : null;
+
+        $isLatestQuote = $latestQuote && (int) $latestQuote->id === (int) $this->model->id;
+
+        if ($isLatestQuote && ($totalAmount > 0 || $this->syncEmptyTotal)) {
             $opportunity = Opportunities::where('id', $this->model->crm_opportunity_id)->first();
 
             if ($opportunity) {
