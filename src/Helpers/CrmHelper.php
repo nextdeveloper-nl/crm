@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use NextDeveloper\Commons\Helpers\StateHelper;
 use NextDeveloper\CRM\Database\Models\AccountManagers;
 use NextDeveloper\CRM\Database\Models\Quotes;
+use NextDeveloper\CRM\Database\Scopes\TenantScope;
 use NextDeveloper\IAM\Database\Models\Accounts;
 use NextDeveloper\IAM\Database\Models\Users;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
@@ -25,7 +26,11 @@ class CrmHelper
     {
         $iamUserId = is_int($iamUser) ? $iamUser : $iamUser->id;
 
+        // Platform-internal callers (registration, backfill) run this as admin, whose current account is not
+        // necessarily the managing account; TenantScope would then hide the existing row and a duplicate would be
+        // created (plusclouds/leo4#1392). withoutGlobalScope() keeps the soft-delete filter.
         $existing = AccountManagers::withoutGlobalScope(AuthorizationScope::class)
+            ->withoutGlobalScope(TenantScope::class)
             ->where('crm_account_id', $account->id)
             ->where('iam_user_id', $iamUserId)
             ->where('role', AccountManagers::ROLE_SALES)
