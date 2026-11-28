@@ -2,25 +2,24 @@
 
 namespace NextDeveloper\CRM\Services;
 
-use NextDeveloper\CRM\Database\Models\Campaigns;
-use NextDeveloper\CRM\Services\AbstractServices\AbstractCampaignsService;
+use Illuminate\Support\Facades\DB;
 use NextDeveloper\Commons\Database\Models\Taggables;
 use NextDeveloper\Commons\Database\Models\Tags;
+use NextDeveloper\Commons\Exceptions\NotAllowedException;
+use NextDeveloper\CRM\Database\Models\Campaigns;
+use NextDeveloper\CRM\Services\AbstractServices\AbstractCampaignsService;
 use NextDeveloper\Flow\Database\Models\Pipelines;
 use NextDeveloper\Flow\Database\Models\Stages;
 use NextDeveloper\Flow\Services\PipelinesService;
-use NextDeveloper\Commons\Exceptions\NotAllowedException;
+use NextDeveloper\IAM\Helpers\UserHelper;
 
 /**
  * This class is responsible from managing the data for Campaigns
  *
  * Class CampaignsService.
- *
- * @package NextDeveloper\CRM\Database\Models
  */
 class CampaignsService extends AbstractCampaignsService
 {
-
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
     public static function create(array $data)
@@ -46,15 +45,15 @@ class CampaignsService extends AbstractCampaignsService
         $templateId = $data['flow_template_id'] ?? null;
         $campaignType = $data['campaign_type'] ?? null;
 
-        if (!$templateId && !$campaignType) {
+        if (! $templateId && ! $campaignType) {
             return $data;
         }
 
-        if (!$templateId) {
+        if (! $templateId) {
             $templateId = config("crm.campaign_flow_templates.{$campaignType}");
         }
 
-        if (!$templateId || !config("flow.pipeline_templates.{$templateId}")) {
+        if (! $templateId || ! config("flow.pipeline_templates.{$templateId}")) {
             throw new NotAllowedException("Pipeline template '{$templateId}' not found.");
         }
 
@@ -81,19 +80,19 @@ class CampaignsService extends AbstractCampaignsService
      */
     private static function linkFlowPipelineToCampaign($campaign): void
     {
-        if (!$campaign->flow_pipeline_id) {
+        if (! $campaign->flow_pipeline_id) {
             return;
         }
 
         $pipeline = Pipelines::find($campaign->flow_pipeline_id);
 
-        if (!$pipeline) {
+        if (! $pipeline) {
             return;
         }
 
         PipelinesService::update($pipeline->uuid, [
             'object_type' => str_replace('\\Database\\Models', '', get_class($campaign)),
-            'object_id'   => $campaign->id,
+            'object_id' => $campaign->id,
         ]);
     }
 
@@ -114,9 +113,9 @@ class CampaignsService extends AbstractCampaignsService
      */
     public static function findByFacebookAdId(string $adId): ?Campaigns
     {
-        $tag = Tags::withoutGlobalScopes()->where('name', 'facebook_ad:' . $adId)->first();
+        $tag = Tags::withoutGlobalScopes()->where('name', 'facebook_ad:'.$adId)->first();
 
-        if (!$tag) {
+        if (! $tag) {
             return null;
         }
 
@@ -146,20 +145,40 @@ class CampaignsService extends AbstractCampaignsService
     /**
      * Soft-deletes the campaign's linked pipeline along with the campaign, so a deleted
      * campaign doesn't leave an orphaned live pipeline behind.
+     *
+     * The delete is authorized before anything is touched, and both deletes run in one transaction. Before this a
+     * refused delete still soft-deleted the pipeline first, and the generated parent fired the "deleted" event before
+     * the delete, which removed the campaign's generated pushers and automations (leo4#1390). The event is now fired
+     * once, by CampaignsObserver::deleted, after the campaign is really deleted.
+     *
+     * @throws NotAllowedException if the campaign cannot be found or the user may not delete it.
      */
     public static function delete($id)
     {
         $campaign = Campaigns::where('uuid', $id)->first();
 
-        if ($campaign?->flow_pipeline_id) {
-            $pipeline = Pipelines::find($campaign->flow_pipeline_id);
-
-            if ($pipeline) {
-                PipelinesService::delete($pipeline->uuid);
-            }
+        if (! $campaign) {
+            throw new NotAllowedException(
+                'We cannot find the related object to delete. '.
+                'Maybe you dont have the permission to update this object?'
+            );
         }
 
-        return parent::delete($id);
+        if (! UserHelper::can('delete', $campaign)) {
+            throw new NotAllowedException('You are not allowed to delete this record');
+        }
+
+        return DB::transaction(function () use ($campaign) {
+            if ($campaign->flow_pipeline_id) {
+                $pipeline = Pipelines::find($campaign->flow_pipeline_id);
+
+                if ($pipeline) {
+                    PipelinesService::delete($pipeline->uuid);
+                }
+            }
+
+            return $campaign->delete();
+        });
     }
 
     /**
@@ -171,9 +190,9 @@ class CampaignsService extends AbstractCampaignsService
     {
         $campaign = Campaigns::withTrashed()->where('uuid', $id)->first();
 
-        if (!$campaign) {
+        if (! $campaign) {
             throw new NotAllowedException(
-                'We cannot find the related object to restore. ' .
+                'We cannot find the related object to restore. '.
                 'Maybe you dont have the permission to update this object?'
             );
         }
