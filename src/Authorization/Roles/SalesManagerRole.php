@@ -277,6 +277,14 @@ class SalesManagerRole extends AbstractRole implements IAuthorizationRole
             return $campaign && $campaign->iam_account_id == UserHelper::currentAccount()->id;
         }
 
+        // Every other table this role may delete (quote lines, quotes, notes, calls, meetings, ...) carries iam_account_id:
+        // a record of the current account may be deleted. Before this the final "return false" refused all of them,
+        // so removing a product line from an opportunity failed with 422 (leo4#1395).
+        if (in_array($model->getTable().':delete', $this->allowedOperations(), true)
+            && DatabaseHelper::isColumnExists($model->getTable(), 'iam_account_id')) {
+            return $this->isRecordOfCurrentAccount($model);
+        }
+
         return false;
     }
 
